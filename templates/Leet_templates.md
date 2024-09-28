@@ -1,10 +1,11 @@
 ---
-title: <% tp.file.title %>
+Number: <% tp.file.title %>
 draft: 
 tags:
   - 코테
   - 데이터베이스
   - 알고리즘
+website: https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/
 ---
 ## Problem
 
@@ -14,7 +15,7 @@ The test cases are generated so that only one person has the most friends.
 
 The result format is in the following example.
 
-### Example
+## Example
 **Input:** 
 RequestAccepted table:
 +--------------+-------------+-------------+
@@ -39,4 +40,7 @@ The person with id 3 is a friend of people 1, 2, and 4, so he has three friends 
 
 ```
 
-## Other Solutions
+## Other Solutions(Reference)
+```python
+
+```
