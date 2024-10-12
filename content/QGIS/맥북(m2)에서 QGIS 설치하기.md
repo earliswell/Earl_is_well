@@ -20,6 +20,12 @@ website: https://qgis.org/download/
 - Language를 한국어로 바꿀 수 있다.
 - 관련 내용은 주소를 참고하면 된다. 
 $\to$ [한국어 Documents](https://docs.qgis.org/3.34/ko/docs/user_manual/)
+> 파일을 다운로드 받는데 오랜 시간이 걸린다.
 
 
-> 파일을 다운로드 받는데 오랜 시간이 걸리니 다들 참고 기
+### Apple에서 악성소프트 웨어 오류 
+
+어플리케이션의 보안과 안정성이 보장되어 있다면 허용해도 괜찮다.
+시스템 설정 $\to$ 개인정보 보호 및 보안 $\to$ 하단 스크롤 및 그래도 허용 클릭
+
+[관련 애플 공식 내용](https://support.apple.com/ko-kr/guide/mac-help/mchleab3a043/mac)
