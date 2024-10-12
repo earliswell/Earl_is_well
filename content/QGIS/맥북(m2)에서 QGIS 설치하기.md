@@ -12,3 +12,8 @@ website: https://qgis.org/download/
 Long Term Version For Mac OS를 클릭한다. LTR 버전으로 장기적으로 지원한 버전으로 더욱 안정성이 보장된 버전이라고 생각하면 된다. 최신 기능이 필요한 경우가 아니라면 LTR 버전을 다운받는 것을 추천한다.
 
 ## Brew를 활용해서 설치
+1. Homebrew를 설치합니다.
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+2. 
