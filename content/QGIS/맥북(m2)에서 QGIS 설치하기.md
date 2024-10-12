@@ -22,4 +22,4 @@ website: https://qgis.org/download/
 $\to$ [한국어 Documents](https://docs.qgis.org/3.34/ko/docs/user_manual/)
 
 
-
+> 파일을 다운로드 받는데 오랜 시간이 걸리니 다들 참고 기
