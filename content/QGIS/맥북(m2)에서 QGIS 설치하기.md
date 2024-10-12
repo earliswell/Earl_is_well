@@ -10,3 +10,5 @@ website: https://qgis.org/download/
 ## QGIS 공식 홈페이지
 - [QGIS 공홈 다운로드](https://qgis.org/download/)![[스크린샷 2024-10-12 오후 1.23.32.png]]
 Long Term Version For Mac OS를 클릭한다. LTR 버전으로 장기적으로 지원한 버전으로 더욱 안정성이 보장된 버전이라고 생각하면 된다. 최신 기능이 필요한 경우가 아니라면 LTR 버전을 다운받는 것을 추천한다.
+
+## Brew를 활용해서 설치
