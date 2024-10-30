@@ -138,3 +138,76 @@ def optimized_softmax_backward(self, x, upstream_grad):
 ```
 
 이러한 구현은 대규모 데이터셋에서도 안정적으로 동작하며, 수치적 오류를 최소화할 수 있습니다.
+
+Negative Log-Likelihood (NLL) Loss에 대해 수식과 함께 자세히 설명해드리겠습니다.
+
+NLL Loss의 수학적 설명:
+
+1. Forward Pass (손실 계산)
+
+수식:
+$$ L = -\frac{1}{N} \sum_{i=1}^N \log(p_{i,y_i}) $$
+
+여기서:
+- $$N$$ : 배치 크기
+- $$p_{i,y_i}$$ : i번째 샘플의 정답 클래스 $$y_i$$에 대한 예측 확률
+- $$\log$$ : 자연로그
+
+코드에서 이는 다음과 같이 구현됩니다:
+```python
+def nll_loss_forward(self, x, lbl):
+    return np.array([-np.log(x[i,l]) for i,l in enumerate(lbl)]).mean()
+```
+
+2. Backward Pass (그래디언트 계산)
+
+수식:
+$$ \frac{\partial L}{\partial x_{i,j}} = \begin{cases} 
+-\frac{1}{N} \cdot \frac{1}{p_{i,j}} & \text{if } j = y_i \\
+0 & \text{otherwise}
+\end{cases} $$
+
+코드에서 이는 다음과 같이 구현됩니다:
+```python
+def nll_loss_backward(self, x, lbl):
+    dx = np.zeros_like(x)  # 그래디언트 배열 초기화
+    for i, l in enumerate(lbl):
+        dx[i, l] = -1.0 / x[i, l]  # 정답 클래스에 대해서만 그래디언트 계산
+    return dx / len(lbl)  # 배치 크기로 나누어 평균
+```
+
+3. 실제 예시:
+
+```python
+# 예시 데이터
+probs = np.array([
+    [0.7, 0.2, 0.1],  # 첫 번째 샘플의 예측 확률
+    [0.3, 0.6, 0.1]   # 두 번째 샘플의 예측 확률
+])
+labels = np.array([0, 1])  # 정답 레이블
+
+# Forward pass 계산:
+# L = -(log(0.7) + log(0.6))/2
+# ≈ -[log(0.7) + log(0.6)]/2
+# ≈ -((-0.357) + (-0.511))/2
+# ≈ 0.434
+
+# Backward pass 계산:
+# 첫 번째 샘플(i=0)의 그래디언트:
+# dx[0,0] = -1/(2*0.7) ≈ -0.714
+# dx[0,1] = 0
+# dx[0,2] = 0
+
+# 두 번째 샘플(i=1)의 그래디언트:
+# dx[1,0] = 0
+# dx[1,1] = -1/(2*0.6) ≈ -0.833
+# dx[1,2] = 0
+```
+
+NLL Loss가 중요한 이유:
+1. Softmax와 함께 사용될 때 수치적으로 안정적
+2. Cross-Entropy Loss와 동일한 효과
+3. 모델이 정답 클래스에 대해 높은 확률을 예측하도록 학습 유도
+4. 그래디언트가 예측 확률에 반비례하여, 잘못된 예측에 대해 더 큰 페널티 부여
+
+이 손실 함수는 분류 문제에서 매우 효과적이며, 특히 Softmax 활성화 함수와 함께 사용될 때 가장 일반적인 선택입니다.
