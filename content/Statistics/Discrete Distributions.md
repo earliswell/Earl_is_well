@@ -7,6 +7,11 @@
 
 우선, 우리는 대문자 Y를 Random Variable이라 두고, 소문자 y를 특정한 값으로 사용할 것이다.
 이에 따라, $P(Y=y)$를 해석하면, Random 변수 Y가 특정한 수 y일 확률을 의미한다.
+우리는 Probability Distribution for discrete variable Y에서 확률을 다음과 같이 표기한다. 
+- $p(y) = P(Y=y)$, $p(y) \geq 0$ for all y.
+주요 성질로는
+1. $0\leq p(y) \leq 1$ for all y, 확률의 범위는 0과 1사이어야 하고
+2. $\sum_y p(y) = 1$ 모든 확률을 더하면 1이라는 값이 나와야 한다.
 
 
 
