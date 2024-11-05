@@ -5,6 +5,10 @@
 - 우리는 따라서 확률의 집합은 Probability distribution(확률 분포)이다.
 - 이에 따라 아래의 분포가 나뉘는데 특징을 알아보도록 하자 !
 
+우선, 우리는 대문자 Y를 Random Variable이라 두고, 소문자 y를 특정한 값으로 사용할 것이다.
+이에 따라, $P(Y=y)$를 해석하면, Random 변수 Y가 특정한 수 y일 확률을 의미한다.
+
+
 
 ## [[Binomial]]
 - Probability Function$$p(y) = \begin{pmatrix} n \\ y\end{pmatrix} p^y(1-p)^{n-y}; y = 0, 1, \dots, n$$
