@@ -1,4 +1,9 @@
-
+### DEFINITION
+- A random Variable $Y$ is said to be discrete if it can assume only a finite or Countably infinite number of distinct values
+- 랜덤 변수 Y를 이산(discrete)라고 말하는 것은 유한하거나 고유한 값만 가질 수 있는 수를 지칭한다.
+- EX) 주사위를 3번 돌려 3이 나온 횟수, 동전을 돌려 나온 앞면의 횟수
+- 우리는 따라서 확률의 집합은 Probability distribution(확률 분포)이다.
+- 이에 따라 아래의 분포가 나뉘는데 특징을 알아보도록 하자 !
 
 
 ## [[Binomial]]
