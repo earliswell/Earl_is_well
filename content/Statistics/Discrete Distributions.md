@@ -9,9 +9,22 @@
 이에 따라, $P(Y=y)$를 해석하면, Random 변수 Y가 특정한 수 y일 확률을 의미한다.
 우리는 Probability Distribution for discrete variable Y에서 확률을 다음과 같이 표기한다. 
 - $p(y) = P(Y=y)$, $p(y) \geq 0$ for all y.
-주요 성질로는
+
+주요 성질
 1. $0\leq p(y) \leq 1$ for all y, 확률의 범위는 0과 1사이어야 하고
 2. $\sum_y p(y) = 1$ 모든 확률을 더하면 1이라는 값이 나와야 한다.
+
+Expected Value of Y
+- $E(Y) = \sum_y yp(y) = \mu$
+- $E(c) = c$, c is constant. 
+- $E[g(Y)] = \sum_y g(y)p(y)$ : 이는 Y에 대한 g라는 함수를 대입했을 때 구하는 평균이다.
+	- Y에 대한 linear combinations이라고 이해해도 될까?
+- $E[cg(Y)] = cE[g(Y)] = c\sum_y g(y)p(y)$
+- $V(Y) = E[(Y-\mu)^2] = E[Y^2] - (E[Y])^2$
+- 
+
+
+
 
 
 
