@@ -1,3 +1,6 @@
+
+
+
 ## [[Binomial]]
 - Probability Function$$p(y) = \begin{pmatrix} n \\ y\end{pmatrix} p^y(1-p)^{n-y}; y = 0, 1, \dots, n$$
 - Mean : $np$
