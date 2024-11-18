@@ -20,12 +20,7 @@ Expected Value of Y
 - $E[g(Y)] = \sum_y g(y)p(y)$ : 이는 Y에 대한 g라는 함수를 대입했을 때 구하는 평균이다.
 	- Y에 대한 linear combinations이라고 이해해도 될까?
 - $E[cg(Y)] = cE[g(Y)] = c\sum_y g(y)p(y)$
-- $V(Y) = E[(Y-\mu)^2] = E[Y^2] - (E[Y])^2 = E[Y^2] - \mu^2$
-- 
-
-
-
-
+- $V(Y) = E[(Y-\mu)^2] = E[Y^2] - (E[Y])^2 = E[Y^2] - \mu^2$ 
 
 
 ## [[Binomial]]
