@@ -49,7 +49,8 @@ Expected Value of Y
 - Variance : $\lambda$
 
 ## [[Negative Binomial]]
-- 
+- N번의 시행 중 r번의 성공할 확률 !
+- 확률의 식을 보면, r번째 이전의 실패와 성공할 확률의 조합을 결정하면 마지막 r번째의 성공이 결정됨. 
 - Probability Function$$p(y) = \begin{pmatrix} y-1 \\ r-1 \end{pmatrix}p^r(1-p)^{y-r}; \ y=r, r+1, \dots$$
 - Mean $$\frac{r}{p}$$
 - Variance $$\frac{r(1-p)}{p^2}$$
