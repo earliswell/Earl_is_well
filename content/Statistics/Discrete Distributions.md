@@ -62,7 +62,9 @@ Expected Value of Y
 2. 모집단이 유한하고 시행 횟수가 정해져 있음.
 3. 각 시행의 성공 확률이 일정하지 않고 계속 변함.
 ## [[Poisson]]
-- 
+- 우리는 주어진 시간/공간에서 발생한 희소한 사건의 발생 횟수를 모델링 한다고 이해를 하자.
+- 따라서 시간 단위에서 몇 번의 희소 사건이 발생하는지를 파악하는 것이 목표이다. 
+- 이를 실 예로 
 - Probability Function$$p(y) = \frac{\lambda^ye^{-\lambda}}{y!}; \ y=0,1,\dots$$
 - Mean : $\lambda$
 - Variance : $\lambda$
