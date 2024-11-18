@@ -37,6 +37,13 @@ Expected Value of Y
 - Mean : $\frac{1}{p}$
 - Variance : $\frac{1-p}{p^2}$
 
+## [[Negative Binomial]]
+- N번의 시행 중 r번의 성공할 확률 !
+- 확률의 식을 보면, r번째 이전의 실패와 성공할 확률의 조합을 결정하면 마지막 r번째의 성공이 결정됨. 
+- Probability Function$$p(y) = \begin{pmatrix} y-1 \\ r-1 \end{pmatrix}p^r(1-p)^{y-r}; \ y=r, r+1, \dots$$
+- Mean $$\frac{r}{p}$$
+- Variance $$\frac{r(1-p)}{p^2}$$
+
 ## [[Hypergeometric]]
 - 이는 상자안의 볼을 뽑을 확률로 이해하면 좋을 듯 싶다.
 	- 상자 안에는 검정, 하양 공이 r개, N-r개가 있음.
@@ -55,16 +62,11 @@ Expected Value of Y
 2. 모집단이 유한하고 시행 횟수가 정해져 있음.
 3. 각 시행의 성공 확률이 일정하지 않고 계속 변함.
 ## [[Poisson]]
+- 
 - Probability Function$$p(y) = \frac{\lambda^ye^{-\lambda}}{y!}; \ y=0,1,\dots$$
 - Mean : $\lambda$
 - Variance : $\lambda$
 
-## [[Negative Binomial]]
-- N번의 시행 중 r번의 성공할 확률 !
-- 확률의 식을 보면, r번째 이전의 실패와 성공할 확률의 조합을 결정하면 마지막 r번째의 성공이 결정됨. 
-- Probability Function$$p(y) = \begin{pmatrix} y-1 \\ r-1 \end{pmatrix}p^r(1-p)^{y-r}; \ y=r, r+1, \dots$$
-- Mean $$\frac{r}{p}$$
-- Variance $$\frac{r(1-p)}{p^2}$$
 
 ## Moments Moment-Generating Functions
 
