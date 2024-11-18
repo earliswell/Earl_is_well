@@ -68,7 +68,8 @@ Expected Value of Y
 - Probability Function$$p(y) = \frac{\lambda^ye^{-\lambda}}{y!}; \ y=0,1,\dots$$
 - Mean : $\lambda$
 - Variance : $\lambda$
-
+- 위 분포는 [[Binomial]]과 연관이 있는데, 
+	- 이항 분포에서 n이 매우 크고, p가 매우 작을 때 (np=$\lambda$) 포아송 분포로 근사한다는 특징이 있다.
 
 ## Moments Moment-Generating Functions
 
@@ -76,4 +77,4 @@ Expected Value of Y
 - The moment-generating function $m(t)$ for a random variable Y is defined to be $m(t) = E(e^{tY})$. We say that a  moment-generating function for Y exists if there exists a positive constant b such that $m(t)$ is finite for $|t| \leq b$.![[Pasted image 20241118111005.png]]
 - Moment-Generating Function은 미분하면 각 차수의 Moment를 구할 수 있음 :  $\left.\frac{d^k}{dt^k}m(t)\right|_{t=0} = \mathbb{E}[Y^k] = \mu'_k$
 - 이는 Taylor 전개에서 확인할 수 있음.  $$m(t) = 1 + t\mu'_1 + \frac{t^2}{2!}\mu'_2 + \frac{t^3}{3!}\mu'_3 + \cdots$$
-- 
+## [[Tchebysheff's Theorem]]
