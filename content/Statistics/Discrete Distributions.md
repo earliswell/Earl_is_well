@@ -38,11 +38,22 @@ Expected Value of Y
 - Variance : $\frac{1-p}{p^2}$
 
 ## [[Hypergeometric]]
-- 
+- 이는 상자안의 볼을 뽑을 확률로 이해하면 좋을 듯 싶다.
+	- 상자 안에는 검정, 하양 공이 r개, N-r개가 있음.
+- 분모 : 상자 안에 n개의 볼을 뽑는 경우의수
+- 분자 : 두 볼을 추출하는 y개와 n-y개의 경우의 수를 나눠서 곱합
 - Probability Function$$p(y) = \frac{\begin{pmatrix} r \\ y \end{pmatrix} \begin{pmatrix} N-r \\ n-y\end{pmatrix}}{\begin{pmatrix} N \\ n\end{pmatrix}}; \ y = 0, 1, \dots, n \ \text{if}  \ n\leq r, \ y = 0, 1, \dots, r \ \text{if}  \ n > r$$
+- 분자 해석:
+    - $\begin{pmatrix} r \\ y \end{pmatrix}$: success(예: 검은 공)에서 y개 선택하는 경우의 수
+    - $\begin{pmatrix} N-r \\ n-y\end{pmatrix}$: failure(예: 흰 공)에서 (n-y)개 선택하는 경우의 수
+- 분모 해석:
+    - $\begin{pmatrix} N \\ n\end{pmatrix}$: 전체 N개에서 n개 선택하는 전체 경우의 수
 - Mean  $$\frac{nr}{N}$$
 - Variance $$n\left(\frac{r}{N}\right)\left(\frac{N-r}{N}\right)\left(\frac{N-n}{N-1}\right)$$
-
+분포의 중요한 특징
+1. 이항분포와 달리 시행이 독립이 아님.(복원추출이 아니므로)
+2. 모집단이 유한하고 시행 횟수가 정해져 있음.
+3. 각 시행의 성공 확률이 일정하지 않고 계속 변함.
 ## [[Poisson]]
 - Probability Function$$p(y) = \frac{\lambda^ye^{-\lambda}}{y!}; \ y=0,1,\dots$$
 - Mean : $\lambda$
@@ -54,3 +65,9 @@ Expected Value of Y
 - Probability Function$$p(y) = \begin{pmatrix} y-1 \\ r-1 \end{pmatrix}p^r(1-p)^{y-r}; \ y=r, r+1, \dots$$
 - Mean $$\frac{r}{p}$$
 - Variance $$\frac{r(1-p)}{p^2}$$
+
+## Moments Moment-Generating Functions
+
+#### DEFINITION 3.14
+- The moment-generating function $m(t)$ for a random variable Y is defined to be $m(t) = E(e^{tY})$. We say that a  moment-generating function for Y exists if there exists a positive constant b such that $m(t)$ is finite for $|t| \leq b$.![[Pasted image 20241118111005.png]]
+- 
