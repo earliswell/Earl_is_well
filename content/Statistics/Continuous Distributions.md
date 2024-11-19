@@ -5,10 +5,23 @@ Let $Y$ denote any random variable. The distribution function of Y, denoted by $
 - 우리가 가장 주의해야할 점은 Continuous Distributions에서는 **어떤 상수 값에서의 확률**은 항상 0이다.$P(X=x) = 0$
 - 확률은 항상 **구간**의 넓이로 계산된다. $P(a \leq X \leq b) = \int_a^b f(x)dx$
 
+### The Probability Distribution for a Continuous Random Variable
+
+#### THEOREM4.1, Properties of a Distribution Function
+If $F(y)$ is a distribution function, then
+1. $F(-\infty) \equiv \lim_{y\to-\infty} F(y) = 0$ 
+2. $F(\infty) \equiv \lim_{y\to\infty} F(y)= 1$
+3. $F(y)$ is a nondecreasing function of y.
+여기에서 $F(y)$는 누적분포함수 (CDF: Cumulative Distribution Function)을 의미한다.
+
+
+
+
 #### DEFINITION 4.5
 The expected value of continuous random variable $Y$ is$$E(Y) = \int_{-\infty}^\infty yf(y)dy$$
 
-#### 
+- 성질 1, $E(g(Y) = \int_{-\infty}^\infty g(y)f(y)dy$
+- 
 
 ## [[Uniform]]
 - Probability Function$$f(y) = \frac{1}{\theta_2 - \theta_1};  \\\ \theta_1 \leq y \leq \theta_2$$
