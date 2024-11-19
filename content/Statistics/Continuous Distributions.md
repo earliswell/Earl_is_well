@@ -42,34 +42,36 @@ If $g(Y) = (Y - \mu)^2$라면 분산을 구하는 것과 같음.
 #### DEFINITION 4.7
 The constants that determine the specific form of a density function are called **Parameters** of the density function
 - 위 정의는 parameters(매개변수)라는 것은 확률밀도함수 (CDF)의 모양을 결정하는 상수값이라고 생각하면 됨.
-- 일례로 평균이 $\mu$를 따르고 분산이 $\sigma^2$를 따르는 분포를 정규분포([[Normal]])을 따름.
+- 일례로 평균이 $\mu$를 따르고 분산이 $\sigma^2$를 따르는 분포를 정규분포([[Normal Distribution]])을 따름.
 - 여기에서 우리는 $\mu$와 $\sigma^2$를 Parameters라고 부른다.
 
-## [[Uniform]]
+## [[Uniform Distribution]]
+- Parameters : $\theta_1, \theta_2$ 
 - Probability Function$$f(y) = \frac{1}{\theta_2 - \theta_1};  \\\ \theta_1 \leq y \leq \theta_2$$
 - Mean : $$\frac{\theta_1 + \theta_2}{2}$$
 - Variance$$\frac{(\theta_2 - \theta_1)^2}{12}$$
-## [[Normal]]
+## [[Normal Distribution]]
+- parameters : $\mu, \sigma$ 
 - Probability Function$$f(y) = \frac{1}{\sigma \sqrt{2\pi}}\exp\left[-\frac{1}{2\sigma^2}(y-\mu)^2\right], \\\ -\infty\leq y\leq \infty$$
 - Mean : $\mu$
 - Variance : $\sigma^2$
-
-## [[Exponential]]
+- 우리는 $\frac{x - \mu}{\sigma}$ 를 통해서 평균 0, 분산 1로 만들 수 있음. 우리는 이를 표준화(Standardization)이라고 부르기도 함.
+## [[Exponential Distribution]]
 - Probability Function$$f(y) = \frac{1}{\beta}e^{-y/\beta}; \\\ \beta >0, \\\ 0\leq y \leq \infty$$
 - Mean : $\beta$
 - Variance : $\beta^2$
 
-## [[Gamma]]
+## [[Gamma Distribution]]
 - Probability Function$$f(y) = \left[\frac{1}{\Gamma(\alpha)\beta^{\alpha}}\right]y^{\alpha-1}e^{-y/\beta}; \\\ 0 \leq y \leq \infty$$
 - Mean : $\alpha\beta$
 - Variance : $\alpha\beta^2$
 
-## [[Chi-square]]
+## [[Chi-square Distribution]]
 - Probability Function$$f(y) = \frac{y^{(v/2)-1}e^{-y/2}}{2^{v/2}\Gamma(v/2)}; \ y^2 > 0$$
 - Mean : $v$
 - Variance : $2v$
 
-## [[Beta]]
+## [[Beta Distribution]]
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
 - Mean $$\frac{\alpha}{\alpha+\beta}$$
 - Variance $$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
