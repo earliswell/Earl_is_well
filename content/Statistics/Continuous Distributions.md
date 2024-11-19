@@ -21,6 +21,11 @@ $\to$ 따라서 PDF와 CDF의 관계는
 1. CDF를 미분하면 PDF
 2. PDF를 적분하면 CDF 
 
+#### THEOREM 4.3
+If the random variable $Y$ has density function $f(y)$ and $a < b$, then the probability that $Y$ falls in the interval $[a, b]$  is $$P(a \leq Y \leq b) = \int_a^b f(y)dy$$![[Pasted image 20241119111535.png]]
+
+
+
 
 
 #### DEFINITION 4.5
