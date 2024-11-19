@@ -38,6 +38,13 @@ The expected value of continuous random variable $Y$ is$$E(Y) = \int_{-\infty}^\
 If $g(Y) = (Y - \mu)^2$라면 분산을 구하는 것과 같음.
 - $V(Y) = E[(Y-\mu)^2] = E(Y^2) - \mu^2$
 
+
+#### DEFINITION 4.7
+The constants that determine the specific form of a density function are called **Parameters** of the density function
+- 위 정의는 parameters(매개변수)라는 것은 확률밀도함수 (CDF)의 모양을 결정하는 상수값이라고 생각하면 됨.
+- 일례로 평균이 $\mu$를 따르고 분산이 $\sigma^2$를 따르는 분포를 정규분포([[Normal]])을 따름.
+- 여기에서 우리는 $\mu$와 $\sigma^2$를 Parameters라고 부른다.
+
 ## [[Uniform]]
 - Probability Function$$f(y) = \frac{1}{\theta_2 - \theta_1};  \\\ \theta_1 \leq y \leq \theta_2$$
 - Mean : $$\frac{\theta_1 + \theta_2}{2}$$
