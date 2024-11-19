@@ -78,4 +78,7 @@ Expected Value of Y
 - Moment-Generating Function은 미분하면 각 차수의 Moment를 구할 수 있음 :  $\left.\frac{d^k}{dt^k}m(t)\right|_{t=0} = \mathbb{E}[Y^k] = \mu'_k$
 - 이는 Taylor 전개에서 확인할 수 있음.  $$m(t) = 1 + t\mu'_1 + \frac{t^2}{2!}\mu'_2 + \frac{t^3}{3!}\mu'_3 + \cdots$$
 ## [[Tchebysheff's Theorem]]
-- 
+#### THEOREM 3.14
+**Tchebysheff's Theorem** Let $Y$ be a random variable with mean $\mu$ and finite variance $\sigma^2$. Then, for any constant k > 0,$$P(|Y - \mu| <k\sigma) \geq 1 - \frac{1}{k^2} \quad \text{or} \quad P(|Y-\mu| \geq k\sigma) \leq \frac{1}{k^2}$$
+- 즉 우리가 평균과 유한한 분산을 알고 있으면 확률 범위를 추정할 수 있음을 의미한다.
+- 위 정리를 통해 최소한의 보장을 제공하고 실제 확률은 이보다 더 클 수 있음. 
