@@ -14,6 +14,12 @@ If $F(y)$ is a distribution function, then
 3. $F(y)$ is a nondecreasing function of y.
 여기에서 $F(y)$는 누적분포함수 (CDF: Cumulative Distribution Function)을 의미한다.
 
+우리는 CDF와 PDF의 관계를 알아야 하는데
+연속함수에서 확률 분포 함수 (PDF: Probability Distribution Function)은 CDF의 미분 값, 즉 한 값에서의 기울기를 의미, 변동량, First Difference라고 이해를 하면 좋겠다. 
+
+$\to$ 따라서 PDF와 CDF의 관계는
+1. CDF를 미분하면 PDF
+2. PDF를 적분하면 CDF 
 
 
 
