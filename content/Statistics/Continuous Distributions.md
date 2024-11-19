@@ -25,14 +25,18 @@ $\to$ 따라서 PDF와 CDF의 관계는
 If the random variable $Y$ has density function $f(y)$ and $a < b$, then the probability that $Y$ falls in the interval $[a, b]$  is $$P(a \leq Y \leq b) = \int_a^b f(y)dy$$![[Pasted image 20241119111535.png]]
 
 
-
-
+### Expected Values for Continuous Random Variables
 
 #### DEFINITION 4.5
 The expected value of continuous random variable $Y$ is$$E(Y) = \int_{-\infty}^\infty yf(y)dy$$
 
-- 성질 1, $E(g(Y) = \int_{-\infty}^\infty g(y)f(y)dy$
-- 
+-  $E(g(Y) = \int_{-\infty}^\infty g(y)f(y)dy$
+1. $E(c) = c$
+2. $E[cg(Y)] = cE[g(Y)]$
+3. $E[g_1(Y)+g_2(Y)+\dots+g_k(Y)] = E[g_1(Y)] + E[g_2(Y)] + \dots + E[g_k(Y)]$
+
+If $g(Y) = (Y - \mu)^2$라면 분산을 구하는 것과 같음.
+- $V(Y) = E[(Y-\mu)^2] = E(Y^2) - \mu^2$
 
 ## [[Uniform]]
 - Probability Function$$f(y) = \frac{1}{\theta_2 - \theta_1};  \\\ \theta_1 \leq y \leq \theta_2$$
