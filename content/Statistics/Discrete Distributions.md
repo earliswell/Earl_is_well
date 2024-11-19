@@ -78,3 +78,4 @@ Expected Value of Y
 - Moment-Generating Function은 미분하면 각 차수의 Moment를 구할 수 있음 :  $\left.\frac{d^k}{dt^k}m(t)\right|_{t=0} = \mathbb{E}[Y^k] = \mu'_k$
 - 이는 Taylor 전개에서 확인할 수 있음.  $$m(t) = 1 + t\mu'_1 + \frac{t^2}{2!}\mu'_2 + \frac{t^3}{3!}\mu'_3 + \cdots$$
 ## [[Tchebysheff's Theorem]]
+- 
