@@ -83,9 +83,12 @@ The constants that determine the specific form of a density function are called 
 - Variance : $2v$
 
 ## [[Exponential Distribution]]
+- Gamma 분포에서 $\alpha=1$인 경우이다.
+	- $\Gamma(1)=1$
 - Probability Function$$f(y) = \frac{1}{\beta}e^{-y/\beta}; \\\ \beta >0, \\\ 0\leq y \leq \infty$$
 - Mean : $\beta$
 - Variance : $\beta^2$
+- 
 
 ## [[Beta Distribution]]
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
