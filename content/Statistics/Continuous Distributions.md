@@ -99,6 +99,9 @@ The constants that determine the specific form of a density function are called 
 
 ## [[Beta Distribution]]![[Pasted image 20241121141442.png]]
 - y의 값이 0과 1사이의 값을 갖는다.
+- 비율/비중의 분포를 모델링할 때 사용하며, 확률에 대한 확률분포를 나타낼 때? 
+	- 마치 $\alpha$와 $\beta$를 "성공"과 "실패"의 관측 횟수로 해석할 수 있음.
+	- 
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
 - Beta Function : $B(\alpha, \beta) = \int_0^1 y^{\alpha-1}(1-y)^{\beta-1} dy = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$ 
 - Mean $$\frac{\alpha}{\alpha+\beta}$$
