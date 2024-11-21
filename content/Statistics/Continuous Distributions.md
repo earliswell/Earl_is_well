@@ -64,25 +64,25 @@ The constants that determine the specific form of a density function are called 
 	 2. 서비스 시간 (Service Time) : 특정 작업을 완료하는 데 걸리는 시간
 		 1. 정비 점검 완료 시간
 - 이러한 분포적 특성으로 인해 음수가 될 수 없다 ($\to$ 시간은 항상 양수이기 때문에) 또한 대부분의 경우 평균 근처에 몰려있고, 극단적으로 긴 시간은 상대적으로 드물게 발생한다.
-- 따라서 우리는 "어떤 이벤트가 발생할 때까지의 시간" 또는 "이벤트들 사이의 시간 간격"의 분포에 대해 이야기를 한다.
-- 
+- 따라서 우리는 "어떤 이벤트가 발생할 때까지의 시간" 또는 "이벤트들 사이의 시간 간격"의 분포에 대해 이야기를 한다.![[Pasted image 20241121104720.png]]
 - Probability Function$$f(y) = \left[\frac{1}{\Gamma(\alpha)\beta^{\alpha}}\right]y^{\alpha-1}e^{-y/\beta}; \\\ 0 \leq y \leq \infty$$
 - Gamma Function $\Gamma(\alpha) = \int_{0}^{\infty} y^{\alpha-1}e^{-y}dy$
 	- $\Gamma(1) = 1$
 	- $\Gamma(\alpha) = (\alpha-1)\Gamma(\alpha-1) \quad \text{where} \, \alpha > 1$
 - Mean : $\alpha\beta$
 - Variance : $\alpha\beta^2$
-## [[Exponential Distribution]]
-- Probability Function$$f(y) = \frac{1}{\beta}e^{-y/\beta}; \\\ \beta >0, \\\ 0\leq y \leq \infty$$
-- Mean : $\beta$
-- Variance : $\beta^2$
-
-
+#### DEFINITION 4.10
+==Let v be a positive integer==. A random variable Y is said to have a [[Continuous Distributions#Chi-square Distribution]] with v degrees of freedom if and only if Y is gamma-distributed random variable with parameters $\alpha = v/2$ and $\beta =2$
 
 ## [[Chi-square Distribution]]
 - Probability Function$$f(y) = \frac{y^{(v/2)-1}e^{-y/2}}{2^{v/2}\Gamma(v/2)}; \ y^2 > 0$$
 - Mean : $v$
 - Variance : $2v$
+
+## [[Exponential Distribution]]
+- Probability Function$$f(y) = \frac{1}{\beta}e^{-y/\beta}; \\\ \beta >0, \\\ 0\leq y \leq \infty$$
+- Mean : $\beta$
+- Variance : $\beta^2$
 
 ## [[Beta Distribution]]
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
