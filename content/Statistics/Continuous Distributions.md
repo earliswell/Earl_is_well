@@ -97,7 +97,8 @@ The constants that determine the specific form of a density function are called 
 	- Exponential : 한 고객이 들어온 후 다음 고객이 들어올 때까지의 대기 시간 (연속적인 값, Continuous)
 
 
-## [[Beta Distribution]]
+## [[Beta Distribution]]![[Pasted image 20241121141442.png]]
+- y의 값이 0과 1사이의 값을 갖는다.
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
 - Beta Function : $B(\alpha, \beta) = \int_0^1 y^{\alpha-1}(1-y)^{\beta-1} dy = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$ 
 - Mean $$\frac{\alpha}{\alpha+\beta}$$
