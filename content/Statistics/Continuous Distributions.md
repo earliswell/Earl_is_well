@@ -75,6 +75,9 @@ The constants that determine the specific form of a density function are called 
 ==Let v be a positive integer==. A random variable Y is said to have a [[Continuous Distributions#Chi-square Distribution]] with v degrees of freedom if and only if Y is gamma-distributed random variable with parameters $\alpha = v/2$ and $\beta =2$
 
 ## [[Chi-square Distribution]]
+- Chi-square Distribution이라는 것은 표준정규분포를 따르는 확률변수들의 제곱합 분포이다.$$Q = \sum_iZ_i^2 \sim \chi^2(v)  $$
+- 이는 자유도(v)가 핵심 파라미터이며, 항상 양의 값을 갖는 분포이다.
+- 일반적인 대기시간, 생존시간 모델링에 사용되며 
 - Probability Function$$f(y) = \frac{y^{(v/2)-1}e^{-y/2}}{2^{v/2}\Gamma(v/2)}; \ y^2 > 0$$
 - Mean : $v$
 - Variance : $2v$
