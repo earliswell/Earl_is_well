@@ -57,7 +57,15 @@ The constants that determine the specific form of a density function are called 
 - Variance : $\sigma^2$
 - 우리는 $\frac{x - \mu}{\sigma}$ 를 통해서 평균 0, 분산 1로 만들 수 있음. 우리는 이를 표준화(Standardization)이라고 부르기도 함.
 ## [[Gamma Distribution]]
-- skewd (nonsymmetric)하고 
+- 우선 분포는 Symmetric(대칭)이 아니다. 감마 분포를 이해하기 위해서는 우리는 Event에 대한 두 가지 경우를 이해할 필요가 있는데, 
+	 1. 대기 시간 (Waiting Time) : 한 이벤트에서 다음 이벤트까지 걸리는 시간
+		 1. 엔진 고장 간격
+		 2. 계산대 도착 간격
+	 2. 서비스 시간 (Service Time) : 특정 작업을 완료하는 데 걸리는 시간
+		 1. 정비 점검 완료 시간
+- 이러한 분포적 특성으로 인해 음수가 될 수 없다 ($\to$ 시간은 항상 양수이기 때문에) 또한 대부분의 경우 평균 근처에 몰려있고, 극단적으로 긴 시간은 상대적으로 드물게 발생한다.
+- 따라서 우리는 "어떤 이벤트가 발생할 때까지의 시간" 또는 "이벤트들 사이의 시간 간격"의 분포에 대해 이야기를 한다.
+- 
 - Probability Function$$f(y) = \left[\frac{1}{\Gamma(\alpha)\beta^{\alpha}}\right]y^{\alpha-1}e^{-y/\beta}; \\\ 0 \leq y \leq \infty$$
 - Mean : $\alpha\beta$
 - Variance : $\alpha\beta^2$
