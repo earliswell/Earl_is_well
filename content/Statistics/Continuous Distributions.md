@@ -91,3 +91,4 @@ The constants that determine the specific form of a density function are called 
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
 - Mean $$\frac{\alpha}{\alpha+\beta}$$
 - Variance $$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
+
