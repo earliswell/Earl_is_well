@@ -51,20 +51,22 @@ The constants that determine the specific form of a density function are called 
 - Mean : $$\frac{\theta_1 + \theta_2}{2}$$
 - Variance$$\frac{(\theta_2 - \theta_1)^2}{12}$$
 ## [[Normal Distribution]]
-- parameters : $\mu, \sigma$ 
+- parameters : $\mu, \sigma$ ![[Pasted image 20241121103413.png]]
 - Probability Function$$f(y) = \frac{1}{\sigma \sqrt{2\pi}}\exp\left[-\frac{1}{2\sigma^2}(y-\mu)^2\right], \\\ -\infty\leq y\leq \infty$$
 - Mean : $\mu$
 - Variance : $\sigma^2$
 - 우리는 $\frac{x - \mu}{\sigma}$ 를 통해서 평균 0, 분산 1로 만들 수 있음. 우리는 이를 표준화(Standardization)이라고 부르기도 함.
+## [[Gamma Distribution]]
+- skewd (nonsymmetric)하고 
+- Probability Function$$f(y) = \left[\frac{1}{\Gamma(\alpha)\beta^{\alpha}}\right]y^{\alpha-1}e^{-y/\beta}; \\\ 0 \leq y \leq \infty$$
+- Mean : $\alpha\beta$
+- Variance : $\alpha\beta^2$
 ## [[Exponential Distribution]]
 - Probability Function$$f(y) = \frac{1}{\beta}e^{-y/\beta}; \\\ \beta >0, \\\ 0\leq y \leq \infty$$
 - Mean : $\beta$
 - Variance : $\beta^2$
 
-## [[Gamma Distribution]]
-- Probability Function$$f(y) = \left[\frac{1}{\Gamma(\alpha)\beta^{\alpha}}\right]y^{\alpha-1}e^{-y/\beta}; \\\ 0 \leq y \leq \infty$$
-- Mean : $\alpha\beta$
-- Variance : $\alpha\beta^2$
+
 
 ## [[Chi-square Distribution]]
 - Probability Function$$f(y) = \frac{y^{(v/2)-1}e^{-y/2}}{2^{v/2}\Gamma(v/2)}; \ y^2 > 0$$
