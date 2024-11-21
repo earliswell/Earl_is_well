@@ -107,3 +107,20 @@ The constants that determine the specific form of a density function are called 
 - Mean $$\frac{\alpha}{\alpha+\beta}$$
 - Variance $$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
 
+#### Binomial과 Beta분포의 관계
+- Binomial 분포 : n번의 시행에서 성공 횟수의 분포
+	- $X \sim \text{Bin}(n, p)$
+	- p ; 성공 확률
+- Beta 분포 : 성공 확률 p 자체의 불확실성을 표현
+	- $p \sim \text{Beta}(\alpha, \beta)$
+	- p ; 확률 변수
+- Bayesian에서 Beta분포에 대한 해석이 있는데 이는 추후 공부를 하도록 하자 !
+	- 미리 약간의 관계성
+	- Prior (사전확률): $p \sim \text{Beta}(\alpha, \beta)$
+	- Likelihood (가능도): $X|p \sim \text{Bin}(n, p)$
+	- Posterior (사후확률): $p|X \sim \text{Beta}(\alpha+x, \beta+n-x)$
+- 예를 들어, 동전 던지기의 경우 
+	- 동전의 앞면이 나올 확률 p를 모를 때
+	- $\text{Beta}(1, 1)$로 시작 (정보가 없을 때의 사전 분포)
+	- 10번 던져서 6번의 앞면이 나왔다면 사후분포는 $\text{Beta}(7, 5)$ 
+- 
