@@ -67,6 +67,9 @@ The constants that determine the specific form of a density function are called 
 - 따라서 우리는 "어떤 이벤트가 발생할 때까지의 시간" 또는 "이벤트들 사이의 시간 간격"의 분포에 대해 이야기를 한다.
 - 
 - Probability Function$$f(y) = \left[\frac{1}{\Gamma(\alpha)\beta^{\alpha}}\right]y^{\alpha-1}e^{-y/\beta}; \\\ 0 \leq y \leq \infty$$
+- Gamma Function $\Gamma(\alpha) = \int_{0}^{\infty} y^{\alpha-1}e^{-y}dy$
+	- $\Gamma(1) = 1$
+	- $\Gamma(\alpha) = (\alpha-1)\Gamma(\alpha-1) \quad \text{where} \, \alpha > 1$
 - Mean : $\alpha\beta$
 - Variance : $\alpha\beta^2$
 ## [[Exponential Distribution]]
