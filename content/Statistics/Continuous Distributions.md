@@ -88,10 +88,10 @@ The constants that determine the specific form of a density function are called 
 - Probability Function$$f(y) = \frac{1}{\beta}e^{-y/\beta}; \\\ \beta >0, \\\ 0\leq y \leq \infty$$
 - Mean : $\beta$
 - Variance : $\beta^2$
-- 주요한 특성으로는 "Memory less" property가 있다.
+- 주요한 특성으로는 "Memory less property"가 있다.
 	- $P(X>s +t | X>s) = P(x>t)$ 를 의미하며, 즉 s라는 시간이 이미 흘렀을 지라도 분포 내에 같은 확률로 존재한다.
 	- 예를 들어, 한 고객이 들어온 후 다음 고객이 들어올 때까지의 대기 시간을 예시로 둔다면 시간 내에 손님이 올 확률은 어디에서나 동일하다는 의미이다.
-- 또한, [[Discrete Distributions#Poisson]]과정과 헷갈릴 수 있다.
+- 또한, [[Discrete Distributions#Poisson]]과 헷갈릴 수 있다.
 	- 위 예를 다시 인용하자면
 	- Poisson : 1시간 동안 상점에 들어오는 고객 수  (즉 이산적인 값, Discrete)
 	- Exponential : 한 고객이 들어온 후 다음 고객이 들어올 때까지의 대기 시간 (연속적인 값, Continuous)
@@ -99,6 +99,7 @@ The constants that determine the specific form of a density function are called 
 
 ## [[Beta Distribution]]
 - Probability Function$$f(y) = \left[\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\right]y^{\alpha-1}(1-y)^{\beta-1}; \ 0<y<1$$
+- Beta Function : $B(\alpha, \beta) = \int_0^1 y^{\alpha-1}(1-y)^{\beta-1} dy = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$ 
 - Mean $$\frac{\alpha}{\alpha+\beta}$$
 - Variance $$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
 
