@@ -123,4 +123,8 @@ The constants that determine the specific form of a density function are called 
 	- 동전의 앞면이 나올 확률 p를 모를 때
 	- $\text{Beta}(1, 1)$로 시작 (정보가 없을 때의 사전 분포)
 	- 10번 던져서 6번의 앞면이 나왔다면 사후분포는 $\text{Beta}(7, 5)$ 
-- 
+
+## Some General Comments
+- The purpose of probabilistic model is to provide the mechanism for making inferences about a population based on information contained in sample.
+- 즉, 확률적 모델의 목적은 샘플로부터 모집단을 합리적으로 추론하기 위함이다.
+- A good model is one that yields good inferences about the population of interest.
