@@ -1,5 +1,5 @@
 ---
-title: Words
+title: Others
 draft: false
 tags:
   - "#BasicWord"
