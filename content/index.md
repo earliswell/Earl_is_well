@@ -1,5 +1,5 @@
 ---
-title: Earl's Deep Causality Lab - where all learning is well.
+title: Earl's Deep Learning & Causality Blog
 ---
 
 This is a blank Quartz installation.
