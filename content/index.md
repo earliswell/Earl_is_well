@@ -1,5 +1,5 @@
 ---
-title: Earl's Deep Learning & Causality Blog
+title: Earl's Causal Inference & Deep Learning.
 ---
 
 This is a blank Quartz installation.
