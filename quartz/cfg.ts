@@ -79,8 +79,14 @@ export interface FullPageLayout {
   beforeBody: QuartzComponent[]
   pageBody: QuartzComponent
   afterBody: QuartzComponent[]
-  left: QuartzComponent[]
-  right: QuartzComponent[]
+  left: QuartzComponent[$breakpoints: (
+    mobile: 800px,
+    desktop: 1200px,
+  );]
+  right: QuartzComponent[$breakpoints: (
+    mobile: 800px,
+    desktop: 1200px,
+  );]
   footer: QuartzComponent
 }
 
