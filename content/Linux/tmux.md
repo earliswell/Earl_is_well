@@ -3,6 +3,7 @@ title: tmux 기초 사용법
 draft: false
 tags:
   - example-tag
+website: https://velog.io/@piopiop/Linux-tmux를-사용해보자
 ---
 ## tmux 구성요소
 1. session: 여러 윈도우를 구성하는 세션
