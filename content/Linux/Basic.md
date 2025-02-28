@@ -15,3 +15,15 @@ conda activate <환경명>
 conda deactivate 
 conda env remove -n <환경명>
 ```
+
+## 파일 전송
+#file
+```
+# 서버 to 서버
+sshpass -p "password" scp -P Port번호 -o StrictHostKeyChecking=no -r /보낼폴더경로 사용자명@서버주소:/저장경로/
+
+# 로컬 to 서버
+
+# 서버 to 로컬
+
+```
