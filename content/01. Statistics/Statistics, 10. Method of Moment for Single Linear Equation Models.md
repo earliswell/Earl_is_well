@@ -28,5 +28,52 @@ $$
 		- $\beta_{2}x_{2}+\beta_{3}x_{3}+\beta_{4}x_{2}x_{3}=(\beta_{2}+\beta_{4}x_{3})x_{2}+\beta_{3}x_{3}$
 	- For instance, $x_{3}$ can be education level: the effect of age on monthly salary is not the constant slope $\beta_{2}$, but $\beta_{2} + \beta_{4}x_{3}$ which varies depending on education level. The display can be written also as $\beta_{2}x_{2} + (\beta_{3} + \beta_{4}x_{2})x_{3}$ to be interpreted analogously.
 		- The term $x_{2}x_{3}$ is called the $interaction \,term$ between $x_{2}$ and $x_{3}$, and its coefficient is the interaction effect.
-		- 회귀계수 해석에 주의해야함. (you need to be careful for interpreting of coefficient.)
+		- 회귀계수 해석에 주의해야함. (Be careful with the interpretation of the interaction term coefficients.) → 
+
+#### LSE and Moment Conditions
+- The least squares estimator (LSE) for $\beta$ is obtained by minimizing
+$$
+\frac{1}{N}\sum_{i}(y_{i}- x'_{i}b)^2
+$$
+- wrt $b$, where $y_{i} - x'_{i}b$ can be viewed as a "prediction error" in predicting $y_{i}$ with the linear function $x'_{i}b$. LSE is also often called $ordinary$ _LSE (OLS)_, relative to "generalized LSE" to appear later.
+$$
+\frac{1}{N}\sum_{i}(y_{i} - x'_{i}b_{lse}) = 0 \iff \frac{1}{N}\sum_{i=1}x_{i}y_{i } = \frac{1}{N}\sum_{i}x_{i}x'_{i}\cdot b_{lse}.
+$$
+- Assuming that $N^{-1}\sum_{i}x_{i}x'_{i}$ is invertible, solve this for $b_{lse}$ to get 
+$$
+b_{lse} = \left( \frac{1}{N}\sum_{i}x_{i}x_{i}' \right)^{-1} \cdot \frac{1}{N}\sum_{i}x_{i}y_{i} = \left( \sum_{i}x_{i}x_{i}' \right)^{-1}\cdot \sum_{i}x_{i}y_{i}
+$$
+- The residual $\hat{u}_{i} \equiv y_{i} - x_{i}'b_{lse}$, which is an estimator for $u_{i}$, has zero sample mean and zero sample covariance with the regressors due to the first-order condition:
+$$
+\frac{1}{N}\sum_{i}x_{i}(y_{i}-x_{i}'b_{lse}) = \left( \frac{1}{N}\sum_{i}\hat{u}_{i} , \frac{1}{N}\sum_{i}x_{i_{2}}\hat{u}_{i}, \dots, \frac{1}{N}\sum_{i}x_{ik}\hat{u}_{i} \right)
+$$
+- Instead of minimizing $N^{-1}\sum_{i}(y_{i} - x_{i}'b)^2$, LSE  can be motivated directly from a moment condition. Observe that the LSE first-order condition at $b=\beta$ is $N^{-1}\sum_{i}x_{i}u_{i} = 0$, and its population version is 
+$$
+\begin{align}
+& E(xu) = 0 \iff
+\begin{bmatrix}
+E(u) \\
+E(x_{2}u) \\
+\vdots \\
+E(x_{k}u)
+\end{bmatrix} = 
+\begin{bmatrix}
+0 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix} \\
+\iff
+& E(u) = 0, \,COV(x_{j},u) = 0 \, (\text{or } COR(x_{j}, u) = 0), j = 2, \dots, k
+\end{align}
+$$
+
+- as $COV(x_{j},u) = E(x_{j,} u) - E(x_{j})E(u)$, where $COV$ and $COR$ stand for covariance and correlation, respectively. Replacing $u$ with $y - x'\beta$
+$$
+E\{x(y - x'\beta)\} = 0 \iff E(xy) = E(xx')\beta
+$$
+- which is a restriction on the joint distribution of $(x' , y)$. Assuming that $E(xx')$ is invertible, we get
+$$
+\beta = \{E(xx')\}^{-1} \cdot E(xy)
+$$
 - 
