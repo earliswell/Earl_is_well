@@ -7,16 +7,10 @@ website: https://velog.io/@piopiop/Linux-tmux를-사용해보자
 ---
 ## tmux 구성요소
 1. session: 여러 윈도우를 구성하는 세션
-2. window: 터미널 화면, 세션 내에서 탭처럽 사용 가능
-3. pane: 하나의 윈도우 내에서의 화면 분할?
-
 ## Session 관련 명령어
 ```
 # 새로운 세션 생성
-tmux new -s (session name)
-
-# 세션 만들면서 윈도우랑 같이 생성
-tmux new -s (session name) -n (window name)
+tmux new -t (session name)
 
 # 세션 종료
 exit
@@ -32,4 +26,14 @@ tmux attach -t session name
 
 # 특정 세션 강제 종료
 tmux kill-session -t session name
+```
+
+## 스크롤 하기 ~
+- 파일 추가, 파일 명 : .tmux.conf
+```
+# Enable mouse control (clickable windows, panes, resizable panes)
+
+set -g mouse on #For tmux version 2.1 and up
+
+# set -g mode-mouse on #For tmux versions < 2.1
 ```
