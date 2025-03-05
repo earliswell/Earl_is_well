@@ -26,4 +26,6 @@ $$
 - The linear model is linear in $\beta$, but not necessarily linear in $x_{i}$, and it is more general than it looks. For instance, $x_{3}$ may be $x_{2}^2$, in which case $\beta_{2}x_{2}+\beta_{3}x_{2}^2$ depicts a quadratic relationship between $x_{2}$ and $y:$ the "effect" of $x_{2}$ on $y$ is then $\beta_{2} + 2\beta_{3}x_{2}$- the first derivative of $\beta_{2}x_{2} + \beta_{3}x_{2}^2$ with respect to (wrt) $x_2$. 
 	- Example 1), with $y$ monthly salary and $x_{2}$ age, the effect of age on monthly salary may be quadratic: going up to a certain age and then declining after. Also $x_4$ may be $x_{2}x_{3},$ in which case the effect of $x_{2}$ on $y$ is  $\beta_{2}+ \beta_{4}x_{3}$
 		- $\beta_{2}x_{2}+\beta_{3}x_{3}+\beta_{4}x_{2}x_{3}=(\beta_{2}+\beta_{4}x_{3})x_{2}+\beta_{3}x_{3}$
-	-  
+	- For instance, $x_{3}$ can be education level: the effect of age on monthly salary is not the constant slope $\beta_{2}$, but $\beta_{2} + \beta_{4}x_{3}$ which varies depending on education level. The display can be written also as $\beta_{2}x_{2} + (\beta_{3} + \beta_{4}x_{2})x_{3}$ to be interpreted analogously.
+		- The term $x_{2}x_{3}$ is called the $interaction \,term$ between $x_{2}$ and $x_{3}$, and its coefficient is the interaction effect.
+		- 
