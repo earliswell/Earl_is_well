@@ -7,7 +7,7 @@ tags:
 ### DEFINITION
 Let $Y$ denote any random variable. The distribution function of Y, denoted by $F(y)$, is such that $F(y) = P(Y \leq y)$ for $-\infty < y < \infty$  
 
-- 우리는 Continuous라는 연속적인 값에서 갖는 분포에 대해서 알아보려고 한다. 이전 [[01. Discrete Distributions]]는 특정 횟수 혹은 셀 수 있는 무언가를 의미했지만, Countinuous에서는 어떠한 범위 내에 확률을 추출한다고 생각하겠다.
+- 우리는 Continuous라는 연속적인 값에서 갖는 분포에 대해서 알아보려고 한다. 이전 [[Statistics, 01. Discrete Distributions]]는 특정 횟수 혹은 셀 수 있는 무언가를 의미했지만, Countinuous에서는 어떠한 범위 내에 확률을 추출한다고 생각하겠다.
 - 우리가 가장 주의해야할 점은 Continuous Distributions에서는 **어떤 상수 값에서의 확률**은 항상 0이다.$P(X=x) = 0$
 - 확률은 항상 **구간**의 넓이로 계산된다. $P(a \leq X \leq b) = \int_a^b f(x)dx$
 
@@ -99,7 +99,7 @@ $$
 - Mean : $\alpha\beta$
 - Variance : $\alpha\beta^2$
 #### DEFINITION 4.10
-==Let v be a positive integer==. A random variable Y is said to have a [[02. Continuous Distributions#Chi-square Distribution]] with v degrees of freedom if and only if Y is gamma-distributed random variable with parameters $\alpha = v/2$ and $\beta =2$
+==Let v be a positive integer==. A random variable Y is said to have a [[Statistics, 02. Continuous Distributions#Chi-square Distribution]] with v degrees of freedom if and only if Y is gamma-distributed random variable with parameters $\alpha = v/2$ and $\beta =2$
 
 ## [[Chi-square Distribution]]
 - Chi-square Distribution이라는 것은 표준정규분포를 따르는 확률변수들의 제곱합 분포이다.
@@ -127,7 +127,7 @@ $$
 - 주요한 특성으로는 "Memory less property"가 있다.
 	- $P(X>s +t | X>s) = P(x>t)$ 를 의미하며, 즉 s라는 시간이 이미 흘렀을 지라도 분포 내에 같은 확률로 존재한다.
 	- 예를 들어, 한 고객이 들어온 후 다음 고객이 들어올 때까지의 대기 시간을 예시로 둔다면 시간 내에 손님이 올 확률은 어디에서나 동일하다는 의미이다.
-- 또한, [[01. Discrete Distributions#Poisson]]과 헷갈릴 수 있다.
+- 또한, [[Statistics, 01. Discrete Distributions#Poisson]]과 헷갈릴 수 있다.
 	- 위 예를 다시 인용하자면
 	- Poisson : 1시간 동안 상점에 들어오는 고객 수  (즉 이산적인 값, Discrete)
 	- Exponential : 한 고객이 들어온 후 다음 고객이 들어올 때까지의 대기 시간 (연속적인 값, Continuous)

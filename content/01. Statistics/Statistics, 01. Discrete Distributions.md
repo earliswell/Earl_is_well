@@ -4,7 +4,7 @@ draft: false
 tags:
   - example-tag
 ---
- 
+
 ### DEFINITION
 - A random Variable $Y$ is said to be discrete if it can assume only a finite or Countably infinite number of distinct values
 - 랜덤 변수 Y를 이산(discrete)라고 말하는 것은 유한하거나 고유한 값만 가질 수 있는 수를 지칭한다.

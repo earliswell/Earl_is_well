@@ -10,7 +10,7 @@ tags:
 - it requires hardly and decision to be made by the user and has a built-in mechanism to deal with the support problem plaguing matching.
 - Treatment Effects for sample selection models often arise when the treatment can affect participation in an activity and the performance there, and separating these effects has interesting policy implications.
 ---
-- 매칭은 공변량을 제어하는 유일한 방법이 아니다. 'Weighting'은 각 그룹의 반응을 공변량의 조건의 그룹 선택 확률로 나누어 treatment 그룹과 통제 그룹의 평균을 별도로 식별한다. [[3.1. NonMatching and Sample Selection]]
+- 매칭은 공변량을 제어하는 유일한 방법이 아니다. 'Weighting'은 각 그룹의 반응을 공변량의 조건의 그룹 선택 확률로 나누어 treatment 그룹과 통제 그룹의 평균을 별도로 식별한다. [[Causal Inference, 3.1. NonMatching and Sample Selection]]
 - 'Regression imputation'은 각 그룹의 회귀 함수에서 공변량을 통합하여 두 그룹의 평균을 별도로 얻는다.
 - 'Complete paring'은 공변량의 차이의 따른 가중치를 사용하여 두 그룹의 가능한 모든 쌍 차이의 가중 평균을 형성한다.
 - 사용자 결정을 내릴 필요가 거의 없으며 매칭을 괴롭히는 Support problem을 다루기 위한 매커니즘이 내장되어 있다.

@@ -59,7 +59,7 @@ $$
 
 ## Small-Sample Hypothesis Testing for $\mu$ and $\mu_{1}-\mu_{2}$
 - Small Sample에서는 T-test를 통해서 우리의 가설검정을 진행한다. 
-	- 참고 : [[06. Estimation#Small-Sample Confidence Intervals for $ mu$ and $ mu_1 - mu_2$]]
+	- 참고 : [[Statistics, 06. Estimation#Small-Sample Confidence Intervals for $ mu$ and $ mu_1 - mu_2$]]
 
 $$
 T = \frac{\bar{Y}-\mu_{0}}{S/\sqrt{ n }}
