@@ -19,3 +19,4 @@ DeepL + QuillBot Academic 모드
 ## Latex
 - [Latex 수식, 위키피디아](https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95) : 개인 적으로 이만한 곳이 없다...
 - [Overleaf](https://ko.overleaf.com/project) : Latex로 모든 문서 작업을 할 수 있는 곳.
+
