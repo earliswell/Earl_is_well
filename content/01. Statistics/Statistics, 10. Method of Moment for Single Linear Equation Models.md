@@ -85,4 +85,14 @@ $$
 $$
 E(xx') \, \text{is of full rank.}
 $$
+- As $E(xx')$ is p.s.d., this full rank condition is equivalent to $E(xx')$ being positive definite (p.d.) and thus being invertible. Note that $E(xx')$ being p.d. is equivalent to $E^{-1}(xx')$ being p.d. where $E^{-1}(xx')$ means $\{E(xx')\}^{-1}$.
+
+#### Zero Moments and Independence
+- The assumption $E(xu) = 0$ is the weakest for the LSE to be a valid estimator for $\beta$ as can be seen in the next subsection.
+- In econometrics, the following two assumptions have been used as well as LSE:
+	1. $E(u|x) = 0 \, \{ \iff E(y|x) =x'\beta \,\ \text{for the linear model} \}$
+	2. $u$ is independent of $x$ and $E(u) = 0$
+- Note that $E(u|x) = 0$ implies $E(u) = E\{E(u|x)\} =0$. for the three assumptions, the following implications hold:
+	- independence of $u$ from $x$ and $E(u) = 0 \Longrightarrow E(u|x) = 0 \Longrightarrow E(xu)=0;$ 
+	- the last implication holds because $E(xu) = E\{xE(u|x)\} = 0$
 - 
