@@ -76,3 +76,4 @@ $$
 $$
 \beta = \{E(xx')\}^{-1} \cdot E(xy)
 $$
+- LSE $b_{lse}$ is just a $sample\,analog$ of this expression of $\beta$, obtained by replacing $E(xx')$ and $E(xy)$ with their sample versions $N^{-1}\sum_{i}x_{i}x_{i}'$ and $N^{-1}\sum_{i}x_{i}y_{i}$. Instead of identifying $\beta$ by minimizing the prediction error, here $\beta$ is identified by the "information" (i.e., the assumption) that the observed $x$ is "orthogonal" to the unobserved $u$.
