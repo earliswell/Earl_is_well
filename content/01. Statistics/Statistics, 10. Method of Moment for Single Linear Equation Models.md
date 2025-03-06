@@ -95,4 +95,4 @@ $$
 - Note that $E(u|x) = 0$ implies $E(u) = E\{E(u|x)\} =0$. for the three assumptions, the following implications hold:
 	- independence of $u$ from $x$ and $E(u) = 0 \Longrightarrow E(u|x) = 0 \Longrightarrow E(xu)=0;$ 
 	- the last implication holds because $E(xu) = E\{xE(u|x)\} = 0$
-- 
+		- [[stati]]
