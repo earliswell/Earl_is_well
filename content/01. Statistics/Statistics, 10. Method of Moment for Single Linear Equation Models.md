@@ -232,3 +232,7 @@ $$
 $$
 R^2 = \frac{\left\{  \sum_{i}(\hat{y}_{i}-\bar{\hat{y}})(y_{i}- \bar{y})  \right\}^2}{\sum_{i}(\hat{y}_{i} - \bar{\hat{y}})^2 \cdot \sum_{i}(y_{i}-\bar{y}^2)} = (\text{sample correlation of Y and } \hat{Y})^2
 $$
+## Omitted Variable Bias
+- In the model $y = x'_{f}\beta_{f} + x_{g}' + \beta_{g} +u$, what happens if $x_{g}$ is not used in estimation? 
+	- This is an important issue, as we may not have (or use) all relevant regressors in the data. With $x_{g}$ not used, $x_{g}'\beta_{g} + u \equiv v$ becomes the new error term in the model, and the consequence of not using $x_{g}$ depends on $COR(x_{f}, x_{g})$.
+	- To simplify the discussion
