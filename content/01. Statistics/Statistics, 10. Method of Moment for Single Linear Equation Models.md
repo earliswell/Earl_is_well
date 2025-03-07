@@ -182,3 +182,34 @@ $$
 	2. $m_{N}w_{N} \rightsquigarrow m_{o}+w$ : can be understood analogously.
 
 #### LSE Asymptotic Distribution
+- Observe
+$$
+\sqrt{ N }(b_{lse} - \beta) = \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1}\cdot \frac{1}{\sqrt{ N }} \sum_{i}x_{i}u_{i}
+$$
+- From the CLT, we have
+$$
+\frac{1}{\sqrt{ N }} \sum_{i}x_{i}u_{i} \rightsquigarrow N \{0, E(xx'u^2)\}.
+$$
+- Using Slutsky Lemma (1),
+	- if $B_{N} \rightsquigarrow N(0, C )$ and $A_{N} \to^p A$, then $A_{N}B_{N} \rightsquigarrow N(0, ACA')$
+- Apply this to
+$$
+B_{N} = \frac{1}{\sqrt{ N }}\sum_{i}x_{i}u_{i} \text{ and } A_{N} = \left( \frac{1}{N}\sum_{i}x_{i}x_{i}' \right)^{-1} \to^p E^{-1}(xx')
+$$
+- to get
+$$
+\sqrt{ N }(b_{lse}-\beta) \rightsquigarrow N(0, \Omega) \quad \text{where } \Omega \equiv E^{-1}(xx')E(xx'u^2)E^{-1}(xx'): \quad (^*)
+$$
+- $\sqrt{ N }(b_{lse}- \beta)$ is $asymptotically \,\, normally \,\, with \,\, mean \,\, 0 \,\, variacne \,\, \Omega$.
+$$
+b_{lse} \sim N \left\{  \beta , \frac{1}{N}E^{-1}(xx')E(xx'u^2)E^{-1}(xx')  \right\} \quad (^{**})
+$$
+- The asymptotic variance $\Omega$ of $\sqrt{ N }(b_{lse}- \beta)$ can be estimated consistently with (this point will be further discussed later)
+$$
+\Omega_{N} \equiv \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1}\left( \frac{1}{N}\sum_{i}x_{i}x_{i}'\hat{u}_{i}^2 \right) \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1}
+$$
+- Alternatively (and informally), the asymptotic variance of $b_{lse}$ is estimated consistently with 
+
+$$
+\frac{\Omega_{N}}{N} = \left( \sum_{i}x_{i}x_{i}' \right)^{-1}\left( \sum_{i}x_{i}x_{i}'\hat{u}_{i}^2 \right)\left( \sum_{i}x_{i}x_{i}' \right)^{-1}
+$$
