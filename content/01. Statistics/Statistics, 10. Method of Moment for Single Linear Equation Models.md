@@ -144,4 +144,15 @@ $$
 $$
 \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1} \to^p E^{-1}(xx') < \infty \quad \text{as } N \to \infty
 $$
-- Therefore, $b_{lse}$ is $\beta$ plus a product of two terms, one consistent for a zero vector
+- Therefore, $b_{lse}$ is $\beta$ plus a product of two terms, one consistent for a zero vector and the other consistent for a bounded matrix;
+- thus the product is consistent for zero, and we have $b_{lse} \to^p \beta: b_{lse}\, is \, consistent \, for \, \beta$.
+
+#### CLT and $\sqrt{ N }$-Consistency
+- For the asymptotic distribution of the **LSE**, a $central \, limit \, theorem$ (**CLT**) is needed that, for an iid random vector sequence $z_{1}, \dots, z_{N}$ with finite second moments,
+$$
+\frac{1}{\sqrt{ N }} \sum_{i}\{z_{i} - E(z)\} \rightsquigarrow N(0, E[\{ z - E(z) \} \{ z - E(z) \}']) \quad \text{as } N \to \infty
+$$
+- where "$\rightsquigarrow$" denotes $convergence$ $in$ $distribution$; i.e., letting $\Psi(\cdot)$ denote the df of $N(0, E[\{ z - E(z)\}\{z - E(z)\}'])$,
+$$
+\lim_{ n \to \infty } P \left\{ \frac{1}{\sqrt{ N }\sum_{i}\{z_{i} - E(z)\}} \leq t \right\} = \Psi(t) \quad 
+$$
