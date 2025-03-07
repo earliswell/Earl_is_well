@@ -172,3 +172,6 @@ $$
 $$
 \sup_{N}P(|\sqrt{ N }z_{N}> \delta_{\epsilon}) = \sup_{N}P(|z| > \delta_{\epsilon}) = P(|z| > \delta_{\epsilon}) < \epsilon.
 $$
+- $\sqrt{ N }z_{N} = z$가 $O_{p}(1)$(확률적으로 유계)임을 보여줍니다.
+- 따라서 $z_{N}$은 $O_{p}(1/\sqrt{ N })$이다. $\to$ 즉, 0으로 수렴하는 속도가 $1/\sqrt{ N }$이다.
+- 
