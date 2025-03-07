@@ -180,3 +180,5 @@ $$
 - shows more: if $w_{N} \rightsquigarrow w$ (thus $w_N = O_{p}(1)$) and $m_{N} \to^p m_{o}$, then
 	1. $m_{N}w_{N} \rightsquigarrow m_{o}w$ : not just the product $m_{N}w_{N}$ is $O_{p}(1)$, its asymptotic distribution is that of $w$ times the constant $m_{o}$.
 	2. $m_{N}w_{N} \rightsquigarrow m_{o}+w$ : can be understood analogously.
+
+#### LSE Asymptotic Distribution
