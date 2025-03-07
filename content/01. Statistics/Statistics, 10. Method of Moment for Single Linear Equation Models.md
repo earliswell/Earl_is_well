@@ -169,9 +169,14 @@ $$
 - To understand $O_{p}$ better, consider $N^{-1}$ and $N^{-2}$, both of which converge to 0.
 - Observe $N^{-1}/N^{-1} = 1$, but $N^{-1}/N^{-1+\epsilon} = 1/N^{\epsilon} \to 0$ whereas $N^{-1} / N^{-1-\epsilon} = N^{\epsilon} \to \infty$  for any constant $\epsilon >0$. Thus the "(fastest) convergence rate" is $N^{-1}$ which, when divided into $N^{-1}$, makes the resulting ratio bounded. Analogously, the convergence rate for $N^{-2}$ is $N^{-2}$. 
 - Now consider $z_{N} \equiv z/\sqrt{ N }$ where $z$ is a $rv$. Then $\sqrt{ N }z_{N} = z = O_{p}(1)$ (or $z_{N} = O_{p}(1/\sqrt{ N })$) because we can choose $\delta_{\epsilon}$ for any constant $\epsilon > 0$ such that
+	- $\sqrt{ N }z_{N} = z$가 $O_{p}(1)$(확률적으로 유계)임을 보여줍니다.
+	- 따라서 $z_{N}$은 $O_{p}(1/\sqrt{ N })$이다. $\to$ 즉, 0으로 수렴하는 속도가 $1/\sqrt{ N }$이다.
 $$
 \sup_{N}P(|\sqrt{ N }z_{N}> \delta_{\epsilon}) = \sup_{N}P(|z| > \delta_{\epsilon}) = P(|z| > \delta_{\epsilon}) < \epsilon.
 $$
-- $\sqrt{ N }z_{N} = z$가 $O_{p}(1)$(확률적으로 유계)임을 보여줍니다.
-- 따라서 $z_{N}$은 $O_{p}(1/\sqrt{ N })$이다. $\to$ 즉, 0으로 수렴하는 속도가 $1/\sqrt{ N }$이다.
-- 
+- For an estimator $a_{N}$ for a parameter $\alpha$, in most cases, we have $\sqrt{ N } (a_{N} - \alpha)=O_{p}(1)$: $a_{N}$ is $\sqrt{ N }-consistent.$ This means that $a_{N}\to^p \alpha$, and that the convergence rate is $N^{-1/2}$ which, when divided into $a_{N} - \alpha$, ==makes the resulting product bounded in probability.== For most cases in our discussion, it would be harmless to think of the $\sqrt{ N }$-consistency of $a_{N}$ as $\sqrt{ N } (a_{N}-\alpha)$ converging to a normal distribution as $N\to \infty$.
+- Analogously to $o(1)O(1) = o(1)$-"a sequence converging to zero" times "a bounded sequence" converges to zero-it holds that $o_{p}(1)O_{p}(1) = o_{p}(1)$. Likewise, $o_{p}(1) + O_{p}(1) = O_{p}(1)$.
+###### Slutsky Lemma
+- shows more: if $w_{N} \rightsquigarrow w$ (thus $w_N = O_{p}(1)$) and $m_{N} \to^p m_{o}$, then
+	1. $m_{N}w_{N} \rightsquigarrow m_{o}w$ : not just the product $m_{N}w_{N}$ is $O_{p}(1)$, its asymptotic distribution is that of $w$ times the constant $m_{o}$.
+	2. $m_{N}w_{N} \rightsquigarrow m_{o}+w$ : can be understood analogously.
