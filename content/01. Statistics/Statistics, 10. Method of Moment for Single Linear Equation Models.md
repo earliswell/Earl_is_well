@@ -104,4 +104,15 @@ $$
 - Going further, to be a "good" estimator for $\beta$, $b_{lse}$ should converge fast to $\beta$.
 	- For instance, both $N^{-1}$ and $N^{-2}$ converge to 0, and they are valid "estimators" for 0, but $N^{-2}$ is better than $N^{-1}$ because $N^{-2}$ converges to 0 faster.
 - This subsection discusses these issues in the names **"consistency"** and **"asymptotic distribution"**.
+
+#### LLN and LSE Consistency
+- A $law \, of \, large \, numbers$ (LLN), for and iid random variable ($rv$) sequence $z_{1}, \dots, z_{N}$ with $E(z) < \infty$, hold that
+$$
+\frac{1}{N} \sum_{i} z_{i} \to^p E(z) \quad \text{as} \,N \to \infty
+$$
+	- where "$\to^p$" denotes convergence in probability:
+$$
+P\left( |\frac{1}{N}\sum_{i}z_{i} - E(z) | < \epsilon\right) \to 1 \quad \text{as} \, N \to \infty \quad \text{for any constant} \, \epsilon >0;
+$$
+- (the estimator) $\bar{z}_{N} \equiv N^{-1}\sum_{i}z_{i}$ is said to be "consistent" for (the parameter) $E(z)$.
 - 
