@@ -213,3 +213,9 @@ $$
 $$
 \frac{\Omega_{N}}{N} = \left( \sum_{i}x_{i}x_{i}' \right)^{-1}\left( \sum_{i}x_{i}x_{i}'\hat{u}_{i}^2 \right)\left( \sum_{i}x_{i}x_{i}' \right)^{-1}
 $$
+## $R^2$ and Two Examples
+- Recall the LSE asymptotic variance estimator $\Omega_{N}/N \equiv [\omega_{N, hj}], h, j= 1, \dots,k;$.i.e, the element of $\Omega_{N}/N$ in row $h$ and column $j$ is denoted as $\omega_{N, hj}$. The t-$values$ (t-$ratios$, or z-$values$) and defined as 
+$$
+\frac{b_{lse, j}}{\sqrt{ \omega_{N, jj} }}, \quad j=1,\dots, k, \quad \text{where } b_{lse} = (b_{lse, 1}, \dots, b_{lse, k})'.
+$$
+- 
