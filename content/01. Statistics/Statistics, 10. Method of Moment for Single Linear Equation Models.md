@@ -213,7 +213,7 @@ $$
 $$
 \frac{\Omega_{N}}{N} = \left( \sum_{i}x_{i}x_{i}' \right)^{-1}\left( \sum_{i}x_{i}x_{i}'\hat{u}_{i}^2 \right)\left( \sum_{i}x_{i}x_{i}' \right)^{-1}
 $$
-## $R^2$ and Two Examples
+## $R^2$ 
 - Recall the LSE asymptotic variance estimator $\Omega_{N}/N \equiv [\omega_{N, hj}], h, j= 1, \dots,k;$.i.e, the element of $\Omega_{N}/N$ in row $h$ and column $j$ is denoted as $\omega_{N, hj}$. The t-$values$ (t-$ratios$, or z-$values$) and defined as 
 $$
 \frac{b_{lse, j}}{\sqrt{ \omega_{N, jj} }}, \quad j=1,\dots, k, \quad \text{where } b_{lse} = (b_{lse, 1}, \dots, b_{lse, k})'.
@@ -224,6 +224,11 @@ $$
 \begin{align}
  & s_{N} \equiv \left( \frac{\sum_{i}\hat{u}_{i}^2}{N-k} \right)^{1/2} \to^p SD(u), \\
  & R^2 \equiv 1 - \frac{N^{-1}\sum_{i}\hat{u}_{i}^2}{N^{-1}\sum_{i}(y_{i}- \bar{y})^2} \to^p 1 - \frac{V(u)}{V(y)} = \frac{V(x'\beta)}{V(y)}, \quad \text{as} \\
-  
+ & V(y) = V(x'\beta + u) = V(x'\beta) + V(u) \quad \text{bacause } COV(x'\beta, u)  = 0.
 \end{align}
+$$
+- $R^2$ shows the proportion of $V(y)$ that is explained by $x'\beta$, and $R^2$ measures the "$model \,\, fitness$." In general, the higher the $R^2$ is the better, because the less is buried in the unobserved $u$. 
+- But this statement should be qualified, because $R^2$ keeps increasing by adding more regressors into the model.
+$$
+R^2 = \frac{\left\{  \sum_{i}(\hat{y}_{i}-\bar{\hat{y}})(y_{i}- \bar{y})  \right\}^2}{\sum_{i}(\hat{y}_{i} - \bar{\hat{y}})^2 \cdot \sum_{i}(y_{i}-\bar{y}^2)} = (\text{sample correlation of Y and } \hat{Y})^2
 $$
