@@ -218,4 +218,8 @@ $$
 $$
 \frac{b_{lse, j}}{\sqrt{ \omega_{N, jj} }}, \quad j=1,\dots, k, \quad \text{where } b_{lse} = (b_{lse, 1}, \dots, b_{lse, k})'.
 $$
-- 
+- Since the diagonal of $\Omega_{N}/N$ is the asymptotic variances of $b_{lse, j}, j=1, \dots, k$, the $j$th t-value asymptotically follows $N(0, 1)$ under the $H_{0} : \beta_{j}=0$, and hence it is a test statistic for $H_{0} : \beta_{j}=0$. The off-diagonal terms of $\Omega_{N}/N$ are the asymptotic covariances for $b_{lse, j}, j=1, \dots, k$, and ==they are used for hypotheses involving multiple parameters.==
+- The "$standard \,\, error$ (of model)" $s_{N}$ and "R-$squared$" $R^2$ are defined as 
+$$
+
+$$
