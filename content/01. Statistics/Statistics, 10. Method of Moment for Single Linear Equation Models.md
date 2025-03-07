@@ -115,4 +115,4 @@ $$
 P\left( |\frac{1}{N}\sum_{i}z_{i} - E(z) | < \epsilon\right) \to 1 \quad \text{as} \, N \to \infty \quad \text{for any constant} \, \epsilon >0;
 $$
 - (the estimator) $\bar{z}_{N} \equiv N^{-1}\sum_{i}z_{i}$ is said to be "consistent" for (the parameter) $E(z)$.
-- 
+- If $\bar{z}_{N}$ is a matrix, the LLN applies to each component. This element-wise convergence in probability of $\bar{z}_{N}$ to $E(z)$ is equivalent to $|\bar{z}_{N}-E(z)| \to^p 0$ where $|A| \equiv \{tr(A'A)\}^{1/2}$ for a matrix A-the usual matrix norm-in the sense that the element-wise convergence implies the norm convergence and vice versa.
