@@ -156,3 +156,4 @@ $$
 $$
 \lim_{ n \to \infty } P \left\{ \frac{1}{\sqrt{ N }\sum_{i}\{z_{i} - E(z)\}} \leq t \right\} = \Psi(t) \quad \forall t 
 $$
+- when $w_{N} \to^p 0$, it is also denote as $w_{N} = o_{p}(1)$; 
