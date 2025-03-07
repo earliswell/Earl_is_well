@@ -154,6 +154,21 @@ $$
 $$
 - where "$\rightsquigarrow$" denotes $convergence$ $in$ $distribution$; i.e., letting $\Psi(\cdot)$ denote the df of $N(0, E[\{ z - E(z)\}\{z - E(z)\}'])$,
 $$
-\lim_{ n \to \infty } P \left\{ \frac{1}{\sqrt{ N }\sum_{i}\{z_{i} - E(z)\}} \leq t \right\} = \Psi(t) \quad \forall t 
+\lim_{ n \to \infty } P \left\{ \frac{1}{\sqrt{ N }}\sum_{i}\{z_{i} - E(z)\} \leq t \right\} = \Psi(t) \quad \forall t 
 $$
-- when $w_{N} \to^p 0$, it is also denote as $w_{N} = o_{p}(1)$; 
+- when $w_{N} \to^p 0$, it is also denote as $w_{N} = o_{p}(1)$; "$o_{p}(1)$" is the probabilistic analog for $o(1)$ where $o(1)$ is a sequence converging to 0. For $\bar{z}_{N}$, we thus have $\bar{z}_{N} - E(z) = o_{p}(1)$.
+	- In comparison to $w_{N} = o_{p}(1)$, "$w_{N}= O_{p}(1)$" means that {$w_{N}$} is $bounded$ $in$ $probability$ (or $stochastically$ $bounded$)-ie., "not explosive as $N \to \infty$" (even if it does not converge to anything) in the probabilistic sense.
+	- Note that $o_{p}(1)$ is also $O_{p}(1)$. 
+- Formally, $w_{N}=O_{p}(1)$ is that, for any constant $\epsilon > 0$, there exists a constant $\delta_{\epsilon}$ such that
+	- "sup"는 "supremum"의 약자로, 최소 상계(least upper bound)를 의미한다. 수학적으로 집합의 모든 원소보다 크거나 같은 값 중에서 가장 작은 값을 가리킨다.
+	- $\sup_{N}$은 모든 $N$에 대해서 취할 수 있는 확률 값 $P\{|w_{N} > \delta_{\epsilon} \}$의 최댓값을 의미한다.
+	- 이 식은 어떤 $N$을 선택하더라도, 확률 $P\{|w_{N} > \delta_{\epsilon}\}$가 항상 $\epsilon$보다 작다는 것을 의미한다.
+$$
+\sup_{N}P\{|w_{N} > \delta_{\epsilon}|\} < \epsilon.
+$$
+- To understand $O_{p}$ better, consider $N^{-1}$ and $N^{-2}$, both of which converge to 0.
+- Observe $N^{-1}/N^{-1} = 1$, but $N^{-1}/N^{-1+\epsilon} = 1/N^{\epsilon} \to 0$ whereas $N^{-1} / N^{-1-\epsilon} = N^{\epsilon} \to \infty$  for any constant $\epsilon >0$. Thus the "(fastest) convergence rate" is $N^{-1}$ which, when divided into $N^{-1}$, makes the resulting ratio bounded. Analogously, the convergence rate for $N^{-2}$ is $N^{-2}$. 
+- Now consider $z_{N} \equiv z/\sqrt{ N }$ where $z$ is a $rv$. Then $\sqrt{ N }z_{N} = z = O_{p}(1)$ (or $z_{N} = O_{p}(1/\sqrt{ N })$) because we can choose $\delta_{\epsilon}$ for any constant $\epsilon > 0$ such that
+$$
+\sup_{N}P(|\sqrt{ N }z_{N}> \delta_{\epsilon}) = \sup_{N}P(|z| > \delta_{\epsilon}) = P(|z| > \delta_{\epsilon}) < \epsilon.
+$$
