@@ -110,7 +110,7 @@ $$
 $$
 \frac{1}{N} \sum_{i} z_{i} \to^p E(z) \quad \text{as} \,N \to \infty
 $$
-	- where "$\to^p$" denotes convergence in probability:
+- where "$\to^p$" denotes convergence in probability:
 $$
 P\left( |\frac{1}{N}\sum_{i}z_{i} - E(z) | < \epsilon\right) \to 1 \quad \text{as} \, N \to \infty \quad \text{for any constant} \, \epsilon >0;
 $$
@@ -124,9 +124,24 @@ $$
 $$
 b_{lse} = \beta + \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}u_{i}
 $$
-	- $b_{lse} = \left( \frac{1}{N}\sum_{i}x_{i}x_{i}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}y_{i}$
+- $b_{lse} = \left( \frac{1}{N}\sum_{i}x_{i}x_{i}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}y_{i}$
 - Cleary, $b_{lse} \neq \beta$ due to the second term on the right-hand side (rhs) which shows that each $x_{i}u_{i}$ contributes to the deviation $b_{lse} - \beta$. Using the LLN, we have
 $$
 \frac{1}{N}\sum_{i}x_{i}u_{i} \to^p E(xu) = 0 \quad \text{and} \quad \frac{1}{N}\sum_{i}x_{i}x_{i}' \to^p E(xx').
 $$
-- 
+- Substituting these into the preceding display, we can get $b_{lse} \to^p \beta$, but we need to deal with the inverse: for a square random matrix $W_{N}$, when $W_{N} \to^p W$, will $W^{-1}$ converge to $W^{-1}$ in probability?
+- It is known that, for a rv matrix $W_{N}$ and a constant matrix $W_{o}$,
+$$
+f(W_{n}) \to^p f(W_{o}) \quad \text{if }  W_{N}\to^p W_{o}  \text{ and }  f(\cdot)  \text{ is continuous at }W_{o}.
+$$
+- The inverse $f(W) = W^{-1}$ of $W$, when it exists, is the adjoint of $W$ divided by the determinant $\det(W)$. Because $\det(W)$ is a sum of products of elements of $W$ and the adjoint consists of determinants, both $\det(W)$ and the adjoint are continuous in $W$, which implies that $W^{-1}$ is continuous in $W$
+	- $\det(A) \neq 0$와 동치인 것들 
+		- Full rank
+		- 가역행렬(invertible matrix & nonsingular matrix) 
+		- 역행렬 존재
+- Thus $W^{-1}$ is continuous at $W_{o}$ so long as $W^{-1}_o$ exists, and using the last display, we get $A^{-1}_{N} \to^p A^{-1}$ if $A_N \to^p A$ so long as $A^{-1}$ exists; 
+- note that $A^{-1}_{N}$ exists for a large enough $N$ bacuase $\det(A_{N}) \neq 0$ for a large enough $N$. Hence,
+$$
+\left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1} \to^p E^{-1}(xx') < \infty \quad \text{as } N \to \infty
+$$
+- Therefore, $b_{lse}$ is $\beta$ plus a product of two terms, one consistent for a zero vector
