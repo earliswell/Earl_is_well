@@ -118,3 +118,10 @@ $$
 - If $\bar{z}_{N}$ is a matrix, the LLN applies to each component. This element-wise convergence in probability of $\bar{z}_{N}$ to $E(z)$ is equivalent to $|\bar{z}_{N}-E(z)| \to^p 0$ where $|A| \equiv \{tr(A'A)\}^{1/2}$ for a matrix A-the usual matrix norm-in the sense that the element-wise convergence implies the norm convergence and vice versa.
 	- $|A|$ : 행렬 A의 표준 Norm
 	- 요소별 수렴(element-wise convergence)과 노름 수렴(norm convergence)가 동등하다.
+	- 따라서, $A'A$의 trace의 제곱근으로 정의된 행렬 norm을 사용했을 때, $\bar{z}_{n}$과 $E(z)$ 사이의 차이가 확률적으로 0으로 수렴한다.
+- As "$\bar{z}_{N} -E(z) \to^p 0$" means that the difference between $\bar{z}_{N}$ and $E(z)$ converges to 0 in probability, for two rv matrix sequences $W_{N}$ and $M_{N}$, "$W_{N} - M_{N} \to^p 0$" (or $W_{N} \to^p M_{N}$) means that the difference between the two rv matrix sequences converges to zero in probability.
+- Substitute $y_{i} = x_{i}'\beta + u_{i}$ into $b_{lse}$ to get
+$$
+b_{lse} = \beta + \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}u_{i}
+$$
+
