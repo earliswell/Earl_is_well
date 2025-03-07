@@ -154,5 +154,5 @@ $$
 $$
 - where "$\rightsquigarrow$" denotes $convergence$ $in$ $distribution$; i.e., letting $\Psi(\cdot)$ denote the df of $N(0, E[\{ z - E(z)\}\{z - E(z)\}'])$,
 $$
-\lim_{ n \to \infty } P \left\{ \frac{1}{\sqrt{ N }\sum_{i}\{z_{i} - E(z)\}} \leq t \right\} = \Psi(t) \quad 
+\lim_{ n \to \infty } P \left\{ \frac{1}{\sqrt{ N }\sum_{i}\{z_{i} - E(z)\}} \leq t \right\} = \Psi(t) \quad \forall t 
 $$
