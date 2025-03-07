@@ -235,4 +235,21 @@ $$
 ## Omitted Variable Bias
 - In the model $y = x'_{f}\beta_{f} + x_{g}' + \beta_{g} +u$, what happens if $x_{g}$ is not used in estimation? 
 	- This is an important issue, as we may not have (or use) all relevant regressors in the data. With $x_{g}$ not used, $x_{g}'\beta_{g} + u \equiv v$ becomes the new error term in the model, and the consequence of not using $x_{g}$ depends on $COR(x_{f}, x_{g})$.
-	- To simplify the discussion
+	- To simplify the discussion, assume that the model is written in mean-deviation form, i.e., $E(y) = E(x'_{f})\beta_{f} + E(x_{g}')\beta_{g} + E(u)$ is subtracted from the model to yield
+$$
+y - E(y) = \{ x_{f}' - E(x_{f}') \}\beta_{f} + \{x_{g}' - E(x_{g}') \}\beta_{g} + \{ u - E(u) \}
+$$
+- and we redefine $y$ as $y - E(y)$, $x_{f}$ as $x_{f} - E(x_{f})$ and so on. So long as we are interested in slopes in $\beta_{f}$, the mean deviation model is adequate.
+- If $COR(x_{f}, x_{g}) = 0$ (i.e., if $E(x_{f}x_{g}) = 0$), then $\beta_{f}$ can still be estimated consistently by the LSE of $y$ on $x_f$. The only downside is that, in general, $SD(v) > SD(u)$ as $v$ has more terms than $u$, and thus $R^2$ will drop.
+- If $COR(x_{f}, x_{g})  \neq 0$, however, then $COR(x_{f}, v) \neq 0$ makes $x_f$ an $endogenous$ $regressor$ and ==the LSE becomes inconsistent==. Specifically, the LSE of $y$ on $x_{f}$ is 
+$$
+\begin{align}
+b_{f}  & = \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}y_{i} \\
+ & = \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_{i}x_{if}(x_{if}'\beta_{f} + v_{i}) \\
+ & = \beta_{f} + \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_{i}x_{if}v_{i} \\
+& = \beta_{f} + \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_{i}x_{if}(x_{ig}'\beta_{g}+u_{i}) \\
+& = \beta_{f} + \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_{i}x_{if}x_{ig}' \cdot \beta_{g}  + \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1} \frac{1}{N}\sum_{i}x_{if}u_{i}  \\
+ & \text{ which is constant for } \beta_{f} + E^{-1}(x_{f}x_{f}')E(x_{f}x_{g}') \cdot \beta_{g}
+\end{align}
+$$
+- The term other than $\beta_{f}$ is called the $omitted$ $variable$ $bias$, which is 0 if $either \,\, \beta_{g}= 0$ (i.e., $x_g$ is not omitted at all) or if $E^{-1}(x_{f}x_{f}')E(x_{f}x_{g}') = 0$ which is the population linear projection coefficient of regressing $x_{g}$ on $x_{f}$.
