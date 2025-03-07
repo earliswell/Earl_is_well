@@ -124,4 +124,9 @@ $$
 $$
 b_{lse} = \beta + \left( \frac{1}{N} \sum_{i}x_{i}x_{i}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}u_{i}
 $$
-
+	- $b_{lse} = \left( \frac{1}{N}\sum_{i}x_{i}x_{i}' \right)^{-1}\frac{1}{N}\sum_{i}x_{i}y_{i}$
+- Cleary, $b_{lse} \neq \beta$ due to the second term on the right-hand side (rhs) which shows that each $x_{i}u_{i}$ contributes to the deviation $b_{lse} - \beta$. Using the LLN, we have
+$$
+\frac{1}{N}\sum_{i}x_{i}u_{i} \to^p E(xu) = 0 \quad \text{and} \quad \frac{1}{N}\sum_{i}x_{i}x_{i}' \to^p E(xx').
+$$
+- 
