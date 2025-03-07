@@ -98,3 +98,10 @@ $$
 		- [[Statistics, 03. Multivariate Probability Distributions#Conditional Expectations]]
 - The regressor vector $x$ is often said to be $exogenous$ if any one of three conditions holds. 
 - The function $E(y|x) = x'\beta$ is called the $(mean) \, regression \, function$ , which is nothing but a location measure in the distribution of $y|x$.
+
+## Asymptotic Properties of LSE
+- As $N \to \infty$, ==the sample will be "close" to the populations==, and we would want $b_{lse}$ to converge to $\beta$ in some sense. This is necessary for $b_{lse}$ to be a "valid" estimator for $\beta$.
+- Going further, to be a "good" estimator for $\beta$, $b_{lse}$ should converge fast to $\beta$.
+	- For instance, both $N^{-1}$ and $N^{-2}$ converge to 0, and they are valid "estimators" for 0, but $N^{-2}$ is better than $N^{-1}$ because $N^{-2}$ converges to 0 faster.
+- This subsection discusses these issues in the names **"consistency"** and **"asymptotic distribution"**.
+- 
