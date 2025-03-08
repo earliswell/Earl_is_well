@@ -253,3 +253,21 @@ b_{f}  & = \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_
 \end{align}
 $$
 - The term other than $\beta_{f}$ is called the $omitted$ $variable$ $bias$, which is 0 if $either \,\, \beta_{g}= 0$ (i.e., $x_g$ is not omitted at all) or if $E^{-1}(x_{f}x_{f}')E(x_{f}x_{g}') = 0$ which is the population linear projection coefficient of regressing $x_{g}$ on $x_{f}$.
+- In simple words, if $COR(x_{f}, x_{g} = 0)$, then there is no omitted variable bias. When LSE is run on some data and if resulting estimates do not make sense intuitively, in most cases, the omitted variable bias formula will provide a good guide on what might have gone wrong.
+- One question that might arise when $COR(x_{f}, x_{g}) \neq 0$ is what happens if a subvector $x_{f_{2}}$ of $x_{f}$ is correlated to $x_{g}$ while the other subvector $x_{f1}$ of $x_{f}$ is not where $x_{f} = (x_{f_{1}}', x_{f_{2}}')'$. In this case, will $x_{f1}$ still be subject to the omitted variable bias? The answer depends on $COR(x_{f1}, x_{f2})$ as can be seen in
+$$
+\begin{align}
+E^{-1}(x_{f}x_{f}')E(x_{f}x_{g}') & =  
+\begin{bmatrix}
+E(x_{f1}x_{f1}')  & E(x_{f1}x_{f2}') \\
+E(x_{f2}x_{f1}')  & E(x_{f2}x_{f2}')
+\end{bmatrix}^{-1} \begin{bmatrix}
+0 \\
+E(x_{f2}x_{g}') 
+\end{bmatrix} \text{ as } E(x_{f1}x_{g}') = 0 \\
+ & = 
+\begin{bmatrix}
+
+\end{bmatrix}
+\end{align}
+$$
