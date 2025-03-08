@@ -275,5 +275,5 @@ $$
 - Hence if $E(x_{f1}x_{f2}') = 0$, then there is no omitted variable bias for $x_{f1}$. Otherwise, the bias due to $E(x_{f2}x_{g}') \neq 0$ gets channeled to $x_{f1}$ through $COR(x_{f1} x_{f2})$.
 - In this case $COR(x_{f1}, x_{f2}) = 0, \,COR(x_{f1}, x_{g})=0$ but $COR(x_{f2}, x_{g}) \neq 0$, we can in fact use only $x_{f1}$ as regressors-no omitted variable bias in case. Nevertheless, using $x_{f2}$ as regressors makes the model error term variance smaller, which leads to a higher $R^2$ and higher t-values for $x_{f1}$. 
 	- 위 문장은 $x_{f}$의 subvector 중에서 우리가 생략한 변수와 내생성 문제를 발생시키는 변수에 대한 내용을 말하고 있다. 따라서, $x_{f2}$의 경우가 위 Case에 해당하는 내용인데, 우리는 만약 $x_{f1}$만 회귀분석에 사용한다면 이는 내생성의 문제가 발생되지 않는다. → 상관관계가 0이기 때문에
-	- 하지만 그럼에도 불구하고 우리는 $x_{f2}$를 회귀분석 식에 할당하는 것이 우리의 모델 오차항의 분산을 줄기오, 이는 더 높은 $R^2$(설명력)을 얻으며 $x_{f1}$에 대한 높은 t-통계량을 얻는다.
+	- 하지만 그럼에도 불구하고 우리는 $x_{f2}$를 회귀분석 식에 할당하는 것이 우리의 ==모델 오차항의 분산을 줄이고==, 이는 더 높은 $R^2$(설명력)을 얻으며 $x_{f1}$에 대한 높은 t-통계량을 얻는다.
 		- 
