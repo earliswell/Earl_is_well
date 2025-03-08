@@ -254,7 +254,7 @@ b_{f}  & = \left( \frac{1}{N} \sum_{i}x_{if}x_{if}' \right)^{-1}\frac{1}{N}\sum_
 $$
 - The term other than $\beta_{f}$ is called the $omitted$ $variable$ $bias$, which is 0 if $either \,\, \beta_{g}= 0$ (i.e., $x_g$ is not omitted at all) or if $E^{-1}(x_{f}x_{f}')E(x_{f}x_{g}') = 0$ which is the population linear projection coefficient of regressing $x_{g}$ on $x_{f}$.
 - In simple words, if $COR(x_{f}, x_{g} = 0)$, then there is no omitted variable bias. When LSE is run on some data and if resulting estimates do not make sense intuitively, in most cases, the omitted variable bias formula will provide a good guide on what might have gone wrong.
-- One question that might arise when $COR(x_{f}, x_{g}) \neq 0$ is what happens if a subvector $x_{f_{2}}$ of $x_{f}$ is correlated to $x_{g}$ while the other subvector $x_{f1}$ of $x_{f}$ is not where $x_{f} = (x_{f_{1}}', x_{f_{2}}')'$. In this case, will $x_{f1}$ still be subject to the omitted variable bias? The answer depends on $COR(x_{f1}, x_{f2})$ as can be seen in
+- One question that might arise when $COR(x_{f}, x_{g}) \neq 0$ is what happens if a subvector $x_{f_{2}}$ of $x_{f}$ is correlated to $x_{g}$ while the other subvector $x_{f1}$ of $x_{f}$ is not where $x_{f} = (x_{f1}', x_{f2}')'$. In this case, will $x_{f1}$ still be subject to the omitted variable bias? The answer depends on $COR(x_{f1}, x_{f2})$ as can be seen in
 $$
 \begin{align}
 E^{-1}(x_{f}x_{f}')E(x_{f}x_{g}') & =  
@@ -267,7 +267,10 @@ E(x_{f2}x_{g}')
 \end{bmatrix} \text{ as } E(x_{f1}x_{g}') = 0 \\
  & = 
 \begin{bmatrix}
-
-\end{bmatrix}
+0 \\
+E^{-1}(x_{f2}x_{f2}')E(x_{f2}x_{g}')
+\end{bmatrix} \text{ if } E(x_{f1}x_{f2}') = 0.
 \end{align}
 $$
+- Hence if $E(x_{f1}x_{f2}') = 0$, then there is no omitted variable bias for $x_{f1}$. Otherwise, the bias due to $E(x_{f2}x_{g}') \neq 0$ gets channeled to $x_{f1}$ through $COR(x_{f1} x_{f2})$.
+- In this case $COR(x_{f1}, x_{f2}) = 0, \,COR(x_{f1}, x_{g})=0$ but $COR(x_{f2}, x_{g}) \neq 0$, we can in fact use only $x_{f1}$ as regressors-no omitted variable bias in case. Nevertheless, using $x_{f2}$ as regressors makes the model error term variance smaller, which leads to a higher $R^2$ and higher t-values for $x_{f1}$. 
