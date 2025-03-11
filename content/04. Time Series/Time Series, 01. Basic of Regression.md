@@ -40,5 +40,16 @@ $$
 - 우리가 선형이라고 말하는 것은 파라미터 $\beta$에 대한 선형을 의미한다. 즉 어떤 $X^2$의 값이 들어온다고 하여도 우리는 선형이라 말한다. 하지만 실제 회귀 함수는 선형이 아닐 가능성이 크다.
 - ![[Pasted image 20250311210751.png]]
 - 위 노란색의 그래프가 신이 만든 실제 회귀 함수라고 했을 때, 실제 선형 회귀 함수와는 다른 모습을 갖는다. 즉, 우리는 에러의 분포로 부터 만들어진 선형 함수를 통해 평균적으로 대표적인 값을 나열하는 것이 선형회귀 분석이라고 볼 수 있다.
-	- → 하지만 선형 회귀 함수로도 Quadratic하게 fitting할 수 있다! 그럼에도 불
+	- → 하지만 선형 회귀 함수로도 Quadratic하게 fitting할 수 있다! (제곱텀을 추가하면 됨)
+
+### The meaning of linear
+$$
+Y = \beta_{0} + \sum_{j=1}^{p} \beta_{j}X_{j}+\epsilon
+$$
+- 위 식에서 $\beta$들을 우리는 계수(coefficient) 또는 파라미터(parameter)라고 하는데 우리는 이 때, estimator와 estimate에 대해서 고민을 해보아햐 한다.
+	- estimator(추정량) : Random → 분포가 있음 → 평균을 구할 수 있음 $E(\hat{\beta})$
+	- estimate(추정치) : Value → 하나의 점 → Fixed
+- 즉 우리는 Random에 대한 개념에 대해서 깊이 고민할 필요가 있다. 어떤 변수로 주어진다면 이는 곧 Random하다는 의미이다. Random하다는 것은 분포를 갖을 수 있다. 즉 어떠한 값으로 정해지지 않았다는 것이다. 그렇다면 기존 coefficient는 어떠한 값일까? 우리가 어떤 분포로부터 추정한 값이기 때문에 estimator라고 한다. 또한, 통계에서 expectation of estimator가 estimate와 같다면 이는 unbiased한 성질을 갖는다. 
+- 그렇다면 parameter를 고정한 상태에서 X를 대입한다면? → 이는 예측 모델이 되는 것이거 parameter는 fixed 상태이기 때문에 estimate가 된다.
+
 
