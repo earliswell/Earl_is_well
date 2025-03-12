@@ -182,4 +182,19 @@ $$
 $$
 Var(u_{i}|\mathbf{X}) = \sigma^2, i = 1, 2, \dots, n.
 $$
-	- [[Statistics, 10. Method of Moment for Single Linear Equation Models#]]
+	- [[Statistics, 10. Method of Moment for Single Linear Equation Models#LSE Asymptotic Distribution]]
+- 이는 에러항의 모든 분산이 동일하다는 의미를 갖는다(동분산성). 이 가정 또한 현실세계에서 많이 위배가 된다. 예를 들어, 소득에 따른 저축액을 분석하는 회귀식이 있다고 가정하자. 그렇다면 100만원을 버는 상태에 저축액의 분산과 1억을 버는 상태에서 저축액의 분산은 과연 동일할까?
+
+###### Assumption E.5, No Serial Correlation
+- Conditional on $\mathbf{X}$, the errors are uncorrelated for all $i \neq j$:
+$$
+Cov(u_{i}, u_{j}|\mathbf{X}) = 0, \, \text{ all } i \neq j.
+$$
+- Assumption E.5 is automatically satisfied under random sampling.
+- Assumption E.5 can be unrealistic, particularly in models that do not include lags of $y_{t}$. (including, say $y_{t-1}$ in $\mathbf{x_{t}}$ is ruled out by Assumption E.3)
+- We can combine Assumptions E.4 and E.5 into a simple expression using matrix notation:
+$$
+Var(\mathbf{u}|\mathbf{X}) = \sigma^2\mathbf{I}_{n}
+$$
+- Under this assumption, the $n \times n$ variance-covariance matrix $Var(\mathbf{u}|\mathbf{X})$ depends only on a single parameter, $\sigma^2$, and we often say that $\mathbf{u}$ has a **scalar variance-covariance matrix**. (The "scalar" is $\sigma^2$.)
+- 가정 5번은 에러텀 간의 상관관계가 존재하지 않는다는 것이다.
