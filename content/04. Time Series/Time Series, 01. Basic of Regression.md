@@ -122,4 +122,15 @@ $$
 \end{bmatrix}
 \end{align}
 $$
+- 하나의 열이 1로 채워져 있는 것을 볼 수 있는데, 이는 절편(intercept)을 의미한다. 즉 $x_{10}, x_{20} \cdots, x_{n0} = 1$ 이다.
+- This is a problem in multivariable calculus. For $\boldsymbol{\hat{\beta}}$ to minimize the sum of squared residuals, it must solve the first order condition
+$$
+\begin{align}
+SSR(\mathbf{b})  & = \sum_{i=1}^{n} (y_{i}-\mathbf{x}_{i}\mathbf{b})^2 \\
+ & = \sum_{i=1}^{n} \hat{u_{i}}^2 = \mathbf{\hat{u}}'\mathbf{\hat{u}} = (\mathbf{y}- \mathbf{X}\boldsymbol{\hat{\beta}})'(\mathbf{y}-\mathbf{X}\boldsymbol{\hat{\beta}}) \\
+\text{also}, \\
+ & \frac{\partial SSR(\boldsymbol{\hat{\beta}})}{\partial \mathbf{b}} = 0. \\
+ & \sum_{i=1}^{n} \mathbf{x}_{i}'(y_{i} - \mathbf{x_{i}\boldsymbol{\hat{\beta}}}) = 0
+\end{align}
+$$
 - 
