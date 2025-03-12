@@ -169,3 +169,8 @@ $$
 - The matrix $\mathbf{X}$ has rank $(k \times 1)$.
 - 매트릭스 $\mathbf{X}$의 independent(= invertible, full-rank, nonsingular)를 의미한다. (→ 역행렬을 구해야 추정할 수 있음.)
 
+→ Assumption E.1 & E.2는 우리가 선형 회귀 분석을 위해서 무조건 만족되는 가정이다.
+
+###### Assumption E.3, Zero Conditional Mean
+- Conditional on the entire matrix $\mathbf{X}$, each error $u_{i}$ has zero mean: $E(u_{i}|\mathbf{X})= 0, i=1, 2, \dots, n.$
+- 
