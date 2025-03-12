@@ -198,7 +198,18 @@ Var(\mathbf{u}|\mathbf{X}) = \sigma^2\mathbf{I}_{n}
 $$
 - Under this assumption, the $n \times n$ variance-covariance matrix $Var(\mathbf{u}|\mathbf{X})$ depends only on a single parameter, $\sigma^2$, and we often say that $\mathbf{u}$ has a **scalar variance-covariance matrix**. (The "scalar" is $\sigma^2$.)
 - 가정 5번은 에러텀 간의 상관관계가 존재하지 않는다는 것이다. 이는 특히, 시계열에서 중요한 내용인데, 만약 $y_{t-1}$과 같은 시차 변수 $\mathbf{x}_{t}$에 포함되면 Assumption E.3의 가정이 깨지게 된다. 이는 결국, $y_{t}$와 $y_{t-1}$ 사이에도 상관관계가 생겨, 설명변수와 오차항 사이의 독립성이 깨지게 된다. 이러한 자기상관문제는 OLS 추정량이 여전히 Unbiased할 수 있지만, 표준오차의 추정이 부정호가해져 → 통계적 추론(가설검정 등)에 문제가 생긴다. 
-- **자기상관이 표준오차에 미치는 영향**
--  OLS 추정에서 회귀계수의 표준오차는 기본적으로 오차항의 분산-공분산 구조에 의존한다. 자기상관이 없다는 가정(Assumption E.5)이 위반되면 다음과 같은 일이 발생한다.
-	1. **분산의 잘못된 추정**: OLS는 기본적으로 오차항이 독립적이라 가정 $Var(\mathbf{u}|\mathbf{X}) = \sigma^2$. 그러나 자기상관이 있으면 실제 분산-공분산 구조는 더욱 복잡해짐.($Var(\mathbf{u}|\mathbf{X}) \neq \sigma^2$). 오차항의 상관관계가 있으므로 대각행렬($\mathbf{I}$)이 아닌 다른 형태의 행렬이 된다.
-	2. **공분산 요소의 무시** 
+	- **자기상관이 표준오차에 미치는 영향**
+		-  OLS 추정에서 회귀계수의 표준오차는 기본적으로 오차항의 분산-공분산 구조에 의존한다. 자기상관이 없다는 가정(Assumption E.5)이 위반되면 다음과 같은 일이 발생한다.
+			1. **분산의 잘못된 추정**: OLS는 기본적으로 오차항이 독립적이라 가정 $Var(\mathbf{u}|\mathbf{X}) = \sigma^2$. 그러나 자기상관이 있으면 실제 분산-공분산 구조는 더욱 복잡해짐.($Var(\mathbf{u}|\mathbf{X}) \neq \sigma^2$). 오차항의 상관관계가 있으므로 대각행렬($\mathbf{I}$)이 아닌 다른 형태의 행렬이 된다.
+			2. **공분산 요소의 무시**: 자기상관이 있으면 기존에 분산으로만 계산되던 값이 공분산 요소까지 포함해야한다. OLS가 공분산 요소를 무시하기 때문에 표준오차가 잘못 추정된다.
+				- 그렇다면, 공분산 요소를 고려하지 않고 가설 검정에서 유의하던 것이 유의미하지 않게 될 수 있음.
+		- **수학적 설명** : OLS 추정량은 분산은 일반적으로 다음과 같이 계산된다.
+			- $Var(\boldsymbol{\beta}) = (\mathbf{X'X})^{-1}\mathbf{X'}Var(u^2)\mathbf{X}\mathbf{(X'X)}^{-1}$으로 자기상관이 없다면 $Var(\mathbf{u}) = \sigma^2$이므로, $Var(\boldsymbol{\beta}) = \sigma^2(\mathbf{X'X})^{-1}$와 같이 계산된다. 
+			- 그러나, 자기상관이 있으면 $Var(\mathbf{u}) = \sigma^2\Omega$ ($\Omega$는 대각행렬이 아닌 다른 형태)이므로, $Var(\boldsymbol{\beta}) = (\mathbf{X'X})^{-1}\mathbf{X'}(\sigma^2\Omega)\mathbf{X}(\mathbf{X'X})^{-1}$이다.
+			- 따라서, 기존 가정의 OLS는 $\Omega=\mathbf{I}$라고 가정하여 이 복잡한 구조를 반영하지 못한다.
+		- **실제 영향** : 자기상관의 유형에 따라 표준오차가 과소추정되거나(양의 자기상관) 과대추정될 수 있다.(음의 자기상관), 실제로는 양의 자기상관이 더 흔하며, 이 경우에는
+			1. 표준오차가 실제보다 작게 추정된다.
+			2. $t$-통계량이 실제보다 크게 나타난다.
+			3. $p$-value가 실제보다 작게 계산된다.
+			4. 결과적으로, 유의하지 않은 변수가 유의한 것으로 잘못 판단될 가능성이 높아짐.
+
