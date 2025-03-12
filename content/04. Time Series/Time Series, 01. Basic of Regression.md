@@ -2,7 +2,9 @@
 title: 01. Basic of Regression
 draft: false
 tags:
-  - example-tag
+  - "#OLS"
+  - "#BASIC"
+  - "#Linear"
 ---
 ## Modeling Review
 
@@ -134,4 +136,16 @@ SSR(\mathbf{b})  & = \sum_{i=1}^{n} (y_{i}-\mathbf{x}_{i}\mathbf{b})^2 \\
  & \sum_{i=1}^{n} \mathbf{x}_{i}'(y_{i} - \mathbf{x_{i}\boldsymbol{\hat{\beta}}}) = 0
 \end{align}
 $$
-- 
+- Which is identical to the first order conditions. We want to write these in matrix form to make them easier to manipulate.
+$$
+\begin{align}
+\mathbf{X}'(\mathbf{y} - \mathbf{X}'\boldsymbol{\hat{\beta}}) = 0 \\
+(\mathbf{X'X})\boldsymbol{\hat{\beta}} = \mathbf{X'y} 
+\end{align}
+$$
+- Assuming that the $(k+1) \times (k+1)$ symmetric matrix $\mathbf{X'X}$ is nonsingular(= invertible, independent, full-rank), we can premultiply both sides by $(\mathbf{X'X})^{-1}$ to solve for the OLS estimator $\hat{\beta}$: 
+$$
+\boldsymbol{\hat{\beta}} = \mathbf{(X'X)}^{-1}\mathbf{X'y}
+$$
+
+## Regression through the Origin
