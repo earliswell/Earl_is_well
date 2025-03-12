@@ -53,3 +53,10 @@ $$
 - 그렇다면 parameter를 고정한 상태에서 X를 대입한다면? → 이는 예측 모델이 되는 것이거 parameter는 fixed 상태이기 때문에 estimate가 된다.
 
 
+### Linear regression Basics
+- Here's the linear regression model again:
+$$
+Y = \beta_{0} + \sum_{j=1}^{p} \beta_{j}X_{j} + \epsilon
+$$
+- The $\beta_{j}, \, j=0,1,\dots, p$ are called model coefficients or parameters
+
