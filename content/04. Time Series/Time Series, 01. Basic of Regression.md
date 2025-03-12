@@ -198,4 +198,7 @@ Var(\mathbf{u}|\mathbf{X}) = \sigma^2\mathbf{I}_{n}
 $$
 - Under this assumption, the $n \times n$ variance-covariance matrix $Var(\mathbf{u}|\mathbf{X})$ depends only on a single parameter, $\sigma^2$, and we often say that $\mathbf{u}$ has a **scalar variance-covariance matrix**. (The "scalar" is $\sigma^2$.)
 - 가정 5번은 에러텀 간의 상관관계가 존재하지 않는다는 것이다. 이는 특히, 시계열에서 중요한 내용인데, 만약 $y_{t-1}$과 같은 시차 변수 $\mathbf{x}_{t}$에 포함되면 Assumption E.3의 가정이 깨지게 된다. 이는 결국, $y_{t}$와 $y_{t-1}$ 사이에도 상관관계가 생겨, 설명변수와 오차항 사이의 독립성이 깨지게 된다. 이러한 자기상관문제는 OLS 추정량이 여전히 Unbiased할 수 있지만, 표준오차의 추정이 부정호가해져 → 통계적 추론(가설검정 등)에 문제가 생긴다. 
-- 
+- **자기상관이 표준오차에 미치는 영향**
+-  OLS 추정에서 회귀계수의 표준오차는 기본적으로 오차항의 분산-공분산 구조에 의존한다. 자기상관이 없다는 가정(Assumption E.5)이 위반되면 다음과 같은 일이 발생한다.
+	1. **분산의 잘못된 추정**: OLS는 기본적으로 오차항이 독립적이라 가정 $Var(\mathbf{u}|\mathbf{X}) = \sigma^2$. 그러나 자기상관이 있으면 실제 분산-공분산 구조는 더욱 복잡해짐.($Var(\mathbf{u}|\mathbf{X}) \neq \sigma^2$). 오차항의 상관관계가 있으므로 대각행렬($\mathbf{I}$)이 아닌 다른 형태의 행렬이 된다.
+	2. **공분산 요소의 무시** 
