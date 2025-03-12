@@ -71,12 +71,23 @@ x_{11}  & x_{12}  & \cdots  & x_{1p} \\
 x_{21} & x_{22} & \cdots  & x_{2p} \\
 \vdots & \vdots & \vdots & \vdots \\
 x_{n1} & x_{n2} & \cdots  & x_{np}
+\end{pmatrix} \qquad
+\beta =
+\begin{pmatrix}
+\beta_{1} \\
+\beta_{2} \\
+\vdots \\
+\beta_{p}
 \end{pmatrix}
 $$
+
 - Linear regression estimates the parameters $\beta_{j}$ by finding the parameter values that minimize the residual sum of squares (RSS):
 $$
 \begin{align}
-RSS(\hat{\beta}_{j}) = 
+ RSS(\hat{\beta}_{j})  & = \sum_{i=1}^{n} (y_{i}-\hat{y_{i}})^2 \\
+ & =\sum_{i=1}^{n} (y_{i}-\left[\mathbf{X}\hat{\beta}\right])^2, \quad \text{ where } \,\hat{y}= \mathbf{X}\hat{\beta} \\
 \end{align}
-
 $$
+- 따라서 우리는 RSS를 항상 최소화 하는 방향으로 고민을 해야한다. 또한, $\mathbf{X}$는 항상 주어지는 것(given)이라고 생각하자. → 따라서 우리가 추정해야 할 것은 $\beta$이기 때문에, 우리는 $\frac{\partial RSS}{\partial \beta_{j}}$를 통해 기울기가 0이되는 부분을 찾아 $\beta_{j}$의 최솟값을 찾아 나가자.
+- The quantity $e_{i} = y_{i} - \hat{y}_{i}$ is called a residual.
+
