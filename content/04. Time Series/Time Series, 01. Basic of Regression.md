@@ -145,7 +145,27 @@ $$
 $$
 - Assuming that the $(k+1) \times (k+1)$ symmetric matrix $\mathbf{X'X}$ is nonsingular(= invertible, independent, full-rank), we can premultiply both sides by $(\mathbf{X'X})^{-1}$ to solve for the OLS estimator $\hat{\beta}$: 
 $$
-\boldsymbol{\hat{\beta}} = \mathbf{(X'X)}^{-1}\mathbf{X'y}
+\boldsymbol{\hat{\beta}} = \mathbf{(X'X)}^{-1}\mathbf{X'y} 
 $$
 
 ## Regression through the Origin
+- 우리는 보통 절편(intercept)가 존재하는 상황의 regression을 마주한다. 하지만 만약 절편이 0인 경우에 대해서 고민을 해볼 필요가 있다. 과연 절편이 0인 어떤 상황이 존재할까? 
+- 우리는 이러한 답을 더미 변수에서 고민해볼 필요가 있다. 즉, 예를 들어 남자와 여자인 경우 두 개의 변수를 모델에 할당하고 절편이 1인경우 우리는 이러한 매트릭스$\mathbf{X}$의 independent가 깨져, 역행렬을 구할 수 없다.
+$$
+\mathbf{X} = 
+\begin{bmatrix}
+1  & 0 & 1 \\
+1 & 1 & 0  \\
+1 & 1 & 0 
+\end{bmatrix}
+$$
+- 즉, 이는 Full-rank condition이 깨져 매트릭스 $\mathbf{X}$의 역행렬을 구할 수 없다. 이에 따라, 우리는 절편 항을 삭제하거나 남자 또는 여자의 더미 변수를 제거해야 추정이 가능해진다. 그렇다면 절편 항을 삭제하는 경우는 어떤 경우일까? → 이는 우리의 종속 변수 y에 미치는 각 항목(남자, 여자)의 coefficient를 파악하고 싶을 때 절편 항을 0으로 두곤 한다. (일반적으로는 더미 변수 중 주요 변수 하나만 모델에 입력한다.)
+
+### Finite sample properties of OLS (Classical assumptions)
+###### Assumption E.1, Linear in Parameters
+- The model can be written as in (5), where $\mathbf{y}$ is an observed $n \times 1$ vector, $\mathbf{X}$ is an $n \times (k=1)$ observed matrix, and $\mathbf{u}$  is an $n \times 1$ vector of unobserved errors or disturbances.
+- $\beta$, 즉 파라미터에 대한 선형적 가정을 의미한다.
+###### Assumption E.2, No Perfect Collinearity
+- The matrix $\mathbf{X}$ has rank $(k \times 1)$.
+- 매트릭스 $\mathbf{X}$의 independent(= invertible, full-rank, nonsingular)를 의미한다. (→ 역행렬을 구해야 추정할 수 있음.)
+
