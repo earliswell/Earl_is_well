@@ -90,4 +90,9 @@ $$
 $$
 - 따라서 우리는 RSS를 항상 최소화 하는 방향으로 고민을 해야한다. 또한, $\mathbf{X}$는 항상 주어지는 것(given)이라고 생각하자. → 따라서 우리가 추정해야 할 것은 $\beta$이기 때문에, 우리는 $\frac{\partial RSS}{\partial \beta_{j}}$를 통해 기울기가 0이되는 부분을 찾아 $\beta_{j}$의 최솟값을 찾아 나가자.
 - The quantity $e_{i} = y_{i} - \hat{y}_{i}$ is called a residual.
-
+- 또한, 우리가 Quadratic → Absolute으로 바꾸게 되면 우리는 Median으로 추정하게 된다.
+## Linear regression estimation (Ordinary Least Squares Estimation, OLS)
+$$
+y_{i} = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta_{n}x_{n} + u_{i} \quad i=1,2, \dots, n
+$$
+- Let ``
