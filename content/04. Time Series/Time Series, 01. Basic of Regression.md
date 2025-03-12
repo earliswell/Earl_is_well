@@ -197,4 +197,4 @@ $$
 Var(\mathbf{u}|\mathbf{X}) = \sigma^2\mathbf{I}_{n}
 $$
 - Under this assumption, the $n \times n$ variance-covariance matrix $Var(\mathbf{u}|\mathbf{X})$ depends only on a single parameter, $\sigma^2$, and we often say that $\mathbf{u}$ has a **scalar variance-covariance matrix**. (The "scalar" is $\sigma^2$.)
-- 가정 5번은 에러텀 간의 상관관계가 존재하지 않는다는 것이다.
+- 가정 5번은 에러텀 간의 상관관계가 존재하지 않는다는 것이다. 이는 특히, 시계열에서 중요한 내용인데, 만약 $y_{t-1}$과 같은 시차 변수 $\mathbf{x}_{t}$에 포함되면 Assumption E.3의 가정이 깨지게 된다. 
