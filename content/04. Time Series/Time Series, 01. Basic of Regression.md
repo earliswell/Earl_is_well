@@ -173,4 +173,4 @@ $$
 
 ###### Assumption E.3, Zero Conditional Mean
 - Conditional on the entire matrix $\mathbf{X}$, each error $u_{i}$ has zero mean: $E(u_{i}|\mathbf{X})= 0, i=1, 2, \dots, n.$
-- 
+- 매트릭스 $\mathbf{X}$는 주어지는 것 (Given)임을 잊지 말자. 
