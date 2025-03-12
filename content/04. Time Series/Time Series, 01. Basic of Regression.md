@@ -173,4 +173,13 @@ $$
 
 ###### Assumption E.3, Zero Conditional Mean
 - Conditional on the entire matrix $\mathbf{X}$, each error $u_{i}$ has zero mean: $E(u_{i}|\mathbf{X})= 0, i=1, 2, \dots, n.$
-- 매트릭스 $\mathbf{X}$는 주어지는 것 (Given)임을 잊지 말자. 
+- 매트릭스 $\mathbf{X}$는 주어지는 것 (Given)임을 잊지 말자. $\mathbf{X}$가 주어졌을 때 에러의 평균은 0이다. 위 조건을 통해서, $E(u\mathbf{X}) = 0$이며, 이는 관측되지 않은 데이터 $u$와 관측된 데이터인 $\mathbf{X}$가 독립임을 의미한다.
+- 하지만? 현실에서는 이런 조건이 만족되기 쉽지 않으며, 만약 위 조건이 위배된다면 내생성(bias) 문제가 생긴다. 내생성의 문제는 우리의 coefficient의 크기를 희석시킨다는 문제가 있다. 따라서, 이러한 문제를 해결하기 위해 여러 인과추론의 모델을 통해 위 가정이 위배되었을 때, 어떻게 극복해 나갈 것인지 고민할 필요가 있다.
+	- [[Statistics, 10. Method of Moment for Single Linear Equation Models#Omitted Variable Bias]]
+
+###### Assumption E.4, Homoskedasticity
+- Conditional on $\mathbf{X}$, the variance are constant:
+$$
+Var(u_{i}|\mathbf{X}) = \sigma^2, i = 1, 2, \dots, n.
+$$
+	- [[Statistics, 10. Method of Moment for Single Linear Equation Models#]]
