@@ -118,10 +118,8 @@ $$
 - Because $\sum_{i=1}^n(x_{i}-\bar{x})=0$.
 $$
 \begin{align}
-& \sum_{i=1}^n(x_{i}-\bar{x}) = \sum_{i=1}^nx_{i } - n\bar{x}. \\ \\
-
+& \sum_{i=1}^n(x_{i}-\bar{x}) = \sum_{i=1}^nx_{i } - n\bar{x}. \\
 & n\bar{x} = n\times \frac{1}{n}\sum_{i=1}^nx_{i} \\
- \\
 & \therefore \sum_{i=1}^n(x_{i}-\bar{x}) =0
 \end{align}
 $$
@@ -427,7 +425,6 @@ $$
 $$
 \begin{align}
  &  r = \frac{S_{xy}}{\sqrt{ S_{xx}S_{yy} }} = \hat{\beta_{1}}\sqrt{ \frac{S_{xx}}{S_{yy}} } \\ \\
-
  &  t = \frac{r\sqrt{ n-2 } }{\sqrt{ 1-r^2 }}
 \end{align}
 $$
@@ -462,7 +459,6 @@ x_{0} & x_{21}  &  x_{22} & \cdots & x_{2k} \\
  \vdots  & \vdots & \vdots &  & \vdots\\
 x_{0} & x_{n1}  &  x_{n2} & \cdots & x_{nk} \\
 \end{bmatrix},  \\ \\
-
 &\mathbf{\beta} = \begin{bmatrix}
  \beta_{0} \\
 \beta_{1} \\

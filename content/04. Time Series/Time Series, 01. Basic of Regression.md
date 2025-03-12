@@ -64,7 +64,6 @@ y_{2} \\
 \vdots \\
 y_{n}
 \end{pmatrix} \qquad
-
 \mathbf{X} = 
 \begin{pmatrix}
 x_{11}  & x_{12}  & \cdots  & x_{1p} \\
@@ -108,8 +107,19 @@ $$
 $$
 \begin{align}
  & \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{u}  \\ 
- & \text{where } \beta = (\beta_{0}, \beta_{1}, \dots, \beta_{k})'  \\
- & \text{ and } \mathbf{X}_{n \times (k+1)}
+ & \text{where } \boldsymbol{\beta} = (\beta_{0}, \beta_{1}, \dots, \beta_{k})'  \qquad  \text{ and }  \underset{n \times (k+1)} {\mathbf{X}}  =  
+\begin{bmatrix}
+\mathbf{x_{1}} \\
+\mathbf{x_{2}} \\
+\vdots  \\
+\mathbf{x_{n}}
+\end{bmatrix}  
+= \begin{bmatrix}
+1  & x_{11}  &  x_{12} & \cdots & c_{1k} \\
+1 & x_{21} & x_{22} & \cdots  & c_{2k} \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+1 & x_{n1} & x_{n2} & \cdots & x_{nk}
+\end{bmatrix}
 \end{align}
-
 $$
+- 
