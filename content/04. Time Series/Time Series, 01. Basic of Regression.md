@@ -216,4 +216,3 @@ $$
 - **BLUE**, Best Linear Unbiased Estimator
 	- What is the Best? → Small variance & Unbiased.
 	- MVUE(Minimum Variance Unbiased Estimator); Case of not regression estimator.
-- 
