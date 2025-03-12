@@ -91,8 +91,25 @@ $$
 - 따라서 우리는 RSS를 항상 최소화 하는 방향으로 고민을 해야한다. 또한, $\mathbf{X}$는 항상 주어지는 것(given)이라고 생각하자. → 따라서 우리가 추정해야 할 것은 $\beta$이기 때문에, 우리는 $\frac{\partial RSS}{\partial \beta_{j}}$를 통해 기울기가 0이되는 부분을 찾아 $\beta_{j}$의 최솟값을 찾아 나가자.
 - The quantity $e_{i} = y_{i} - \hat{y}_{i}$ is called a residual.
 - 또한, 우리가 Quadratic → Absolute으로 바꾸게 되면 우리는 Median으로 추정하게 된다.
+###### 왜 절대 오차는 중앙값을 추정할까?
+1. **극단값에 대한 민감도** : 제곱 오차는 큰 오차에 더 많은 가중치를 부여함(→ 제곱이니까), 이로 인해서 잉상치(outliers)에 매우 민감함. 반면, 절대 오차는 오차의 크기에 선형적으로 반응해서 이상치에 덜 민감함.
+2. **수학적 증명** : 단일 변수 $c$에 대해서 $\sum|y_{i}-c|$를 최소화하는 문제를 생각해보자. → 이 함수의 최소값은 $c$가 데이터의 중앙값일 때 달성된다.
+3. **기하학적 해석** : 숫자들의 중앙값은 모든 숫자로부터 절대 거리의 합을 최소화하는 지점이다. 반면, 평균은 모든 숫자로부터 제곱 거리의 합을 최소화한다.
+- 간단한 예시를 들어보자 ! 
+	- 만약, 데이터가 \[1, 3, 4, 7, 100\]이 있다고 가정했을 때,
+	- 평균 : 23 / 중앙값 : 4
+	- 절대 오차의 합이 최소가 되는 지점을 찾으려면, 데이터를 정렬한 다음 중간 위치의 값을 선택한다. 이는 정확히 중앙값의 정의이다.
 ## Linear regression estimation (Ordinary Least Squares Estimation, OLS)
 $$
 y_{i} = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta_{n}x_{n} + u_{i} \quad i=1,2, \dots, n
 $$
-- Let ``
+- Let $u$ be the $n \times 1$ vector of unobservable errors or disturbances. → 관측되지 않은 데이터의 벡터
+- Then, we can write the linear system for all $n$ observations in matrix notation:
+$$
+\begin{align}
+ & \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{u}  \\ 
+ & \text{where } \beta = (\beta_{0}, \beta_{1}, \dots, \beta_{k})'  \\
+ & \text{ and } \mathbf{X}_{n \times (k+1)}
+\end{align}
+
+$$
