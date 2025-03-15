@@ -7,12 +7,17 @@ tags:
   - "#글쓰기"
 Sources: Notes by Don Davis, Columbia University
 ---
-- There is no algorithm that yields an exciting thesis.
-## How do I Find "The Right Topic"?
-- First, there is no "Right Topic."
-- Much more important is to find something that is important and genuinely interests you.
+- There is no algorithm that yields an exciting thesis. - by. Don Davis, Columbia University.
 
-## How do I know if I have an interesting topic?
-- First, be aware that "interesting" inevitably has a subjective
-- So we cannot expect to find necessary and sufficient conditions for an interesting topic.
-- 
+## 연구 주제를 선정해보자.
+
+- 연구 주제는 어떻게 선정하는 것이 좋을까? 어떤 주제가 올바른 주제일까? 이에 대한 정답은 존재하지 않는다. 그렇다면 우리는 어떻게 연구 주제를 선정해야할까? 
+	- 우리의 **관심사**를 통해 주제를 찾는 것이 오히려 정답일 가능성이 높다.
+- 과연, 우리는 어떤 관심없는 주제를 계속 이끌어 나갈 수 있을까? 이러한 한계로 인해 연구자는 자신의 관심사를 토대로 주제를 선정할 필요가 있다.
+- 그렇다면 남들에게 흥미로운 주제란 무엇일까?(→ 즉, 재밌는 주제란 무엇일까?) 대다수의 대답은 식상하지 않는 주제를 의미하는데, 식상하지 않다는 것은 또 어떤 의미일까?
+	- 데이터와 방법론적 관점에서 우리는 재밌는 주제를 찾아야한다.
+	- 데이터의 관점은 개인적인 데이터를 사용한다면 식상한 주제를 피할 수 있다. 즉, 접근이 제한되기 때문에 그 어떤 누구나 할 수가 없다. 따라서, 이는 꿈과 같다.(It's a Dream!!!!)
+	- 예를 들어보자, 교수님께서 예를 들어주신 미국의 각 동네마다 선거 결과를 직접 작성한 데이터셋은 누구나 갖고있는 데이터일까? → 즉 어떤 개인적인 데이터를 사용한다면 흥미를 이끌 수 있다. 추가적으로, 이 분의 연구에 대해서 간략히 소개하면 각 동네별 선거 결과를 통해 공화당과 민주당의 특성을 나눈다. 이를 통해서 
+	- 방법론적 관점에서 식상하지 않다는 것은 무엇일까? 이는 또한, 통계적 모델과 머신러닝 모델의 차이가 존재한다.
+	- 통계적 모델에서 회귀분석 같은 경우 어떤 분석에도 사용할 수 있다. 따라서 즉 어떤 데이터에서도 활용할 수 있는 쉬운 모델이라는 의미다. 그렇다면 고급 분석 기법은 무엇을 의미할까? → 어떤 특정한 데이터에 적용된다는 것이고 굉장히 개인적인 데이터에 적용된다는 것이다.
+	- 
