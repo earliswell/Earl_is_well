@@ -305,4 +305,6 @@ $$
 $$
 (\boldsymbol{\hat{\beta}_{j} - \beta_{j}} ) / se(\boldsymbol{\hat{\beta_{j}}}) = [(\boldsymbol{\hat{\beta}_{j} - \beta_{j}} )/sd(\boldsymbol{\hat{\beta_{j}}})]/(\boldsymbol{\hat{\sigma}^2/\sigma^2})^{1/2},
 $$
+- Which is the ratio of a standard normal random variable and the square root of a $\chi^2_{n-k-1} / (n-k-1)$ random variable. We just Showed that these are independent, so, by definition of a $t$ random variable, $(\hat{\beta}_{j}- \beta_{j}) / se(\hat{\beta}_{j})$ has the $t_{n-k-1}$ distribution. 
+- Because this distribution does not depend on $\mathbf{X}$, it is the unconditional distribution of $(\hat{\beta}_{j} - \beta_{j})/se(\hat{\beta}_{j})$ as well.
 - 
