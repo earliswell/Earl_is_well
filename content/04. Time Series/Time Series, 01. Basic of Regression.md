@@ -217,3 +217,64 @@ $$
 	- What is the Best? → Small variance & Unbiased.
 	- MVUE(Minimum Variance Unbiased Estimator); Case of not regression estimator.
 
+###### THEOREM E.1, Unbiasedness of OLS
+- Under Assumptions [[#Assumption E.1, Linear in Parameters]], [[#Assumption E.2, No Perfect Collinearity]] and [[#Assumption E.3, Zero Conditional Mean]], the OLS estimator $\boldsymbol{\hat{\beta}}$ is unbiased for $\boldsymbol{\beta}$.
+- **Proof**: Use Assumptions E.1 and E.2 and single algebra to write
+$$
+\begin{align}
+\boldsymbol{\hat{\beta}} &  = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'(\mathbf{X}\boldsymbol{\beta} + \mathbf{u}) \\
+ &  = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X'}\mathbf{X}\boldsymbol{\beta}  + (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X'}\mathbf{u} \\
+ & = \boldsymbol{\beta} + (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X'}\mathbf{u},
+\end{align}
+$$
+- Where we use the fact that $(\mathbf{X}'\mathbf{X})^{-1}(\mathbf{X'}\mathbf{X}) = \mathbf{I}_{{k+1}}$. Taking the expectation conditional on $\mathbf{X}$ gives
+$$
+\begin{align}
+E(\boldsymbol{\hat{\beta}}|\mathbf{X})  & =  \boldsymbol{\beta} + (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X'}E(\mathbf{u}|\mathbf{X}) \\
+ & = \boldsymbol{\beta} + (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X'}\mathbf{0} = \boldsymbol{\beta},
+\end{align}
+$$
+- Because $E(\mathbf{u}|\mathbf{X} ) = 0$ under [[#Assumption E.3, Zero Conditional Mean]].
+
+###### THEOREM E.2, Variance-Covariance Matrix of the OLS Estimator.
+- Under Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.5, No Serial Correlation]]
+$$
+Var(\boldsymbol{\hat{\beta}}|\mathbf{X}) = \sigma^2(\mathbf{X'}\mathbf{X})^{-1}
+$$
+- **Proof**: From the last formula in equation (E.12), we have
+$$
+Var(\boldsymbol{\hat{\beta}}|\mathbf{X}) = Var[(\mathbf{X'}\mathbf{X})^{-1}\mathbf{X'}\mathbf{u}|\mathbf{X}] = (\mathbf{X'}\mathbf{X})^{-1}\mathbf{X'}[Var(\mathbf{u}|\mathbf{X})]\mathbf{X}(\mathbf{X'}\mathbf{X})^{-1}
+$$
+- Now, we use equation (E.13) to get
+$$
+\begin{align}
+Var(\boldsymbol{\hat{\beta}}|\mathbf{X}) &  = (\mathbf{X'}\mathbf{X})^{-1}\mathbf{X'}(\sigma^2\mathbf{I}_{n})\mathbf{X}(\mathbf{X'}\mathbf{X})^{-1} \\
+ & =\sigma^2(\mathbf{X'}\mathbf{X})^{-1}\mathbf{X'}\mathbf{X}(\mathbf{X'}\mathbf{X})^{-1} = \sigma^2(\mathbf{X'}\mathbf{X})^{-1} 
+\end{align}
+$$
+
+###### THEOREM E.4, Unbiasedness of $\hat{\sigma}^2$
+- Under Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#E.5]], $\hat{\sigma}^2: E(\hat{\sigma}^2|\mathbf{X}) = \sigma^2$  for all $\sigma^2 >0$.
+- **Proof**: Write $\mathbf{\hat{u}} = \mathbf{y} - \mathbf{X}\boldsymbol{\hat{\beta}} = \mathbf{y} - \mathbf{X(X'X)^{-1}X'y} = \mathbf{My} = \mathbf{Mu}$, where $\mathbf{M} = \mathbf{I}_{n} -\mathbf{X(X'X)^{-1}X'}$, and the last equality follows because $\mathbf{MX} = 0$ because $\mathbf{M}$ is symmetric and idempotent,
+$$
+\mathbf{\hat{u}'u} = \mathbf{u'M'Mu} = \mathbf{u'Mu}.
+$$
+- Because $\mathbf{u'Mu}$ is scalar, it equals its trace. Therefore,
+$$
+\begin{align}
+E(\mathbf{u'Mu|X})  & = E[tr(\mathbf{u'Mu|X})] = E[tr(\mathbf{Muu'|X})] \\
+ & =tr[E(\mathbf{Muu'|X})] = tr[\mathbf{ME(uu'|X)}] \\
+ & =tr(\mathbf{M\sigma^2I}_{n}) = \sigma^2tr(\mathbf{M}) = \sigma^2(n-k-1)
+\end{align}
+$$
+- The last equality follows from 
+$$
+\begin{align}
+tr(\mathbf{M}) &  = tr(\mathbf{I}_{n}) - tr[\mathbf{X(X'X)^{-1}X'}]  = n - tr[\mathbf{(X'X)^{-1}X'X}]  \\
+ & = n - tr(\mathbf{I}_{k+1}) = n - (k+1) = n-k-1.
+\end{align}
+$$
+- Therefore,
+$$
+E(\hat{\sigma}^2|\mathbf{X}) = E(\mathbf{u'Mu|X})/(n-k-1) = \sigma^2
+$$
