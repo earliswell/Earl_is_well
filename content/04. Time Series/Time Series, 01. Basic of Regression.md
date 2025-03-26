@@ -284,7 +284,7 @@ $$
 	3. The Expectation operator has similar linearity properties. → 기댓값은 선형의 성질이 있음. → $E(X+Y) = E(X)+ E(Y)$ and $E(cX) = cE(X)$.
 	4. Because both operations are linear, we can exchange their order: $E[tr(A)] = tr[E(A)]$
 
-###### Assumption E.6, Normality of Errors
+###### Assumption E.6, Normality of Errors (추가 가정)
 - Conditional on $\mathbf{X}$ the $u_{i}$ are independent and identically distributed as Normal(0, $\sigma^2$). Equivalently, $\mathbf{u}$ given $\mathbf{X}$ is distributed as multivariate normal with mean zero and variance-covariance matrix $\sigma^2\mathbf{I}_{n}: u\sim \text{Normal}(0, \sigma^2\mathbf{I}_{n})$.
 
 ###### THEOREM E.5, Normality of $\hat{\beta}$
@@ -307,4 +307,4 @@ $$
 $$
 - Which is the ratio of a standard normal random variable and the square root of a $\chi^2_{n-k-1} / (n-k-1)$ random variable. We just Showed that these are independent, so, by definition of a $t$ random variable, $(\hat{\beta}_{j}- \beta_{j}) / se(\hat{\beta}_{j})$ has the $t_{n-k-1}$ distribution. 
 - Because this distribution does not depend on $\mathbf{X}$, it is the unconditional distribution of $(\hat{\beta}_{j} - \beta_{j})/se(\hat{\beta}_{j})$ as well.
-- 
+
