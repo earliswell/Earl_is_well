@@ -278,3 +278,27 @@ $$
 $$
 E(\hat{\sigma}^2|\mathbf{X}) = E(\mathbf{u'Mu|X})/(n-k-1) = \sigma^2
 $$
+- 추가 내용 ! Trace에 대해서 !!
+	1. The trace of Matrix is the sum of its diagonal elements, which makes it a linear operation. → Trace는 diagonal 항의 합이다.
+	2. For any matrices A and B where the trace exists: $tr(A+B) =tr(A)+ tr(B)$ and for any scalar $c: tr(cA) = c \cdot tr(A)$ → Decomposition이 가능한 특징이 있음.
+	3. The Expectation operator has similar linearity properties. → 기댓값은 선형의 성질이 있음. → $E(X+Y) = E(X)+ E(Y)$ and $E(cX) = cE(X)$.
+	4. Because both operations are linear, we can exchange their order: $E[tr(A)] = tr[E(A)]$
+
+###### Assumption E.6, Normality of Errors
+- Conditional on $\mathbf{X}$ the $u_{i}$ are independent and identically distributed as Normal(0, $\sigma^2$). Equivalently, $\mathbf{u}$ given $\mathbf{X}$ is distributed as multivariate normal with mean zero and variance-covariance matrix $\sigma^2\mathbf{I}_{n}: u\sim \text{Normal}(0, \sigma^2\mathbf{I}_{n})$.
+
+###### THEOREM E.5, Normality of $\hat{\beta}$
+- Under the classical linear model Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.6, Normality of Errors]]. $\boldsymbol{\hat{\beta}}$ conditional on $\mathbf{X}$ is distributed as multivariate normal with mean $\boldsymbol{\beta}$ and variance-covariance matrix $\sigma^2(\mathbf{X'X})^{-1}$
+
+###### THEOREM E.6, Distribution of $\mathbf{t}$ Statistic.
+- Under Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.6, Normality of Errors]].
+$$
+(\hat{\beta}_{j} - \beta_{j}) / se(\hat{\beta}_{j}) \sim t_{n-k+1}, \, j=0, 1, \dots, k.
+$$
+- **Proof**: The proof requires several steps; the following statements are initially conditional on $\mathbf{X}$. First, by [[#THEOREM E.5, Normality of $ hat{ beta}$]], $(\hat{\beta}_{j} - \beta_{j})/sd(\hat{\beta}_{j}) \sim \text{Normal}(0, 1)$, where $sd(\hat{\beta}_{j}) = \sigma \sqrt{ C_{jj} }$ and $c_{jj}$ is the $j^{th}$ diagonal element of $\mathbf{(X'X)^{-1}}$. Next, under Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.6, Normality of Errors]], conditional on $\mathbf{X}$,
+$$
+(n -k -1)\hat{\sigma}^2 / \sigma^2 \sim \chi^2_{n-k-1}.
+$$
+- [[Statistics, 06. Estimation#Confidence Intervals for $ sigma 2$]], [[Statistics, 08. Hypothesis Testing#Testing Hypotheses Concerning Variances]] 참고.
+- It follows from Property 1 for the chi-square distribution in Advanced Treatment D that $(\mathbf{u}/\sigma^2)'\mathbf{M(u/\sigma) \sim \chi}^2_{n-k-1}$ (because $\mathbf{M}$ has rank $n-k-1$).
+- We 
