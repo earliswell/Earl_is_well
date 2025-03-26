@@ -301,4 +301,8 @@ $$
 $$
 - [[Statistics, 06. Estimation#Confidence Intervals for $ sigma 2$]], [[Statistics, 08. Hypothesis Testing#Testing Hypotheses Concerning Variances]] 참고.
 - It follows from Property 1 for the chi-square distribution in Advanced Treatment D that $(\mathbf{u}/\sigma^2)'\mathbf{M(u/\sigma) \sim \chi}^2_{n-k-1}$ (because $\mathbf{M}$ has rank $n-k-1$).
-- We 
+- We also normal distribution in Advanced Treatment D, that $\boldsymbol{\hat{\beta}}$ and $\mathbf{Mu}$ are independent. Because $\boldsymbol{\hat{\sigma}^2}$ is a function of $\mathbf{Mu}, \boldsymbol{\hat{\beta}}$  and $\boldsymbol{\hat{\sigma}^2}$ are also independent.
+$$
+(\boldsymbol{\hat{\beta}_{j} - \beta_{j}} ) / se(\boldsymbol{\hat{\beta_{j}}}) = [(\boldsymbol{\hat{\beta}_{j} - \beta_{j}} )/sd(\boldsymbol{\hat{\beta_{j}}})]/(\boldsymbol{\hat{\sigma}^2/\sigma^2})^{1/2},
+$$
+- 
