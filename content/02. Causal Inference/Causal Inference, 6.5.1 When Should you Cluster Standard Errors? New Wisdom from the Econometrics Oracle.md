@@ -23,3 +23,4 @@ $$
 	- and referee 3 argues that "the wage residual is likely to be correlated by ==age cohort==, so you should cluster your standard errors by cohort".  (cohort: 특성을 공유하는 주제 그룹)
 - What should you do?
 - you could try estimating your model with these three different clustering approaches, and see what difference this makes.
+- Their advice: Whether or not clustering makes a difference to the standard errors should not be the basis for deciding whether or not to cluster.
