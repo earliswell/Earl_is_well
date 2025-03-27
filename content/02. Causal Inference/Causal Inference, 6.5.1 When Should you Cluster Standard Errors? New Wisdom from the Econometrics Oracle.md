@@ -24,3 +24,5 @@ $$
 - What should you do?
 - you could try estimating your model with these three different clustering approaches, and see what difference this makes.
 - Their advice: Whether or not clustering makes a difference to the standard errors should not be the basis for deciding whether or not to cluster.
+
+- Instead, under the sampling perspective, what matters for clustering is **how the sample was selected** and whether there are clusters in the population of interest that are not represented in the sample.
