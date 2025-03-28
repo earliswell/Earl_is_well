@@ -363,4 +363,4 @@ $$
 4. Rejection region → 기각역 (분포와 유의수준)
 
 ###### What is $\alpha$ (Type 1 and Type 2 Errors)
-- If $H_{0}: $
+- If $H_{0}: \textit{not gulity}$ vs $H_{\alpha}: \textit{ guilty}$
