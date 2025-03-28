@@ -335,4 +335,24 @@ Z = \frac{\hat{\theta} - \theta}{ \sigma_{\hat{\theta}}} \sim N(0, 1)
 $$
 - $E\left( \frac{\hat{\theta} - \theta}{ \sigma_{\hat{\theta}}} \right) = E\left( \frac{\hat{\theta}}{\sigma_{\hat{\theta}}} \right) - E\left( \frac{\theta}{\sigma_{\hat{\theta}}} \right) = \frac{\theta - \theta}{\sigma_{\hat{\theta}}} = 0$
 - $V\left( \frac{\hat{\theta}-\theta}{ \sigma_{\hat{\theta}}} \right) = E\left[\left( \frac{\hat{\theta}-\theta}{\sigma_{\hat{\theta}}} \right)^2 \right] - E\left[\left( \frac{\hat{\theta}- \theta}{ \sigma_{\hat{\theta}}} \right) \right] ^2 = \frac{1}{\sigma_{\hat{\theta}}^2}E[(\hat{\theta}-\theta)^2] = \frac{1}{\sigma_{\hat{\theta}}^2}V(\hat{\theta}) = 1$
-- 
+
+$$
+P(-z_{\alpha/2} \leq Z \leq z_{\alpha/2}) = 1-\alpha
+$$
+![[Time_Series, Figure.02.png]]
+- Substituting for $Z$ in the probability statement, we have $(1-\alpha)$% confidence interval for $\theta$ 
+$$
+\begin{align}
+P\left( -z_{\alpha/2} \leq\frac{\hat{\theta}- \theta}{\sigma_{\hat{\theta}}} \leq z_{\alpha/2} \right)  = 1- \alpha\\
+P (\hat{\theta} - z_{\alpha/2} \sigma_{\hat{\theta}} \leq \theta \leq \hat{\theta} + z_{\alpha/2}\sigma_{\hat{\theta}}) = 1-\alpha
+\end{align}
+$$
+
+## The Elements of a Statistical Test
+1. Null hypothesis, $H_{0}$ → 귀무가설 (단정적인 표현 $H_{0}: \beta = 0$)
+2. Alternative hypothesis, $H_{1}$ → 대립가설 (단정적이지 않은 표현,  $\neq, >, <$, 귀무가설이 아니다.)
+3. Test statistic: $z, t, \chi^2, F$ → 검정통계량
+	1. 모집단의 분포를 아는 경우 또는 샘플의 수가 엄청 많은 경우 →  $z$
+	2. 모집단의 분산을 모르거나 샘플의 수가 작은 경우 → $t$
+	3. 
+4. Rejection region → 기각역 (분포와 유의수준)
