@@ -386,7 +386,7 @@ $$
 \begin{align}
  & SST = \sum_{i=1}^{N} (y_{i}-\bar{y})^2 \\
  & SSE = \sum_{i=1}^{N} (\hat{y}_{i}-\bar{y})^2 \\
- & SSR = \sum_{i=1}^{N} (\hat{u}_{i})^2,  \textit{where }
+ & SSR = \sum_{i=1}^{N} (\hat{u}_{i})^2,  \textit{where } \hat{u} = \hat{y}- y
 \end{align}
 $$
 - 
