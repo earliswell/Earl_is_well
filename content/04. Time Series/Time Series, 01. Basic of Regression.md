@@ -386,7 +386,18 @@ $$
 \begin{align}
  & SST = \sum_{i=1}^{N} (y_{i}-\bar{y})^2 \\
  & SSE = \sum_{i=1}^{N} (\hat{y}_{i}-\bar{y})^2 \\
- & SSR = \sum_{i=1}^{N} (\hat{u}_{i})^2,  \textit{where } \hat{u} = \hat{y}- y
+ & SSR = \sum_{i=1}^{N} (\hat{u}_{i})^2,  \textit{where } \hat{u} = y- \hat{y}
 \end{align}
 $$
-- 
+- Using the same argument as in the simple regression case, we can show that
+$$
+SST = SSE + SSR
+$$
+- In other words, the total variation in $y_{i}$ is the sum of the total variations in $\hat{y}_{i}$ and in $\hat{u}_{i}$
+$$
+\frac{SSR}{SST} + \frac{SSE}{SST} = 1
+$$
+- Just as in the simple regression case, the R-squared is defined to be
+$$
+R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST} = \frac{S_{xy}}{}
+$$
