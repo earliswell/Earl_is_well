@@ -324,4 +324,9 @@ $$
 - t-statistic: $\frac{\text{Coefficient}}{\text{Std. Error}}$
 - p-value: Error term의 분포에 따라 계산되는 Coefficient가 0에 가까울 확률!
 	- 보통 t-분포를 따름(→ 왜? 우리는 모집단의 분산을 모르는 경우가 많기 때문에 !)
-- 
+- 우리는 해석할 때 주의해야 한다. (Holding the other budgets ==fixed==). 즉, 다른 변수들이 고정되어 있고, 하나의 변수의 단위가 변했을 때 우리의 Coefficient만큼의 종속변수에 영향을 준다! 
+## Degression: Statistical test
+- Let $\hat{\theta}$ be a statistic that is normally distributed with mean $\theta$ and standard error $\sigma_{\hat{\theta}}$. 
+	- $\hat{\theta} \sim N(\theta, \sigma^2_{\hat{\theta}})$
+	- statistic = estimator = random (분포를 갖는다는 의미임)
+	- 
