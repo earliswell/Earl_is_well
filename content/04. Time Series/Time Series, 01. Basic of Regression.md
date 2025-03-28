@@ -334,4 +334,5 @@ $$
 Z = \frac{\hat{\theta} - \theta}{ \sigma_{\hat{\theta}}} \sim N(0, 1)
 $$
 - $E\left( \frac{\hat{\theta} - \theta}{ \sigma_{\hat{\theta}}} \right) = E\left( \frac{\hat{\theta}}{\sigma_{\hat{\theta}}} \right) - E\left( \frac{\theta}{\sigma_{\hat{\theta}}} \right) = \frac{\theta - \theta}{\sigma_{\hat{\theta}}} = 0$
-- $V\left( \frac{\hat{\theta}-\theta}{ \sigma_{\hat{\theta}}} \right) = E\left[\left( \frac{\hat{\theta}-\theta}{\sigma_{\hat{\theta}}} \right)^2 \right] - E\left( \frac{\hat{\theta}- \theta}{ \sigma_{\hat{\theta}}} \right) ^2 = E\left[\frac{\hat{\theta}^2 - 2\hat{\theta}\theta + \theta^2}{\sigma_{\hat{\theta}}^2} \right] =\frac{1}{\hat{\sigma_{\hat{\theta}}^2}}E(\hat{\theta}^2 - 2\hat{\theta \theta} + \theta^2)$
+- $V\left( \frac{\hat{\theta}-\theta}{ \sigma_{\hat{\theta}}} \right) = E\left[\left( \frac{\hat{\theta}-\theta}{\sigma_{\hat{\theta}}} \right)^2 \right] - E\left[\left( \frac{\hat{\theta}- \theta}{ \sigma_{\hat{\theta}}} \right) \right] ^2 = \frac{1}{\sigma_{\hat{\theta}}^2}E[(\hat{\theta}-\theta)^2] = \frac{1}{\sigma_{\hat{\theta}}^2}V(\hat{\theta}) = 1$
+- 
