@@ -362,7 +362,7 @@ $$
 		- $F_{v_{1}, v_{2}} = \frac{\chi^2_{v_{1}}/v_{1}}{\chi^2_{v_{2}}/v_{2}}$
 4. Rejection region → 기각역 (분포와 유의수준)
 
-ㄴ###### What is $\alpha$ (Type 1 and Type 2 Errors)
+###### What is $\alpha$ (Type 1 and Type 2 Errors)
 - If $H_{0}: \textit{not gulity } \text{ vs } \,H_{\alpha}: \textit{guilty}$
 
 | given/decision                    | deciding not guilty | deciding guilty        |
@@ -374,3 +374,5 @@ $$
 
 ###### T-test (Point Estimation) → 각각의 $\beta$를 추정
 - 점 추정과 구간 추정이 있음. 어떤 하나의 값을 추정하는 것이 Point Estimation. 신뢰구간과 같은 것을 추정하는 것을 interval estimation이라고 함.
+- Independent small Sample: [[Statistics, 08. Hypothesis Testing#Small-Sample Hypothesis Testing for $ mu$ and $ mu_{1}- mu_{2}$]]
+- Mean Differencing: [[Statistics, 08. Hypothesis Testing#Small-Sample Hypothesis Testing for $ mu$ and $ mu_{1}- mu_{2}$]]
