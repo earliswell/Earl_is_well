@@ -363,9 +363,11 @@ $$
 4. Rejection region → 기각역 (분포와 유의수준)
 
 ###### What is $\alpha$ (Type 1 and Type 2 Errors)
-- If $H_{0}: \textit{not gulity}$ vs $H_{\alpha}: \textit{ guilty}$
+- If $H_{0}: \textit{not gulity } \text{ vs } \,H_{\alpha}: \textit{guilty}$
 
 | given/decision                    | deciding not guilty | deciding guilty        |
 | --------------------------------- | ------------------- | ---------------------- |
 | truly not guilty ($H_{0}$ True)   | right decision      | type-1-error event     |
 | truly guilty ($H_{\alpha}$ False) | type-2-error event  | right decision (power) |
+###### p-value
+- If $W$ is a test statistic, the p-value, or attained significance level($=\alpha$), is the smallest level of significance $\alpha$ for which the observed data indicate that the null.
