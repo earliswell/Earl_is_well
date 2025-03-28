@@ -354,5 +354,13 @@ $$
 3. Test statistic: $z, t, \chi^2, F$ → 검정통계량
 	1. 모집단의 분포를 아는 경우 또는 샘플의 수가 엄청 많은 경우 →  $z$
 	2. 모집단의 분산을 모르거나 샘플의 수가 작은 경우 → $t$
-	3. $F$ 
+		- $T = \frac{Z}{\sqrt{ \chi^2_{v} /v}}, \,v=dof$
+	3. 에러텀의 분산 검정 → $\chi^2$ (Homoscedasticity or Heteroscedasticity)
+		- $\chi^2_{k} = \sum_{i}^kZ_{i}^2$
+	4. 회귀 모형의 유의성 검정(적어도 하나의 독립변수가 종속변수를 설명하는데 유의한지)를 검정 → $F$ 
+		- $H_{0}: \beta_{0}=\beta_{1}=\cdots=\beta_{k}=0$
+		- $F_{v_{1}, v_{2}} = \frac{\chi^2_{v_{1}}/v_{1}}{\chi^2_{v_{2}}/v_{2}}$
 4. Rejection region → 기각역 (분포와 유의수준)
+
+###### What is $\alpha$ (Type 1 and Type 2 Errors)
+- If $H_{0}: $
