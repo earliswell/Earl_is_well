@@ -399,5 +399,7 @@ $$
 $$
 - Just as in the simple regression case, the R-squared is defined to be
 $$
-R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST} = \frac{S_{xy}}{}
+R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST} = \frac{\left( \sum_{i=1}^{N} (y_{i}- \bar{y})(\hat{y}_{i} - \bar{\hat{y}}) \right)^2}{\left( \sum_{i=1}^{N} (y_{i}-\bar{y})^2 \right) \left(  \sum_{i=1}^{N} (\hat{y}_{i}-\bar{\hat{y}})^2 \right)} = \frac{Cov(y, \hat{y})}{SD(y)SD(\hat{y})}
 $$
+- $\rho = \frac{Cov(x, y)}{SD(x) \cdot SD(y)}$ → 상관계수
+
