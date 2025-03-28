@@ -362,7 +362,7 @@ $$
 		- $F_{v_{1}, v_{2}} = \frac{\chi^2_{v_{1}}/v_{1}}{\chi^2_{v_{2}}/v_{2}}$
 4. Rejection region → 기각역 (분포와 유의수준)
 
-###### What is $\alpha$ (Type 1 and Type 2 Errors)
+ㄴ###### What is $\alpha$ (Type 1 and Type 2 Errors)
 - If $H_{0}: \textit{not gulity } \text{ vs } \,H_{\alpha}: \textit{guilty}$
 
 | given/decision                    | deciding not guilty | deciding guilty        |
@@ -370,4 +370,7 @@ $$
 | truly not guilty ($H_{0}$ True)   | right decision      | type-1-error event     |
 | truly guilty ($H_{\alpha}$ False) | type-2-error event  | right decision (power) |
 ###### p-value
-- If $W$ is a test statistic, the p-value, or attained significance level($=\alpha$), is the smallest level of significance $\alpha$ for which the observed data indicate that the null.
+- If $W$ is a test statistic, the p-value, or attained significance level($=\alpha$), is the smallest level of significance $\alpha$ for which the observed data indicate that the null. → 귀무가설을 기각할 수 있는 정도에 가장 적은 $\alpha$값.
+
+###### T-test (Point Estimation) → 각각의 $\beta$를 추정
+- 점 추정과 구간 추정이 있음. 어떤 하나의 값을 추정하는 것이 Point Estimation. 신뢰구간과 같은 것을 추정하는 것을 interval estimation이라고 함.
