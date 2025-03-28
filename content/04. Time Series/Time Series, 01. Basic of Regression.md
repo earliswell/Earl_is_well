@@ -308,3 +308,6 @@ $$
 - Which is the ratio of a standard normal random variable and the square root of a $\chi^2_{n-k-1} / (n-k-1)$ random variable. We just Showed that these are independent, so, by definition of a $t$ random variable, $(\hat{\beta}_{j}- \beta_{j}) / se(\hat{\beta}_{j})$ has the $t_{n-k-1}$ distribution. 
 - Because this distribution does not depend on $\mathbf{X}$, it is the unconditional distribution of $(\hat{\beta}_{j} - \beta_{j})/se(\hat{\beta}_{j})$ as well.
 
+## The Gauss-Markov Theorem
+- Under [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.5, No Serial Correlation]], $\hat{\beta}_{0},\hat{\beta}_{1}, \hat{\beta}_{2}, \dots, \hat{\beta}_{k}$ are the best linear unbiased estimators (**BLUEs**) of $\beta_{0}, \beta_{1}, \dots, \beta_{k}$, 
+- 
