@@ -310,4 +310,18 @@ $$
 
 ## The Gauss-Markov Theorem
 - Under [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.5, No Serial Correlation]], $\hat{\beta}_{0},\hat{\beta}_{1}, \hat{\beta}_{2}, \dots, \hat{\beta}_{k}$ are the best linear unbiased estimators (**BLUEs**) of $\beta_{0}, \beta_{1}, \dots, \beta_{k}$, 
+
+###### Table 1.
+
+|           | Coefficient | Std. Error | t-statistic | p-value  |
+| --------- | ----------- | ---------- | ----------- | -------- |
+| Intercept | 2.939       | 0.3199     | 9.42        | < 0.0001 |
+| TV        | 0.046       | 0.0014     | 32.81       | < 0.0001 |
+| Radio     | 0.189       | 0.0086     | 21.89       | < 0.0001 |
+| Newspaper | -0.0001     | 0.0059     | -0.18       | 0.8599   |
+- Coefficient : $\mathbf{(X'X)^{-1}X'y}$
+- Std. Error : $\sigma^2(\mathbf{X'X})^{-1}$
+- t-statistic: $\frac{\text{Coefficient}}{\text{Std. Error}}$
+- p-value: Error term의 분포에 따라 계산되는 Coefficient가 0에 가까울 확률!
+	- 보통 t-분포를 따름(→ 왜? 우리는 모집단의 분산을 모르는 경우가 많기 때문에 !)
 - 
