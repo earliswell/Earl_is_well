@@ -364,3 +364,8 @@ $$
 
 ###### What is $\alpha$ (Type 1 and Type 2 Errors)
 - If $H_{0}: \textit{not gulity}$ vs $H_{\alpha}: \textit{ guilty}$
+
+| given/decision                    | deciding not guilty | deciding guilty        |
+| --------------------------------- | ------------------- | ---------------------- |
+| truly not guilty ($H_{0}$ True)   | right decision      | type-1-error event     |
+| truly guilty ($H_{\alpha}$ False) | type-2-error event  | right decision (power) |
