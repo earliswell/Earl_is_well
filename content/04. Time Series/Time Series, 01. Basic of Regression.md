@@ -329,4 +329,4 @@ $$
 - Let $\hat{\theta}$ be a statistic that is normally distributed with mean $\theta$ and standard error $\sigma_{\hat{\theta}}$. 
 	- $\hat{\theta} \sim N(\theta, \sigma^2_{\hat{\theta}})$
 	- statistic = estimator = random (분포를 갖는다는 의미임)
-	- 
+	- constant = estimate = deterministic (어떤 정해진 값이 있음.)
