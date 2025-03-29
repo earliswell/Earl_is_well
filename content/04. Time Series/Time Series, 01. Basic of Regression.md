@@ -465,4 +465,9 @@ $$
 #### Adj. R-Squared
 - 사실 회귀 식에서 설명계수(R-Squared)란 설명 변수를 추가하면 추가할 수록 높아진다!!
 	- [[#Goodness-of-fit]]
-	- 
+$$
+\begin{align}
+ & R^2 = 1 - SSR/SST = SSE/SST = \frac{\sum_{i=1}^{N} (y_{i}-)}{}\\
+
+\end{align}
+$$
