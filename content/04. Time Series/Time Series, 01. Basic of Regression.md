@@ -473,3 +473,9 @@ $$
 \end{align}
 $$
 - 즉, $\beta$를 추정하는 데 사용된 k개의 패널티를 줘서 얻은 값이라 생각하면 됨!
+
+## Heteroskedasticity
+- The homoskedasticity assumption states that the variance of the unobserved error, $u$, conditional on the explanatory variable, is constant.
+	- 우리는 homo(동질적)에 대해서 가정을 함. → [[#Assumption E.4, Homoskedasticity]]
+	- 이는 모든 에러항에서 동일한 분산을 갖는다는 가정 $\sigma^2(X'X)^{-1}$
+	- 
