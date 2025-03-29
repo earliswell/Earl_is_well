@@ -496,4 +496,20 @@ $$
 $$
 E[x(y - \beta_{0}-\beta_{1}x)] = \frac{1}{n}\sum_{i=1}^{n} x_{i}(y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1}x_{i}) = 0
 $$
-- 
+- This is an example of the method of moments approach to estimation. 
+- Using the basic properties of the summation operator
+$$
+\bar{y} = \hat{\beta}_{0} + \hat{\beta}_{x}\bar{x} \leftrightarrow 
+$$
+- and
+$$
+\begin{align}
+ & \sum_{i=1}^{n} x_{i}(y_{i} - (\bar{y} - \hat{\beta}_{1}\bar{x}) - \hat{\beta}_{1}x_{i}) = 0 \\
+ & \sum_{i=1}^{n} x_{i}(y_{i}-\bar{y}) = \hat{\beta}_{1}\sum_{i=1}^{n} x_{i}(x_{i}-\bar{x})
+\end{align}
+$$
+- $\hat{\beta}_{0} = \bar{y} - \hat{\beta}_{1}\bar{x}$
+- Provided that $\sum_{i=1}^{n} x_{i}(x_{i}-\bar{x}) > 0$,
+$$
+\hat{\beta}_{1} = \frac{\sum_{i=1}^{n} x_{i}(y_{i}-\bar{y})}{\sum_{i=1}^{n} x_{i}(x_{i}-\bar{x})} = \frac{\sum_{i}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2} = \hat{\rho}_{xy} \frac{\hat{\sigma}_{y}}{\hat{\sigma}_{x}}
+$$
