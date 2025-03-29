@@ -419,4 +419,12 @@ $$
 \end{align}
 $$
 - "**Holding other variable constant.**" → Meaning??
-	- ==Using OLS==, the 
+	- ==Using OLS==, the estimates are the change in AVERAGE $Y$ for 1 unit change in $X$(Marginal effects)
+- 즉, 내가 보고싶은 Coefficient 이외의 변수가 고정되었을 때, 해당 변수가 1단위 변했을 때의 변화량을 의미한다.
+- How about... UNIT-Free interpretation
+$$
+\begin{align}
+ & \ln(\mathbf{Y}) = \hat{\alpha} + \hat{\beta}\ln\mathbf{X} + \hat{\gamma}\mathbf{W} \\
+ & \hat{\beta} = \frac{\partial \ln{Y}}{\partial X} = ???, \hat{\gamma} = \frac{\partial \mathbf{Y}}{\partial \mathbf{W}}
+\end{align}
+$$
