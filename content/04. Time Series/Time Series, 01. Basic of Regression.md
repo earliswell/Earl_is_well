@@ -428,8 +428,8 @@ $$
  & \hat{\beta} = \frac{\partial \ln{Y}}{\partial X} = ???, \hat{\gamma} = \frac{\partial \mathbf{Y}}{\partial \mathbf{W}}
 \end{align}
 $$
-	- $\frac{\partial \ln Y}{\partial Y} = \frac{1}{Y}$ → $d \ln Y = \frac{\partial Y}{Y}$(변화량) $=\left( \frac{\text{new}-\text{old}}{\text{old}} \right)$
-	- $\hat{\beta} = \frac{\partial Y/Y}{\partial X}$
+- $\frac{\partial \ln Y}{\partial Y} = \frac{1}{Y}$ → $d \ln Y = \frac{\partial Y}{Y}$(변화량) $=\left( \frac{\text{new}-\text{old}}{\text{old}} \right)$
+- $\hat{\beta} = \frac{\partial Y/Y}{\partial X}$
 - 이는 해석을 나머지 변수가 고정되었을 때 $\mathbf{X}$가 한 단위 변했다면 이는 $\mathbf{Y}$는 $\hat{\beta}$%만큼 변한다 !
 - How about... INTERACTION or POLYNOMIAL ?
 $$
@@ -438,18 +438,31 @@ $$
  & \frac{\partial \mathbf{Y}}{\partial \mathbf{X}} = \hat{\beta} + \hat{\theta}\mathbf{W}
 \end{align}
 $$
-	- 이는 $\mathbf{X}$가 $\mathbf{Y}$에 미치는 효과가 $\mathbf{W}$에 따라 달라진다는 의미
-	- $\mathbf{W}$가 특정 값일 때 $\mathbf{X}$의 한계효과(marginal effect): $\hat{\beta} + \hat{\theta}\mathbf{W}$
-	- 예를 들어 $\mathbf{W} =0$일 때 $\mathbf{X}$의 효과는 $\hat{\beta}$이고, $\mathbf{W}=1$일 때, $\mathbf{X}$의 효과는 $\hat{\beta}+\hat{\theta}$ 이다.
-		- 만약 $\mathbf{W}$가 더미변수라면 해석하기 쉬운듯 ?
-	- 시각화를 해도 좋음 ! W의 다양한 값에 대해서 시각화 레수기릿 
+- 이는 $\mathbf{X}$가 $\mathbf{Y}$에 미치는 효과가 $\mathbf{W}$에 따라 달라진다는 의미
+- $\mathbf{W}$가 특정 값일 때 $\mathbf{X}$의 한계효과(marginal effect): $\hat{\beta} + \hat{\theta}\mathbf{W}$
+- 예를 들어 $\mathbf{W} =0$일 때 $\mathbf{X}$의 효과는 $\hat{\beta}$이고, $\mathbf{W}=1$일 때, $\mathbf{X}$의 효과는 $\hat{\beta}+\hat{\theta}$ 이다.
+	- 만약 $\mathbf{W}$가 더미변수라면 해석하기 쉬운듯 ?
+- 시각화를 해도 좋음 ! W의 다양한 값에 대해서 시각화 레수기릿 
 $$
 \begin{align}
  & Y = \hat{\alpha} + \hat{\beta}\mathbf{X} + \hat{\gamma}\mathbf{W} + \hat{\eta}\mathbf{X}^2 \\
  & \frac{\partial \mathbf{Y}}{\partial \mathbf{X}} = \hat{\beta} + 2 \hat{\eta}\mathbf{X} = ???
 \end{align}
 $$
-	- 이 또한 시각화를 해서 그래프를 그리던가 하면 될 듯 ? → 결국 1차 방정식임.
-	- 일반적으로 특정 $\mathbf{X}$ 값들(예: 평균, 중앙값, 퀀타일)에서의 한계효과를 계산하여 표로 보고하거나, 한계효과 곡성을 그래프로 그려 시각화하는 것이 좋음. 
+- 이 또한 시각화를 해서 그래프를 그리던가 하면 될 듯 ? → 결국 1차 방정식임.
+- 일반적으로 특정 $\mathbf{X}$ 값들(예: 평균, 중앙값, 퀀타일)에서의 한계효과를 계산하여 표로 보고하거나, 한계효과 곡성을 그래프로 그려 시각화하는 것이 좋음. 
 
 #### Data Scaling.
+- 우리의 효과를 볼 때, 단위로 인하여 우리의 Coefficient 값이 너무 작거나, 크게 나오는 경우가 있다. 예를 들어, 부동산 가격을 타겟값으로 한 분석의 Y값이 10억일 때, 과연 어떤 개수와 같은 변수의 Coefficient가 300만원이라 했을 때, 이는 엄청나게 큰 값으로 추정된다. 이러한 것을 조정하기 위해 스케일링을 진행하곤 한다. 이러한 단위 차이로 인한 해석의 어려움을 조정하기 위해 단순 스칼라의 곱을 통해 조정하곤 한다.
+$$
+\begin{align}
+ & Y = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i} \\
+ &  Y = \beta_{0}+ \frac{\beta_{1}}{1000} (x_{i}\times 1000) + \epsilon_{i}
+\end{align}
+$$
+- 이는 $x_{i}$의 단위를 조정할 때도 마찬가지이다.
+
+#### Adj. R-Squared
+- 사실 회귀 식에서 설명계수(R-Squared)란 설명 변수를 추가하면 추가할 수록 높아진다!!
+	- [[#Goodness-of-fit]]
+	- 
