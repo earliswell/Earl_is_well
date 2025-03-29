@@ -424,7 +424,18 @@ $$
 - How about... UNIT-Free interpretation
 $$
 \begin{align}
- & \ln(\mathbf{Y}) = \hat{\alpha} + \hat{\beta}\ln\mathbf{X} + \hat{\gamma}\mathbf{W} \\
+ & \ln(\mathbf{Y}) = \hat{\alpha} + \hat{\beta}\mathbf{X} + \hat{\gamma}\mathbf{W} \\
  & \hat{\beta} = \frac{\partial \ln{Y}}{\partial X} = ???, \hat{\gamma} = \frac{\partial \mathbf{Y}}{\partial \mathbf{W}}
 \end{align}
 $$
+	- $\frac{\partial \ln Y}{\partial Y} = \frac{1}{Y}$ → $d \ln Y = \frac{\partial Y}{Y}$(변화량) $=\left( \frac{\text{new}-\text{old}}{\text{old}} \right)$
+	- $\hat{\beta} = \frac{\partial Y/Y}{\partial X}$
+- 이는 해석을 나머지 변수가 고정되었을 때 $\mathbf{X}$가 한 단위 변했다면 이는 $\mathbf{Y}$는 $\hat{\beta}$%만큼 변한다 !
+- How about... INTERACTION or POLYNOMIAL ?
+$$
+\begin{align}
+ & \mathbf{Y} = \hat{\alpha} + \hat{\beta}\mathbf{X} + \hat{\gamma}\mathbf{W} + \hat{\theta}XW \\
+ & \frac{\partial \mathbf{Y}}{\partial \mathbf{X}} = \hat{\beta} + \hat{\theta}\mathbf{W}
+\end{align}
+$$
+- 
