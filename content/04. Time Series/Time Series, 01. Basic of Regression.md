@@ -438,4 +438,18 @@ $$
  & \frac{\partial \mathbf{Y}}{\partial \mathbf{X}} = \hat{\beta} + \hat{\theta}\mathbf{W}
 \end{align}
 $$
-- 
+	- 이는 $\mathbf{X}$가 $\mathbf{Y}$에 미치는 효과가 $\mathbf{W}$에 따라 달라진다는 의미
+	- $\mathbf{W}$가 특정 값일 때 $\mathbf{X}$의 한계효과(marginal effect): $\hat{\beta} + \hat{\theta}\mathbf{W}$
+	- 예를 들어 $\mathbf{W} =0$일 때 $\mathbf{X}$의 효과는 $\hat{\beta}$이고, $\mathbf{W}=1$일 때, $\mathbf{X}$의 효과는 $\hat{\beta}+\hat{\theta}$ 이다.
+		- 만약 $\mathbf{W}$가 더미변수라면 해석하기 쉬운듯 ?
+	- 시각화를 해도 좋음 ! W의 다양한 값에 대해서 시각화 레수기릿 
+$$
+\begin{align}
+ & Y = \hat{\alpha} + \hat{\beta}\mathbf{X} + \hat{\gamma}\mathbf{W} + \hat{\eta}\mathbf{X}^2 \\
+ & \frac{\partial \mathbf{Y}}{\partial \mathbf{X}} = \hat{\beta} + 2 \hat{\eta}\mathbf{X} = ???
+\end{align}
+$$
+	- 이 또한 시각화를 해서 그래프를 그리던가 하면 될 듯 ? → 결국 1차 방정식임.
+	- 일반적으로 특정 $\mathbf{X}$ 값들(예: 평균, 중앙값, 퀀타일)에서의 한계효과를 계산하여 표로 보고하거나, 한계효과 곡성을 그래프로 그려 시각화하는 것이 좋음. 
+
+#### Data Scaling.
