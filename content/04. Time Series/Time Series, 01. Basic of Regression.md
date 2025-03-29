@@ -529,3 +529,11 @@ $$
 $$
 Var(y|x) = \sigma^2
 $$
+- $Var(y|x) = Var(\beta_{0}+\beta_{1}x_{1}+u|x)$에서:
+	1. $\beta_{0}$과 $\beta_{1}$ 은 모수(parameter)로 고정된 값으로 분산이 0
+	2. $x$는 조건부에서 주어진 값이므로 분산이 0
+	3. [[#Assumption E.5, No Serial Correlation]]으로 인해 $Var(\beta_{0}+\beta_{1}x|x) + Var(u|x)$으로 분해를 할 수 있음.
+- The variance of $y$ given $x$ is constant, which shows the homoskedasticity. How about $\hat{\beta}_{1}?$ With homoskedasticity assumption, we know
+$$
+Var(\hat{\beta}_{1}) = Var\left( \frac{\sum_{i}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2} \right) = \frac{\sigma}{}
+$$
