@@ -537,3 +537,4 @@ $$
 $$
 Var(\hat{\beta}_{1}) = Var\left( \frac{\sum_{i}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2} \right) = \frac{\sigma}{}
 $$
+
