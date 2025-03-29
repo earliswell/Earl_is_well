@@ -403,3 +403,20 @@ R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST} = \frac{\left( \sum_{i=1}^{N} (y_{i}
 $$
 - $\rho = \frac{Cov(x, y)}{SD(x) \cdot SD(y)}$ → 상관계수
 
+#### Interpretation
+- True Model:
+$$
+\begin{align}
+Y = \alpha + \beta \mathbf{X} + \gamma \mathbf{W} + \epsilon, \epsilon \sim iidN(0, \sigma^2) \\
+E(\mathbf{Y|X, W}) = \alpha + \beta \mathbf{X} + \gamma \mathbf{W}
+\end{align}
+$$
+- Fitted Model:
+$$
+\begin{align}
+ & \mathbf{Y} = \hat{\alpha} + \hat{\beta}\mathbf{X} + \hat{\gamma}\mathbf{W} \\
+ & \hat{\beta} = \frac{\partial \mathbf{Y}}{\partial \mathbf{X}} , \hat{\gamma} = \frac{\partial \mathbf{Y}}{\partial \mathbf{W}}
+\end{align}
+$$
+- "**Holding other variable constant.**" → Meaning??
+	- ==Using OLS==, the 
