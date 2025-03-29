@@ -478,4 +478,24 @@ $$
 - The homoskedasticity assumption states that the variance of the unobserved error, $u$, conditional on the explanatory variable, is constant.
 	- 우리는 homo(동질적)에 대해서 가정을 함. → [[#Assumption E.4, Homoskedasticity]]
 	- 이는 모든 에러항에서 동일한 분산을 갖는다는 가정 $\sigma^2(X'X)^{-1}$
-- 
+- 하지만 이러한 가정은 매우 깨지기 쉽다 ! → 만약 월급 100만원인 사람과 월급 1억인 사람들의 적금액을 고려했을 때, 과연 두 집단의 적금액의 분산은 동일하겠는가 ?
+- 이를 위해 우리는 다시 OLS를 리뷰해보자.
+$$
+y_{i} = \beta_{0} + \beta_{1}x_{1} + u_{i}
+$$
+- [[#Assumption E.3, Zero Conditional Mean]], $E(u) =0$
+$$
+Cov(x, u) = E(xu) = 0
+$$
+- 관측된 변수($x$)와 관측되지 않은 변수($u$)의 상관관계가 없다 !
+$$
+\begin{align}
+ &  & E(y -\beta_{0}-\beta_{1}x) = 0, \textit{where } u= y - \beta_{0} -\beta_{1}x \\
+ &  \textit{Then} \\
+ &  & E[x(y-\beta_{0}-\beta_{1}x)] = 0  \\ 
+ & \textit{and} \\
+  &  & \frac{1}{n}\sum_{i=1}^{n} (y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1}x_{i})=0 \\ 
+ & \textit{With Sample analogue}, \\
+ &  \frac{1}{n}\sum_{i=1}^{n} x_{i}(y_{i}-\hat{\beta}_{0} - \hat{\beta}_{1}x_{i}) = 0
+\end{align}
+$$
