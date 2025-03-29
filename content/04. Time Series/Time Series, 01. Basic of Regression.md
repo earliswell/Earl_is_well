@@ -467,7 +467,9 @@ $$
 	- [[#Goodness-of-fit]]
 $$
 \begin{align}
- & R^2 = 1 - SSR/SST = SSE/SST = \frac{\sum_{i=1}^{N} (y_{i}-)}{}\\
-
+  R^2  & = 1 - SSR/SST = SSE/SST  \\
+  \bar{R}^2  & = 1 - [SSR / (n-k-1)] / [SST/(n-1)] \\
+ & = 1 - \hat{\sigma}^2 / [SST/(n-1)],
 \end{align}
 $$
+- 즉, $\beta$를 추정하는 데 사용된 k개의 
