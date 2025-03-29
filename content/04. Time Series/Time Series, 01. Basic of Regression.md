@@ -513,3 +513,20 @@ $$
 $$
 \hat{\beta}_{1} = \frac{\sum_{i=1}^{n} x_{i}(y_{i}-\bar{y})}{\sum_{i=1}^{n} x_{i}(x_{i}-\bar{x})} = \frac{\sum_{i}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2} = \hat{\rho}_{xy} \frac{\hat{\sigma}_{y}}{\hat{\sigma}_{x}}
 $$
+- With [[#Assumption E.4, Homoskedasticity]]
+$$
+Var(u|x) = E(u^2|x) - [E(u|x)]^2
+$$
+- and with the zero mean assumption
+$$
+E(u^2|x) = \sigma^2
+$$
+- where $\sigma^2$ is the unconditional expectation of $u^2$
+$$
+\sigma^2 = E(u^2) = Var(u)
+$$
+- Since $E(y|x) = \beta_{0}+\beta_{1}x$
+$$
+Var(y|x) = \sigma^2
+$$
+
