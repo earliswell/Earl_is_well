@@ -488,14 +488,12 @@ $$
 Cov(x, u) = E(xu) = 0
 $$
 - 관측된 변수($x$)와 관측되지 않은 변수($u$)의 상관관계가 없다 !
+- Then, $u = y - \beta_{0}-\beta_{1}x$
 $$
-\begin{align}
- &  & E(y -\beta_{0}-\beta_{1}x) = 0, \textit{where } u= y - \beta_{0} -\beta_{1}x \\
- &  \textit{Then} \\
- &  & E[x(y-\beta_{0}-\beta_{1}x)] = 0  \\ 
- & \textit{and} \\
-  &  & \frac{1}{n}\sum_{i=1}^{n} (y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1}x_{i})=0 \\ 
- & \textit{With Sample analogue}, \\
- &  \frac{1}{n}\sum_{i=1}^{n} x_{i}(y_{i}-\hat{\beta}_{0} - \hat{\beta}_{1}x_{i}) = 0
-\end{align}
+E(y - \beta_{0}-\beta_{1}x)  = \frac{1}{n}\sum_{i=1}^{n} (y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1}x_{i}) = 0
 $$
+- and
+$$
+E[x(y - \beta_{0}-\beta_{1}x)] = \frac{1}{n}\sum_{i=1}^{n} x_{i}(y_{i}-\hat{\beta}_{0}-\hat{\beta}_{1}x_{i}) = 0
+$$
+- 
