@@ -551,6 +551,6 @@ $$
 - **Proof**
 $$
 \begin{align}
-0 = \bar{u} - (\hat{\beta}_{0} -\beta_{0}) - (\hat{\beta}_{1}-\beta_{1})
+0 = \bar{u} - (\hat{\beta}_{0} -\beta_{0}) - (\hat{\beta}_{1}-\beta_{1})\bar{x}
 \end{align}
 $$
