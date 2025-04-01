@@ -601,3 +601,33 @@ $$
 $$
 E\left[ \frac{RSS}{n-p} \right] = \frac{E[RSS]}{n-p} = \frac{\sigma^2(n-p)}{n-p} = \sigma^2
 $$
+
+#### Matrix Notation
+$$
+\begin{align}
+Cov(\hat{\beta})  & = E[(\hat{\beta} - E(\hat{\beta}))(\hat{\beta} - E(\hat{\beta}))'] \\
+ & = E[((\mathbf{X'X})^{-1}\mathbf{X'Y} - E(\mathbf{(X'X)^{-1}X'Y}))((\mathbf{X'X})^{-1}\mathbf{X'Y} - E(\mathbf{(X'X)^{-1}X'Y}))'] \\
+ & =E[((\mathbf{X'X})^{-1}\mathbf{X'(X\beta+u)} - E((\mathbf{X'X})^{-1}\mathbf{X'(X\beta+u)})) ((\mathbf{X'X})^{-1}\mathbf{X'(X\beta+u)} - E((\mathbf{X'X})^{-1}\mathbf{X'(X\beta+u)}))'] \\
+ & = E[((\mathbf{X'X})^{-1}\mathbf{X'u})((\mathbf{X'X})^{-1}\mathbf{X'u})'] \\
+ & =E[\mathbf{(X'X)^{-1}X'uu'X(X'X^{-1})}] \\
+ & = \mathbf{(X'X)^{-1} X' E(uu')X(X'X)^{-1}}
+\end{align}
+$$
+- with the [[#Assumption E.4, Homoskedasticity]] $E(uu') = \sigma^2$
+$$
+Cov(\hat{\beta}) = \sigma^2(\mathbf{X'X})^{-1}
+$$
+
+## Heteroskedasticity-Robust Inference after OLS Estimation
+- Without the homoskedasticity assumption
+$$
+Var(\hat{\beta}_{1})  = \frac{\sum_{i=1}^{n} (x_{i} - \bar{x})^2\sigma_{i}^2}{\left[ \sum_{i=1}^{n}  (x_{i}-\bar{x})^2 \right]^2}
+$$
+- Then, a valid estimator of $Var(\hat{\beta}_{1})$, for heteroskedasticity of any form(including homoskedasticity), is
+$$
+Var(\hat{\beta}_{1})  = \frac{\sum_{i=1}^{n} (x_{i} - \bar{x})^2 \hat{u}_{i}^2}{\left[ \sum_{i=1}^{n}  (x_{i}-\bar{x})^2 \right]^2}
+$$
+- with the matrix notation,
+$$
+Cov(\hat{\beta}) = (\mathbf{X'X})^{-1}\mathbf{X'}E(\mathbf{\hat{u}\hat{u}'})\mathbf{X(X'X)^{-1}}
+$$
