@@ -535,6 +535,11 @@ $$
 	3. [[#Assumption E.5, No Serial Correlation]]으로 인해 $Var(\beta_{0}+\beta_{1}x|x) + Var(u|x)$으로 분해를 할 수 있음.
 - The variance of $y$ given $x$ is constant, which shows the homoskedasticity. How about $\hat{\beta}_{1}?$ With homoskedasticity assumption, we know
 $$
-Var(\hat{\beta}_{1}) = Var\left( \frac{\sum_{i}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2} \right) = \frac{\sigma}{}
+Var(\hat{\beta}_{1}) = Var\left( \frac{\sum_{i}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2} \right) = \frac{\sigma}{\sum_{i=1}^{n} (x_{i}-\bar{x})^2}
 $$
+- With Samples we need to estimate the error variance ($\sigma$). Instead of using the actual error we will employ the residuals $\hat{u}$ such as
+$$
+\hat{\sigma}^2 = \frac{1}{n-2}\sum_{i=1}^{n} \hat{u}^2_{i}
+$$
+- Where $n-2$ means degrees of freedom in the OLS residuals and the variance estimator is unbiased.
 
