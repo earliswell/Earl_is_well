@@ -548,9 +548,26 @@ $$
 $$
 E(\hat{\sigma}^2) = \sigma^2.
 $$
-- **Proof**
 $$
 \begin{align}
-0 = \bar{u} - (\hat{\beta}_{0} -\beta_{0}) - (\hat{\beta}_{1}-\beta_{1})\bar{x}
+ & Y_{i} = \beta_{0} + \beta_{1}X_{i} + \epsilon_{i} \\
+& \hat{\epsilon}_{i} = Y_{i} - \hat{Y}_{i} = Y_{i} - (\hat{\beta_{0}} + \hat{\beta}_{1}X_{i}) \\
+ & RSS = \sum_{i=1}^{n} \hat{\epsilon}^2 = \sum_{i=1}^{n} (Y_{i} - \hat{Y}_{i})^2 \\
+ & \hat{\sigma}^2 = \frac{RSS}{n-p} = \frac{\sum_{i=1}^{n} (Y_{i} - \hat{Y}_{i})^2}{n-p}
+\end{align}
+$$
+- **Proof 1단계**: 잔차와 행렬 표현
+$$
+\begin{align} 
+ & \mathbf{Y} = \mathbf{X}\boldsymbol{\beta + \epsilon} \\
+ & \boldsymbol{\hat{\beta}} = (\mathbf{X'X})^{-1}\mathbf{(X'Y)} \\
+ & \mathbf{\hat{Y}} = \mathbf{X}\boldsymbol{\hat{\beta}} = \mathbf{X}(\mathbf{X'X})^{-1}\mathbf{(X'Y)} = \mathbf{HY}, \text{where } \mathbf{H=X(X'X)^{-1}X'} \\
+ & \boldsymbol{\hat{\epsilon}} = \mathbf{Y - \hat{Y}} = \mathbf{Y - HY} = \mathbf{(I - H)Y} \\
+\end{align}
+$$
+- **Proof 2단계**: RSS 기댓값 계산 $RSS = \hat{e}'\hat{e}$
+$$
+\begin{align}
+ & E[RSS] = E[\hat{\epsilon}'\hat{\epsilon}] = E[(\mathbf{Y - HY}')\mathbf{(Y - HY)}]
 \end{align}
 $$
