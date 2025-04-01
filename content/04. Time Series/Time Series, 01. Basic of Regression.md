@@ -572,7 +572,8 @@ $$
  & =E[\mathbf{Y'(I-H)'}\mathbf{(I-H)Y}]
 \end{align}
 $$
-- $\mathbf{H}$는 대칭행렬(symetric)($\mathbf{H' = H}$)이고, 멱등행렬 $\mathbf{H^2 = H}$이므로:
+- $\mathbf{H}$는 대칭행렬(symmetric)($\mathbf{H' = H}$)이고, 멱등행렬 $\mathbf{H^2 = H}$이므로:
+	- 멱등행렬이란 ? 행렬을 자기 자신과 곱했을 때 원래 행렬과 동일한 결과를 특별한 행렬.
 $$
 \mathbf{(I - H)'(I-H)} = \mathbf{(I- H)(I-H)} = \mathbf{I - H - H + H^2} = \mathbf{I-H}
 $$
@@ -587,7 +588,8 @@ $$
 $$
 E[RSS] = E[\boldsymbol{\epsilon}'(\mathbf{I-H}) \boldsymbol{\epsilon}]
 $$
-- [[#Assumption E.6, Normality of Errors (추가 가정)]]:
+- [[#Assumption E.6, Normality of Errors (추가 가정)]]: $\epsilon \sim N(0, \sigma^2)$
 $$
 E[\boldsymbol{\epsilon}' \mathbf{(I-H)} \boldsymbol{\epsilon}] = \sigma^2tr(\mathbf{I-H}) = \sigma^2(n-p)
 $$
+- 
