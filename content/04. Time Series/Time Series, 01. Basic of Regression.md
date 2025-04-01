@@ -568,6 +568,26 @@ $$
 - **Proof 2단계**: RSS 기댓값 계산 $RSS = \hat{e}'\hat{e}$
 $$
 \begin{align}
- & E[RSS] = E[\hat{\epsilon}'\hat{\epsilon}] = E[(\mathbf{Y - HY}')\mathbf{(Y - HY)}]
+ E[RSS] &  = E[\hat{\epsilon}'\hat{\epsilon}] = E[(\mathbf{Y - HY}')\mathbf{(Y - HY)}] \\
+ & =E[\mathbf{Y'(I-H)'}\mathbf{(I-H)Y}]
 \end{align}
+$$
+- $\mathbf{H}$는 대칭행렬(symetric)($\mathbf{H' = H}$)이고, 멱등행렬 $\mathbf{H^2 = H}$이므로:
+$$
+\mathbf{(I - H)'(I-H)} = \mathbf{(I- H)(I-H)} = \mathbf{I - H - H + H^2} = \mathbf{I-H}
+$$
+- 따라서,
+$$
+\begin{align}
+E[RSS]  & = E[\mathbf{Y'(I-H)Y}] \\
+ & = E[(\mathbf{X}\boldsymbol{\beta + \epsilon})'(\mathbf{I-H}) (\mathbf{X} \boldsymbol{\beta + \epsilon})]
+\end{align}
+$$
+- $\mathbf{(I-H)}X =\mathbf{X-HX} = \mathbf{X-X}=0$ 이므로:
+$$
+E[RSS] = E[\boldsymbol{\epsilon}'(\mathbf{I-H}) \boldsymbol{\epsilon}]
+$$
+- [[#Assumption E.6, Normality of Errors (추가 가정)]]:
+$$
+E[\boldsymbol{\epsilon}' \mathbf{(I-H)} \boldsymbol{\epsilon}] = \sigma^2tr(\mathbf{I-H}) = \sigma^2(n-p)
 $$
