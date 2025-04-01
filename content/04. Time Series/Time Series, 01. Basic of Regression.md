@@ -574,6 +574,11 @@ $$
 $$
 - $\mathbf{H}$는 대칭행렬(symmetric)($\mathbf{H' = H}$)이고, 멱등행렬 $\mathbf{H^2 = H}$이므로:
 	- 멱등행렬이란 ? 행렬을 자기 자신과 곱했을 때 원래 행렬과 동일한 결과를 특별한 행렬.
+		- 주요 특징으로는 행렬 $\mathbf{A}$가 멱등행렬이라 했을 때,
+		- 트레이스(대각합): $tr(\mathbf{A}) = rank(\mathbf{A})$
+		- 고유값(Eigenvalues): 멱등행렬의 고유값은 오직 0과 1뿐이다. $\mathbf{A^2=A}$로부터 도출됨.
+		- 대각화 가능
+		- 상보 행렬(Complementary matrix): $\mathbf{A}$가 멱등행렬이면, $\mathbf{I-A}$ 역시 멱등행렬이다.
 $$
 \mathbf{(I - H)'(I-H)} = \mathbf{(I- H)(I-H)} = \mathbf{I - H - H + H^2} = \mathbf{I-H}
 $$
@@ -592,4 +597,7 @@ $$
 $$
 E[\boldsymbol{\epsilon}' \mathbf{(I-H)} \boldsymbol{\epsilon}] = \sigma^2tr(\mathbf{I-H}) = \sigma^2(n-p)
 $$
-- 
+- **Proof 3단계**: 비편향 추정량
+$$
+E\left[ \frac{RSS}{n-p} \right] = \frac{E[RSS]}{n-p} = \frac{\sigma^2(n-p)}{n-p} = \sigma^2
+$$
