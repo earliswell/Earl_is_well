@@ -543,3 +543,14 @@ $$
 $$
 - Where $n-2$ means degrees of freedom in the OLS residuals and the variance estimator is unbiased.
 
+###### Unbiased estimation of $\sigma^2$
+- Under Assumptions [[#THEOREM E.1, Unbiasedness of OLS]] through [[#Assumption E.5, No Serial Correlation]],
+$$
+E(\hat{\sigma}^2) = \sigma^2.
+$$
+- **Proof**
+$$
+\begin{align}
+0 = \bar{u} - (\hat{\beta}_{0} -\beta_{0}) - (\hat{\beta}_{1}-\beta_{1})
+\end{align}
+$$
