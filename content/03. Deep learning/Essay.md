@@ -155,8 +155,6 @@ The DA-Ada framework consists of two primary components:
 
 1. **Domain-Invariant Adapter (DIA)**: This component learns domain-invariant knowledge by aligning feature distributions between the two domains
 
-  
-
 2. **Domain-Specific Adapter (DSA)**: This element recovers domain-specific knowledge from the difference between the input and output of the block, which is discarded by DIA
 
   
