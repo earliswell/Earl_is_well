@@ -37,19 +37,9 @@ This research addresses a novel domain challenge called Multi-source Blended-tar
 
 The SAUE approach consists of three core technologies:
 
-  
-
 1. **Style Adaptation**: A similarity-based style adaptation strategy that enhances source features by leveraging style information from the target domain.
-
-  
-
 2. **Uncertainty Estimation and Elimination**: This component models prediction uncertainty using Dirichlet distribution, then reduces the influence of incorrectly classified source samples through KL divergence.
-
-  
-
 3. **Adversarial Alignment without Domain Labels**: The researchers construct a lightweight adversarial learning strategy that repurposes the category classifier to discriminate the source domains of features without requiring domain labels.
-
-  
 
 From a theoretical perspective, the paper presents a robust mathematical foundation for the proposed method through PAC-Bayesian theory and generalization bounds.
 
@@ -58,8 +48,6 @@ From a theoretical perspective, the paper presents a robust mathematical foundat
 ### Result
 
 The researchers thoroughly tested the SAUE model through experiments on four benchmark datasets: ImageCLEF-DA, Office-Home, DomainNet, and VisDA 2017. It achieved average accuracy of 70.9% on DomainNet, 73.7% on Office-Home, 84.3% on ImageCLEF-DA, and 81.5% on VisDA-2017, outperforming all existing methods.
-
-  
 
 The sensitivity analysis investigated the influence of two key hyperparameters (λ_d, λ_e), revealing that the model is relatively less sensitive to the adversarial balance parameter (λ_d) but highly sensitive to the annealing parameter (λ_e).
 
