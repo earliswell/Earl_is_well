@@ -638,4 +638,25 @@ $$
 Var(u|x) = \sigma^2h(x)
 $$
 - where $h(x)$ is function of the explanatory variables that determines the heteroskedasticity. → 이는 에러텀의 분산이 $h(x)$의 함수로 정의됨 !! 
-- 그렇다면 우리는 $h(x)$를 안다면 분산을 구할 수 있지 않을까? → WLS의 
+- 그렇다면 우리는 $h(x)$를 안다면 분산을 구할 수 있지 않을까? → WLS의 기본 컨셉 !
+- 예를들어서
+$$
+saving_{i} = \beta_{0} + \beta_{1}income_{i} + u_{i}
+$$
+- and
+$$
+Var(u_{i}|income_{i}) = \sigma^2income_{i}
+$$
+- hence, $h(x) = h(income) = income$
+- 즉, 우리는 이 분산을 구하는 function이 income의 1대1 대응 함수라고 가정하자.
+- How can we contains heteroskedastic errors, and transform it into an equation that has <u>homoskedastic errors</u> → and satisfies the other Gauss-Markov Assumptions([[#Assumption E.1, Linear in Parameters]] - [[#Assumption E.6, Normality of Errors (추가 가정)]])
+- 그렇다면 우리가 분산의 함수를 알고 있다면 → 우리의 BLUE 조건 (Unbiased & Minimum Variance) → 즉 $Var(u_{i}|income_{i}) = \sigma^2$로 만들어 주면 되는 것 아냐 ?
+- In the preceding savings example, the transformed equation looks like
+$$
+saving_{i} / \sqrt{ income_{i} } = \beta_{0}(1/ \sqrt{ income_{i} }) + \beta_{1}\sqrt{ income_{i} }  + u_{i}\sqrt{ income_{i} }
+$$
+- Then,
+$$
+Var(u_{i} / \sqrt{ income_{i} }) = (1 / income_{i})Var(u_{i}|income_{i}) = \sigma^2 income_{i} / income_{i} = \sigma^2
+$$
+
