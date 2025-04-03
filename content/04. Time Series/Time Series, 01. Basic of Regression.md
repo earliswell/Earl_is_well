@@ -631,3 +631,4 @@ $$
 $$
 Cov(\hat{\beta}) = (\mathbf{X'X})^{-1}\mathbf{X'}E(\mathbf{\hat{u}\hat{u}'})\mathbf{X(X'X)^{-1}}
 $$
+
