@@ -632,3 +632,8 @@ $$
 Cov(\hat{\beta}) = (\mathbf{X'X})^{-1}\mathbf{X'}E(\mathbf{\hat{u}\hat{u}'})\mathbf{X(X'X)^{-1}}
 $$
 
+### Weighted Least Squares Estimation (WLS)
+- Let $x$ denote all the explanatory variables and assume that
+$$
+Var(u|x) = \sigma^2h(x)
+$$
