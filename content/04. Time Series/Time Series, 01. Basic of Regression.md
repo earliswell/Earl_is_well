@@ -663,3 +663,13 @@ $$
 Var(u_{i} / \sqrt{ income_{i} }) = (1 / income_{i})Var(u_{i}|income_{i}) = \sigma^2 income_{i} / income_{i} = \sigma^2
 $$
 - 따라서 우리는 Homo가 깨지면 Hetero 강건 분산 추정 또는 WLS를 사용함!!
+- The GLS estimators for correcting heteroskedasticity are called weighted least squares (WLS) estimators.
+$$
+y_{i}/\sqrt{ h_{i} } = \beta_{0}\sqrt{ h_{i} } + \beta_{1}(x_{i1}/\sqrt{ h_{i} }) + \beta_{2}(x_{i2}/\sqrt{ h_{i} }) + \cdots + \beta_{k}(x_{ik}/\sqrt{ h_{i} }) + (u_{i}/ \sqrt{ h_{i} })
+$$
+- or
+$$
+y_{i}^* + \beta_{0}x_{i0}^*+ \beta_{1}x_{i1}^* + \cdots + \beta_{k}x_{ik}^* + u_{i}^*
+$$
+- WLS는 GLS의 특별한 경우이고 → GLS는 다양한 공분산 구조를 다룰 수 있고, WLS는 GLS의 특수한 경우로 오직 이분산성이 존재할 때만 사용 가능 !!
+
