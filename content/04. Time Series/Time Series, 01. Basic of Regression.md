@@ -637,3 +637,5 @@ $$
 $$
 Var(u|x) = \sigma^2h(x)
 $$
+- where $h(x)$ is function of the explanatory variables that determines the heteroskedasticity. → 이는 에러텀의 분산이 $h(x)$의 함수로 정의됨 !! 
+- 그렇다면 우리는 $h(x)$를 안다면 분산을 구할 수 있지 않을까? → WLS의 
