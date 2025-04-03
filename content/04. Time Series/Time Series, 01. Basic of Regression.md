@@ -672,4 +672,13 @@ $$
 y_{i}^* + \beta_{0}x_{i0}^*+ \beta_{1}x_{i1}^* + \cdots + \beta_{k}x_{ik}^* + u_{i}^*
 $$
 - WLS는 GLS의 특별한 경우이고 → GLS는 다양한 공분산 구조를 다룰 수 있고, WLS는 GLS의 특수한 경우로 오직 이분산성이 존재할 때만 사용 가능 !!
-
+- What if the assumed Heteroskedasticity function is ==Wrong?==
+	- 만약 우리의 분산 추정 함수 $h(x)$가 진짜가 아니라면??
+- What are the properties of WLS if the variance function we use is misspecified in the sense that
+$$
+Var(y|x) \neq \sigma^2h(x)
+$$
+- The most important issue is whether misspecification of $h(x)$ causes bias or inconsistency in the WLS estimator. → 가장 중요한 이슈, Bias와 Inconsistency
+	- [[Statistics, 06. Estimation#The Bias and Mean Square Error of Point Estimators]]
+	- [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency]]
+- 
