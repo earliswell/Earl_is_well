@@ -639,6 +639,9 @@ Var(u|x) = \sigma^2h(x)
 $$
 - where $h(x)$ is function of the explanatory variables that determines the heteroskedasticity. → 이는 에러텀의 분산이 $h(x)$의 함수로 정의됨 !! 
 - 그렇다면 우리는 $h(x)$를 안다면 분산을 구할 수 있지 않을까? → WLS의 기본 컨셉 !
+- Now, we assume that the function $h(x)$ is known. The population parameter $\sigma^2$ is unknown, but we will be able to estimate it from a data sample.
+	- $\hat{\sigma}^2$의 분포를 알면 → 정규분포
+	- $\hat{\sigma}^2$의 분포를 모르면 → t분포
 - 예를들어서
 $$
 saving_{i} = \beta_{0} + \beta_{1}income_{i} + u_{i}
@@ -659,4 +662,4 @@ $$
 $$
 Var(u_{i} / \sqrt{ income_{i} }) = (1 / income_{i})Var(u_{i}|income_{i}) = \sigma^2 income_{i} / income_{i} = \sigma^2
 $$
-
+- 따라서 우리는 Homo가 깨지면 Hetero 강건 분산 추정 또는 WLS를 사용함!!
