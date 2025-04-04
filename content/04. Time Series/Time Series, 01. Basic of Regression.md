@@ -682,4 +682,4 @@ $$
 	- [[Statistics, 06. Estimation#The Bias and Mean Square Error of Point Estimators]]
 	- [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency]]
 - Fortunately, the answer is no, at least under [[#Assumption E.3, Zero Conditional Mean]], $E(u|x) = 0$ → 둘이 독립이라면 ! → 여전히 WLS의 함수는 unbiased와 consistency를 유지함.
-- 
+- The usual WLS 
