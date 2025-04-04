@@ -701,8 +701,14 @@ L(\theta; Y_{1}, Y_{2}, \cdots, Y_{n}) = f(Y_{1}; \theta)f(Y_{2};\theta)\cdots f
 $$
 - 사소한 팁 ! 수식 안에 세미콜론(;)은 주어진다는 의미이다. 따라서 좌변에 있는 수식은 $Y$를 통해서 $\theta$를 찾아야 한다는 의미 !! 
 - 즉, $\frac{\partial L}{\partial \theta} = 0$을 만족시키는 $\theta$를 찾아야함.
-- 하지만 곱해지는 형식에서 미분하는 것이 쉽지 않기 때문에 우리는 Log-likelihood function을 이용함. 로그의 성질로 인해 곱의 형식이 덧셈의 형식으로 변환됨.
+- 하지만 곱해지는 형식에서 미분하는 것이 쉽지 않기 때문에 우리는 <mark style="background: #FFF3A3A6;">Log-likelihood function</mark>을 이용함. 로그의 성질로 인해 곱의 형식이 덧셈의 형식으로 변환됨.
 $$
 L(\theta) = \ln L(\theta; Y_{1}, Y_{2}, \dots, Y_{n}) = \sum_{i=1}^{n} \ln[f(Y_{i} ; \theta)]
 $$
 - Maximum likelihood estimation (MLE) is usually consistent and sometimes unbiased.
+	- 분산 추정이 이와 같음 ! $\frac{1}{n}\sum_{i=1}^{n}(y_{i}-\bar{y})^2$은 consistent하지만 bias 
+	- unbiased는 $\frac{1}{n-1}\sum_{i=1}^{n}(y_{i}-\bar{y})^2$
+
+#### MLE and OLS
+- It is easy to show that the OLS estimator is in fact the maximum likelihood estimator of $\beta$ under OLS Normality Assumption. For each $i$, the distribution of $y_{i}$, given $X \sim N(x\beta, \sigma^2)$
+- 
