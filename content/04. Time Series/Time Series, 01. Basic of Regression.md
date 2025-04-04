@@ -720,4 +720,4 @@ $$
 L(\beta, \sigma^2; x) = \sum_{i=1}^{n} \left[ -\frac{1}{2} \log(2\pi \sigma^2) - \frac{(y_{i} -x_{i}\beta)^2}{2\sigma^2}\right]
 $$
 - 이를 $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \beta}=0$, $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \sigma^2}=0$를 통해 $\hat{\beta}$와 $\hat{\sigma}^2$를 추정한다 ! 
-- 
+- 그렇다면 이분산성일 때는 두 방법은 각가 다른 $\hat{\beta}$를 추정하게 되고, 이분산성이 심할수록 차이가 커진다. 
