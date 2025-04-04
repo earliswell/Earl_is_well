@@ -690,4 +690,14 @@ $$
 - MLE is a method of estimating the parameters of the population from which data is most likely to be extracted → 모집단(관심 대상)에서 분포(distribution)을 파악한다.
 	- 그림을 그리거나
 	- 분포를 가정 하거나 !
-- 
+- 자, 만약 평소에 평균 90점을 받고, 컨디션이 좋지 않으면 50점을 받는 학생 A와, 평소에 평균 50점을 받고, 컨디션이 좋을 때 90점을 받는 학생 B가 있다고 하면 → 과연 점수가 88점이라고 했을 때 누구의 점수일 확률이 더 클까 ? 
+- Given some information (88 points), we will estimate the parameter of the population with the highest probability of obtaining that information(distribution of two students). → 즉, 두 학생의 분포를 통해 88점을 받을 확률이 더 큰 학생을 선택 !
+
+#### General Maximum Likelihood
+- Let {$Y_{1}, Y_{2}, \dots, Y_{n}$} be a random sample from the population distribution $f(y; \theta)$. Because of the random sampling assumption, the joint distribution of {$Y_{1}, Y_{2}, \dots, Y_{n}$} is simply the product of the densities:
+- $f(y_{1}; \theta)f(y_{2};\theta)\cdots f(y_{n};\theta)$. → Discrete Case, this is $P(Y_{1}=y_{1}, Y_{2}=y_{2}, \cdots, Y_{n}=y_{n})$. Now, define the **likelihood function** as 
+$$
+L(\theta; Y_{1}, Y_{2}, \cdots, Y_{n}) = f(Y_{1}; \theta)f(Y_{2};\theta)\cdots f(Y_{n};\theta)
+$$
+- 사소한 팁 ! 수식 안에 세미콜론(;)은 주어진다는 의미이다. 
+	- $f(x;\theta) $ 
