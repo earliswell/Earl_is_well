@@ -37,6 +37,11 @@ tags:
 - The current approach applies a fixed linear transformation to every layer of the pre-trained model. → Future improvements could enable these transformations to be defined flexibly, layer by layer, to suit the specific requirements of the target task.
 	- 나중에는 유한한 linear transformation을 사용할 거야~~
 - Moreover, instead of restricting tuning depth to only two values for seen and unseen datasets, which may lead to suboptimal outcomes, → future research could explore defining optimal tuning depths customized for each dataset and task.
-	- 오직 두 개의 value(seen and unseen)에만 depth 차이를 뒀는데, 이맬에는 각각 데이터셋과 Task마다 최적 튜닝 뎁스를 찾겠다?
+	- 오직 두 개의 value(seen and unseen)에만 depth 차이를 뒀는데, 이후에는 각각 데이터셋과 Task마다 최적 튜닝 뎁스를 찾겠다?
 ---
-- 그러니까 여기 까지 정리를 해 보자면, 
+- 그러니까 머신러닝과 딥러닝과 같은 기계학습 분야의 가장 취약한 점이 학습되지 않은 도메인에 대한 정확도가 매우 떨어진다는 단점이 있음 → 즉 한 도메인에 적합한 모델들이 만들어짐.
+- 한 도메인에서만 예측을 잘하는 머신러닝과 딥러닝은 현실 세계에 투영하기에는 여러 문제점이 발생함.
+	- 데이터셋이 희소한 경우 (의료 데이터, 개인 데이터 등등..)
+	- 실제 사진과 픽셀 단위의 사진의 Vector 차이 등
+- 이와 같은 문제점은 컴퓨터가 잘 받아들여 예측하는 데 다른 오류를 만듬. 따라서 이러한 문제점들을 해결하기 위한 여러 기존 방법이 존재했음 !!
+- 여러 기존 방법론들을 살펴봤는데,  군집 내 와 군집 간의 Feature Space를 명확히 구조화하면서 학습 파라미터수를 조금 유연하게 가져갈 수 있다면 ?
