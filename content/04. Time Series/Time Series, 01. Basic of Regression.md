@@ -683,3 +683,11 @@ $$
 	- [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency]]
 - Fortunately, the answer is no, at least under [[#Assumption E.3, Zero Conditional Mean]], $E(u|x) = 0$ → 둘이 독립이라면 ! → 여전히 WLS의 함수는 unbiased와 consistency를 유지함.
 - The usual WLS standard errors and test statistics, computed under the assumption that $Var(y|x) = \sigma^2h(x)$ are no longer valid, even in large samples.
+
+## Maximum Likelihood Estimation
+- [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#The Method of Maximum Likelihood]]
+- MLE is a method of estimating, when certain data is observed, which population this data came from. → 추정값의 Likelihood(분포)를 이용한다.
+- MLE is a method of estimating the parameters of the population from which data is most likely to be extracted → 모집단(관심 대상)에서 분포(distribution)을 파악한다.
+	- 그림을 그리거나
+	- 분포를 가정 하거나 !
+- 
