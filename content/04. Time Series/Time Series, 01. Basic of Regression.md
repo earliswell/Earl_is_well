@@ -720,3 +720,4 @@ $$
 L(\beta, \sigma^2; x) = \sum_{i=1}^{n} \left[ -\frac{1}{2} \log(2\pi \sigma^2) - \frac{(y_{i} -x_{i}\beta)^2}{2\sigma^2}\right]
 $$
 - 이를 $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \beta}=0$, $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \sigma^2}=0$를 통해 $\hat{\beta}$와 $\hat{\sigma}^2$를 추정한다 ! 
+- 
