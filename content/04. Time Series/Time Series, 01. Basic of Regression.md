@@ -699,5 +699,10 @@ $$
 $$
 L(\theta; Y_{1}, Y_{2}, \cdots, Y_{n}) = f(Y_{1}; \theta)f(Y_{2};\theta)\cdots f(Y_{n};\theta)
 $$
-- 사소한 팁 ! 수식 안에 세미콜론(;)은 주어진다는 의미이다. 
-	- $f(x;\theta) $ 
+- 사소한 팁 ! 수식 안에 세미콜론(;)은 주어진다는 의미이다. 따라서 좌변에 있는 수식은 $Y$를 통해서 $\theta$를 찾아야 한다는 의미 !! 
+- 즉, $\frac{\partial L}{\partial \theta} = 0$을 만족시키는 $\theta$를 찾아야함.
+- 하지만 곱해지는 형식에서 미분하는 것이 쉽지 않기 때문에 우리는 Log-likelihood function을 이용함. 로그의 성질로 인해 곱의 형식이 덧셈의 형식으로 변환됨.
+$$
+L(\theta) = \ln L(\theta; Y_{1}, Y_{2}, \dots, Y_{n}) = \sum_{i=1}^{n} \ln[f(Y_{i} ; \theta)]
+$$
+- Maximum likelihood estimation (MLE) is usually consistent and sometimes unbiased.
