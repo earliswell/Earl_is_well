@@ -710,5 +710,13 @@ $$
 	- unbiased는 $\frac{1}{n-1}\sum_{i=1}^{n}(y_{i}-\bar{y})^2$
 
 #### MLE and OLS
-- It is easy to show that the OLS estimator is in fact the maximum likelihood estimator of $\beta$ under OLS Normality Assumption. For each $i$, the distribution of $y_{i}$, given $X \sim N(x\beta, \sigma^2)$
-- 
+- It is easy to show that the OLS estimator is in fact the maximum likelihood estimator of $\beta$ under **OLS Normality Assumption**. For each $i$, the distribution of $y_{i}$, given $X \sim N(x\beta, \sigma^2)$ → 정규성 가정이 OLS에서 추정한 것과 MLS에서 추정한 두 값이 같음을 보임.
+- Because the $y_{i}$ are independent conditional on X, the likelihood function for the sample is obtained from the product of the densities:
+$$
+\prod_{i=1}^{n}(2\pi \sigma^2)^{-1/2} \exp\left[ -\frac{(y_{i} - x_{i}\beta)^2}{2\sigma^2} \right]
+$$
+- Maximizing this function with respect to $\beta$ and $\sigma^2$ is the same as smaximizing its natural logarithm:
+$$
+L(\beta, \sigma^2; x) = \sum_{i=1}^{n} \left[ -\frac{1}{2} \log(2\pi \sigma^2) - \frac{(y_{i} -x_{i}\beta)^2}{2\sigma^2}\right]
+$$
+- 이를 $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \beta}=0$, $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \sigma^2}=0$를 통해 $\hat{\beta}$와 $\hat{\sigma}^2$를 추정한다 ! 
