@@ -32,3 +32,5 @@ tags:
 
 
 ## Conclusions and Limitations
+- Extremely lightweight linear transformations & Optimized by a discriminative sample-aware loss function → To learn new classes and domains with a limited number of labelled samples. → ==state-of-the-art== !! (Meta-Dataset benchmark) while ensuring parameter efficiency.
+- 
