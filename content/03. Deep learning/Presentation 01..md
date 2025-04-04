@@ -34,4 +34,7 @@ tags:
 ## Conclusions and Limitations
 - Extremely lightweight linear transformations & Optimized by a discriminative sample-aware loss function → To learn new classes and domains with a limited number of labelled samples. → ==state-of-the-art== !! (Meta-Dataset benchmark) while ensuring parameter efficiency.
 - <mark style="background: #FF5582A6;">Our method is not without limitations.</mark>
-- The current approach applies a fixed linear transformation to every layer of the pre-trained model. → Future improvements could enable these transformations to be defined flexibly, layer by layer
+- The current approach applies a fixed linear transformation to every layer of the pre-trained model. → Future improvements could enable these transformations to be defined flexibly, layer by layer, to suit the specific requirements of the target task.
+	- 나중에는 유한한 linear transformation을 사용할 거야~~
+- Moreover, instead of restricting tuning depth to only two values for seen and unseen datasets, which may lead to suboptimal outcomes, → future research could explore defining optimal tuning depths customized for each dataset and task.
+	- 오직 두 개의 value(seen and unseen)에만 depth 차이를 뒀는데, 이맬에는 각각 데이터셋과 Task마다 최적 튜닝 뎁스를 찾겠다?
