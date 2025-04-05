@@ -87,7 +87,7 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 2. 통계 (40점, 대문제 3~4개, 소문제 6~8개)
 3. 패키지/라이브러리 외 추가 설치가 가능함 ! 
 4. 주요 패키지 체크 !
-	1. notebook
+	1. notebook → 주피터 인터페이스 차이가 있음 !
 	2. pandas
 	3. numpy
 	4. scikit-learn
@@ -97,4 +97,4 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 	8. tensorflow
 	9. torch
 	10. Keras
-5. 
+5. pip install nbclassic → 
