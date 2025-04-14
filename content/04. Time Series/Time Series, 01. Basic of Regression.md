@@ -733,4 +733,43 @@ $$
 		- For example, 능력 → IQ / 관찰하지 못하는 어떤 변수 대리로 사용할 수 있는 변수를 사용
 	3) We can assume that the omitted variable does not change over time and use the fixed effects or first-differencing methods. → Time Series!
 - Another approach leaves the unobserved variable in the error term, but rather than estimating the model by OLS, it uses an estimation method that recognizes the presence of the omitted variable. This is what the method of instrumental variables does.
-- 
+- Consider the problem of unobserved ability in a wage equation for working adults. A simple model is
+$$
+\log(wage) = \beta_{0} + \beta_{1}\text{educ} + \beta_{2}\text{ability}+ e
+$$
+- However, that a proxy variable is not available. Then, we put ability into the error term, and we are left with the simple regression model
+$$
+\log(wage)= \beta_{0}+\beta_{1}\text{educ} + u
+$$
+- If the equation having omitted variable is estimated by OLS, a biased and inconsistent estimator of $\beta_{1}$ results if eudc and abil are corrleated
+- To describe this approach, the simple regression model is written as
+$$
+y = \beta_{0} + \beta_{1}x + u
+$$
+- Where we think that $x$ and $u$ are correlated (have nonzero covariance):
+$$
+Cov(x, u) \neq 0
+$$
+###### IVE Condition
+$$
+y = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + u
+$$
+- But, we can't add $x_{2}$ in this model.
+$$
+y = \beta_{0} + \beta_{1}x_{1} + z, \quad z = \beta_{2}x_{2}+u
+$$
+- Suppose that we have an observable variable that satisfies these three assumptions:
+1) $z$ is uncorrelated with $u$, that is
+$$
+Cov(z, u) = 0
+$$
+2) $z$ is correlated with $x_{2}$, that is,
+$$
+Cov(z, x) \neq 0
+$$
+3) $z$ does not appear in the $y$ equation !!
+
+- Then, we call $z$ an instrumental variable for $x$, or sometimes simply an instrument for $x$.
+$$
+Cov(z, y) = \beta_{1}Cov(z, x) + Cov(z, u)
+$$
