@@ -1,5 +1,5 @@
 ---
-title: 01. Machine Learning
+title: 02. Machine Learning
 draft: false
 tags:
   - "#Qaulification"

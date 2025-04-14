@@ -1,5 +1,5 @@
 ---
-title: 02. Statistics
+title: 01. Statistics
 draft: false
 tags:
   - "#statistics"
