@@ -721,3 +721,16 @@ L(\beta, \sigma^2; x) = \sum_{i=1}^{n} \left[ -\frac{1}{2} \log(2\pi \sigma^2) -
 $$
 - 이를 $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \beta}=0$, $\frac{\partial L(\beta, \sigma^2; x)}{ \partial \sigma^2}=0$를 통해 $\hat{\beta}$와 $\hat{\sigma}^2$를 추정한다 ! 
 - 그렇다면 이분산성일 때는 두 방법은 각가 다른 $\hat{\beta}$를 추정하게 되고, 이분산성이 심할수록 차이가 커진다. 
+
+## Instrumental Variables Estimation
+- [[#Assumption E.3, Zero Conditional Mean]] → 가정이 붕괴되었을 때 이를 극복할 수 있는 방법 중 1
+	- Endogenous explanatory variables in multiple regression models.
+	- <→Exogenous(외생적)
+- Motivation: Omitted Variables in a Simple Regression Model.
+- When faced with the prospect of omitted variables bias (or unobserved heterogeneity), we have three options:
+	1) We can ignore the problem..! and suffer the consequences of biased and inconsistent estimators → 우리는 unbiased 하다고 주장
+	2) We can try to find and use a suitable proxy variable for the unobserved variable
+		- For example, 능력 → IQ / 관찰하지 못하는 어떤 변수 대리로 사용할 수 있는 변수를 사용
+	3) We can assume that the omitted variable does not change over time and use the fixed effects or first-differencing methods. → Time Series!
+- Another approach leaves the unobserved variable in the error term, but rather than estimating the model by OLS, it uses an estimation method that recognizes the presence of the omitted variable. This is what the method of instrumental variables does.
+- 
