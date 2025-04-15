@@ -20,7 +20,7 @@ tags:
 	- seasonal pattern: 계절성 패턴. → Time Series Analysis에서 중요한 요소임.
 	- 추가적으로 추세(Trend), 계절성(Seasonality), 주기성(Cyclical component), 불규칙요소(Irregular component)
 	- 경향성과 계절성을 관측 시기에 영향을 받는다. 
-- ![[Pasted image 20250415130759.png]]
+- ![[Time_Series, Figure.04.png]]
 
 ## Stochastic Process (확률적 과정)
 - Formally, a sequence of random variables indexed by time is called a stochastic process(=random) or a time series process. ("Stochastic" is a synonym for ==random==)
@@ -80,5 +80,17 @@ $$
 	- Total multiplier: $\delta_{0} + \delta_{1} + \delta_{2}$
 - Similarly, $y_{t+1} - y_{t-1} = \delta_{1}$ is the change in $y$ one period after the temporary(→ $t$기의 temporary shock이 1기 이후에 변화가 생기) change and $y_{t+2} - y_{t-1} = \delta_{2}$ is the change in $y$ two periods after the change.
 - At time $t+3$, $y$ has reverted back to its initial level: $y_{t+3} = y_{t-1}$. This is because we have assumed that only two lags of $z$.
-- The lag distribution, which summarizes the dynamic effect that a temporary increase in $z$ has on $y$.![[Pasted image 20250415135903.png]]
-	- The figure above implies that the largest effect is at the first lag. The lag distribution has a useful interpretation. If we standardize the initial value of $y$ at $z_{t-1} = 0$, the lag distribution traces out all subsequent values of $y$ due to a one-unit, temporary increase in $z$. → 
+- The lag distribution, which summarizes the dynamic effect that a temporary increase in $z$ has on $y$.![[Time_Series, Figure.05.png]]
+	- The figure above implies that the largest effect is at the first lag. The lag distribution has a useful interpretation. If we standardize the initial value of $y$ at $z_{t-1} = 0$, the lag distribution traces out all subsequent values of $y$ due to a one-unit, temporary increase in $z$. → 만약 우리의 초기 값을 0으로 했을때, Shock이 들어왔을 때의 효과를 추적(trace out)할 수 있다는 의미?!
+- The change in $y$ due to a permanent increase in $z$: Before time $t$, $z$ equals the constant $c$. At time $t$, $z$ increases permanently to $c+1$:
+$$
+\begin{align}
+ & y_{t-1} = \alpha_{0} + \delta_{0}c + \delta_{1}c + \delta_{2}c \\
+ & y_{t} = \alpha_{0} + \delta_{0}(c+1) + \delta_{1}c + \delta_{2}c \\
+ & y_{t+1} = \alpha_{0} + \delta_{0}(c+1) + \delta_{1}(c+1) + \delta_{2}c \\
+ & y_{t+2} = \alpha_{0} + \delta_{0}(c+1) + \delta_{1}(c+1) + \delta_{2}(c+1) \\
+ & y_{t+3} = \alpha_{0} + \delta_{0}(c+1) + \delta_{1}(c+1) + \delta_{2}(c+1)
+\end{align}
+$$
+- With the permanent increase in $z$, after one period, $y$ has increased by $\delta_{0} + \delta_{1}$, and after two periods, $y$ has increased by $\delta_{0}+\delta_{1}+\delta_{2}$. There are no further changes in $y$ after two periods. → 2개의 시기 이후에 추정되는 값들은 전부 같음 !!
+- This shows that the sum of the coefficients on current and lagged $z$, $\delta_{0} + \delta_{1} + \delta_{2}$, 
