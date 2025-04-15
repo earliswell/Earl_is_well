@@ -108,4 +108,9 @@ $$
 $$
 Cor(x_{tj}, u_{t}) = 0, \forall j
 $$
+- This requires more than contemporaneous exogeneity: $u_{t}$ must be uncorrelated with $x_{sj}$, even when $s \neq t$. This is a strong sense in which the explanatory variables must be exogenous (strictly exogenous)
+- The average value of $x_{t}$ is unrelated to the independent variables in all time periods.
+- [[Time Series, 01. Basic of Regression#Assumption E.5, No Serial Correlation]]: Conditional on $X$, the errors in two different time periods are uncorrelated: $Cor(u_{t}, u_{s}|X) = 0, \forall t\neq s$.
+- When the assumption is false, we say that the errors suffer from serial correlation, or auto-correlation, because they are correlated across time. → OLS 추정으로 한계가 생김.
+	- 실제로 우리가 현실에서 이 가정이 지켜지기 쉽지 않음. 어떠한 가격의 Time Series가 있다고 했을 때, 과연 어제의 값과 오늘의 값이 독립이라고 주장하기 어려움.
 - 
