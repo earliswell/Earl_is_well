@@ -773,3 +773,22 @@ $$
 $$
 Cov(z, y) = \beta_{1}Cov(z, x) + Cov(z, u)
 $$
+- $Cov(z, u) = 0$ → $\beta = \frac{Cov(z,y)}{Cov(z, x)}$
+$$
+\begin{align}
+ & E(zu) = 0 \\
+ & E(z(y - x'\beta)) = 0 \\
+ & E(zy - zx'\beta) = 0 \\
+ & E(zy) - \beta E(zx') = 0 \\
+ & \beta E(zx') = E(zy) \\
+ & \beta = E(zx')^{-1}E(zy) = (Z'X)^{-1}Z'y
+\end{align}
+$$
+
+- Using sample analogues,
+$$
+\hat{\beta}_{1} = \frac{\sum_{i=1}^{n} (z_{i} - \bar{z}) (y_{i} - \bar{y})}{\sum_{i=1}^{n} (z_{i} - \bar{z}) ( x_{i} - \bar{x}) }
+$$
+- We get the instrumental variable(IV) estimator of $\beta_{1}$
+- With the instrument the IV estimator using $\hat{x}$ as the instrument is also called the ==two stage least squares==(2SLS) estimator.
+	- Using the algebra of OLS, it can be shown that when we use $\hat{x}$ as the IV for $x$, the estimates are identical to the OLS estimates from the regression of $y$ on $\hat{x}$ and $z$
