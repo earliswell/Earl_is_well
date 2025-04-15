@@ -93,4 +93,4 @@ $$
 \end{align}
 $$
 - With the permanent increase in $z$, after one period, $y$ has increased by $\delta_{0} + \delta_{1}$, and after two periods, $y$ has increased by $\delta_{0}+\delta_{1}+\delta_{2}$. There are no further changes in $y$ after two periods. → 2개의 시기 이후에 추정되는 값들은 전부 같음 !!
-- This shows that the sum of the coefficients on current and lagged $z$, $\delta_{0} + \delta_{1} + \delta_{2}$, 
+- This shows that the sum of the coefficients on current and lagged $z$, $\delta_{0} + \delta_{1} + \delta_{2}$, is the long-runchange in $y$ given a permanent increase in $z$ and is called the long-run propensity(LPR) or long-run-multiplier. 
