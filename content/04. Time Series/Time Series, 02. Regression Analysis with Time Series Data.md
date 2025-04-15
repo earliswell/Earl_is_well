@@ -24,4 +24,6 @@ tags:
 
 ## Stochastic Process (확률적 과정)
 - Formally, a sequence of random variables indexed by time is called a stochastic process(=random) or a time series process. ("Stochastic" is a synonym for ==random==)
-- 
+	- "Random이기는 하나 구조화된 무작위성", 즉 모든 Random → Stochastic과정으로 모델링 될 수 있는 것은 아님.
+	- 순서가 있어야 함!(Sequence, 수열): $\{a_{1}, a_{2}, \dots, a_{t}\}$
+- When we collect a time series data set, we obtain one possible outcome
