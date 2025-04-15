@@ -204,4 +204,37 @@ Y_{t} = \mu + e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdo
 $$
 - **Deterministic component** (Expected value): $\mu$
 - **Stochastic component** (Shock or prediction error): $e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdots$
-- 
+- We assume
+$$
+e_{t} \sim iid(0, \sigma^2)
+$$
+- then
+$$
+E(Y_{t} = \mu)
+$$
+- Also, we assume (finite variance)
+$$
+V(Y_{t}) = \sigma^2 + \psi_{1}^2\sigma^2 + \cdots = \sigma^2\sum_{i=0}^{\infty}  \psi^2_{i} < \infty
+$$
+- Unconditional Expectation
+$$
+E(Y_{t}) = \mu
+$$
+- Conditional Expectation 
+$$
+E(Y_{t}|I_{t-1}) = \mu + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdots
+$$
+- $I_{t-1}$ : Information ($t-1$기 까지) → $t-1$기 까지 random이 아님 (→ 실행됨 | 고정됨)
+- **Stationary process = Unconditional Expectation + Conditional Expectation**
+$$
+Y_{t} - E(Y_{t}|I_{t-1}) = e_{t}, e_{t} \sim iid(0, \sigma^2)
+$$
+
+## Impulse-Response Analysis
+- If we have Stationary process
+$$
+\frac{\partial Y_{t}}{\partial e_{t-j}} = \frac{\partial Y_{t+1}}{ \partial e_{t}} = \psi_{j}
+$$
+- 과거 → 미래 Shock / Why? → Covariance Stationary.
+
+
