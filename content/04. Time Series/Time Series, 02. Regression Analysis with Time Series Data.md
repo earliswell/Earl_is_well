@@ -124,4 +124,13 @@ $$
 $$
 \{Y_{1}, Y_{2}, Y_{3}, \dots, Y_{T}\}
 $$
-- 
+- Time Series data:
+$$
+\{y^1_{1}, y^1_{2}, y^1_{3}, \dots, y^1_{T}\}
+$$
+- Where $y^1_{1}$ means data among ensemble of $Y_{1}$
+	- 위 두 차이는 Time Series라는 것이 Stochastic Process의 시뮬레이션 하나가 실현된 것이라고 이해를 해보자.
+- Expected value of stochastic process
+$$
+E(Y_{t}) = \lim_{ n \to \infty } 
+$$
