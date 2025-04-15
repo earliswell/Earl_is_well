@@ -196,6 +196,12 @@ $$
 \text{plim} \frac{\hat{\gamma}(k)}{\hat{\gamma}(0)} (\equiv \hat{\rho(k)}) \to \rho(k)
 \end{gather}
 $$
+## Wold Decomposition (Wold form, Wold Representation)
+- **Stationary process = Deterministic component + Stochastic component**
+- Marginal → Impulse response ($\psi_{t}$ 를 찾기 !)
+$$
+Y_{t} = \mu + e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdots
+$$
+- **Deterministic component** (Expected value): $\mu$
+- **Stochastic component** (Shock or prediction error): $e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdots$
 - 
-
-
