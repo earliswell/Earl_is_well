@@ -160,3 +160,21 @@ $$
  & E(Y_{t}) = \sigma^2, \forall t
 \end{align}
 $$
+- First and Second Moments are time-invariant → 시간에 불변.
+- Weak Stationarity / Covariance Stationarity → 오롯이 First, Second에서만 !
+$$
+E(Y_{t}) = \text{plim}_{n \to \infty} \frac{1}{n} \sum_{i=1}^{n} y^i_{t} = \text{plim}_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} Y_{t} = \mu
+$$
+- $Cov(Y_{t}, Y_{t-1})$: 시간의 차이에 영향을 바지 않음.
+- 첫 번째 $\text{plim}_{n \to \infty}\frac{1}{N}\sum_{i=1}^{n}y^i_{t}$ → Ensemble
+- 두 번째 $\text{plim}_{T \to \infty}\frac{1}{T}\sum_{t=1}^{T}Y_{t}$ → Time Series
+
+## Stationarity and Ergodicity
+###### Stationarity and Ergodicity, Definition 1
+- {$Y_{t}$} is covariance (weakly) stationary if $E(Y_{t}) = \mu$ (independent of $t$) and $Cov(Y_{t} , Y_{t-k})$ is independent of $t$ for all $k$. 
+- $\gamma(k) = Cov(Y_{t}, Y_{t-k})$  is called the **auto-covariance function** !
+- $\rho(k) = \gamma(k)/\gamma(0)$ is the **auto-correlation function** !
+	- $\gamma(0) = Cov(Y_{t}, Y_{t}) = Var(Y_{t})$
+
+###### Stationarity and Ergodicity, Definition 2
+- {$Y_{t}$} is strictly stationary if the joint distribution of $Y_{t}, Y_{t-1}, \dots, Y_{t-k}$ is independent of $t$ for all $k$ 
