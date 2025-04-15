@@ -56,4 +56,9 @@ $$
 y_{t} = \alpha_{0} + \delta_{0}z_{t} + \delta z_{t-1} + \delta_{2}z_{t-2} + u_{t}
 $$
 - which is an FDL of order two($==$ Lag의 order!!!)
-- 
+- To interpret the coefficients, suppose that $z$ is a constant, equal to $c$, in all time periods before time $t$. At time $t, z$ increases by one unit to $c+1$ and then reverts to its previous level at time $t+1$. (That is, the increase in $z$ is temporary.) More precisely,
+$$
+\dots, z_{t-2} = c, z_{t-1} = c, z_{t} = c+1, z_{t+1} = c, z_{t+2} = c, \dots
+$$
+- 즉, $t$ 시기에만 잠깐 Shock으로 인한 값의 변동이 생겼을 때를 통해서 effect의 크기를 볼 수 있다. 
+	- 예를 들어, 코로나로 인하 딱 하루만 컨디션이 저하됐다고 가정했을 때와 같은 예시를 들 수 있다.
