@@ -113,3 +113,15 @@ $$
 - [[Time Series, 01. Basic of Regression#Assumption E.5, No Serial Correlation]]: Conditional on $X$, the errors in two different time periods are uncorrelated: $Cor(u_{t}, u_{s}|X) = 0, \forall t\neq s$.
 - When the assumption is false, we say that the errors suffer from serial correlation, or auto-correlation, because they are correlated across time. → OLS 추정으로 한계가 생김.
 	- 실제로 우리가 현실에서 이 가정이 지켜지기 쉽지 않음. 어떠한 가격의 Time Series가 있다고 했을 때, 과연 어제의 값과 오늘의 값이 독립이라고 주장하기 어려움.
+
+## Stochastic Process
+- Marginal Effects → Impulse response(충격 반응)
+	- 실행변수 → 종속변수에 미치는 크기 !!!!
+	- OLS에서는 $\beta: y_{i} = \alpha + \beta x_{i} + e_{i} \to \beta =\frac{\triangle y}{\triangle x}$
+- Transitory Shock(일시적) vs. Permanent Shock(지속적)
+- Univariate vs. Multivariate
+- Stochastic Process: → 구조화된 Random
+$$
+\{Y_{1}, Y_{2}, Y_{3}, \dots, Y_{T}\}
+$$
+- 
