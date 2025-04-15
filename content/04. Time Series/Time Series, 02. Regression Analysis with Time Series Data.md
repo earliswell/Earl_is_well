@@ -94,3 +94,18 @@ $$
 $$
 - With the permanent increase in $z$, after one period, $y$ has increased by $\delta_{0} + \delta_{1}$, and after two periods, $y$ has increased by $\delta_{0}+\delta_{1}+\delta_{2}$. There are no further changes in $y$ after two periods. → 2개의 시기 이후에 추정되는 값들은 전부 같음 !!
 - This shows that the sum of the coefficients on current and lagged $z$, $\delta_{0} + \delta_{1} + \delta_{2}$, is the long-runchange in $y$ given a permanent increase in $z$ and is called the long-run propensity(LPR) or long-run-multiplier. 
+
+## Unbiasedness of OLS
+- [[Time Series, 01. Basic of Regression#Assumption E.3, Zero Conditional Mean]]: for each $t$, the expected value of the error $u_t$, given the explanatory variables for all time periods, is zero. Mathematically,
+$$
+E(u_{t}|X) = 0, t = 1, 2, \dots, n
+$$
+- We require $u_{t}$ to be uncorrelated with the explanatory variables also dated at time $t$: in conditional mean terms, → 즉, $t$에 따라서 변하면 안된다는 의미이다. 
+$$
+E(u_{t}|x_{t1}, \dots, x_{tk}) = E(u_{t}|x_{t}) = 0
+$$
+- We say that the $x_{tj}$ are contemporaneously exogenous: $u_{t}$ and the explanatory variables are contemporaneously uncorrelated: → 기존 Zero mean condition에서 $i \to t$, 시간에 따라 변하는 영향을 받으면 안됨 !!
+$$
+Cor(x_{tj}, u_{t}) = 0, \forall j
+$$
+- 
