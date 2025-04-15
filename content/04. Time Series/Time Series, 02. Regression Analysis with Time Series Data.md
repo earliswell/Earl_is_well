@@ -237,4 +237,9 @@ $$
 $$
 - 과거 → 미래 Shock / Why? → Covariance Stationary.
 
-
+## Approximation of Wold Representation
+$$
+Y_{t} = \mu + e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdots + \psi_{j}e_{t-j} + \cdots
+$$
+- If $\psi_{1} = \phi, \psi_{2} = \phi, p$
+ 
