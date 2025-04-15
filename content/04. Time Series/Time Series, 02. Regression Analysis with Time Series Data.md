@@ -81,4 +81,4 @@ $$
 - Similarly, $y_{t+1} - y_{t-1} = \delta_{1}$ is the change in $y$ one period after the temporary(→ $t$기의 temporary shock이 1기 이후에 변화가 생기) change and $y_{t+2} - y_{t-1} = \delta_{2}$ is the change in $y$ two periods after the change.
 - At time $t+3$, $y$ has reverted back to its initial level: $y_{t+3} = y_{t-1}$. This is because we have assumed that only two lags of $z$.
 - The lag distribution, which summarizes the dynamic effect that a temporary increase in $z$ has on $y$.![[Pasted image 20250415135903.png]]
-- 
+	- The
