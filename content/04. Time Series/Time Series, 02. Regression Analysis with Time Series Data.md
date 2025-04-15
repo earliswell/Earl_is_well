@@ -142,9 +142,21 @@ $$
 - With no restrictions to the time series,
 $$
 \begin{align}
-E(Y_{1}) = \mu_{1}, V(Y_{1}) = \sigma^2_{1} \\
-E(Y_{2}) = \mu_{2}, V(Y_{2}) = \sigma^2_{2} \\
-E(Y_{3}) = \mu_{3}, V(Y_{3}) = \sigma^2_{3} \\ 
-\vdots
+E(Y_{1}) = \mu_{1} & , V(Y_{1}) = \sigma^2_{1} \\
+E(Y_{2}) = \mu_{2} & , V(Y_{2}) = \sigma^2_{2} \\
+E(Y_{3}) = \mu_{3} & , V(Y_{3}) = \sigma^2_{3} \\ 
+&\vdots 
+\end{align}
+$$
+- One time data → No estimation (zero df)!! 
+	- 사실 t기의 값은 하나밖에 존재하지 않음 !!! → 추정이 불가능하다.
+
+## Stationarity of a Stochastic Process
+- If the $\{Y_{1}, Y_{2}, Y_{3}, \dots, Y_{T}\}$ has same expected value and variance $(\mu, \sigma^2)$, we can use time series data <mark style="background: #FFB86CA6;">instead of using ensemble</mark>
+- We need ASSUMPTION !! (Same expected value and variance)
+$$
+\begin{align}
+ & E(Y_{t}) = \mu, \forall t \\
+ & E(Y_{t}) = \sigma^2, \forall t
 \end{align}
 $$
