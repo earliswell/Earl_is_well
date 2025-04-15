@@ -175,6 +175,18 @@ $$
 - $\gamma(k) = Cov(Y_{t}, Y_{t-k})$  is called the **auto-covariance function** !
 - $\rho(k) = \gamma(k)/\gamma(0)$ is the **auto-correlation function** !
 	- $\gamma(0) = Cov(Y_{t}, Y_{t}) = Var(Y_{t})$
-
 ###### Stationarity and Ergodicity, Definition 2
 - {$Y_{t}$} is strictly stationary if the joint distribution of $Y_{t}, Y_{t-1}, \dots, Y_{t-k}$ is independent of $t$ for all $k$ 
+###### Stationarity and Ergodicity, Definition 3
+- A stationary time series is ==ergodic== if $\gamma(k) \to 0$ as $k \to +\infty$
+###### Stationarity and Ergodicity, Theorem 1
+- If {$Y_{t}$} is [strictly stationary]([[#Stationarity and Ergodicity, Definition 2]]) and [ergodic]([[#Stationarity and Ergodicity, Definition 3]]) and $x_{t} = f(Y_{t}, Y_{t-1}, \dots)$ is a random variable, then $x_{t}$ is strictly stationary and ergodic.
+###### Stationarity and Ergodicity, Theorem 2
+- If {$Y_{t}$} is [strictly stationary]([[#Stationarity and Ergodicity, Definition 2]]) and [ergodic]([[#Stationarity and Ergodicity, Definition 3]]) and $E(|Y_{t}|) < \infty$ → 유한하면, then as $T \to \infty$, 
+$$
+\text{plim}\frac{1}{T}\sum_{t=1}^{T} Y_{t} \to E(Y_{t})
+$$
+- Thus we can [Consistently]([[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency]]) estimate parameters using time-series sample moments
+###### Stationarity and Ergodicity, Theorem 3
+- If {$Y_{t}$} is [strictly stationary]([[#Stationarity and Ergodicity, Definition 2]]) and [ergodic]([[#Stationarity and Ergodicity, Definition 3]]) 
+
