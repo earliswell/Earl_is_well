@@ -30,4 +30,30 @@ tags:
 	- 즉, stochastic process가 실현된 값이 one possible outcome !!
 - We can only see a single realization because we cannot go back in time and start the process over again. → 우리는 한 시간대에 살아가고 있기 때문에 오직 하나의 실존에 대해서만 값을 알고 있음. 예를 들어서, 우리는 오늘의 나는 여러 개의 시뮬레이션 중에서 오로지 1개의 실현된 시뮬레이션을 살아가고 있다!!
 
-##
+## Static Models
+- Suppose that we have time series data available on two variables, say $y$ and $z$, where $y_{t}$ and $z_{t}$ are dated contemporaneously. → 하나의 시점에 두 변수가 관측됨 !
+- A static model relating $y$ to $z$ is → 한 명의 t개의 point 값.
+$$
+y_{t} = \beta_{0} + \beta_{1}z_{t} + u_{t}, \, t=1, 2, \dots, n
+$$
+- The name "static model" comes from the fact that we are modeling a contemporaneous relationship between $y$ and $z$ → 동일 $t$ 에 대해서 다른 변수에 미치는 !
+	- **시간 독립성**: 모델의 구조와 매개변수(파라미터)가 시간에 따라 변하지 않음.
+	- **지연 효과 없음**: 과거 값들이 현재 값에 영향을 미치지 않음.
+	- **순간적 관계**: 변수들 간의 관계가 동일 시점에서만 고려됨.
+- 반대되는 용어는 Dynamic Models임. 이는 이전 시점의 값에 영향을 미치는 것을 의미함.
+	- 예를 들어서, $y_{t} = \beta_{0} + \beta_{1}x_{t} + \beta_{2}x_{t-1} + e_{t}$ 와 같은 !!
+- Usually, a static model is postulated when a change in $z$ at time $t$ is believed to have an immediate effect on $y$:
+$$
+\triangle y_{t} = \beta_{1} \triangle z_{t}
+$$
+- when $\triangle u_{t} = 0$
+- Static regression models are also used when we are interested in knowing the tradeoff between $y$ and $z$
+
+## Finite Distributed Lag Models
+- 시간에 따른 변수의 영향이 즉각적으로 나타나지 않고 여러 시점에 걸쳐 분산되어 나타내는 현상을 모델링 !
+- In a finite distributed lag (FDL) model, we allow one or more variables to affect $y$ with a lag:
+$$
+y_{t} = \alpha_{0} + \delta_{0}z_{t} + \delta z_{t-1} + \delta_{2}z_{t-2} + u_{t}
+$$
+- which is an FDL of order two($==$ Lag의 order!!!)
+- 
