@@ -18,7 +18,7 @@ tags:
 	- $lag$ → Frequency (A와 B의 관측 시점이 매우 다른데!) 주기를 보일 수 있다?
 - The most common frequencies are daily, weekly, monthly, quarterly, and annually.
 	- seasonal pattern: 계절성 패턴. → Time Series Analysis에서 중요한 요소임.
-	- 추가적으로 추세(Trend), 계절성(Seasonality), 주기성(Cyclical component), 불규칙요서(Irregular component)
+	- 추가적으로 추세(Trend), 계절성(Seasonality), 주기성(Cyclical component), 불규칙요소(Irregular component)
 	- 경향성과 계절성을 관측 시기에 영향을 받는다. 
 - ![[Pasted image 20250415130759.png]]
 
@@ -26,4 +26,8 @@ tags:
 - Formally, a sequence of random variables indexed by time is called a stochastic process(=random) or a time series process. ("Stochastic" is a synonym for ==random==)
 	- "Random이기는 하나 구조화된 무작위성", 즉 모든 Random → Stochastic과정으로 모델링 될 수 있는 것은 아님.
 	- 순서가 있어야 함!(Sequence, 수열): $\{a_{1}, a_{2}, \dots, a_{t}\}$
-- When we collect a time series data set, we obtain one possible outcome
+- When we collect a time series data set, we obtain **one possible outcome**, or realization, of the stochastic process.
+	- 즉, stochastic process가 실현된 값이 one possible outcome !!
+- We can only see a single realization because we cannot go back in time and start the process over again. → 우리는 한 시간대에 살아가고 있기 때문에 오직 하나의 실존에 대해서만 값을 알고 있음. 예를 들어서, 우리는 오늘의 나는 여러 개의 시뮬레이션 중에서 오로지 1개의 실현된 시뮬레이션을 살아가고 있다!!
+
+##
