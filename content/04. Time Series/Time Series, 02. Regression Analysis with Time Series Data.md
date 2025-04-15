@@ -243,5 +243,10 @@ Y_{t} = \mu + e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdo
 $$
 - If $\psi_{1} = \phi, \psi_{2} = \phi^2, \psi_{3} = \phi^3, \dots , \psi_{j}=\phi^j, \dots$ then we only need just one parameter, $\phi$, to do impulse-response analysis 
 - 즉, $\psi$를 $\phi$의 n제곱 형태로 정의를 한다면 우리는 $\phi$만 안다면 [[#Impulse-Response Analysis|Impluse-response]]의 값을 구할 수 있음 !!
-- 
- 
+
+## Consider one parameter model such as (if Stationary)
+$$
+Y_{t} = \delta + \phi Y_{t-1} + e_{t}, e_{t} \sim iid\, N(0, \sigma^2)
+$$
+- By Back-Substitution(반복 대입), we have
+
