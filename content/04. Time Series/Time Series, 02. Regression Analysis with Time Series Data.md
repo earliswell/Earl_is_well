@@ -60,9 +60,9 @@ $$
 $$
 \dots, z_{t-2} = c, z_{t-1} = c, z_{t} = c+1, z_{t+1} = c, z_{t+2} = c, \dots
 $$
-- 즉, $t$ 시기에만 잠깐 Shock으로 인한 값의 변동이 생겼을 때를 통해서 effect의 크기를 볼 수 있다. 
+- 즉, $t$ 시기에만 Temporary Shock으로 인한 값의 변동이 생겼을 때를 통해서 effect의 크기를 볼 수 있다. 
 	- 예를 들어, 코로나로 인하 딱 하루만 컨디션이 저하됐다고 가정했을 때와 같은 예시를 들 수 있다.
-- To focus on the ceteris paribus effect of $z$ on $y$, we set the error term in each time period to zero. Then
+- To focus on the ceteris paribus effect of $z$ on $y$, we set the error term in each time period to zero $u_{t} = 0$. Then,
 $$
 \begin{align}
  & y_{t-1} = \alpha_{0} + \delta_{0} c + \delta_{1}c + \delta_{2}c \\
