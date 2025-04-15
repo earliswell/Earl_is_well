@@ -72,4 +72,13 @@ $$
  & y_{t+3} = \alpha_{0} + \delta_{0} c + \delta_{1}c + \delta_{2}c
 \end{align}
 $$
-- From the first two equations, $y_{t} - y_{t-1} = \delta_{0}$, which shows that $\delta_{0}$ is the immediate change in $y$ due to the one-unit increase in $z$ at time $t$. Usually, $\delta_{0}$ is called the impact propensity or impact multiplier.
+- From the first two equations, $y_{t} - y_{t-1} = \delta_{0}$, which shows that $\delta_{0}$ is the immediate change in $y$ due to the one-unit increase in $z$ at time $t$. Usually, $\delta_{0}$ is called the **impact propensity** or **impact multiplier**.
+	- 시간에 따른 지연 효과(Lag Effects) 분석
+		- t+1 시점의 변화: $y_{t+1} - y_{t} = \delta_{1} -\delta_{0}$
+		- t+2 시점의 변화: $y_{t+2} - y_{t+1} = \delta_{2} - \delta_{1}$
+		- t+3 시점의 변화: $y_{t+3} - y_{t+2} = -\delta_{2}$
+	- Total multiplier: $\delta_{0} + \delta_{1} + \delta_{2}$
+- Similarly, $y_{t+1} - y_{t-1} = \delta_{1}$ is the change in $y$ one period after the temporary(→ $t$기의 temporary shock이 1기 이후에 변화가 생기) change and $y_{t+2} - y_{t-1} = \delta_{2}$ is the change in $y$ two periods after the change.
+- At time $t+3$, $y$ has reverted back to its initial level: $y_{t+3} = y_{t-1}$. This is because we have assumed that only two lags of $z$.
+- The lag distribution, which summarizes the dynamic effect that a temporary increase in $z$ has on $y$.![[Pasted image 20250415135903.png]]
+- 
