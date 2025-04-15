@@ -130,7 +130,21 @@ $$
 $$
 - Where $y^1_{1}$ means data among ensemble of $Y_{1}$
 	- 위 두 차이는 Time Series라는 것이 Stochastic Process의 시뮬레이션 하나가 실현된 것이라고 이해를 해보자.
-- Expected value of stochastic process
+- Expected value of stochastic process → 여러 ensemble의 평균 !! $t$기 마다 $\mu$가 다르다는 의미임.
 $$
-E(Y_{t}) = \lim_{ n \to \infty } 
+E(Y_{t}) = \operatorname{plim}_{n \to \infty} \frac{1}{n}\sum_{i=1}^{n} y^i_{t} = \mu_{t}
+$$
+- Variance of stochastic process
+$$
+V(Y_{t}) = \operatorname{plim}_{n\to \infty} \frac{1}{n}\sum_{i=1}^{n} (y^i_{t} - \mu_{t})^2 = \sigma^2_{t}
+$$
+
+- With no restrictions to the time series,
+$$
+\begin{align}
+E(Y_{1}) = \mu_{1}, V(Y_{1}) = \sigma^2_{1} \\
+E(Y_{2}) = \mu_{2}, V(Y_{2}) = \sigma^2_{2} \\
+E(Y_{3}) = \mu_{3}, V(Y_{3}) = \sigma^2_{3} \\ 
+\vdots
+\end{align}
 $$
