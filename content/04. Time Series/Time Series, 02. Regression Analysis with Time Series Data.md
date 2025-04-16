@@ -492,6 +492,45 @@ $$
  & \lambda = \lambda_{2} \Rightarrow F\cdot x_{2} = \lambda_{2} \cdot x \\
 \end{align}
 $$
+- To find finite roots we need normalization
+$$
+x'_{1}x_{1} = 1, x_{2}'x_{2}=1
+$$
+- Then we have two roots of $x_{1}$ and two roots of $x_{2}$ we call the vectors with the roots the characteristic vectors
+- Now consider the matrix of $F$, with the characteristic vectors
+$$
+F \begin{pmatrix}
+x_{1} & x_{2}
+\end{pmatrix} = \begin{pmatrix}
+x_{1} & x_{2}
+\end{pmatrix} \begin{pmatrix}
+\lambda_{1} & 0 \\
+0 & \lambda_{2}
+\end{pmatrix} \Longleftrightarrow F \cdot C = C \cdot \Lambda
+$$
+$$
+F^k = C \cdot \Lambda \cdot C^{-1} = \begin{pmatrix}
+c_{11} & c_{12} \\
+c_{21} & c_{22}
+\end{pmatrix} \cdot \begin{pmatrix}
+\lambda_{1}^k &  0 \\
+0 & \lambda_{2}^k
+\end{pmatrix} \cdot \begin{pmatrix}
+c_{11}^*  & c_{12}^* \\
+c_{21}^* & c_{22}^*
+\end{pmatrix}
+$$
+- Finally in the impulse-response we have
+$$
+\frac{\partial Y_{t+k}}{\partial e_{t}} = (1, 1) \text{ element of }F^k = c_{11}c_{11}^* \lambda_{1}^k + c_{12}c_{12}^*\lambda_{2}^j \equiv W_{1}\lambda_{1}^k + W_{2}\lambda_{2}^k
+$$
+- As $k$ goes to $\infty$ the stationary condition means the autocorrleation closes to zero. Since $W_{1}+W_{2} =1$, the stationary condition for AR(2) is 
+$$
+|\lambda_{1}| < 1, |\lambda_{2}| < 1
+$$
+- This is the condition of $\lim_{ k \to \infty }\rho(k)=0$
+
+
 ## Moving-Average: MA(q)
 $$
 Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
@@ -500,7 +539,7 @@ $$
 - $q \to \infty$, MA(q) = [[#Wold Decomposition (Wold form, Wold Representation)|Wold form]]
 - This process explains the current $Y$ only using the shocks before time $q$
 	- 즉, MA($q$) 프로세스는 현재의 $Y_{t}$ 값이 과거 $q$시기 동안의 충격(shock)에 의해 어떻게 영향을 받는지를 모델링함. 
-#### Example, MA(2) in Stock market!!
+###### Example, MA(2) in Stock market!!
 - 주식 시장의 일일 수익률 MA(2) 모델링 가정
 $$
 R_{t} = \mu + e_{t} + 0.7e_{t-1} - 0.3e_{t-2}
