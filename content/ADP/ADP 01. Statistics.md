@@ -6,6 +6,8 @@ tags:
   - "#통계학"
   - "#probability"
   - "#확률"
+  - "#Certification"
+  - "#자격증"
 ---
 # 기초통계량
 
