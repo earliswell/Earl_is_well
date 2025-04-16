@@ -4132,3 +4132,1577 @@ print(f"   - 높은 강수량({high_rain:.1f})에서 비료 1단위 효과: {fer
 - 광고 지출과 제품 가격이 판매량에 미치는 조합 효과 모델링 시
 - 교육 방법과 학생의 사전 지식 수준 간의 상호작용이 학습 효과에 미치는 영향 분석 시
 - 운동 강도와 식이요법 간의 상호작용이 체중 감소에 미치는 효과 평가 시
+---
+# 시계열 (Time Series)
+
+## 1. 정상성 (Stationarity)
+
+**정의**: 정상성은 시계열 데이터의 통계적 특성(평균, 분산, 자기 공분산)이 시간에 따라 변하지 않는 특성을 의미합니다. 정상 시계열은 시간에 관계없이 일정한 평균, 분산을 가지며, 시차에만 의존하는 자기 공분산 구조를 갖습니다.
+
+**수식**: 시계열 {Yₜ}이 정상 시계열이라면:
+
+- 평균: E(Yₜ) = μ (상수, 시간에 불변)
+- 분산: Var(Yₜ) = σ² (상수, 시간에 불변)
+- 자기 공분산: Cov(Yₜ, Yₜ₊ₖ) = γₖ (시차 k에만 의존)
+
+**특징**:
+
+- 정상 시계열은 시간에 따라 평균으로 회귀하는 경향을 보입니다.
+- 추세(trend), 계절성(seasonality), 분산 변화가 있으면 비정상 시계열입니다.
+- 대부분의 시계열 모델링 기법은 정상 시계열을 가정합니다.
+- 비정상 시계열은 차분(differencing), 변환(transformation) 등을 통해 정상화할 수 있습니다.
+- 정상성 검정에는 ADF(Augmented Dickey-Fuller), KPSS 검정 등이 사용됩니다.
+- 약 정상성(weak stationarity)과 강 정상성(strict stationarity)으로 구분됩니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.seasonal import seasonal_decompose
+import statsmodels.api as sm
+
+# 다양한 시계열 데이터 생성
+np.random.seed(42)
+n = 200
+
+# 1. 정상 시계열 (평균과 분산이 일정)
+stationary = np.random.normal(0, 1, n)
+
+# 2. 트렌드가 있는 비정상 시계열
+trend = np.linspace(0, 5, n) + np.random.normal(0, 1, n)
+
+# 3. 계절성이 있는 비정상 시계열
+seasonal = np.sin(np.linspace(0, 4*np.pi, n)) + np.random.normal(0, 0.5, n)
+
+# 4. 분산이 변하는 비정상 시계열
+heteroscedastic = np.random.normal(0, np.linspace(0.5, 3, n), n)
+
+# 5. 트렌드와 계절성이 모두 있는 비정상 시계열
+combined = trend + 2*seasonal
+
+# 시계열 데이터프레임 생성
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+df = pd.DataFrame({
+    '정상': stationary,
+    '트렌드': trend,
+    '계절성': seasonal,
+    '이분산': heteroscedastic,
+    '복합': combined
+}, index=dates)
+
+# 정상성 검정 함수 (ADF 검정)
+def adf_test(series, title=''):
+    result = adfuller(series.dropna())
+    print(f"ADF 검정 결과 - {title}")
+    print(f"ADF 통계량: {result[0]:.4f}")
+    print(f"p-value: {result[1]:.4f}")
+    for key, value in result[4].items():
+        print(f"임계값 ({key}): {value:.4f}")
+    if result[1] <= 0.05:
+        print("결론: 정상 시계열 (귀무가설 기각)\n")
+    else:
+        print("결론: 비정상 시계열 (귀무가설 기각 실패)\n")
+
+# 각 시계열에 대한 정상성 검정
+for column in df.columns:
+    adf_test(df[column], column)
+
+# 트렌드 시계열의 정상화 (차분)
+trend_diff = df['트렌드'].diff().dropna()
+adf_test(trend_diff, '트렌드 시계열 1차 차분')
+
+# 시각화
+plt.figure(figsize=(15, 12))
+
+# 원본 시계열 시각화
+for i, column in enumerate(df.columns):
+    plt.subplot(5, 2, 2*i+1)
+    plt.plot(df[column])
+    plt.title(f'{column} 시계열')
+    plt.grid(True, alpha=0.3)
+    
+    # ACF 플롯
+    plt.subplot(5, 2, 2*i+2)
+    sm.graphics.tsa.plot_acf(df[column].values.squeeze(), lags=20, ax=plt.gca())
+    plt.title(f'{column} ACF 플롯')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 시계열 모델링 전 데이터 특성 파악 및 전처리 단계에서 정상성 확인
+- 금융 데이터의 변동성 분석을 위한 정상성 검정
+- 계절성과 트렌드 제거를 통한 시계열 모델 성능 개선
+- 비정상 시계열의 적절한 변환 방법 선택(로그 변환, 차분 등)
+- 경제 지표나 주가 예측 모델 구축 시 변수 정상화 과정
+
+## 2. 잔차분석 (Residual Analysis)
+
+**정의**: 잔차분석은 시계열 모델 적합 후 잔차(실제값과 예측값의 차이)의 특성을 검토하여 모델의 적합성을 평가하는 방법입니다. 좋은 모델의 잔차는 백색잡음(white noise) 특성을 가져야 합니다.
+
+**수식**: 잔차는 다음과 같이 정의됩니다: $e_t = Y_t - \hat{Y}_t$
+
+여기서 $Y_t$는 실제 관측값, $\hat{Y}_t$는 모델의 예측값입니다.
+
+**특징**:
+
+- 잔차는 정규분포를 따라야 하며, 평균이 0에 가까워야 합니다.
+- 잔차 간에 자기상관(autocorrelation)이 없어야 합니다(독립성).
+- 잔차의 분산이 일정해야 합니다(등분산성).
+- Ljung-Box 검정, Durbin-Watson 검정 등으로 잔차의 독립성을 검정합니다.
+- ACF, PACF 플롯을 통해 잔차의 자기상관 패턴을 시각적으로 확인합니다.
+- 이상치(outlier)가 존재하는지 검토해야 합니다.
+- 모델 개선을 위한 중요한 진단 도구입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.stats.diagnostic import acorr_ljungbox
+from statsmodels.stats.stattools import jarque_bera
+from statsmodels.graphics.gofplots import qqplot
+from scipy import stats
+
+# 시계열 데이터 생성
+np.random.seed(42)
+n = 100
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+
+# AR(1) 프로세스 생성
+ar_params = [0.7]
+ma_params = []
+ar = np.random.normal(0, 1, n)
+for t in range(1, n):
+    ar[t] += ar_params[0] * ar[t-1]
+
+# 시계열 데이터프레임
+df = pd.DataFrame({'y': ar}, index=dates)
+
+# ARIMA 모델 적합
+model = sm.tsa.ARIMA(df['y'], order=(1, 0, 0))
+results = model.fit()
+print(results.summary())
+
+# 잔차 구하기
+residuals = results.resid
+fitted_values = results.fittedvalues
+
+# 잔차 분석
+print("\n잔차 기술통계량:")
+print(residuals.describe())
+
+# 1. Ljung-Box 검정 (자기상관 검정)
+lb_test = acorr_ljungbox(residuals, lags=[10], return_df=True)
+print("\nLjung-Box 검정 결과:")
+print(lb_test)
+if lb_test['lb_pvalue'].iloc[0] > 0.05:
+    print("결론: 잔차에 자기상관이 없음 (모델 적합)")
+else:
+    print("결론: 잔차에 자기상관이 있음 (모델 재검토 필요)")
+
+# 2. Jarque-Bera 검정 (정규성 검정)
+jb_test = jarque_bera(residuals)
+print("\nJarque-Bera 검정 결과:")
+print(f"JB 통계량: {jb_test[0]:.4f}")
+print(f"p-value: {jb_test[1]:.4f}")
+if jb_test[1] > 0.05:
+    print("결론: 잔차가 정규분포를 따름")
+else:
+    print("결론: 잔차가 정규분포를 따르지 않음")
+
+# 시각화
+plt.figure(figsize=(15, 10))
+
+# 1. 원본 시계열과 모델 적합값
+plt.subplot(2, 2, 1)
+plt.plot(df.index, df['y'], label='원본 시계열')
+plt.plot(df.index, fitted_values, 'r--', label='모델 적합값')
+plt.title('원본 시계열과 모델 적합')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. 잔차 시계열
+plt.subplot(2, 2, 2)
+plt.plot(df.index, residuals)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('잔차 시계열')
+plt.grid(True, alpha=0.3)
+
+# 3. 잔차 ACF 플롯
+plt.subplot(2, 2, 3)
+sm.graphics.tsa.plot_acf(residuals.values.squeeze(), lags=20, ax=plt.gca())
+plt.title('잔차 ACF 플롯')
+
+# 4. 잔차 QQ 플롯
+plt.subplot(2, 2, 4)
+qqplot(residuals, line='45', fit=True, ax=plt.gca())
+plt.title('잔차 QQ 플롯 (정규성 확인)')
+
+plt.tight_layout()
+plt.show()
+
+# 추가 시각화: 잔차 히스토그램과 적합값 대비 잔차 플롯
+plt.figure(figsize=(12, 5))
+
+# 5. 잔차 히스토그램
+plt.subplot(1, 2, 1)
+plt.hist(residuals, bins=15, alpha=0.7, density=True, edgecolor='black')
+# 정규분포 곡선 추가
+x = np.linspace(residuals.min(), residuals.max(), 100)
+plt.plot(x, stats.norm.pdf(x, residuals.mean(), residuals.std()), 'r-', linewidth=2)
+plt.title('잔차 히스토그램')
+plt.grid(True, alpha=0.3)
+
+# 6. 적합값 대비 잔차 플롯 (등분산성 확인)
+plt.subplot(1, 2, 2)
+plt.scatter(fitted_values, residuals, alpha=0.7)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('적합값 대비 잔차 플롯')
+plt.xlabel('적합값')
+plt.ylabel('잔차')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 시계열 모델(ARIMA, 지수평활법 등)의 적합성 평가
+- 모델의 개선 방향 결정(차수 변경, 계절성 고려 등)
+- 예측의 신뢰성 검증
+- 이상점 및 구조적 변화 탐지
+- 시계열 모델 간 비교 및 최적 모델 선택
+
+## 3. 시계열 분해 (Time Series Decomposition)
+
+**정의**: 시계열 분해는 시계열 데이터를 추세(Trend), 계절성(Seasonality), 순환성(Cycle), 불규칙성(Irregular) 등의 요소로 분리하는 방법입니다. 이를 통해 시계열의 패턴과 특성을 더 명확히 파악할 수 있습니다.
+
+**수식**: 시계열 분해에는 주로 두 가지 모델이 사용됩니다:
+
+- 가법 모델(Additive): $Y_t = T_t + S_t + I_t$
+- 승법 모델(Multiplicative): $Y_t = T_t \times S_t \times I_t$
+
+여기서 $T_t$는 추세, $S_t$는 계절성, $I_t$는 불규칙 요소입니다.
+
+**특징**:
+
+- 가법 모델은 계절적 변동이 일정할 때 적합합니다.
+- 승법 모델은 계절적 변동이 추세에 비례하여 변할 때 적합합니다.
+- 분해 방법으로는 고전적 방법, X-12-ARIMA, STL(Seasonal and Trend decomposition using Loess) 등이 있습니다.
+- 분해된 구성요소는 시계열 특성 파악과 예측에 활용됩니다.
+- 비정상 시계열을 정상화하는 데 도움이 됩니다.
+- 계절 조정(seasonally adjusted) 데이터를 얻을 수 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.seasonal import seasonal_decompose
+import statsmodels.api as sm
+
+# 시계열 데이터 생성 (추세 + 계절성 + 불규칙성)
+np.random.seed(42)
+n = 4 * 12  # 4년치 월별 데이터
+dates = pd.date_range(start='2018-01-01', periods=n, freq='MS')
+
+# 추세 요소
+trend = np.linspace(7, 15, n)
+
+# 계절성 요소 (12개월 주기)
+seasonality = 3 * np.sin(np.linspace(0, 2*np.pi*4, n))
+
+# 불규칙 요소
+irregular = np.random.normal(0, 0.5, n)
+
+# 가법 모델
+additive_ts = trend + seasonality + irregular
+
+# 승법 모델
+multiplicative_ts = trend * (1 + seasonality/15) * (1 + irregular/10)
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    '가법_모델': additive_ts,
+    '승법_모델': multiplicative_ts
+}, index=dates)
+
+# 가법 모델 시계열 분해
+add_decomposition = seasonal_decompose(df['가법_모델'], model='additive', period=12)
+
+# 승법 모델 시계열 분해
+mul_decomposition = seasonal_decompose(df['승법_모델'], model='multiplicative', period=12)
+
+# 시각화: 가법 모델 분해
+plt.figure(figsize=(14, 10))
+plt.suptitle('가법 모델 시계열 분해', fontsize=16)
+
+plt.subplot(4, 1, 1)
+plt.plot(df['가법_모델'], label='원본 시계열')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 2)
+plt.plot(add_decomposition.trend, label='추세')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 3)
+plt.plot(add_decomposition.seasonal, label='계절성')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 4)
+plt.plot(add_decomposition.resid, label='잔차(불규칙성)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.subplots_adjust(top=0.9)
+plt.show()
+
+# 시각화: 승법 모델 분해
+plt.figure(figsize=(14, 10))
+plt.suptitle('승법 모델 시계열 분해', fontsize=16)
+
+plt.subplot(4, 1, 1)
+plt.plot(df['승법_모델'], label='원본 시계열')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 2)
+plt.plot(mul_decomposition.trend, label='추세')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 3)
+plt.plot(mul_decomposition.seasonal, label='계절성')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 4)
+plt.plot(mul_decomposition.resid, label='잔차(불규칙성)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.subplots_adjust(top=0.9)
+plt.show()
+
+# STL 분해 방법 적용 (비모수적 방법)
+stl = sm.tsa.STL(df['가법_모델'], period=12).fit()
+
+plt.figure(figsize=(14, 10))
+plt.suptitle('STL 시계열 분해', fontsize=16)
+
+plt.subplot(4, 1, 1)
+plt.plot(df['가법_모델'], label='원본 시계열')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 2)
+plt.plot(stl.trend, label='추세')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 3)
+plt.plot(stl.seasonal, label='계절성')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 4)
+plt.plot(stl.resid, label='잔차(불규칙성)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.subplots_adjust(top=0.9)
+plt.show()
+
+# 계절 조정 시계열
+plt.figure(figsize=(12, 6))
+plt.plot(df['가법_모델'], label='원본 시계열')
+plt.plot(add_decomposition.trend + add_decomposition.resid, label='계절 조정 시계열')
+plt.title('계절 조정 시계열 (Seasonally Adjusted)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 경제 지표의 계절성 조정(예: 실업률, 소비자 물가지수)
+- 시계열의 장기 추세와 계절 패턴 파악
+- 이상치나 구조적 변화 감지
+- 시계열 예측 모델의 정확도 향상
+- 다양한 요인이 시계열에 미치는 영향 분석
+
+## 4. 단순 이동평균 모형 (Simple Moving Average Model)
+
+**정의**: 단순 이동평균 모형은 시계열의 각 시점에서 이전 k개 관측값의 평균을 계산하여 시계열의 단기 변동을 평활화하는 방법입니다. 이는 시계열의 추세를 식별하고 노이즈를 줄이는 데 유용합니다.
+
+**수식**: k기간 단순 이동평균: $MA_t = \frac{Y_t + Y_{t-1} + \ldots + Y_{t-k+1}}{k} = \frac{1}{k}\sum_{i=0}^{k-1} Y_{t-i}$
+
+여기서 $Y_t$는 t시점의 시계열 관측값, $MA_t$는 t시점의 이동평균값입니다.
+
+**특징**:
+
+- 계산이 단순하고 직관적입니다.
+- 시계열의 단기 변동(노이즈)을 제거하여 기본 패턴을 파악할 수 있습니다.
+- 윈도우 크기(k)가 클수록 평활화 효과가 커지고 반응성은 낮아집니다.
+- 중심화 이동평균(centered moving average)은 과거와 미래 값을 동시에 사용합니다.
+- 예측보다는 추세 파악과 계절성 분석에 주로 사용됩니다.
+- 급격한 변화나 구조적 변화에 대한 반응이 느립니다.
+- 시계열의 끝 부분에서는 계산할 수 없는 값이 발생합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.holtwinters import SimpleExpSmoothing
+from scipy import signal
+
+# 시계열 데이터 생성
+np.random.seed(42)
+n = 200
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+
+# 추세와 노이즈가 있는 시계열
+trend = np.linspace(0, 10, n)
+noise = np.random.normal(0, 1, n)
+ts = trend + noise
+
+# 구조적 변화 추가
+ts[100:] += 5
+
+# 데이터프레임 생성
+df = pd.DataFrame({'y': ts}, index=dates)
+
+# 다양한 윈도우 크기의 이동평균 계산
+ma_windows = [5, 10, 30]
+for window in ma_windows:
+    df[f'MA_{window}'] = df['y'].rolling(window=window, center=False).mean()
+
+# 중심화 이동평균
+df['MA_10_centered'] = df['y'].rolling(window=10, center=True).mean()
+
+# scipy를 사용한 이동평균 (끝 부분의 값도 계산)
+def moving_average(x, w):
+    return np.convolve(x, np.ones(w), 'valid') / w
+
+# 시각화
+plt.figure(figsize=(14, 10))
+
+# 1. 원본 시계열과 다양한 이동평균
+plt.subplot(2, 2, 1)
+plt.plot(df['y'], label='원본 시계열', alpha=0.7)
+for window in ma_windows:
+    plt.plot(df[f'MA_{window}'], label=f'{window}일 이동평균')
+plt.title('다양한 윈도우 크기의 이동평균')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. 중심화 이동평균 vs 표준 이동평균
+plt.subplot(2, 2, 2)
+plt.plot(df['y'], label='원본 시계열', alpha=0.7)
+plt.plot(df['MA_10'], label='10일 이동평균')
+plt.plot(df['MA_10_centered'], label='10일 중심화 이동평균')
+plt.title('중심화 이동평균 vs 표준 이동평균')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 3. 이동평균을 이용한 추세 추출
+plt.subplot(2, 2, 3)
+plt.plot(df['y'], label='원본 시계열', alpha=0.5)
+plt.plot(df['MA_30'], label='30일 이동평균 (추세)')
+plt.title('이동평균을 이용한 추세 추출')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 4. 이동평균과 잔차
+plt.subplot(2, 2, 4)
+residuals = df['y'] - df['MA_10']
+plt.plot(residuals, label='이동평균에서의 잔차')
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('이동평균에서의 잔차')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 이동평균을 이용한 간단한 예측 (naïve approach)
+forecast_horizon = 20
+forecast_index = pd.date_range(start=dates[-1] + pd.Timedelta(days=1), periods=forecast_horizon, freq='D')
+
+# 마지막 10일 이동평균 값을 예측으로 사용
+last_ma = df['MA_10'].dropna().iloc[-1]
+forecast = np.full(forecast_horizon, last_ma)
+
+# 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(df['y'], label='원본 시계열')
+plt.plot(df['MA_10'], label='10일 이동평균')
+plt.plot(forecast_index, forecast, 'r--', label='이동평균 기반 예측')
+plt.title('이동평균을 이용한 간단한 예측')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 주가 추세 분석(기술적 분석)에서 이동평균선 활용
+- 시계열의 노이즈 제거와 시각적 평활화
+- 계절성이 있는 데이터의 추세 파악
+- 간단한 예측 모델로 활용(예: 나이브 예측)
+- 이상치 탐지를 위한 기준선 설정
+
+## 5. 평균평활 모형 (Exponential Smoothing Model)
+
+**정의**: 지수평활법은 과거 관측값에 지수적으로 감소하는 가중치를 부여하여 시계열을 평활화하는 방법입니다. 최근 데이터에 더 높은 가중치를 부여함으로써 시계열의 최근 패턴을 더 잘 반영할 수 있습니다.
+
+**수식**:
+
+- 단순 지수평활법(SES): $S_t = \alpha Y_t + (1-\alpha)S_{t-1}$, 여기서 0 < α < 1
+- 홀트 지수평활법(추세 고려): $S_t = \alpha Y_t + (1-\alpha)(S_{t-1} + T_{t-1})$ $T_t = \beta(S_t - S_{t-1}) + (1-\beta)T_{t-1}$
+- 홀트-윈터스(계절성 고려):
+    - 가법: $S_t = \alpha(Y_t - I_{t-m}) + (1-\alpha)(S_{t-1} + T_{t-1})$
+    - 승법: $S_t = \alpha\frac{Y_t}{I_{t-m}} + (1-\alpha)(S_{t-1} + T_{t-1})$
+
+**특징**:
+
+- 단순 이동평균보다 최근 데이터에 더 민감하게 반응합니다.
+- 평활화 매개변수(α)가 클수록 최근 관측값에 더 큰 가중치가 부여됩니다.
+- 단순, 추세, 계절성에 따라 다양한 변형이 있습니다.
+- 단기 예측에 효과적이지만, 장기 예측은 안정성이 떨어질 수 있습니다.
+- 계산이 간단하고 적은 데이터로도 적용 가능합니다.
+- 매개변수는 경험적으로 선택하거나 최적화할 수 있습니다.
+- 급격한 변화에 점진적으로 적응합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.holtwinters import SimpleExpSmoothing, ExponentialSmoothing
+
+# 시계열 데이터 생성
+np.random.seed(42)
+n = 100
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+
+# 추세와 노이즈가 있는 시계열
+trend = np.linspace(0, 5, n)
+noise = np.random.normal(0, 0.5, n)
+ts = trend + noise
+
+# 시점 변화 추가
+ts[50:] += 2
+
+# 데이터프레임 생성
+df = pd.DataFrame({'y': ts}, index=dates)
+
+# 1. 단순 지수평활법(SES) - 다양한 알파 값
+alphas = [0.1, 0.3, 0.7]
+ses_models = {}
+ses_forecasts = {}
+
+for alpha in alphas:
+    # 모델 적합
+    model = SimpleExpSmoothing(df['y']).fit(smoothing_level=alpha, optimized=False)
+    ses_models[alpha] = model
+    
+    # 적합값
+    df[f'SES_alpha_{alpha}'] = model.fittedvalues
+    
+    # 예측
+    forecast = model.forecast(5)
+    ses_forecasts[alpha] = forecast
+
+# 2. 홀트 지수평활법 (추세 고려)
+holt_model = ExponentialSmoothing(df['y'], trend='add').fit()
+df['Holt'] = holt_model.fittedvalues
+holt_forecast = holt_model.forecast(5)
+
+# 3. 홀트-윈터스 지수평활법 시뮬레이션 (계절성 시계열 생성)
+m = 12  # 계절 주기
+n_years = 3
+n_with_season = m * n_years
+dates_season = pd.date_range(start='2020-01-01', periods=n_with_season, freq='MS')
+
+# 추세, 계절성, 노이즈로 구성된 시계열
+trend_season = np.linspace(0, 5, n_with_season)
+seasonality = 2 * np.sin(np.linspace(0, 2*n_years*np.pi, n_with_season))
+noise_season = np.random.normal(0, 0.3, n_with_season)
+ts_season = trend_season + seasonality + noise_season
+
+df_season = pd.DataFrame({'y': ts_season}, index=dates_season)
+
+# 홀트-윈터스 모델 적합 (가법 모델)
+hw_add_model = ExponentialSmoothing(
+    df_season['y'], trend='add', seasonal='add', seasonal_periods=m).fit()
+df_season['HW_add'] = hw_add_model.fittedvalues
+hw_add_forecast = hw_add_model.forecast(m)  # 1년 예측
+
+# 홀트-윈터스 모델 적합 (승법 모델)
+hw_mul_model = ExponentialSmoothing(
+    df_season['y'], trend='add', seasonal='mul', seasonal_periods=m).fit()
+df_season['HW_mul'] = hw_mul_model.fittedvalues
+hw_mul_forecast = hw_mul_model.forecast(m)  # 1년 예측
+
+# 시각화
+plt.figure(figsize=(15, 10))
+
+# 1. 단순 지수평활법(SES) - 다양한 알파 값
+plt.subplot(2, 2, 1)
+plt.plot(df['y'], label='원본 시계열', alpha=0.7)
+for alpha in alphas:
+    plt.plot(df[f'SES_alpha_{alpha}'], label=f'SES (α={alpha})')
+plt.title('단순 지수평활법(SES) - 다양한 알파 값')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. SES 예측 비교
+forecast_index = pd.date_range(start=dates[-1] + pd.Timedelta(days=1), periods=5, freq='D')
+plt.subplot(2, 2, 2)
+plt.plot(df['y'], label='원본 시계열', alpha=0.7)
+for alpha in alphas:
+    plt.plot(forecast_index, ses_forecasts[alpha], '--', label=f'SES (α={alpha}) 예측')
+plt.title('단순 지수평활법(SES) 예측 비교')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 3. 홀트 지수평활법 (추세 고려)
+plt.subplot(2, 2, 3)
+plt.plot(df['y'], label='원본 시계열', alpha=0.7)
+plt.plot(df['Holt'], label='홀트 지수평활법')
+plt.plot(forecast_index, holt_forecast, 'r--', label='홀트 예측')
+plt.title('홀트 지수평활법 (추세 고려)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 4. 홀트-윈터스 지수평활법 (추세 및 계절성 고려)
+plt.subplot(2, 2, 4)
+plt.plot(df_season['y'], label='계절성 시계열', alpha=0.7)
+plt.plot(df_season['HW_add'], label='홀트-윈터스 (가법)')
+plt.plot(df_season['HW_mul'], label='홀트-윈터스 (승법)')
+plt.title('홀트-윈터스 지수평활법 (계절성 고려)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 홀트-윈터스 예측 시각화
+plt.figure(figsize=(12, 6))
+forecast_index_season = pd.date_range(start=dates_season[-1] + pd.DateOffset(months=1), periods=m, freq='MS')
+
+plt.plot(df_season['y'], label='계절성 시계열')
+plt.plot(forecast_index_season, hw_add_forecast, 'r--', label='홀트-윈터스 (가법) 예측')
+plt.plot(forecast_index_season, hw_mul_forecast, 'g--', label='홀트-윈터스 (승법) 예측')
+plt.title('홀트-윈터스 지수평활법 예측 (1년)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 수요 예측(재고 관리, 판매 예측)
+- 웹사이트 트래픽 예측
+- 경제 지표의 단기 예측
+- 주가 분석에서 평균선 기법으로 활용
+- 이상치 탐지 및 알림 시스템 구축
+
+## 6. 자기회귀 이동평균 모형 (ARMA, Autoregressive Moving Average Model)
+
+**정의**: ARMA 모형은 시계열의 자기회귀(AR) 특성과 이동평균(MA) 특성을 결합한 선형 모델입니다. 이는 과거 관측값과 과거 오차항이 현재 관측값에 미치는 영향을 함께 모델링합니다.
+
+**수식**: ARMA(p, q) 모형은 다음과 같이 표현됩니다: $Y_t = c + \sum_{i=1}^{p} \phi_i Y_{t-i} + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j} + \varepsilon_t$
+
+여기서:
+
+- p: 자기회귀(AR) 차수
+- q: 이동평균(MA) 차수
+- $\phi_i$: AR 계수
+- $\theta_j$: MA 계수
+- $\varepsilon_t$: 백색잡음 오차항
+- c: 상수항
+
+**특징**:
+
+- 정상 시계열을 모델링하는 데 사용됩니다.
+- AR 부분은 시계열의 자기상관을, MA 부분은 과거 오차의 영향을 반영합니다.
+- ACF와 PACF 플롯을 통해 적절한 p, q 차수를 결정합니다.
+- AIC, BIC와 같은 정보 기준으로 최적 모델을 선택할 수 있습니다.
+- 단기 예측에 효과적이지만, 비선형 패턴이나 구조적 변화를 포착하기 어렵습니다.
+- 복잡한 계절성이나 추세는 직접 모델링하지 않습니다.
+- 모델 식별, 추정, 진단, 예측의 Box-Jenkins 방법론을 따릅니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
+# 시계열 데이터 생성
+np.random.seed(42)
+n = 200
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+
+# AR(1) 프로세스 생성
+ar_params = [0.7]
+ar = np.random.normal(0, 1, n)
+for t in range(1, n):
+    ar[t] += ar_params[0] * ar[t-1]
+
+# MA(1) 프로세스 생성
+ma_params = [0.6]
+errors = np.random.normal(0, 1, n)
+ma = errors.copy()
+for t in range(1, n):
+    ma[t] += ma_params[0] * errors[t-1]
+
+# ARMA(1,1) 프로세스 생성
+arma = np.random.normal(0, 1, n)
+for t in range(1, n):
+    arma[t] += ar_params[0] * arma[t-1] + ma_params[0] * errors[t-1]
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    'AR(1)': ar,
+    'MA(1)': ma,
+    'ARMA(1,1)': arma
+}, index=dates)
+
+# ACF와 PACF 플롯을 통한 모델 식별
+plt.figure(figsize=(15, 10))
+
+# AR(1) 모델의 ACF와 PACF
+plt.subplot(3, 2, 1)
+plot_acf(df['AR(1)'], lags=20, ax=plt.gca())
+plt.title('AR(1) 모델의 ACF')
+
+plt.subplot(3, 2, 2)
+plot_pacf(df['AR(1)'], lags=20, ax=plt.gca())
+plt.title('AR(1) 모델의 PACF')
+
+# MA(1) 모델의 ACF와 PACF
+plt.subplot(3, 2, 3)
+plot_acf(df['MA(1)'], lags=20, ax=plt.gca())
+plt.title('MA(1) 모델의 ACF')
+
+plt.subplot(3, 2, 4)
+plot_pacf(df['MA(1)'], lags=20, ax=plt.gca())
+plt.title('MA(1) 모델의 PACF')
+
+# ARMA(1,1) 모델의 ACF와 PACF
+plt.subplot(3, 2, 5)
+plot_acf(df['ARMA(1,1)'], lags=20, ax=plt.gca())
+plt.title('ARMA(1,1) 모델의 ACF')
+
+plt.subplot(3, 2, 6)
+plot_pacf(df['ARMA(1,1)'], lags=20, ax=plt.gca())
+plt.title('ARMA(1,1) 모델의 PACF')
+
+plt.tight_layout()
+plt.show()
+
+# 모델 적합 및 예측
+# 1. AR(1) 모델
+ar_model = ARIMA(df['AR(1)'], order=(1, 0, 0)).fit()
+print("AR(1) 모델 요약:")
+print(ar_model.summary())
+
+# 2. MA(1) 모델
+ma_model = ARIMA(df['MA(1)'], order=(0, 0, 1)).fit()
+print("\nMA(1) 모델 요약:")
+print(ma_model.summary())
+
+# 3. ARMA(1,1) 모델
+arma_model = ARIMA(df['ARMA(1,1)'], order=(1, 0, 1)).fit()
+print("\nARMA(1,1) 모델 요약:")
+print(arma_model.summary())
+
+# 예측 및 시각화
+forecast_steps = 20
+forecast_index = pd.date_range(start=dates[-1] + pd.Timedelta(days=1), periods=forecast_steps, freq='D')
+
+# AR(1) 모델 예측
+ar_forecast = ar_model.forecast(steps=forecast_steps)
+ar_conf_int = ar_model.get_forecast(steps=forecast_steps).conf_int()
+
+# ARMA(1,1) 모델 예측
+arma_forecast = arma_model.forecast(steps=forecast_steps)
+arma_conf_int = arma_model.get_forecast(steps=forecast_steps).conf_int()
+
+# 예측 시각화
+plt.figure(figsize=(12, 8))
+
+# AR(1) 모델 예측
+plt.subplot(2, 1, 1)
+plt.plot(df['AR(1)'], label='실제 AR(1) 시계열')
+plt.plot(ar_model.fittedvalues, 'r--', label='AR(1) 모델 적합값')
+plt.plot(forecast_index, ar_forecast, 'g-', label='AR(1) 모델 예측')
+plt.fill_between(forecast_index, 
+                 ar_conf_int.iloc[:, 0], 
+                 ar_conf_int.iloc[:, 1], 
+                 color='g', alpha=0.2, label='95% 신뢰구간')
+plt.title('AR(1) 모델 적합 및 예측')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# ARMA(1,1) 모델 예측
+plt.subplot(2, 1, 2)
+plt.plot(df['ARMA(1,1)'], label='실제 ARMA(1,1) 시계열')
+plt.plot(arma_model.fittedvalues, 'r--', label='ARMA(1,1) 모델 적합값')
+plt.plot(forecast_index, arma_forecast, 'g-', label='ARMA(1,1) 모델 예측')
+plt.fill_between(forecast_index, 
+                 arma_conf_int.iloc[:, 0], 
+                 arma_conf_int.iloc[:, 1], 
+                 color='g', alpha=0.2, label='95% 신뢰구간')
+plt.title('ARMA(1,1) 모델 적합 및 예측')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 모델 진단 (ARMA 모델 예시)
+plt.figure(figsize=(12, 10))
+
+# 1. 잔차 시계열
+plt.subplot(2, 2, 1)
+plt.plot(arma_model.resid)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('ARMA(1,1) 모델 잔차')
+plt.grid(True, alpha=0.3)
+
+# 2. 잔차 히스토그램
+plt.subplot(2, 2, 2)
+plt.hist(arma_model.resid, bins=20, alpha=0.7, density=True, edgecolor='black')
+# 정규분포 곡선 추가
+x = np.linspace(arma_model.resid.min(), arma_model.resid.max(), 100)
+plt.plot(x, stats.norm.pdf(x, arma_model.resid.mean(), arma_model.resid.std()), 'r-', linewidth=2)
+plt.title('잔차 히스토그램')
+plt.grid(True, alpha=0.3)
+
+# 3. 잔차 ACF
+plt.subplot(2, 2, 3)
+plot_acf(arma_model.resid, lags=20, ax=plt.gca())
+plt.title('잔차 ACF')
+
+# 4. Q-Q 플롯
+plt.subplot(2, 2, 4)
+sm.graphics.qqplot(arma_model.resid, line='45', fit=True, ax=plt.gca())
+plt.title('잔차 Q-Q 플롯')
+
+plt.tight_layout()
+plt.show()
+
+# 정보 기준을 이용한 모델 선택
+aic_values = []
+bic_values = []
+orders = [(p, 0, q) for p in range(3) for q in range(3)]
+
+for order in orders:
+    try:
+        model = ARIMA(df['ARMA(1,1)'], order=order).fit()
+        aic_values.append(model.aic)
+        bic_values.append(model.bic)
+    except:
+        aic_values.append(np.nan)
+        bic_values.append(np.nan)
+
+# 결과 정리
+results_df = pd.DataFrame({
+    'Order': [(p, 0, q) for p in range(3) for q in range(3)],
+    'AIC': aic_values,
+    'BIC': bic_values
+})
+
+print("\n모델 선택 결과:")
+print(results_df.sort_values('AIC'))
+```
+
+**개념의 활용**:
+
+- 금융 시계열 분석 및 예측(주가, 환율)
+- 경제 지표의 단기 예측
+- 센서 데이터 분석과 이상치 탐지
+- 품질 관리 시스템에서의 공정 모니터링
+- 복잡한 시계열의 기본 패턴 파악과 예측
+
+## 7. ARIMA (Autoregressive Integrated Moving Average)
+
+**정의**: ARIMA는 ARMA 모델을 비정상 시계열에 확장한 것으로, 차분(differencing)을 통해 비정상 시계열을 정상화한 후 ARMA 모델을 적용합니다. 이는 추세가 있는 시계열을 모델링하는 데 유용합니다.
+
+**수식**: ARIMA(p, d, q) 모형은 다음과 같이 표현됩니다: $(1 - \sum_{i=1}^{p} \phi_i L^i)(1 - L)^d Y_t = (1 + \sum_{j=1}^{q} \theta_j L^j)\varepsilon_t$
+
+여기서:
+
+- p: 자기회귀(AR) 차수
+- d: 차분(differencing) 차수
+- q: 이동평균(MA) 차수
+- L: 지연 연산자 (LYₜ = Yₜ₋₁)
+- $\phi_i$: AR 계수
+- $\theta_j$: MA 계수
+- $\varepsilon_t$: 백색잡음 오차항
+
+**특징**:
+
+- 비정상 시계열을 차분하여 정상화한 후 ARMA 모델을 적용합니다.
+- 차분 차수 d는 일반적으로 단위근 검정(ADF, KPSS 등)을 통해 결정합니다.
+- Box-Jenkins 방법론(식별, 추정, 진단, 예측)을 따릅니다.
+- 선형 추세가 있는 시계열에 적합합니다.
+- 계절성을 직접 모델링하지 않습니다(계절성은 SARIMA에서 처리).
+- 모델 복잡성이 증가할수록 과적합 위험이 있습니다.
+- ACF, PACF 및 정보 기준(AIC, BIC)을 통해 최적 차수를 선택합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.stattools import adfuller
+import statsmodels.api as sm
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+import pmdarima as pm
+from sklearn.metrics import mean_squared_error
+
+# 비정상 시계열 데이터 생성 (추세 포함)
+np.random.seed(42)
+n = 200
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+
+# 자기회귀 프로세스에 추세 추가
+ar_params = [0.7]
+trend = np.linspace(0, 10, n)
+ar = np.zeros(n)
+errors = np.random.normal(0, 1, n)
+
+for t in range(1, n):
+    ar[t] = trend[t] + ar_params[0] * (ar[t-1] - trend[t-1]) + errors[t]
+
+# 데이터프레임 생성
+df = pd.DataFrame({'y': ar}, index=dates)
+
+# ADF 검정으로 정상성 확인
+def check_stationarity(series, title=''):
+    result = adfuller(series.dropna())
+    print(f"ADF 검정 결과 - {title}")
+    print(f"ADF 통계량: {result[0]:.4f}")
+    print(f"p-value: {result[1]:.4f}")
+    for key, value in result[4].items():
+        print(f"임계값 ({key}): {value:.4f}")
+    if result[1] <= 0.05:
+        print("결론: 정상 시계열 (귀무가설 기각)")
+    else:
+        print("결론: 비정상 시계열 (귀무가설 기각 실패)")
+    print()
+
+# 원본 시계열과 차분 시계열의 정상성 확인
+check_stationarity(df['y'], '원본 시계열')
+check_stationarity(df['y'].diff().dropna(), '1차 차분 시계열')
+
+# 1차 차분 시계열 생성
+df['diff1'] = df['y'].diff()
+
+# 시각화: 원본 시계열과 차분 시계열
+plt.figure(figsize=(12, 8))
+
+plt.subplot(2, 2, 1)
+plt.plot(df['y'])
+plt.title('원본 시계열 (비정상)')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(2, 2, 2)
+plt.plot(df['diff1'])
+plt.title('1차 차분 시계열')
+plt.grid(True, alpha=0.3)
+
+# ACF와 PACF 플롯으로 ARIMA 차수 식별
+plt.subplot(2, 2, 3)
+plot_acf(df['diff1'].dropna(), lags=20, ax=plt.gca())
+plt.title('1차 차분 시계열의 ACF')
+
+plt.subplot(2, 2, 4)
+plot_pacf(df['diff1'].dropna(), lags=20, ax=plt.gca())
+plt.title('1차 차분 시계열의 PACF')
+
+plt.tight_layout()
+plt.show()
+
+# ARIMA 모델 적합
+arima_model = ARIMA(df['y'], order=(1, 1, 1)).fit()
+print("ARIMA(1,1,1) 모델 요약:")
+print(arima_model.summary())
+
+# auto_arima로 최적 차수 선택
+auto_model = pm.auto_arima(df['y'], start_p=0, start_q=0, max_p=3, max_q=3, d=None,
+                          test='adf', seasonal=False, trace=True,
+                          error_action='ignore', suppress_warnings=True, stepwise=True)
+
+print("\nauto_arima 최적 모델:")
+print(auto_model.summary())
+best_order = auto_model.order
+print(f"최적 차수 (p,d,q): {best_order}")
+
+# 최적 모델 적합
+best_model = ARIMA(df['y'], order=best_order).fit()
+
+# 훈련/테스트 분리 및 평가
+train_size = int(0.8 * len(df))
+train, test = df.iloc[:train_size], df.iloc[train_size:]
+
+# 훈련 데이터로 모델 적합
+train_model = ARIMA(train['y'], order=best_order).fit()
+
+# 테스트 기간 예측
+forecast_steps = len(test)
+forecast = train_model.forecast(steps=forecast_steps)
+
+# RMSE 계산
+rmse = np.sqrt(mean_squared_error(test['y'], forecast))
+print(f"\n테스트 데이터 RMSE: {rmse:.4f}")
+
+# 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(df.index[:train_size], train['y'], label='훈련 데이터')
+plt.plot(df.index[train_size:], test['y'], label='테스트 데이터')
+plt.plot(df.index[train_size:], forecast, 'r--', label='ARIMA 예측')
+plt.title(f'ARIMA{best_order} 모델 예측 (RMSE: {rmse:.4f})')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# 전체 데이터로 모델 재적합 및 미래 예측
+final_model = ARIMA(df['y'], order=best_order).fit()
+future_steps = 30
+future_index = pd.date_range(start=dates[-1] + pd.Timedelta(days=1), periods=future_steps, freq='D')
+future_forecast = final_model.forecast(steps=future_steps)
+forecast_conf_int = final_model.get_forecast(steps=future_steps).conf_int()
+
+# 미래 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(df['y'], label='관측 데이터')
+plt.plot(future_index, future_forecast, 'r-', label='ARIMA 예측')
+plt.fill_between(future_index, 
+                 forecast_conf_int.iloc[:, 0], 
+                 forecast_conf_int.iloc[:, 1], 
+                 color='r', alpha=0.2, label='95% 신뢰구간')
+plt.title(f'ARIMA{best_order} 모델 미래 예측')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# 모델 진단
+plt.figure(figsize=(12, 10))
+
+# 1. 잔차 시계열
+plt.subplot(2, 2, 1)
+plt.plot(final_model.resid)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('ARIMA 모델 잔차')
+plt.grid(True, alpha=0.3)
+
+# 2. 잔차 히스토그램
+plt.subplot(2, 2, 2)
+plt.hist(final_model.resid, bins=20, alpha=0.7, density=True, edgecolor='black')
+# 정규분포 곡선 추가
+x = np.linspace(final_model.resid.min(), final_model.resid.max(), 100)
+plt.plot(x, stats.norm.pdf(x, final_model.resid.mean(), final_model.resid.std()), 'r-', linewidth=2)
+plt.title('잔차 히스토그램')
+plt.grid(True, alpha=0.3)
+
+# 3. 잔차 ACF
+plt.subplot(2, 2, 3)
+plot_acf(final_model.resid, lags=20, ax=plt.gca())
+plt.title('잔차 ACF')
+
+# 4. Q-Q 플롯
+plt.subplot(2, 2, 4)
+sm.graphics.qqplot(final_model.resid, line='45', fit=True, ax=plt.gca())
+plt.title('잔차 Q-Q 플롯')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 추세가 있는 경제 시계열의 예측(GDP, 물가지수)
+- 금융 시계열의 분석 및 예측(주가, 환율)
+- 판매량이나 수요 패턴 예측
+- 웹사이트 트래픽 예측
+- 인구통계학적 시계열 분석
+
+## 8. SARIMA (Seasonal ARIMA)
+
+**정의**: SARIMA는 ARIMA 모델에 계절성 요소를 추가한 확장 모델입니다. 시계열에 존재하는 계절적 패턴(예: 매년, 매월 반복되는 패턴)을 모델링하여 더 정확한 예측을 제공합니다.
+
+**수식**: SARIMA(p, d, q)(P, D, Q)s 모형: $\Phi_P(L^s)\phi_p(L)(1-L)^d(1-L^s)^D Y_t = \Theta_Q(L^s)\theta_q(L)\varepsilon_t$
+
+여기서:
+
+- p, d, q: 비계절성 ARIMA 차수
+- P, D, Q: 계절성 ARIMA 차수
+- s: 계절 주기 (예: 월별 데이터는 s=12, 분기별 데이터는 s=4)
+- $\Phi_P, \phi_p$: 계절성 및 비계절성 AR 연산자
+- $\Theta_Q, \theta_q$: 계절성 및 비계절성 MA 연산자
+- L: 지연 연산자
+
+**특징**:
+
+- 계절성과 비계절성 패턴을 동시에 모델링합니다.
+- 복잡한 시계열 패턴을 포착할 수 있습니다.
+- 계절 차분(D)은 계절적 비정상성을 제거합니다.
+- 계절 주기(s)는 데이터 빈도에 따라 결정됩니다(일별=7, 월별=12, 분기별=4 등).
+- ARIMA보다 추정해야 할 매개변수가 많아 과적합 위험이 높습니다.
+- 정보 기준(AIC, BIC)이나 auto_arima와 같은 자동화 도구로 차수를 선택할 수 있습니다.
+- 중장기 예측에 효과적입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+import pmdarima as pm
+from sklearn.metrics import mean_squared_error
+
+# 계절성이 있는 시계열 데이터 생성
+np.random.seed(42)
+n_years = 5
+s = 12  # 월별 데이터
+n = n_years * s
+dates = pd.date_range(start='2018-01-01', periods=n, freq='MS')
+
+# 추세 + 계절성 + 노이즈
+trend = np.linspace(0, 5, n)
+seasonality = 3 * np.sin(np.linspace(0, 2*np.pi*n_years, n))
+noise = np.random.normal(0, 0.5, n)
+ts = trend + seasonality + noise
+
+# 데이터프레임 생성
+df = pd.DataFrame({'y': ts}, index=dates)
+
+# 시계열 분해로 계절성 확인
+decomposition = seasonal_decompose(df['y'], model='additive', period=s)
+
+# 시각화: 원본 시계열 및 분해 결과
+plt.figure(figsize=(12, 10))
+
+plt.subplot(4, 1, 1)
+plt.plot(df['y'])
+plt.title('원본 시계열 (계절성 포함)')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 2)
+plt.plot(decomposition.trend)
+plt.title('추세 요소')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 3)
+plt.plot(decomposition.seasonal)
+plt.title('계절성 요소')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(4, 1, 4)
+plt.plot(decomposition.resid)
+plt.title('잔차 요소')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 계절 차분 및 일반 차분
+df['seasonal_diff'] = df['y'] - df['y'].shift(s)
+df['diff'] = df['seasonal_diff'].diff()
+
+# 시각화: 차분 결과
+plt.figure(figsize=(12, 8))
+
+plt.subplot(3, 1, 1)
+plt.plot(df['y'])
+plt.title('원본 시계열')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(3, 1, 2)
+plt.plot(df['seasonal_diff'])
+plt.title('계절 차분 (D=1)')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(3, 1, 3)
+plt.plot(df['diff'])
+plt.title('계절 차분 후 일반 차분 (D=1, d=1)')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# ACF와 PACF 플롯으로 SARIMA 차수 식별
+plt.figure(figsize=(12, 8))
+
+plt.subplot(2, 2, 1)
+plot_acf(df['y'].dropna(), lags=36, ax=plt.gca())
+plt.title('원본 시계열의 ACF')
+
+plt.subplot(2, 2, 2)
+plot_pacf(df['y'].dropna(), lags=36, ax=plt.gca())
+plt.title('원본 시계열의 PACF')
+
+plt.subplot(2, 2, 3)
+plot_acf(df['seasonal_diff'].dropna(), lags=36, ax=plt.gca())
+plt.title('계절 차분 시계열의 ACF')
+
+plt.subplot(2, 2, 4)
+plot_pacf(df['seasonal_diff'].dropna(), lags=36, ax=plt.gca())
+plt.title('계절 차분 시계열의 PACF')
+
+plt.tight_layout()
+plt.show()
+
+# SARIMA 모델 적합
+sarima_model = SARIMAX(df['y'], order=(1, 1, 1), seasonal_order=(1, 1, 1, s)).fit(disp=False)
+print("SARIMA(1,1,1)(1,1,1,12) 모델 요약:")
+print(sarima_model.summary())
+
+# auto_arima로 최적 차수 선택
+auto_model = pm.auto_arima(df['y'], start_p=0, start_q=0, max_p=2, max_q=2, d=None,
+                          start_P=0, start_Q=0, max_P=1, max_Q=1, D=None, m=s,
+                          seasonal=True, test='adf', trace=True,
+                          error_action='ignore', suppress_warnings=True, stepwise=True)
+
+print("\nauto_arima 최적 모델:")
+print(auto_model.summary())
+best_order = auto_model.order
+best_seasonal_order = auto_model.seasonal_order
+print(f"최적 차수 (p,d,q)(P,D,Q,s): {best_order}{best_seasonal_order}")
+
+# 최적 모델 적합
+best_model = SARIMAX(df['y'], order=best_order, seasonal_order=best_seasonal_order).fit(disp=False)
+
+# 훈련/테스트 분리 및 평가
+train_size = int(0.8 * len(df))
+train, test = df.iloc[:train_size], df.iloc[train_size:]
+
+# 훈련 데이터로 모델 적합
+train_model = SARIMAX(train['y'], order=best_order, seasonal_order=best_seasonal_order).fit(disp=False)
+
+# 테스트 기간 예측
+forecast_steps = len(test)
+forecast = train_model.forecast(steps=forecast_steps)
+
+# RMSE 계산
+rmse = np.sqrt(mean_squared_error(test['y'], forecast))
+print(f"\n테스트 데이터 RMSE: {rmse:.4f}")
+
+# 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(df.index[:train_size], train['y'], label='훈련 데이터')
+plt.plot(df.index[train_size:], test['y'], label='테스트 데이터')
+plt.plot(df.index[train_size:], forecast, 'r--', label='SARIMA 예측')
+plt.title(f'SARIMA{best_order}{best_seasonal_order} 모델 예측 (RMSE: {rmse:.4f})')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# 전체 데이터로 모델 재적합 및 미래 예측
+final_model = SARIMAX(df['y'], order=best_order, seasonal_order=best_seasonal_order).fit(disp=False)
+future_steps = 24  # 2년 예측
+future_index = pd.date_range(start=dates[-1] + pd.DateOffset(months=1), periods=future_steps, freq='MS')
+future_forecast = final_model.forecast(steps=future_steps)
+forecast_conf_int = final_model.get_forecast(steps=future_steps).conf_int()
+
+# 미래 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(df['y'], label='관측 데이터')
+plt.plot(future_index, future_forecast, 'r-', label='SARIMA 예측')
+plt.fill_between(future_index, 
+                 forecast_conf_int.iloc[:, 0], 
+                 forecast_conf_int.iloc[:, 1], 
+                 color='r', alpha=0.2, label='95% 신뢰구간')
+plt.title(f'SARIMA{best_order}{best_seasonal_order} 모델 미래 예측')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# 모델 진단
+plt.figure(figsize=(12, 10))
+
+# 1. 잔차 시계열
+plt.subplot(2, 2, 1)
+plt.plot(final_model.resid)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('SARIMA 모델 잔차')
+plt.grid(True, alpha=0.3)
+
+# 2. 잔차 히스토그램
+plt.subplot(2, 2, 2)
+plt.hist(final_model.resid, bins=20, alpha=0.7, density=True, edgecolor='black')
+# 정규분포 곡선 추가
+x = np.linspace(final_model.resid.min(), final_model.resid.max(), 100)
+plt.plot(x, stats.norm.pdf(x, final_model.resid.mean(), final_model.resid.std()), 'r-', linewidth=2)
+plt.title('잔차 히스토그램')
+plt.grid(True, alpha=0.3)
+
+# 3. 잔차 ACF
+plt.subplot(2, 2, 3)
+plot_acf(final_model.resid, lags=36, ax=plt.gca())
+plt.title('잔차 ACF')
+
+# 4. Q-Q 플롯
+plt.subplot(2, 2, 4)
+sm.graphics.qqplot(final_model.resid, line='45', fit=True, ax=plt.gca())
+plt.title('잔차 Q-Q 플롯')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 계절성이 있는 소매 판매 데이터 예측
+- 월별 관광객 수 예측
+- 계절적 패턴이 있는 에너지 소비량 분석
+- 분기별 경제 지표의 예측
+- 계절성이 있는 웹 트래픽이나 앱 사용량 분석
+
+## 9. VAR 모형 (Vector Autoregression Model)
+
+**정의**: VAR 모형은 다변량 시계열 분석 방법으로, 여러 시계열 변수 간의 상호 의존성을 모델링합니다. 각 변수는 자신과 다른 모든 변수의 과거 값의 선형 함수로 표현됩니다.
+
+**수식**: p차 VAR 모형 VAR(p): $\mathbf{Y}_t = \mathbf{c} + \mathbf{A}_1 \mathbf{Y}_{t-1} + \mathbf{A}_2 \mathbf{Y}_{t-2} + ... + \mathbf{A}_p \mathbf{Y}_{t-p} + \mathbf{\varepsilon}_t$
+
+여기서:
+
+- $\mathbf{Y}_t$: t시점의 k×1 시계열 벡터
+- $\mathbf{c}$: k×1 상수항 벡터
+- $\mathbf{A}_i$: k×k 계수 행렬
+- $\mathbf{\varepsilon}_t$: k×1 오차항 벡터 (백색잡음)
+- p: 시차(lag) 차수
+
+**특징**:
+
+- 다수의 시계열 변수가 서로 어떻게 영향을 주는지 분석할 수 있습니다.
+- 그랜저 인과성 검정을 통해 변수 간 인과 관계를 파악할 수 있습니다.
+- 충격 반응 함수(Impulse Response Function)를 통해 한 변수의 충격이 다른 변수에 미치는 영향을 분석할 수 있습니다.
+- 분산 분해(Variance Decomposition)로 한 변수의 변동이 다른 변수에 기인하는 정도를 파악할 수 있습니다.
+- 모든 변수는 내생적(endogenous)으로 취급됩니다.
+- 정보 기준(AIC, BIC, HQ)을 통해 최적 시차를 선택합니다.
+- 모든 시계열은 정상성을 만족해야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.api import VAR
+from statsmodels.tsa.stattools import adfuller, grangercausalitytests
+from statsmodels.tsa.vector_ar.irf import plot_irf
+import statsmodels.api as sm
+
+# 다변량 시계열 데이터 생성
+np.random.seed(42)
+n = 200
+dates = pd.date_range(start='2020-01-01', periods=n, freq='D')
+
+# 상관된 시계열 변수 생성
+e1 = np.random.normal(0, 1, n)
+e2 = np.random.normal(0, 1, n)
+e3 = np.random.normal(0, 1, n)
+
+y1 = np.zeros(n)
+y2 = np.zeros(n)
+y3 = np.zeros(n)
+
+# y1은 자신의 지연값과 오차항의 영향을 받음
+# y2는 y1과 자신의 지연값, 오차항의 영향을 받음
+# y3는 y1, y2와 자신의 지연값, 오차항의 영향을 받음
+for t in range(1, n):
+    y1[t] = 0.6 * y1[t-1] + e1[t]
+    y2[t] = 0.3 * y1[t-1] + 0.5 * y2[t-1] + e2[t]
+    y3[t] = 0.4 * y1[t-1] + 0.2 * y2[t-1] + 0.3 * y3[t-1] + e3[t]
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    'y1': y1,
+    'y2': y2,
+    'y3': y3
+}, index=dates)
+
+# 시각화: 다변량 시계열
+plt.figure(figsize=(12, 8))
+
+for i, col in enumerate(df.columns):
+    plt.subplot(3, 1, i+1)
+    plt.plot(df[col])
+    plt.title(f'시계열 변수: {col}')
+    plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 정상성 검정
+for col in df.columns:
+    result = adfuller(df[col])
+    print(f"ADF 검정 결과 - {col}")
+    print(f"ADF 통계량: {result[0]:.4f}")
+    print(f"p-value: {result[1]:.4f}")
+    if result[1] <= 0.05:
+        print("결론: 정상 시계열 (귀무가설 기각)")
+    else:
+        print("결론: 비정상 시계열 (귀무가설 기각 실패)")
+    print()
+
+# 그랜저 인과성 검정
+max_lag = 5
+print("그랜저 인과성 검정 결과:")
+for i in range(len(df.columns)):
+    for j in range(len(df.columns)):
+        if i != j:
+            test_result = grangercausalitytests(df[[df.columns[j], df.columns[i]]], maxlag=max_lag, verbose=False)
+            p_values = [round(test_result[lag+1][0]['ssr_ftest'][1], 4) for lag in range(max_lag)]
+            min_p_value = min(p_values)
+            min_p_lag = p_values.index(min_p_value) + 1
+            print(f"{df.columns[i]} -> {df.columns[j]}: 최소 p-value {min_p_value} (시차 {min_p_lag})")
+            if min_p_value <= 0.05:
+                print(f"  결론: {df.columns[i]}가 {df.columns[j]}에 그랜저 인과성 있음")
+            else:
+                print(f"  결론: {df.columns[i]}가 {df.columns[j]}에 그랜저 인과성 없음")
+    print()
+
+# 최적 시차 선택
+model = VAR(df)
+lag_order_results = model.select_order(maxlags=10)
+print("최적 시차 선택:")
+print(lag_order_results.summary())
+best_lag = lag_order_results.aic
+
+# VAR 모델 적합
+var_model = model.fit(maxlags=best_lag)
+print("\nVAR 모델 요약:")
+print(var_model.summary())
+
+# 훈련/테스트 분리 및 평가
+train_size = int(0.8 * len(df))
+train, test = df.iloc[:train_size], df.iloc[train_size:]
+
+# 훈련 데이터로 모델 적합
+train_model = VAR(train)
+train_model_fitted = train_model.fit(maxlags=best_lag)
+
+# 예측 기간 설정
+forecast_steps = len(test)
+forecast_input = train.values[-best_lag:]
+forecast = train_model_fitted.forecast(y=forecast_input, steps=forecast_steps)
+
+# 예측 결과를 데이터프레임으로 변환
+forecast_df = pd.DataFrame(forecast, index=test.index, columns=test.columns)
+
+# RMSE 계산
+mse = ((test - forecast_df) ** 2).mean()
+rmse = np.sqrt(mse)
+print("\n각 변수별 RMSE:")
+for col in test.columns:
+    print(f"{col}: {rmse[col]:.4f}")
+
+# 예측 시각화
+plt.figure(figsize=(15, 12))
+
+for i, col in enumerate(df.columns):
+    plt.subplot(3, 1, i+1)
+    plt.plot(train.index, train[col], label='훈련 데이터')
+    plt.plot(test.index, test[col], label='테스트 데이터')
+    plt.plot(test.index, forecast_df[col], 'r--', label='VAR 예측')
+    plt.title(f'{col} VAR 모델 예측 (RMSE: {rmse[col]:.4f})')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 전체 데이터로 모델 재적합 및 미래 예측
+final_model = VAR(df)
+final_model_fitted = final_model.fit(maxlags=best_lag)
+
+# 미래 예측 기간
+future_steps = 30
+forecast_input = df.values[-best_lag:]
+future_forecast = final_model_fitted.forecast(y=forecast_input, steps=future_steps)
+
+# 예측 결과를 데이터프레임으로 변환
+future_index = pd.date_range(start=dates[-1] + pd.Timedelta(days=1), periods=future_steps, freq='D')
+future_forecast_df = pd.DataFrame(future_forecast, index=future_index, columns=df.columns)
+
+# 미래 예측 시각화
+plt.figure(figsize=(15, 12))
+
+for i, col in enumerate(df.columns):
+    plt.subplot(3, 1, i+1)
+    plt.plot(df.index, df[col], label='관측 데이터')
+    plt.plot(future_index, future_forecast_df[col], 'r-', label='VAR 예측')
+    plt.title(f'{col} VAR 모델 미래 예측')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 충격 반응 함수(IRF) 분석
+irf = final_model_fitted.irf(10)  # 10기간 IRF
+plot_irf(irf, impulse=None, response=None)
+plt.suptitle('충격 반응 함수(IRF) 분석', fontsize=16)
+plt.tight_layout()
+plt.subplots_adjust(top=0.9)
+plt.show()
+
+# 예측 오차 분산 분해(FEVD)
+fevd = final_model_fitted.fevd(10)  # 10기간 FEVD
+
+# FEVD 시각화
+plt.figure(figsize=(15, 12))
+
+for i, col in enumerate(df.columns):
+    plt.subplot(3, 1, i+1)
+    fevd.plot(impulse=None, response=col, ax=plt.gca())
+    plt.title(f'{col}의 예측 오차 분산 분해')
+    plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 거시경제 변수 간의 상호작용 분석(GDP, 실업률, 인플레이션 등)
+- 금융 시장 간의 상호연관성 분석(주가, 금리, 환율)
+- 마케팅 채널별 매출 영향 분석
+- 온라인 플랫폼에서 다양한 활동 지표 간의 관계 파악
+- 여러 제품 카테고리 간의 판매량 상호 의존성 분석
