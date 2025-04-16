@@ -524,11 +524,16 @@ $$
 $$
 \frac{\partial Y_{t+k}}{\partial e_{t}} = (1, 1) \text{ element of }F^k = c_{11}c_{11}^* \lambda_{1}^k + c_{12}c_{12}^*\lambda_{2}^j \equiv W_{1}\lambda_{1}^k + W_{2}\lambda_{2}^k
 $$
-- As $k$ goes to $\infty$ the stationary condition means the auto-corrleation closes to zero. Since $W_{1}+W_{2} =1$, the stationary condition for AR(2) is 
+- As $k$ goes to $\infty$ the stationary condition means the auto-correlation closes to zero. Since $W_{1}+W_{2} =1$, the stationary condition for AR(2) is 
 $$
 |\lambda_{1}| < 1, |\lambda_{2}| < 1
 $$
 - This is the condition of $\lim_{ k \to \infty }\rho(k)=0$
+###### Expansion to the AR(p)
+- If we have AR(3) process then the stationary conditions are
+$$
+|\lambda_{1}| <1, |\lambda_{2}| <1, |\lambda_{3}|<1
+$$
 
 
 ## Moving-Average: MA(q)
