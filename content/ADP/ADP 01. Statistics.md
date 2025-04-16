@@ -1041,3 +1041,806 @@ print(f"모비율 추정을 위한 필요 표본 크기: {n_prop}")
 - 품질 검사 샘플링 계획 수립 시
 - 정확도 요구사항과 제한된 자원 사이 균형을 맞출 때
 
+# 가설검정
+
+## 1. 귀무가설과 대립가설 (Null and Alternative Hypotheses)
+
+**정의**:
+
+- 귀무가설(H₀): 검정하고자 하는 주장의 반대 또는 "차이가 없다"는 기본 가정입니다.
+- 대립가설(H₁ 또는 H_A): 연구자가 입증하고자 하는 주장으로, 귀무가설을 기각했을 때 채택되는 가설입니다.
+
+**수식**:
+
+- 귀무가설: H₀: θ = θ₀ (모수가 특정 값과 같다)
+- 대립가설: H₁: θ ≠ θ₀ (양측검정) 또는 H₁: θ > θ₀ (우측검정) 또는 H₁: θ < θ₀ (좌측검정)
+
+**특징**:
+
+- 귀무가설은 일반적으로 "차이가 없다", "효과가 없다", "연관성이 없다" 등의 형태를 띱니다.
+- 통계적 검정은 귀무가설을 기각할 충분한 증거가 있는지 판단하는 과정입니다.
+- 귀무가설은 직접 입증되지 않고, 기각되거나 기각되지 않는 형태로만 결론이 내려집니다.
+- 대립가설은 연구 목적에 따라 양측 또는 단측 형태를 취할 수 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import scipy.stats as stats
+
+# 귀무가설: 모평균이 100이다 (H₀: μ = 100)
+# 대립가설: 모평균이 100보다 크다 (H₁: μ > 100) - 단측검정
+
+# 데이터 생성
+data = np.array([102, 105, 109, 101, 98, 104, 105, 103, 106, 104])
+
+# t-검정 수행
+t_stat, p_value = stats.ttest_1samp(data, popmean=100)
+
+# 단측검정으로 변환 (기본적으로 scipy는 양측검정 p값을 반환)
+# 우측 단측검정이므로 t통계량이 양수일 때만 p값을 반으로 나눔
+if t_stat > 0:
+    p_value = p_value / 2
+
+alpha = 0.05
+print(f"t-통계량: {t_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'귀무가설 기각' if p_value < alpha else '귀무가설 기각 실패'}")
+```
+
+**개념의 활용**:
+
+- 새로운 약물의 효과를 평가할 때 (H₀: 효과 없음, H₁: 효과 있음)
+- 교육 방법의 성과 차이를 검증할 때 (H₀: 차이 없음, H₁: 차이 있음)
+- 품질 관리에서 불량률 변화를 확인할 때 (H₀: 변화 없음, H₁: 증가했음)
+- 마케팅 캠페인의 전환율 향상을 평가할 때 (H₀: 향상 없음, H₁: 향상됨)
+- 두 집단 간 소득 차이를 검증할 때 (H₀: 차이 없음, H₁: 차이 있음)
+
+## 2. 1종오류와 2종오류 (Type I and Type II Errors)
+
+**정의**:
+
+- 1종오류(α): 귀무가설이 사실인데 이를 기각하는 오류(거짓 양성, false positive)
+- 2종오류(β): 귀무가설이 거짓인데 이를 기각하지 못하는 오류(거짓 음성, false negative)
+
+**수식**:
+
+- 1종오류의 확률: α = P(귀무가설 기각 | 귀무가설이 참)
+- 2종오류의 확률: β = P(귀무가설 기각 실패 | 귀무가설이 거짓)
+- 검정력(Power): 1-β = P(귀무가설 기각 | 귀무가설이 거짓)
+
+**특징**:
+
+- 1종오류(α)는 일반적으로 연구자가 통제하는 값으로, 보통 0.05 또는 0.01로 설정합니다.
+- 2종오류(β)는 표본 크기, 효과 크기, 유의수준에 따라 결정됩니다.
+- α와 β는 서로 반비례 관계에 있어, α를 낮추면 β가 증가합니다.
+- 표본 크기를 늘리면 두 오류를 모두 줄일 수 있습니다.
+- 실무에서는 상황에 따라 어떤 오류가 더 심각한지 고려하여 적절한 α 값을 선택합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# 1종오류와 2종오류 시각화
+def plot_error_types(mu0, mu1, sigma, alpha=0.05, n=30):
+    # 표준오차
+    se = sigma / np.sqrt(n)
+    
+    # 임계값 계산
+    critical_value = mu0 + stats.norm.ppf(1-alpha) * se
+    
+    # x 범위 설정
+    x = np.linspace(mu0 - 4*se, mu1 + 4*se, 1000)
+    
+    # 귀무가설과 대립가설 하의 분포
+    y_h0 = stats.norm.pdf(x, mu0, se)
+    y_h1 = stats.norm.pdf(x, mu1, se)
+    
+    # 그래프 그리기
+    plt.figure(figsize=(10, 6))
+    
+    # 분포 곡선
+    plt.plot(x, y_h0, 'b-', label='H₀ 분포 (μ='+str(mu0)+')')
+    plt.plot(x, y_h1, 'r-', label='H₁ 분포 (μ='+str(mu1)+')')
+    
+    # 임계값 표시
+    plt.axvline(critical_value, color='k', linestyle='--', label='임계값')
+    
+    # 오류 영역 표시
+    # 1종오류 (α)
+    x_alpha = np.linspace(critical_value, mu0 + 4*se, 100)
+    plt.fill_between(x_alpha, 0, stats.norm.pdf(x_alpha, mu0, se), color='blue', alpha=0.3, label='1종오류(α)')
+    
+    # 2종오류 (β)
+    x_beta = np.linspace(mu1 - 4*se, critical_value, 100)
+    plt.fill_between(x_beta, 0, stats.norm.pdf(x_beta, mu1, se), color='red', alpha=0.3, label='2종오류(β)')
+    
+    plt.title('1종오류(α)와 2종오류(β) 시각화')
+    plt.xlabel('표본평균')
+    plt.ylabel('확률밀도')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # 계산된 1종오류와 2종오류 확률
+    alpha_actual = 1 - stats.norm.cdf(critical_value, mu0, se)
+    beta_actual = stats.norm.cdf(critical_value, mu1, se)
+    
+    print(f"1종오류(α) 확률: {alpha_actual:.4f}")
+    print(f"2종오류(β) 확률: {beta_actual:.4f}")
+    print(f"검정력(1-β): {1-beta_actual:.4f}")
+    
+    plt.show()
+
+# 예시: H₀: μ=100 vs H₁: μ=103, σ=5
+plot_error_types(mu0=100, mu1=103, sigma=5)
+```
+
+**개념의 활용**:
+
+- 제약회사의 신약 개발 과정에서 효과가 없는 약을 효과적이라고 잘못 판단하는 위험(1종오류)과 효과적인 약을 효과가 없다고 잘못 판단하는 위험(2종오류) 사이의 균형을 맞출 때
+- 의학 진단에서 건강한 사람을 질병이 있다고 잘못 진단하는 위험(1종오류)과 질병이 있는 사람을 건강하다고 잘못 진단하는 위험(2종오류) 중 어느 것이 더 심각한지 평가할 때
+- 품질 관리에서 정상 제품을 불량품으로 오판하는 오류(1종오류)와 불량품을 정상으로 오판하는 오류(2종오류)의 비용을 비교할 때
+- 범죄 수사에서 무죄인 사람을 유죄로 판단하는 오류(1종오류)와 유죄인 사람을 무죄로 판단하는 오류(2종오류) 중 어느 오류를 더 엄격히 제한할지 결정할 때
+- A/B 테스트에서 효과가 없는 변경을 효과적이라고 잘못 판단하는 위험(1종오류)과 효과적인 변경을 효과가 없다고 잘못 판단하는 위험(2종오류) 사이의 균형을 맞출 때
+
+## 3. 대립가설의 형태에 따른 기각역 (Rejection Region Based on Alternative Hypothesis Form)
+
+**정의**: 귀무가설을 기각하게 되는 검정통계량의 값 영역으로, 대립가설의 형태(양측, 우측, 좌측)에 따라 결정됩니다.
+
+**수식**:
+
+- 양측검정(H₁: θ ≠ θ₀): |T| > t_{α/2, df} 또는 p-value < α
+- 우측검정(H₁: θ > θ₀): T > t_{α, df} 또는 p-value/2 < α (T > 0인 경우)
+- 좌측검정(H₁: θ < θ₀): T < -t_{α, df} 또는 p-value/2 < α (T < 0인 경우)
+
+**특징**:
+
+- 양측검정은 귀무가설 값보다 크거나 작은 방향 모두를 고려합니다.
+- 단측검정(우측 또는 좌측)은 한쪽 방향의 변화만 관심이 있을 때 사용합니다.
+- 동일한 유의수준에서 단측검정이 양측검정보다 귀무가설을 기각하기 쉽습니다.
+- 단측검정을 위해서는 방향성에 대한 명확한 사전 이론적 근거가 필요합니다.
+- 검정 형태는 자료 수집 전에 결정해야 하며, 결과를 보고 사후에 변경해서는 안 됩니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성
+np.random.seed(42)
+data = np.random.normal(loc=105, scale=10, size=30)  # 평균 105, 표준편차 10인 표본
+
+# 귀무가설: 모평균이 100이다 (H₀: μ = 100)
+
+# 검정 함수 정의
+def hypothesis_test(data, mu0, alpha=0.05, alternative='two-sided'):
+    # t-검정 수행
+    t_stat, p_value_two_sided = stats.ttest_1samp(data, popmean=mu0)
+    
+    # 대립가설 형태에 따른 p-value 조정
+    if alternative == 'greater':
+        p_value = p_value_two_sided / 2 if t_stat > 0 else 1
+        conclusion = "기각" if p_value < alpha else "기각 실패"
+    elif alternative == 'less':
+        p_value = p_value_two_sided / 2 if t_stat < 0 else 1
+        conclusion = "기각" if p_value < alpha else "기각 실패"
+    else:  # 'two-sided'
+        p_value = p_value_two_sided
+        conclusion = "기각" if p_value < alpha else "기각 실패"
+    
+    return {
+        't_stat': t_stat,
+        'p_value': p_value,
+        'conclusion': conclusion
+    }
+
+# 세 가지 대립가설 형태에 대해 검정 수행
+results = {}
+for alt in ['two-sided', 'greater', 'less']:
+    results[alt] = hypothesis_test(data, mu0=100, alternative=alt)
+    
+    print(f"\n대립가설 형태: {alt}")
+    print(f"t-통계량: {results[alt]['t_stat']:.4f}")
+    print(f"p-값: {results[alt]['p_value']:.4f}")
+    print(f"결론: 귀무가설 {results[alt]['conclusion']}")
+
+# t-분포와 기각역 시각화
+def plot_rejection_region(df, alpha=0.05, alternative='two-sided'):
+    x = np.linspace(-4, 4, 1000)
+    y = stats.t.pdf(x, df)
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y, 'b-', label='t-분포(df={})'.format(df))
+    
+    if alternative == 'two-sided':
+        # 양측검정 기각역
+        t_crit = stats.t.ppf(1-alpha/2, df)
+        plt.fill_between(x[x >= t_crit], 0, stats.t.pdf(x[x >= t_crit], df), color='r', alpha=0.3)
+        plt.fill_between(x[x <= -t_crit], 0, stats.t.pdf(x[x <= -t_crit], df), color='r', alpha=0.3)
+        plt.axvline(t_crit, color='r', linestyle='--', label='임계값 ±{:.4f}'.format(t_crit))
+        plt.axvline(-t_crit, color='r', linestyle='--')
+        
+    elif alternative == 'greater':
+        # 우측검정 기각역
+        t_crit = stats.t.ppf(1-alpha, df)
+        plt.fill_between(x[x >= t_crit], 0, stats.t.pdf(x[x >= t_crit], df), color='r', alpha=0.3)
+        plt.axvline(t_crit, color='r', linestyle='--', label='임계값 {:.4f}'.format(t_crit))
+        
+    else:  # 'less'
+        # 좌측검정 기각역
+        t_crit = stats.t.ppf(alpha, df)
+        plt.fill_between(x[x <= t_crit], 0, stats.t.pdf(x[x <= t_crit], df), color='r', alpha=0.3)
+        plt.axvline(t_crit, color='r', linestyle='--', label='임계값 {:.4f}'.format(t_crit))
+    
+    plt.title('대립가설 형태: {} (α={})'.format(alternative, alpha))
+    plt.xlabel('t-통계량')
+    plt.ylabel('확률밀도')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+# 세 가지 대립가설에 대한 기각역 시각화
+for alt in ['two-sided', 'greater', 'less']:
+    plot_rejection_region(df=len(data)-1, alternative=alt)
+```
+
+**개념의 활용**:
+
+- 신약이 기존 약보다 효과가 있는지(우측), 효과가 없는지(좌측), 또는 단순히 다른지(양측) 검정할 때
+- 새로운 교육 방법이 기존 방법보다 더 효과적인지(우측) 검정할 때
+- 제품의 품질이 표준보다 낮은지(좌측) 확인할 때
+- 두 집단의 평균이 서로 다른지(양측) 비교할 때
+- 마케팅 캠페인이 매출을 증가시키는지(우측) 검증할 때
+
+## 4. 검정력과 유의확률 (Statistical Power and p-value)
+
+**정의**:
+
+- 검정력(Power): 귀무가설이 실제로 거짓일 때 이를 기각할 확률로, 1-β로 계산됩니다.
+- 유의확률(p-value): 귀무가설이 참이라는 가정 하에, 관측된 통계량과 같거나 더 극단적인 값을 얻을 확률입니다.
+
+**수식**:
+
+- 검정력: Power = 1 - β = P(귀무가설 기각 | 귀무가설이 거짓)
+- 유의확률: p-value = P(검정통계량 ≥ |관측값| | H₀가 참) (양측검정의 경우)
+
+**특징**:
+
+- 검정력은 표본 크기, 효과 크기, 유의수준(α)에 따라 증가합니다.
+- 일반적으로 0.8(80%) 이상의 검정력이 권장됩니다.
+- p-value가 미리 설정한 유의수준(α) 보다 작으면 귀무가설을 기각합니다.
+- p-value는 증거의 강도를 나타내며, 작을수록 귀무가설에 반하는 강한 증거입니다.
+- p-value가 0.05보다 작다고 해서 효과가 실질적으로 중요하다는 의미는 아닙니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 검정력 계산 함수
+def calculate_power(n, effect_size, alpha=0.05, test_type='two-sided'):
+    # 비중심 매개변수 계산
+    ncp = effect_size * np.sqrt(n)
+    
+    # 임계값 계산
+    if test_type == 'two-sided':
+        t_crit = stats.t.ppf(1 - alpha/2, df=n-1)
+        power = 1 - stats.nct.cdf(t_crit, df=n-1, nc=ncp) + stats.nct.cdf(-t_crit, df=n-1, nc=ncp)
+    elif test_type == 'greater':
+        t_crit = stats.t.ppf(1 - alpha, df=n-1)
+        power = 1 - stats.nct.cdf(t_crit, df=n-1, nc=ncp)
+    elif test_type == 'less':
+        t_crit = stats.t.ppf(alpha, df=n-1)
+        power = stats.nct.cdf(t_crit, df=n-1, nc=ncp)
+    
+    return power
+
+# 다양한 표본 크기에 대한 검정력 계산
+sample_sizes = np.arange(5, 100, 5)
+effect_sizes = [0.2, 0.5, 0.8]  # 작은, 중간, 큰 효과 크기
+
+plt.figure(figsize=(10, 6))
+
+for es in effect_sizes:
+    powers = [calculate_power(n, es) for n in sample_sizes]
+    plt.plot(sample_sizes, powers, marker='o', label=f'효과 크기 = {es}')
+
+plt.axhline(0.8, color='r', linestyle='--', label='권장 검정력 = 0.8')
+plt.title('표본 크기와 효과 크기에 따른 검정력')
+plt.xlabel('표본 크기 (n)')
+plt.ylabel('검정력 (1-β)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# p-value 예시: 두 집단 간 평균 비교
+np.random.seed(42)
+group1 = np.random.normal(loc=10, scale=2, size=30)
+group2 = np.random.normal(loc=11, scale=2, size=30)
+
+# 독립표본 t-검정
+t_stat, p_value = stats.ttest_ind(group1, group2, equal_var=True)
+
+print(f"t-통계량: {t_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'귀무가설 기각 (유의한 차이 있음)' if p_value < 0.05 else '귀무가설 기각 실패 (유의한 차이 없음)'}")
+```
+
+**개념의 활용**:
+
+- 연구 설계 단계에서 적절한 표본 크기를 결정할 때 검정력 분석을 활용
+- 실험 결과의 통계적 유의성을 평가할 때 p-value 활용
+- 여러 가설을 동시에 검정할 때 다중검정 문제와 p-value 조정 방법 고려
+- 효과 크기가 작을 때 필요한 표본 크기 증가를 정당화할 때
+- 연구 결과의 실질적 중요성을 평가할 때 p-value 외에 효과 크기와 신뢰구간 함께 고려
+
+## 5. 정규성 검정 (Tests for Normality)
+
+### Shapiro-Wilk 검정
+
+**정의**: 데이터가 정규분포를 따르는지 검정하는 방법으로, 특히 작은 표본에 효과적입니다.
+
+**수식**: $W = \frac{(\sum_{i=1}^{n} a_i x_{(i)})^2}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$ 여기서 $x_{(i)}$는 오름차순으로 정렬된 데이터이고, $a_i$는 Shapiro-Wilk 계수입니다.
+
+**특징**:
+
+- 귀무가설: 데이터가 정규분포를 따른다.
+- 대립가설: 데이터가 정규분포를 따르지 않는다.
+- 일반적으로 표본 크기가 3~5,000 사이일 때 적용 가능합니다.
+- p-value < α이면 정규성 가정을 기각합니다.
+- 작은 표본에서 다른 정규성 검정보다 검정력이 좋습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 정규분포에서 추출한 데이터
+np.random.seed(42)
+normal_data = np.random.normal(loc=0, scale=1, size=50)
+
+# 비정규 분포(지수분포)에서 추출한 데이터
+non_normal_data = np.random.exponential(scale=1, size=50)
+
+# Shapiro-Wilk 검정 수행
+stat_normal, p_normal = stats.shapiro(normal_data)
+stat_non_normal, p_non_normal = stats.shapiro(non_normal_data)
+
+print("정규 데이터 Shapiro-Wilk 검정:")
+print(f"통계량: {stat_normal:.4f}, p-value: {p_normal:.4f}")
+print(f"결론: {'정규성 가정 기각 실패 (정규 분포임)' if p_normal >= 0.05 else '정규성 가정 기각 (정규 분포 아님)'}")
+
+print("\n비정규 데이터 Shapiro-Wilk 검정:")
+print(f"통계량: {stat_non_normal:.4f}, p-value: {p_non_normal:.4f}")
+print(f"결론: {'정규성 가정 기각 실패 (정규 분포임)' if p_non_normal >= 0.05 else '정규성 가정 기각 (정규 분포 아님)'}")
+
+# 시각적 확인: QQ 플롯
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+stats.probplot(normal_data, dist="norm", plot=plt)
+plt.title(f'정규 데이터 QQ 플롯\nShapiro-Wilk p-value: {p_normal:.4f}')
+
+plt.subplot(1, 2, 2)
+stats.probplot(non_normal_data, dist="norm", plot=plt)
+plt.title(f'비정규 데이터 QQ 플롯\nShapiro-Wilk p-value: {p_non_normal:.4f}')
+
+plt.tight_layout()
+plt.show()
+```
+
+### Kolmogorov-Smirnov 검정
+
+**정의**: 실증적 분포 함수와 가정된 분포 함수 사이의 최대 차이를 측정하여 분포의 적합성을 검정하는 방법입니다.
+
+**수식**: $D_n = \sup_x |F_n(x) - F(x)|$ 여기서 $F_n(x)$는 경험적 분포 함수이고, $F(x)$는 이론적 분포 함수입니다.
+
+**특징**:
+
+- 귀무가설: 데이터가 특정 분포(예: 정규분포)를 따른다.
+- 대립가설: 데이터가 특정 분포를 따르지 않는다.
+- 연속형 분포에 대한 적합성 검정에 사용됩니다.
+- 특히 큰 표본에 적합합니다.
+- 분포의 평균이나 분산을 모를 경우 Lilliefors 수정 버전을 사용합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 정규분포에서 추출한 데이터
+np.random.seed(42)
+normal_data = np.random.normal(loc=0, scale=1, size=100)
+
+# 비정규 분포(지수분포)에서 추출한 데이터
+non_normal_data = np.random.exponential(scale=1, size=100)
+
+# Kolmogorov-Smirnov 검정 수행
+# 정규성 검정에서는 표본 평균과 표준편차를 사용하므로 이는 Lilliefors 검정과 유사
+ks_stat_normal, p_normal = stats.kstest(normal_data, 'norm', args=(np.mean(normal_data), np.std(normal_data, ddof=1)))
+ks_stat_non_normal, p_non_normal = stats.kstest(non_normal_data, 'norm', args=(np.mean(non_normal_data), np.std(non_normal_data, ddof=1)))
+
+print("정규 데이터 Kolmogorov-Smirnov 검정:")
+print(f"통계량: {ks_stat_normal:.4f}, p-value: {p_normal:.4f}")
+print(f"결론: {'정규성 가정 기각 실패 (정규 분포임)' if p_normal >= 0.05 else '정규성 가정 기각 (정규 분포 아님)'}")
+
+print("\n비정규 데이터 Kolmogorov-Smirnov 검정:")
+print(f"통계량: {ks_stat_non_normal:.4f}, p-value: {p_non_normal:.4f}")
+print(f"결론: {'정규성 가정 기각 실패 (정규 분포임)' if p_non_normal >= 0.05 else '정규성 가정 기각 (정규 분포 아님)'}")
+
+# 경험적 분포 함수와 이론적 분포 함수 비교
+plt.figure(figsize=(12, 5))
+
+# 정규 데이터 ECDF vs CDF
+plt.subplot(1, 2, 1)
+x = np.sort(normal_data)
+y = np.arange(1, len(x)+1) / len(x)  # ECDF
+plt.step(x, y, where='post', label='경험적 분포 함수')
+
+# 이론적 정규 CDF
+x_theory = np.linspace(min(x), max(x), 100)
+y_theory = stats.norm.cdf(x_theory, loc=np.mean(normal_data), scale=np.std(normal_data, ddof=1))
+plt.plot(x_theory, y_theory, 'r-', label='이론적 정규 분포 함수')
+
+plt.title(f'정규 데이터 ECDF vs CDF\nKS 검정 p-value: {p_normal:.4f}')
+plt.legend()
+
+# 비정규 데이터 ECDF vs CDF
+plt.subplot(1, 2, 2)
+x = np.sort(non_normal_data)
+y = np.arange(1, len(x)+1) / len(x)  # ECDF
+plt.step(x, y, where='post', label='경험적 분포 함수')
+
+# 이론적 정규 CDF
+x_theory = np.linspace(min(x), max(x), 100)
+y_theory = stats.norm.cdf(x_theory, loc=np.mean(non_normal_data), scale=np.std(non_normal_data, ddof=1))
+plt.plot(x_theory, y_theory, 'r-', label='이론적 정규 분포 함수')
+
+plt.title(f'비정규 데이터 ECDF vs CDF\nKS 검정 p-value: {p_non_normal:.4f}')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 모수적 검정(t-검정 등)의 정규성 가정을 확인할 때
+- 데이터 변환(로그 변환 등)이 정규성을 향상시켰는지 확인할 때
+- 비모수 검정의 필요성을 결정할 때
+- 회귀분석의 잔차가 정규분포를 따르는지 확인할 때
+- 복잡한 통계 모델의 가정을 검증할 때
+
+## 6. 등분산 검정 (Tests for Homogeneity of Variance)
+
+### Levene, Bartlett, Fligner 등분산 검정
+
+**정의**: 여러 집단의 분산이 동일한지 검정하는 방법으로, 모수적 검정의 중요한 가정을 확인하는 데 사용됩니다.
+
+**수식**:
+
+- Levene 검정: $W = \frac{(N-k)}{(k-1)} \frac{\sum_{i=1}^k n_i(Z_{i.} - Z_{..})^2}{\sum_{i=1}^k \sum_{j=1}^{n_i} (Z_{ij} - Z_{i.})^2}$ 여기서 $Z_{ij} = |X_{ij} - \bar{X}_{i.}|$ (중앙값을 사용할 수도 있음)
+- Bartlett 검정: $\chi^2 = \frac{(N-k) \ln(s_p^2) - \sum_{i=1}^k (n_i-1) \ln(s_i^2)}{1 + \frac{1}{3(k-1)}(\sum_{i=1}^k \frac{1}{n_i-1} - \frac{1}{N-k})}$
+
+**특징**:
+
+- 귀무가설: 모든 집단의 분산이 동일하다.
+- 대립가설: 적어도 한 집단의 분산이 다르다.
+- Levene 검정은 정규성 가정에 덜 민감하여 강건합니다.
+- Bartlett 검정은 정규성 가정 하에서 더 검정력이 높지만, 정규성 위반에 민감합니다.
+- Fligner-Killeen 검정은 비모수적 접근법으로 이상치가 있을 때 강건합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성
+np.random.seed(42)
+# 등분산 데이터
+group1 = np.random.normal(loc=5, scale=2, size=30)
+group2 = np.random.normal(loc=7, scale=2, size=30)
+group3 = np.random.normal(loc=9, scale=2, size=30)
+
+# 이분산 데이터
+group1_hetero = np.random.normal(loc=5, scale=1, size=30)
+group2_hetero = np.random.normal(loc=7, scale=2, size=30)
+group3_hetero = np.random.normal(loc=9, scale=3, size=30)
+
+# 등분산 검정 수행
+# 1. Levene 검정
+stat_levene, p_levene = stats.levene(group1, group2, group3)
+stat_levene_hetero, p_levene_hetero = stats.levene(group1_hetero, group2_hetero, group3_hetero)
+
+# 2. Bartlett 검정
+stat_bartlett, p_bartlett = stats.bartlett(group1, group2, group3)
+stat_bartlett_hetero, p_bartlett_hetero = stats.bartlett(group1_hetero, group2_hetero, group3_hetero)
+
+# 3. Fligner-Killeen 검정
+stat_fligner, p_fligner = stats.fligner(group1, group2, group3)
+stat_fligner_hetero, p_fligner_hetero = stats.fligner(group1_hetero, group2_hetero, group3_hetero)
+
+print("등분산 데이터 검정 결과:")
+print(f"Levene 검정: 통계량={stat_levene:.4f}, p-value={p_levene:.4f}")
+print(f"Bartlett 검정: 통계량={stat_bartlett:.4f}, p-value={p_bartlett:.4f}")
+print(f"Fligner-Killeen 검정: 통계량={stat_fligner:.4f}, p-value={p_fligner:.4f}")
+
+print("\n이분산 데이터 검정 결과:")
+print(f"Levene 검정: 통계량={stat_levene_hetero:.4f}, p-value={p_levene_hetero:.4f}")
+print(f"Bartlett 검정: 통계량={stat_bartlett_hetero:.4f}, p-value={p_bartlett_hetero:.4f}")
+print(f"Fligner-Killeen 검정: 통계량={stat_fligner_hetero:.4f}, p-value={p_fligner_hetero:.4f}")
+
+# 박스플롯으로 시각화
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.boxplot([group1, group2, group3])
+plt.title('등분산 데이터\nLevene p-value: {:.4f}'.format(p_levene))
+plt.xticks([1, 2, 3], ['Group 1', 'Group 2', 'Group 3'])
+plt.ylabel('값')
+
+plt.subplot(1, 2, 2)
+plt.boxplot([group1_hetero, group2_hetero, group3_hetero])
+plt.title('이분산 데이터\nLevene p-value: {:.4f}'.format(p_levene_hetero))
+plt.xticks([1, 2, 3], ['Group 1', 'Group 2', 'Group 3'])
+plt.ylabel('값')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 독립표본 t-검정 또는 ANOVA 수행 전 등분산 가정을 확인할 때
+- 등분산 가정을 위반할 경우 대안적 방법(Welch의 t-검정 등)을 선택할 때
+- 실험 조건이 데이터의 변동성에 영향을 미치는지 확인할 때
+- 제조 공정의 안정성을 평가할 때
+- 여러 측정 방법의 정밀도를 비교할 때
+
+## 7. 독립 표본 t-검정 (Independent Samples t-test)
+
+**정의**: 서로 다른 두 집단의 평균을 비교하여 통계적으로 유의한 차이가 있는지 검정하는 방법입니다.
+
+**수식**:
+
+- 등분산 가정 시: $t = \frac{\bar{X}_1 - \bar{X}_2}{s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}$, 여기서 $s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}$
+- Welch의 t-검정(이분산 가정 시): $t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$
+
+**특징**:
+
+- 귀무가설: 두 집단의 평균이 같다 (μ₁ = μ₂)
+- 대립가설: 두 집단의 평균이 다르다 (μ₁ ≠ μ₂), 또는 한 집단이 더 크다 (μ₁ > μ₂ 또는 μ₁ < μ₂)
+- 두 집단이 독립적이어야 합니다(동일 대상의 반복 측정이 아님).
+- 데이터가 정규분포를 따르거나 표본 크기가 충분히 커야 합니다.
+- 등분산 검정 결과에 따라 적절한 t-검정 방법을 선택해야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성
+np.random.seed(42)
+group1 = np.random.normal(loc=75, scale=5, size=30)  # 첫 번째 그룹 (평균 75)
+group2 = np.random.normal(loc=78, scale=5, size=30)  # 두 번째 그룹 (평균 78)
+
+# 등분산 검정
+levene_stat, levene_p = stats.levene(group1, group2)
+print(f"Levene 등분산 검정: 통계량={levene_stat:.4f}, p-value={levene_p:.4f}")
+equal_var = levene_p >= 0.05  # p >= 0.05면 등분산 가정
+
+# 독립표본 t-검정 수행
+t_stat, p_value = stats.ttest_ind(group1, group2, equal_var=equal_var)
+
+print(f"독립표본 t-검정 ({('등분산 가정' if equal_var else 'Welch의 t-검정')}):")
+print(f"t-통계량: {t_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'평균 차이가 통계적으로 유의함' if p_value < 0.05 else '평균 차이가 통계적으로 유의하지 않음'}")
+
+# 효과 크기 계산 (Cohen's d)
+mean_diff = np.mean(group2) - np.mean(group1)
+pooled_std = np.sqrt(((len(group1) - 1) * np.var(group1, ddof=1) + 
+                       (len(group2) - 1) * np.var(group2, ddof=1)) / 
+                      (len(group1) + len(group2) - 2))
+cohen_d = mean_diff / pooled_std
+
+print(f"효과 크기 (Cohen's d): {cohen_d:.4f}")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+
+# 박스플롯
+plt.subplot(1, 2, 1)
+box_data = [group1, group2]
+plt.boxplot(box_data)
+plt.xticks([1, 2], ['그룹 1', '그룹 2'])
+plt.ylabel('값')
+plt.title('두 그룹의 데이터 분포')
+
+# 평균 비교 막대 그래프
+plt.subplot(1, 2, 2)
+means = [np.mean(group1), np.mean(group2)]
+errors = [stats.sem(group1), stats.sem(group2)]  # 표준오차
+
+plt.bar([1, 2], means, yerr=errors, capsize=10)
+plt.xticks([1, 2], ['그룹 1', '그룹 2'])
+plt.ylabel('평균 ± 표준오차')
+plt.title(f't-검정: p = {p_value:.4f}')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 두 가지 교육 방법의 효과 비교 시
+- 약물 치료군과 대조군의 효과 차이 검정 시
+- 남성과 여성의 평균 소득 비교 시
+- 두 가지 제조 방법으로 생산된 제품의 품질 비교 시
+- 두 지역 간 환경 오염 수준 비교 시
+
+## 8. 대응표본 t-검정 (Paired Samples t-test)
+
+**정의**: 동일한 대상에서 두 번 측정된 값의 평균 차이를 검정하는 방법으로, 짝을 이룬 데이터의 분석에 사용됩니다.
+
+**수식**: $t = \frac{\bar{d}}{s_d / \sqrt{n}}$ 여기서 $\bar{d}$는 대응된 차이의 평균, $s_d$는 차이의 표준편차, n은 쌍의 수입니다.
+
+**특징**:
+
+- 귀무가설: 대응된 측정값들의 평균 차이가 0이다 (μd = 0)
+- 대립가설: 대응된 측정값들의 평균 차이가 0이 아니다 (μd ≠ 0)
+- 같은 대상에 대한 전후 비교나 짝을 이룬 자료에 적합합니다.
+- 독립표본 t-검정보다 검정력이 높을 수 있습니다(개인차에 의한 변동성 제거).
+- 차이값이 정규분포를 따른다고 가정합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성 (예: 치료 전후 환자들의 혈압)
+np.random.seed(42)
+n = 20  # 환자 수
+before = np.random.normal(loc=140, scale=10, size=n)  # 치료 전 혈압
+effect = -8  # 치료 효과 (혈압 감소)
+noise = np.random.normal(loc=0, scale=5, size=n)  # 개인차
+after = before + effect + noise  # 치료 후 혈압
+
+# 대응표본 t-검정 수행
+t_stat, p_value = stats.ttest_rel(before, after)
+
+print("대응표본 t-검정 결과:")
+print(f"치료 전 평균: {np.mean(before):.2f}, 표준편차: {np.std(before, ddof=1):.2f}")
+print(f"치료 후 평균: {np.mean(after):.2f}, 표준편차: {np.std(after, ddof=1):.2f}")
+print(f"평균 차이: {np.mean(before - after):.2f}")
+print(f"t-통계량: {t_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'치료 전후 차이가 통계적으로 유의함' if p_value < 0.05 else '치료 전후 차이가 통계적으로 유의하지 않음'}")
+
+# 효과 크기 계산 (Cohen's d for paired samples)
+d = np.mean(before - after) / np.std(before - after, ddof=1)
+print(f"효과 크기 (Cohen's d): {d:.4f}")
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 선 그래프로 개인별 변화 표시
+plt.subplot(1, 2, 1)
+for i in range(n):
+    plt.plot([1, 2], [before[i], after[i]], 'o-', alpha=0.3)
+
+plt.plot([1, 2], [np.mean(before), np.mean(after)], 'r-', linewidth=2, label='평균')
+plt.xticks([1, 2], ['치료 전', '치료 후'])
+plt.ylabel('혈압')
+plt.title('개인별 치료 전후 변화')
+plt.legend()
+
+# 2. 차이값의 히스토그램
+plt.subplot(1, 2, 2)
+differences = before - after
+plt.hist(differences, bins=10, alpha=0.7, color='skyblue')
+plt.axvline(np.mean(differences), color='r', linestyle='--', label=f'평균 차이: {np.mean(differences):.2f}')
+plt.xlabel('치료 전 - 치료 후')
+plt.ylabel('빈도')
+plt.title(f'차이값 분포 (t={t_stat:.2f}, p={p_value:.4f})')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 약물 치료 전후의 증상 변화 비교 시
+- 교육 프로그램 전후의 학업 성취도 변화 측정 시
+- 다이어트 프로그램 전후의 체중 변화 분석 시
+- 동일 주제에 대한 두 평가자의 점수 비교 시
+- 같은 제품에 대한 두 가지 측정 방법의 결과 비교 시
+
+## 9. 일표본 t-검정 (One-sample t-test)
+
+**정의**: 한 집단의 평균이 특정 기준값(모집단 평균)과 유의하게 다른지 검정하는 방법입니다.
+
+**수식**: $t = \frac{\bar{X} - \mu_0}{s / \sqrt{n}}$ 여기서 $\bar{X}$는 표본평균, $\mu_0$는 검정하려는 기준값, $s$는 표본표준편차, $n$은 표본크기입니다.
+
+**특징**:
+
+- 귀무가설: 모집단 평균이 μ₀와 같다 (μ = μ₀)
+- 대립가설: 모집단 평균이 μ₀와 다르다 (μ ≠ μ₀) 또는 크거나(μ > μ₀) 작다(μ < μ₀)
+- 데이터가 정규분포를 따르거나 표본 크기가 충분히 커야 합니다.
+- 하나의 집단에 대해 알려진 기준값과 비교할 때 사용합니다.
+- 통계량은 자유도가 n-1인 t분포를 따릅니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성 (예: 시험 점수)
+np.random.seed(42)
+n = 25  # 학생 수
+scores = np.random.normal(loc=72, scale=8, size=n)  # 평균 72점, 표준편차 8점
+
+# 일표본 t-검정 수행 (귀무가설: 평균 점수는 70점)
+mu0 = 70  # 검정할 기준값
+t_stat, p_value = stats.ttest_1samp(scores, popmean=mu0)
+
+print("일표본 t-검정 결과:")
+print(f"표본 평균: {np.mean(scores):.2f}, 표준편차: {np.std(scores, ddof=1):.2f}")
+print(f"검정 기준값: {mu0}")
+print(f"t-통계량: {t_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'표본 평균이 기준값과 통계적으로 유의하게 다름' if p_value < 0.05 else '표본 평균이 기준값과 통계적으로 유의한 차이가 없음'}")
+
+# 효과 크기 계산 (Cohen's d for one-sample)
+d = (np.mean(scores) - mu0) / np.std(scores, ddof=1)
+print(f"효과 크기 (Cohen's d): {d:.4f}")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+
+# 히스토그램
+plt.hist(scores, bins=10, alpha=0.7, color='skyblue')
+plt.axvline(np.mean(scores), color='r', linestyle='-', linewidth=2, label=f'표본 평균: {np.mean(scores):.2f}')
+plt.axvline(mu0, color='g', linestyle='--', linewidth=2, label=f'검정 기준값: {mu0}')
+
+# 95% 신뢰구간 계산
+sem = stats.sem(scores)  # 표준오차
+ci = stats.t.interval(0.95, len(scores)-1, loc=np.mean(scores), scale=sem)
+plt.axvspan(ci[0], ci[1], alpha=0.2, color='red', label=f'95% 신뢰구간: ({ci[0]:.2f}, {ci[1]:.2f})')
+
+plt.xlabel('점수')
+plt.ylabel('빈도')
+plt.title(f'시험 점수 분포 (t={t_stat:.2f}, p={p_value:.4f})')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 신제품의 성능이 기존 표준을 초과하는지 검정할 때
+- 학생들의 평균 성적이 목표 점수에 도달했는지 확인할 때
+- 어떤 집단의 특성이 국가 평균과 차이가 있는지 검증할 때
+- 측정 장비의 정확도가 규격 기준을 만족하는지 확인할 때
+- 소비자 만족도가 특정 목표 수준에 도달했는지 평가할 때
+
