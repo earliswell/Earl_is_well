@@ -269,3 +269,9 @@ $$
 ## Autoregression: AR(p)
 - In a time series, $Y_{1}, Y_{2}, \dots, Y_{T}$ are jointly distributed. We are interested in the conditional mean $E(Y_{t}|\Gamma_{t-1})$ where $\Gamma_{t-1} \equiv(Y_{t-1}, Y_{t-2}, \dots, Y_{1})$ denote past history of the time series. 
 	- [[#Wold Decomposition (Wold form, Wold Representation)|Wold Form]]의 Information인 $I_{t-1}$과 같은 역할을 한다고 볼 수 있음.
+	- 과거의 관측값을 조건부로 제시함으로써 이에 대한 데이터는 **상수** 취급!!!
+- An autoregressive (AR) model specifies that only a finite number of past lags matter 
+$$
+E(Y_{t}|\Gamma_{t-1}) = E(Y_{t}| Y_{t-1}, Y_{t-2}, \dots, Y_{t-k})
+$$
+- 
