@@ -267,4 +267,5 @@ Y_{t} = \frac{\delta}{1- \phi} + e_{t} + \phi e_{t-1} + \phi^2e_{t-2} + \cdots +
 $$
 - We call the process AR(1)
 ## Autoregression: AR(p)
-
+- In a time series, $Y_{1}, Y_{2}, \dots, Y_{T}$ are jointly distributed. We are interested in the conditional mean $E(Y_{t}|\Gamma_{t-1})$ where $\Gamma_{t-1} \equiv(Y_{t-1}, Y_{t-2}, \dots, Y_{1})$ denote past history of the time series. 
+	- [[#Wold Decomposition (Wold form, Wold Representation)|Wold Form]]의 Information인 $I_{t-1}$과 같은 역할을 한다고 볼 수 있음.
