@@ -575,8 +575,11 @@ $$
  & \gamma(2) = 0
 \end{align}
 $$
-- <img src='Pasted image 20250416194153.png', width='400', height='400'>
-- 
+-  ![[Time_Series, Figure.07.png|400x400]]
+###### If MA(3)
+
+
+
 ## ARMA(p, q)
 $$
 Y_{t} = \delta + \phi_{1}Y_{t-1}+\phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2} e_{t-2} + \cdots + \theta_{q}e_{t-q}
