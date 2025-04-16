@@ -359,18 +359,6 @@ E(Y_{t}) - \phi_{1}E(Y_{t-1}) - \phi_{2}E(Y_{t-2}) = \delta \\
 E(Y_{t}) (1-\phi_{1} - \phi_{2}) = \delta
 \end{gather}
 $$
-- Variance in Stationary: $\frac{\sigma^2}{1-\phi_{1}^2 - \phi_{2}^2}$
-$$
-\begin{gather}
-Var(Y_{t}) = \phi_{1}^2Var(Y_{t-1}) + \phi_{2}^2Var(Y_{t-2}) + 2\phi_{1}\phi_{2}Cov(Y_{t-1}, Y_{t-2}) + Var(e_{t}) \\
-Var(Y_{t}) - \phi_{1}^2Var(Y_{t-1}) - \phi_{2}^2Var(Y_{t-2}) = 2\phi_{1}\phi_{2}\gamma(1)+\sigma^2 \\
-Var(Y_{t})(1- \phi_{1}^2 - \phi_{2}^2) = 2\phi_{1}\phi_{2}\gamma(1) + \sigma^2
-\end{gather}
-$$
-
-$$
-Var(Y_t) = \phi_1^2 Var(Y_{t-1}) + \phi_2^2 Var(Y_{t-2}) + 2\phi_1\phi_2 Cov(Y_{t-1}, Y_{t-2}) + \sigma^2
-$$
 
 
 ## Moving-Average: MA(q)
