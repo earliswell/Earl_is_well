@@ -555,6 +555,16 @@ $$
 	- 어제 발생한 뉴스 (충격 $e_{t-1}$)는 여전히 70% 영향력
 	- 그제 발생한 뉴스 (충격 $e_{t-2}$)는 30%의 영향력을 가지지지만 역방향 (reversal effect!)
 	- 3일 이상 지난 뉴스는 → 직접적인 충격이 없음.
+#### MA(1) process
+$$
+Y_{t} = \mu + e_{t} + \theta e_{t-1}, e_{t} \sim iid(0, \sigma^2)
+$$
+- $q\to \infty$ : [[#Wold Decomposition (Wold form, Wold Representation)|Wold form]]
+- Mean (no need stationarity):
+$$
+E(Y_{t}) = \mu
+$$
+- 
 ## ARMA(p, q)
 $$
 Y_{t} = \delta + \phi_{1}Y_{t-1}+\phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2} e_{t-2} + \cdots + \theta_{q}e_{t-q}
