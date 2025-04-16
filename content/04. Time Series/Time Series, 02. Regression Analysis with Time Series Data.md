@@ -293,6 +293,29 @@ $$
 - ==The MDS property== for the regression error plays the same role in a time-series regression as does [[Time Series, 01. Basic of Regression#Assumption E.3, Zero Conditional Mean|the conditional mean-zero property]] for the regression error in a cross-section regression. In fact, it is even more important in the time-series context, as it is difficult to derive distribution theories without this property.
 - The MDS property implies $E(Y_{t-k}e_{t}) = 0$ for any $k>0$.
 
+#### AR(1) process
+$$
+Y_{t} = \delta + \phi Y_{t-1} + e_{t}, e_{t} \sim iid(0, \sigma^2)
+$$
+- Mean:  $E(Y_{t}) = \frac{\delta}{1-\phi}$
+$$
+\begin{gather}
+ & E(Y_{t} )= E(\delta) + E(\phi Y_{t-1}) + E(e_{t}) \\
+ & E(Y_{t}) = \delta + \phi E(Y_{t-1})+ 0, \quad \delta\, \&\, \phi \text{ are scalar},E(e_{t}) = 0 \\
+ & E(Y_{t} ) - \phi E(Y_{t-1}) = \delta, \quad E(Y_{t}) = E(Y_{t-1}) \, \text{where Stationary} \\
+ & E(Y_{t}) (1-\phi) = \delta \\
+\end{gather}
+$$
+- Variance: $V(Y_{t}) = \frac{\sigma^2}{1-\phi^2}$
+$$
+\begin{gather}
+Var(Y_{t}) = Var(\delta) + Var(\phi Y_{t-1}) + Var(e_{t}) \\
+Var(Y_{t}) = \phi^2Var(Y_{t-1}) + \sigma^2, \quad \delta \text{ is scalar} \\
+Var(Y_{t}) - \phi^2Var(Y_{t-1}) = \sigma^2, \quad Var(Y_{t}) = Var(Y_{t-1}) \, \text{where Stationary} \\
+Var(Y_{t})(1-\phi^2) = \sigma^2
+\end{gather}
+$$
+- The shock depends on $\sigma^2$ and the persistence depends on $\phi$. If $\phi = 0$ it means white noise
 ## Moving-Average: MA(q)
 $$
 Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
@@ -321,4 +344,4 @@ $$
 	- 모델링 효율성: 복잡한 시계열 데이터를 적절히 모델링 하기 위해? 
 	- 다양한 시계열 패턴 포착: AR(→ 상관관계), MA(→ 충격의 일시적 효과와 감쇠 패턴)
 	- 통계적 효율성: AR과 MA 보다 더 작은 오차를 가짐 → AIC(Akaike Information Criterion)나 BIC(Bayesian Information Criterion)와 같은 정보 기준으로 평가
-	- 이론적 완전성: ARMA 모델은 정상성 조건을 만족하는 시계열에 대한 통합적 표현 제공 → Wold 정리에 따라서, 어떤 약정상 시계열도 결국 무한한 MA 표현으로 나타낼 수 있으며, ARMA 모델은 이를 유한한 매개변수로 근사화. → MA는 무한하게 표현하면 안되니까 ?
+	- 이론적 완전성: ARMA 모델은 정상성 조건을 만족하는 시계열에 대한 통합적 표현 제공 → Wold 정리에 따라서, 어떤 약정상 시계열도 결국 무한한 MA 표현으로 나타낼 수 있으며, ARMA 모델은 이를 유한한 매개변수로 근사화.
