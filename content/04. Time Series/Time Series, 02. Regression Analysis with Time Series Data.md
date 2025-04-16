@@ -359,6 +359,14 @@ E(Y_{t}) - \phi_{1}E(Y_{t-1}) - \phi_{2}E(Y_{t-2}) = \delta \\
 E(Y_{t}) (1-\phi_{1} - \phi_{2}) = \delta
 \end{gather}
 $$
+- Auto-Covariance (assuming $\delta=0$):
+$$
+\begin{gather}
+\gamma(k) = Cov(Y_{t}, Y_{t-k}) = E(Y_{t}Y_{t-k}) \\
+\gamma(k) = \phi_{1}E(Y_{t-1}Y_{t-k}) + \phi_{2}E(Y_{t-2}Y_{t-k}) = \phi_{1}\gamma(k-1) + \phi_{2}\gamma(k-2) \\
+\rho(k) = \phi_{1}\rho(k-1) + \phi_{2}\rho(k-2)
+\end{gather}
+$$
 
 
 ## Moving-Average: MA(q)
