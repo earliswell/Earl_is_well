@@ -276,9 +276,11 @@ E(Y_{t}|\Gamma_{t-1}) = E(Y_{t}| Y_{t-1}, Y_{t-2}, \dots, Y_{t-k})
 $$
 - The most common AR model is the linear model
 $$
-E(Y_{t}| Y_{t-1}, Y_{t-2}, \dots, Y_{t-k}) = \delta + \sum_{j=1}^{k}\phi^jY_{t-j} 
+E(Y_{t}| Y_{t-1}, Y_{t-2}, \dots, Y_{t-k}) = \delta + \sum_{j=1}^{k}\phi_{j}Y_{t-j} 
 $$
 - Let $e_{t} = Y_{t} - E(Y_{t}|Y_{t-1}, Y_{t-2}, \dots, Y_{t-k})$, we have the AR model
 $$
-Y_{t} = \delta + \sum_{j=1}^{k} \phi^jY_{t-j} +e_{t}
+Y_{t} = \delta + \sum_{j=1}^{k} \phi_{j}Y_{t-j} +e_{t}
 $$
+- A sequence $Y_t$ is a martingale sequence if $E(Y_{t}|\Gamma_{t-1}) = Y_{t-1}$
+- 
