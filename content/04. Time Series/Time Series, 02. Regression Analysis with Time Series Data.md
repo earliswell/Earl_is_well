@@ -368,6 +368,52 @@ $$
 \end{gather}
 $$
 
+###### Impulse-response Analysis in AR(2)
+- We want to make AR(2) like AR(1) to find the stationary condition easily
+- **Define**
+$$
+\tilde{Y}_{t} \equiv 
+\begin{pmatrix}
+Y_{t} \\
+Y_{t-1}
+\end{pmatrix}, \tilde{Y}_{t-1} \equiv
+\begin{pmatrix}
+Y_{t-1} \\
+Y_{t-2}
+\end{pmatrix}
+$$
+- Consider the AR(2) process such as 
+$$
+\begin{align}
+ & Y_{t} = \delta + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + e_{t} \\
+ & Y_{t-1} = Y_{t-1}  \\
+& \tilde{Y}_{t} = \begin{pmatrix}
+Y_{t} \\
+Y_{t-1}
+\end{pmatrix} =  \begin{pmatrix}
+ \phi_{1},  & \phi_{2} \\
+ 1, & 0
+\end{pmatrix} \begin{pmatrix}
+Y_{t-1} \\
+Y_{t-2}
+\end{pmatrix} + \begin{pmatrix}
+e_{t} \\
+0
+\end{pmatrix}  \\
+ & \Rightarrow \tilde{Y}_{t} = F \cdot \tilde{Y}_{t-1} + e_{t}
+\end{align}
+$$
+- **State-space Form**
+- With the State-space form of AR(2) the Wold Representation is
+$$
+\tilde{Y}_{t} = \tilde{e}_{t} + F \cdot \tilde{e}_{t-1} + F^2 \cdot \tilde{e_{t-1}} + \cdots + F^k \cdot \tilde{e}_{t-k} + \cdots
+$$
+
+
+
+$$
+
+$$
 
 ## Moving-Average: MA(q)
 $$
