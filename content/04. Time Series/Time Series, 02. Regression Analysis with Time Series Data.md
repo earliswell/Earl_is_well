@@ -292,4 +292,33 @@ $$
 	- 오차항 $e_{t}$가 마팅게일 차이 수열이라는 것 → 과거 정보 $\Gamma_{t-1}$를 모두 고려했을 때, 오차의 평균이 0이 된다는 것을 의미함. → 모델이 과거 정보에서 추출할 수 있는 모든 예측 가능한 패턴을 이미 포착했다는 것 !!!!!
 - ==The MDS property== for the regression error plays the same role in a time-series regression as does [[Time Series, 01. Basic of Regression#Assumption E.3, Zero Conditional Mean|the conditional mean-zero property]] for the regression error in a cross-section regression. In fact, it is even more important in the time-series context, as it is difficult to derive distribution theories without this property.
 - The MDS property implies $E(Y_{t-k}e_{t}) = 0$ for any $k>0$.
-- 
+
+## Moving-Average: MA(q)
+$$
+Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
+$$
+- MA(1): $Y_{t} = \mu + e_{t}+\theta e_{t-1}$.
+- $q \to \infty$, MA(q) = [[#Wold Decomposition (Wold form, Wold Representation)|Wold form]]
+- This process explains the current $Y$ only using the shocks before time $q$
+	- 즉, MA($q$) 프로세스는 현재의 $Y_{t}$ 값이 과거 $q$시기 동안의 충격(shock)에 의해 어떻게 영향을 받는지를 모델링함. 
+#### Example, MA(2) in Stock market!!
+- 주식 시장의 일일 수익률 MA(2) 모델링 가정
+$$
+R_{t} = \mu + e_{t} + 0.7e_{t-1} - 0.3e_{t-2}
+$$
+- 이것은 다음을 의미함:
+	- 오늘의 수익률 $R_{t}$는 상수 평균 $\mu$를 중심으로 변동
+	- 오늘 발생한 뉴스나 사건(충격$e_t$)이 즉시 완전히 반영.
+	- 어제 발생한 뉴스 (충격 $e_{t-1}$)는 여전히 70% 영향력
+	- 그제 발생한 뉴스 (충격 $e_{t-2}$)는 30%의 영향력을 가지지지만 역방향 (reversal effect!)
+	- 3일 이상 지난 뉴스는 → 직접적인 충격이 없음.
+## ARMA(p, q)
+$$
+Y_{t} = \delta + \phi_{1}Y_{t-1}+\phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2} e_{t-2} + \cdots + \theta_{q}e_{t-q}
+$$
+- Back substitution can make the Wold representation with ARMA(p, q)
+- 이는 AR 모델과 MA 모델의 장점을 결합하여 더 효율적이고 유연한 시계열 모델링을 가능하게 함.
+	- 모델링 효율성: 복잡한 시계열 데이터를 적절히 모델링 하기 위해? 
+	- 다양한 시계열 패턴 포착: AR(→ 상관관계), MA(→ 충격의 일시적 효과와 감쇠 패턴)
+	- 통계적 효율성: AR과 MA 보다 더 작은 오차를 가짐 → AIC(Akaike Information Criterion)나 BIC(Bayesian Information Criterion)와 같은 정보 기준으로 평가
+	- 이론적 완전성: ARMA 모델은 정상성 조건을 만족하는 시계열에 대한 통합적 표현 제공 → Wold 정리에 따라서, 어떤 약정상 시계열도 결국 무한한 MA 표현으로 나타낼 수 있으며, ARMA 모델은 이를 유한한 매개변수로 근사화. → MA는 무한하게 표현하면 안되니까 ?
