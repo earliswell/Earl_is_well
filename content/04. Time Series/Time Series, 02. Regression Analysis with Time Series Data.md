@@ -577,7 +577,7 @@ $$
 $$
 -  ![[Time_Series, Figure.07.png|400x400]]
 ###### If MA(3)
-
+- ![[Time_Series, Figure.08.png|600x600]]
 
 
 ## ARMA(p, q)
