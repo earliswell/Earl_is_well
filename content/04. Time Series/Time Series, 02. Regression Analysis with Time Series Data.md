@@ -385,7 +385,7 @@ $$
 - Consider the AR(2) process such as 
 $$
 \begin{align}
- & Y_{t} = \delta + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + e_{t} \\
+ & Y_{t} = \delta + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + e_{t}, \text{if }\delta =0 \\
  & Y_{t-1} = Y_{t-1}  \\
 & \tilde{Y}_{t} = \begin{pmatrix}
 Y_{t} \\
@@ -407,6 +407,10 @@ $$
 - With the State-space form of AR(2) the Wold Representation is
 $$
 \tilde{Y}_{t} = \tilde{e}_{t} + F \cdot \tilde{e}_{t-1} + F^2 \cdot \tilde{e_{t-1}} + \cdots + F^k \cdot \tilde{e}_{t-k} + \cdots
+$$
+- The Impulse-response means
+$$
+\frac{\partial Y_{t+k}}{\partial e_{t}} = \frac{\partial Y_{t}}{\partial e_{t-k}} = (1, 1) \text{ element of } F^k
 $$
 
 
