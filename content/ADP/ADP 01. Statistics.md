@@ -282,8 +282,8 @@ print(f"데이터셋2 - 평균: {mean2}, 표준편차: {std2:.2f}, 변동계수:
 4. **데이터셋 비교**: 변동계수를 통해 서로 다른 규모의 데이터셋의 산포도를 비교할 수 있습니다.
 5. **통계적 추론**: 표본에서 계산된 통계량을 활용해 모집단에 대한 추론을 할 수 있습니다.
 ---
-## 확률
-#### 조건부 확률
+# 확률
+## 조건부 확률
 
 **정의**: 조건부 확률은 특정 사건 B가 발생했다는 전제 하에서 다른 사건 A가 발생할 확률을 의미합니다. 즉, "B가 주어졌을 때 A의 확률"입니다.
 
@@ -344,6 +344,7 @@ print(f"P(하트 에이스) = {results['P(A∩B)']}")
 print(f"P(에이스|하트) = {results['P(A|B)']}")
 ```
 
+---
 # 확률분포 개념
 
 ## 1. 공분산과 상관계수
@@ -754,7 +755,7 @@ plt.show()
 - 통계적 추론 및 가설 검정의 기초로 사용할 때
 - 금융에서 자산 수익률 모델링 시
 - 품질 관리에서 제조 공정 변동 분석 시
-
+---
 # 추정
 
 ## 1. 점추정 (Point Estimation)
@@ -1038,7 +1039,7 @@ print(f"모비율 추정을 위한 필요 표본 크기: {n_prop}")
 - 임상 시험 규모 결정 시
 - 품질 검사 샘플링 계획 수립 시
 - 정확도 요구사항과 제한된 자원 사이 균형을 맞출 때
-
+---
 # 가설검정
 
 ## 1. 귀무가설과 대립가설 (Null and Alternative Hypotheses)
@@ -1841,7 +1842,7 @@ plt.show()
 - 어떤 집단의 특성이 국가 평균과 차이가 있는지 검증할 때
 - 측정 장비의 정확도가 규격 기준을 만족하는지 확인할 때
 - 소비자 만족도가 특정 목표 수준에 도달했는지 평가할 때
-
+---
 # 분산분석
 
 ## 1. 일원배치 분산분석 (One-way ANOVA)
@@ -2066,6 +2067,7 @@ print(tukey_comb)
 1. 상호작용 효과 해석 (가장 중요)
 2. 필요한 경우 단순 주효과 분석 (한 요인의 수준별로 다른 요인의 효과 분석)
 3. 사후검정을 통한 구체적인 차이 확인
+---
 
 # 비모수검정 (Non-parametric Tests)
 
@@ -2640,3 +2642,493 @@ plt.show()
 - 반복 시행으로 동일한 측정을 여러 번 하는 경우
 - 데이터가 정규성 가정을 충족하지 않는 반복측정 설계 분석 시
 - 여러 재배 조건에서 동일한 식물 품종의 성장 비교 시
+
+## 8. 맥니마 검정 (McNemar's Test)
+
+**정의**: 대응된 이분형(binary) 자료에서 비율의 변화가 통계적으로 유의한지 검정하는 방법입니다. 전후 설계에서 범주형 변수의 변화를 분석하는 데 사용됩니다.
+
+**수식**: $\chi^2 = \frac{(b - c)^2}{b + c}$ 여기서 b와 c는 불일치 쌍의 빈도입니다 (2×2 분할표에서 off-diagonal 항목).
+
+**특징**:
+
+- 귀무가설은 "두 조건 간 불일치 비율이 같다"입니다.
+- 단일 표본에 대한 전후 비교에 사용됩니다.
+- 데이터는 반드시 대응되어야 합니다(예: 같은 사람의 전후 측정).
+- 이항 분포를 기반으로 하며, 자유도가 1인 카이제곱 분포를 따릅니다.
+- b + c ≥ 10이면 카이제곱 근사를 사용하고, 작으면 이항 검정을 권장합니다.
+- 방향성(한쪽이 다른 쪽보다 나은지)을 파악할 수 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# 데이터 생성: 100명의 환자에 대한 치료 전후 증상 유무
+np.random.seed(42)
+n = 100
+
+# 치료 전 상태 (1=증상 있음, 0=증상 없음)
+before = np.random.binomial(1, 0.7, size=n)  # 70%가 증상 있음
+
+# 치료 후 상태 (효과 시뮬레이션)
+after = before.copy()
+for i in range(n):
+    if before[i] == 1:  # 원래 증상이 있던 경우
+        after[i] = np.random.binomial(1, 0.4, size=1)[0]  # 60%가 증상 개선
+    else:  # 원래 증상이 없던 경우
+        after[i] = np.random.binomial(1, 0.1, size=1)[0]  # 10%만 증상 발생
+
+# 분할표 생성
+table = pd.crosstab(before, after, rownames=['Before'], colnames=['After'])
+print("치료 전후 분할표:")
+print(table)
+
+# 맥니마 검정 수행
+result = stats.mcnemar(table, exact=False, correction=True)
+print(f"\n맥니마 카이제곱 통계량: {result.statistic:.4f}")
+print(f"p-value: {result.pvalue:.4f}")
+print(f"결론: {'치료 전후 증상 분포에 유의한 변화가 있음' if result.pvalue < 0.05 else '치료 전후 증상 분포에 유의한 변화가 없음'}")
+
+# 개선 및 악화 비율 계산
+improved = sum((before == 1) & (after == 0))  # 증상 있음 → 없음
+worsened = sum((before == 0) & (after == 1))  # 증상 없음 → 있음
+print(f"\n개선된 환자 수: {improved} ({improved/n*100:.1f}%)")
+print(f"악화된 환자 수: {worsened} ({worsened/n*100:.1f}%)")
+print(f"변화 없는 환자 수: {n - improved - worsened} ({(n - improved - worsened)/n*100:.1f}%)")
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 치료 전후 비율 막대 그래프
+plt.subplot(1, 2, 1)
+labels = ['증상 없음', '증상 있음']
+before_counts = [sum(before == 0), sum(before == 1)]
+after_counts = [sum(after == 0), sum(after == 1)]
+
+x = np.arange(len(labels))
+width = 0.35
+
+plt.bar(x - width/2, before_counts, width, label='치료 전')
+plt.bar(x + width/2, after_counts, width, label='치료 후')
+
+plt.xlabel('증상 상태')
+plt.ylabel('환자 수')
+plt.title('치료 전후 증상 상태 비교')
+plt.xticks(x, labels)
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. 상태 변화 흐름도
+plt.subplot(1, 2, 2)
+states = ['증상 없음 유지', '악화', '개선', '증상 있음 유지']
+counts = [
+    sum((before == 0) & (after == 0)),
+    sum((before == 0) & (after == 1)),
+    sum((before == 1) & (after == 0)),
+    sum((before == 1) & (after == 1))
+]
+
+plt.pie(counts, labels=states, autopct='%1.1f%%', startangle=90)
+plt.axis('equal')
+plt.title(f'환자 상태 변화\n맥니마 검정: p={result.pvalue:.4f}')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 약물 치료 전후의 증상 유무 변화 분석 시
+- 교육 프로그램 전후의 특정 개념 이해도 변화 측정 시
+- 마케팅 캠페인 전후의 브랜드 인지도 변화 평가 시
+- 수술 전후의 통증 유무 비교 시
+- 정책 변경 전후의 찬성/반대 비율 변화 분석 시
+
+## 9. 피셔의 정확확률검정 (Fisher's Exact Test)
+
+**정의**: 두 범주형 변수의 연관성을 검정하는 방법으로, 카이제곱 검정의 대안으로 특히 표본 크기가 작거나 기대빈도가 작을 때 사용됩니다.
+
+**수식**: $p = \frac{(a+b)!(c+d)!(a+c)!(b+d)!}{a!b!c!d!n!}$ 여기서 a, b, c, d는 2×2 분할표의 셀 빈도이고, n은 총 관측 수입니다.
+
+**특징**:
+
+- 귀무가설은 "행과 열 변수가 독립적이다"입니다.
+- 표본 크기가 작거나 기대빈도가 5 미만인 셀이 있을 때 카이제곱 검정 대신 사용합니다.
+- 초기하분포를 기반으로 하며, 정확한 p-value를 계산합니다.
+- 행과 열 합계가 고정된 것으로 간주합니다(조건부 검정).
+- 2×2 분할표에 가장 흔히 사용되지만, 더 큰 분할표에도 확장 가능합니다.
+- 계산이 복잡하지만 컴퓨터로 쉽게 수행할 수 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+# 데이터 생성: 새로운 치료법과 기존 치료법의 효과 비교 (작은 표본)
+np.random.seed(42)
+
+# 2x2 분할표 데이터
+table = np.array([[9, 3],  # 새 치료법: [회복, 비회복]
+                  [4, 8]])  # 기존 치료법: [회복, 비회복]
+
+# 피셔의 정확확률검정 수행
+oddsratio, p_value = stats.fisher_exact(table)
+
+print("치료법과 회복 여부 분할표:")
+print(pd.DataFrame(table, 
+                   index=['새 치료법', '기존 치료법'], 
+                   columns=['회복', '비회복']))
+
+print(f"\n오즈비: {oddsratio:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'치료법과 회복 여부 간에 유의한 연관성이 있음' if p_value < 0.05 else '치료법과 회복 여부 간에 유의한 연관성이 없음'}")
+
+# 비교: 카이제곱 검정 (참고용)
+chi2, p_chi2, dof, expected = stats.chi2_contingency(table)
+print(f"\n카이제곱 검정 p-value: {p_chi2:.4f} (참고용)")
+print("기대 빈도:")
+print(pd.DataFrame(expected, 
+                   index=['새 치료법', '기존 치료법'], 
+                   columns=['회복', '비회복']).round(2))
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 분할표 히트맵
+plt.subplot(1, 2, 1)
+df_table = pd.DataFrame(table, 
+                        index=['새 치료법', '기존 치료법'], 
+                        columns=['회복', '비회복'])
+sns.heatmap(df_table, annot=True, fmt='d', cmap='Blues')
+plt.title(f'치료법과 회복 여부 분할표\n피셔 검정: p={p_value:.4f}')
+
+# 2. 그룹별 회복률 비교
+plt.subplot(1, 2, 2)
+recovery_rates = [table[0, 0] / sum(table[0]), table[1, 0] / sum(table[1])]
+plt.bar(['새 치료법', '기존 치료법'], recovery_rates)
+plt.ylim(0, 1)
+plt.ylabel('회복률')
+plt.title('치료법별 회복률 비교')
+plt.grid(True, alpha=0.3)
+
+for i, rate in enumerate(recovery_rates):
+    plt.text(i, rate + 0.02, f'{rate:.2f}', ha='center')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 임상 시험에서 표본 크기가 작을 때 치료 효과 분석 시
+- 희귀 질환 연구에서 위험 요인과 질병 간의 연관성 평가 시
+- 소규모 설문조사에서 두 범주형 변수 간의 연관성 검정 시
+- 기대 빈도가 작은 셀이 있는 분할표 분석 시
+- 정확한 p-value가 필요한 중요한 의사결정 상황에서
+
+## 10. 윌콕슨 순위합 검정 (Wilcoxon Rank-Sum Test)
+
+**정의**: 두 독립 표본의 분포가 통계적으로 유의하게 다른지 검정하는 비모수적 방법으로, 맨-휘트니 U 검정과 동일합니다. 여기서는 이미 맨-휘트니 U 검정을 다루었으므로, 추가적인 측면에 중점을 두겠습니다.
+
+**수식**: $W = \sum_{i=1}^{n_1} R_i - \frac{n_1(n_1+1)}{2}$ 여기서 $R_i$는 첫 번째 표본의 순위합, $n_1$은 첫 번째 표본의 크기입니다.
+
+**특징**:
+
+- 맨-휘트니 U 검정과 수학적으로 동등하며, 계산 방식만 다릅니다.
+- 두 집단의 중앙값 차이 검정보다는 분포 전체의 위치 차이를 검정합니다.
+- 비대칭적 분포에도 적용할 수 있습니다.
+- 서로 다른 분포 형태(예: 하나는 정규분포, 다른 하나는 지수분포)인 경우 해석에 주의해야 합니다.
+- 동점(tie)이 많을 경우 수정된 검정 통계량을 사용해야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# 데이터 생성: 두 가지 진통제의 통증 완화 시간(분) 비교
+np.random.seed(42)
+drug_A = np.random.weibull(1.5, size=20) * 20 + 10  # 비대칭 분포
+drug_B = np.random.weibull(1.5, size=25) * 15 + 15  # 약간 다른 분포
+
+# 윌콕슨 순위합 검정 수행
+w_stat, p_value = stats.ranksums(drug_A, drug_B)
+
+print(f"윌콕슨 순위합 통계량: {w_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'두 약물의 효과에 유의한 차이가 있음' if p_value < 0.05 else '두 약물의 효과에 유의한 차이가 없음'}")
+
+# 기술 통계량
+print("\n기술 통계량:")
+print(f"약물 A (n={len(drug_A)}): 중앙값={np.median(drug_A):.2f}, 평균={np.mean(drug_A):.2f}, 표준편차={np.std(drug_A):.2f}")
+print(f"약물 B (n={len(drug_B)}): 중앙값={np.median(drug_B):.2f}, 평균={np.mean(drug_B):.2f}, 표준편차={np.std(drug_B):.2f}")
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 히스토그램 비교
+plt.subplot(1, 2, 1)
+plt.hist(drug_A, alpha=0.5, label='약물 A', bins=10)
+plt.hist(drug_B, alpha=0.5, label='약물 B', bins=10)
+plt.xlabel('통증 완화 시간(분)')
+plt.ylabel('빈도')
+plt.title('약물별 통증 완화 시간 분포')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. 박스플롯 비교
+plt.subplot(1, 2, 2)
+data = [drug_A, drug_B]
+plt.boxplot(data, labels=['약물 A', '약물 B'])
+plt.ylabel('통증 완화 시간(분)')
+plt.title(f'윌콕슨 순위합 검정: p={p_value:.4f}')
+plt.grid(True, alpha=0.3)
+
+# 중앙값 표시
+medians = [np.median(drug_A), np.median(drug_B)]
+for i, median in enumerate(medians):
+    plt.text(i+1, median+1, f'중앙값: {median:.1f}', ha='center')
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 약물 효과가 정규분포를 따르지 않을 때 두 약물 비교 시
+- 두 집단의 전체 분포 차이를 확인할 때
+- 극단값이나 이상치가 있는 데이터 분석 시
+- 순서형 척도로 측정된 두 집단의 차이 검정 시
+- t-검정의 가정이 위배되지만 두 집단을 비교해야 할 때
+
+## 11. 코크란의 Q 검정 (Cochran's Q Test)
+
+**정의**: 셋 이상의 대응된 이분형(binary) 데이터에서 비율의 차이를 검정하는 비모수적 방법입니다. 맥니마 검정을 세 개 이상의 조건으로 확장한 버전입니다.
+
+**수식**: $Q = \frac{k(k-1)\sum_{j=1}^{k}(c_j - \bar{c})^2}{\sum_{i=1}^{n}r_i(k-r_i)}$ 여기서 k는 조건 수, n은 피험자 수, c_j는 조건 j에서의 성공 수, r_i는 피험자 i의 성공 수입니다.
+
+**특징**:
+
+- 귀무가설은 "모든 조건에서 성공 확률이 동일하다"입니다.
+- 동일한 n명의 피험자가 k개의 서로 다른 조건에서 측정되어야 합니다.
+- 결과는 이분형(예/아니오, 성공/실패)이어야 합니다.
+- 자유도가 k-1인 카이제곱 분포를 따릅니다.
+- 유의한 결과가 나오면 사후 검정이 필요합니다.
+- 반복 측정된 이분형 자료에 적합합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# 데이터 생성: 동일한 20명의 피험자에게 3가지 다른 약물을 투여한 후 부작용 발생 여부
+np.random.seed(42)
+n_subjects = 20  # 피험자 수
+n_treatments = 3  # 약물 수
+
+# 개인별 부작용 민감도 (0-1 사이의 값)
+sensitivity = np.random.beta(2, 5, size=n_subjects)
+
+# 약물별 부작용 유발 가능성 (낮을수록 부작용 가능성이 높음)
+drug_effects = [0.7, 0.4, 0.5]  # 약물 A, B, C의 부작용 역치
+
+# 부작용 발생 여부 데이터 생성 (1: 부작용 있음, 0: 부작용 없음)
+data = np.zeros((n_subjects, n_treatments), dtype=int)
+for i in range(n_subjects):
+    for j in range(n_treatments):
+        # 개인 민감도가 약물 역치보다 높으면 부작용 발생
+        data[i, j] = 1 if sensitivity[i] > drug_effects[j] else 0
+
+# 데이터프레임 생성
+df = pd.DataFrame(data, columns=['약물A', '약물B', '약물C'])
+print("피험자별 부작용 발생 데이터 (1: 부작용 있음, 0: 부작용 없음):")
+print(df.head())
+
+# 약물별 부작용 발생 비율
+drug_rates = df.mean()
+print("\n약물별 부작용 발생률:")
+for drug, rate in drug_rates.items():
+    print(f"{drug}: {rate:.2f} ({int(rate * n_subjects)}/{n_subjects}명)")
+
+# 코크란 Q 검정 수행
+q_stat, p_value = stats.cochrans_q(df['약물A'], df['약물B'], df['약물C'])
+
+print(f"\n코크란 Q 통계량: {q_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'약물 간 부작용 발생률에 유의한 차이가 있음' if p_value < 0.05 else '약물 간 부작용 발생률에 유의한 차이가 없음'}")
+
+# 사후 검정: 약물 쌍별 맥니마 검정
+if p_value < 0.05:
+    print("\n사후 검정 (맥니마 검정):")
+    pairs = [('약물A', '약물B'), ('약물A', '약물C'), ('약물B', '약물C')]
+    
+    for pair in pairs:
+        table = pd.crosstab(df[pair[0]], df[pair[1]])
+        try:
+            result = stats.mcnemar(table, exact=False, correction=True)
+            print(f"{pair[0]} vs {pair[1]}: 통계량={result.statistic:.4f}, p={result.pvalue:.4f}")
+        except:
+            print(f"{pair[0]} vs {pair[1]}: 분할표 문제로 검정 불가")
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 부작용 발생률 비교
+plt.subplot(1, 2, 1)
+plt.bar(drug_rates.index, drug_rates.values)
+plt.ylim(0, 1)
+plt.ylabel('부작용 발생률')
+plt.title(f'약물별 부작용 발생률\n코크란 Q 검정: p={p_value:.4f}')
+plt.grid(True, alpha=0.3)
+
+for i, rate in enumerate(drug_rates):
+    plt.text(i, rate + 0.02, f'{rate:.2f}', ha='center')
+
+# 2. 피험자별 패턴 시각화
+plt.subplot(1, 2, 2)
+plt.imshow(df.values, cmap='Blues', aspect='auto')
+plt.colorbar(ticks=[0, 1], label='부작용 여부')
+plt.xlabel('약물')
+plt.ylabel('피험자')
+plt.title('피험자별 부작용 발생 패턴')
+plt.xticks(np.arange(n_treatments), df.columns)
+plt.yticks(np.arange(n_subjects), np.arange(1, n_subjects+1))
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 여러 약물의 부작용 발생률 비교 시
+- 다양한 마케팅 메시지에 대한 소비자 반응 분석 시
+- 여러 교육 방법에 따른 학생들의 성공/실패 비율 비교 시
+- 다양한 조건에서의 제품 합격/불합격 비율 비교 시
+- 반복 측정된 설문조사에서 이분형 응답의 변화 분석 시
+
+## 12. Run 검정 (Runs Test)
+
+**정의**: 데이터의 순서나 시퀀스가 무작위적인지 또는 일정한 패턴이 있는지 검정하는 비모수적 방법입니다. 데이터의 무작위성(randomness)을 평가합니다.
+
+**수식**: $Z = \frac{R - \mu_R}{\sigma_R}$ 여기서 $R$은 관측된 런(run)의 수, $\mu_R = \frac{2n_1n_2}{n_1+n_2}+1$, $\sigma_R = \sqrt{\frac{2n_1n_2(2n_1n_2-n_1-n_2)}{(n_1+n_2)^2(n_1+n_2-1)}}$, $n_1$과 $n_2$는 두 범주의 개수입니다.
+
+**특징**:
+
+- 귀무가설은 "데이터 시퀀스가 무작위적이다"입니다.
+- 런(run)은 동일한 값이 연속적으로 나타나는 구간을 의미합니다.
+- 런이 너무 적으면 데이터에 군집성(clustering)이 있다는 증거입니다.
+- 런이 너무 많으면 데이터에 주기성(periodicity)이 있다는 증거입니다.
+- 연속형 데이터는 먼저 중앙값 등의 기준으로 이분화해야 합니다.
+- 주로 시계열 데이터나 순차적 데이터의 무작위성 검정에 사용됩니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성: 주식 가격 변동 (상승 또는 하락)
+np.random.seed(42)
+
+# 1. 무작위 시퀀스
+random_seq = np.random.choice([1, 0], size=100)  # 1: 상승, 0: 하락
+
+# 2. 패턴이 있는 시퀀스 (군집성이 있는 경우)
+pattern_seq = []
+current = 1  # 시작값
+for i in range(100):
+    if i % 15 == 0:  # 15일마다 추세 변경
+        current = 1 - current
+    # 추세에 맞게 높은 확률로 같은 값, 낮은 확률로 다른 값
+    pattern_seq.append(current if np.random.random() < 0.8 else 1 - current)
+
+# 3. 교대로 바뀌는 시퀀스 (주기성이 있는 경우)
+alternating_seq = []
+for i in range(100):
+    # 약간의 랜덤성을 추가하되, 대체로 교대로 바뀌게 함
+    if i == 0:
+        alternating_seq.append(1)
+    else:
+        if np.random.random() < 0.75:  # 75% 확률로 이전과 다른 값
+            alternating_seq.append(1 - alternating_seq[i-1])
+        else:
+            alternating_seq.append(alternating_seq[i-1])
+
+# 런 검정 수행
+def runs_test(sequence):
+    # 런 개수 및 각 값의 개수 계산
+    runs, n1, n2 = 1, sum(sequence), len(sequence) - sum(sequence)
+    for i in range(1, len(sequence)):
+        if sequence[i] != sequence[i-1]:
+            runs += 1
+    
+    # 통계량 계산
+    runs_expected = (2 * n1 * n2) / (n1 + n2) + 1
+    runs_std = np.sqrt((2 * n1 * n2 * (2 * n1 * n2 - n1 - n2)) / 
+                        ((n1 + n2)**2 * (n1 + n2 - 1)))
+    
+    z = (runs - runs_expected) / runs_std
+    p_value = 2 * (1 - stats.norm.cdf(abs(z)))  # 양측 검정
+    
+    return runs, runs_expected, z, p_value
+
+# 세 시퀀스에 대해 런 검정 수행
+results = {}
+for name, seq in [('무작위', random_seq), ('군집성', pattern_seq), ('주기성', alternating_seq)]:
+    runs, expected, z, p = runs_test(seq)
+    results[name] = {'runs': runs, 'expected': expected, 'z': z, 'p': p}
+    
+    print(f"\n{name} 시퀀스 런 검정:")
+    print(f"런 개수: {runs}, 기대 런 개수: {expected:.2f}")
+    print(f"Z-통계량: {z:.4f}")
+    print(f"p-value: {p:.4f}")
+    print(f"결론: {'무작위성 가정 기각' if p < 0.05 else '무작위성 가정 기각 실패'}")
+
+# 시각화
+plt.figure(figsize=(15, 10))
+
+# 1. 시퀀스 시각화
+for i, (name, seq) in enumerate([('무작위', random_seq), 
+                                ('군집성', pattern_seq), 
+                                ('주기성', alternating_seq)]):
+    plt.subplot(3, 1, i+1)
+    
+    # 시퀀스 플롯
+    x = np.arange(len(seq))
+    plt.step(x, seq, where='mid')
+    
+    # 런 경계 표시
+    for j in range(1, len(seq)):
+        if seq[j] != seq[j-1]:
+            plt.axvline(x=j-0.5, color='r', linestyle='--', alpha=0.5)
+    
+    plt.ylabel('값 (1: 상승, 0: 하락)')
+    plt.title(f'{name} 시퀀스 - 런 개수: {results[name]["runs"]}, p-value: {results[name]["p"]:.4f}')
+    plt.ylim(-0.1, 1.1)
+    plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 주식 시장이나 경제 지표의 무작위성 검정 시
+- 품질 관리에서 제품 불량 발생의 무작위성 확인 시
+- 실험 데이터가 진정한 랜덤 샘플인지 검증할 때
+- 게임 결과나 도박 결과의 공정성 평가 시
+- DNA 서열이나 기타 생물학적 서열의 무작위성 분석 시
+---
