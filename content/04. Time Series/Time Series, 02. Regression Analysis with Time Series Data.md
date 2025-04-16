@@ -316,6 +316,8 @@ Var(Y_{t})(1-\phi^2) = \sigma^2
 \end{gather}
 $$
 - The shock depends on $\sigma^2$ and the persistence depends on $\phi$. If $\phi = 0$ it means white noise
+	- 충격(Shock)의 크기: $\sigma^2 = V(e_{t})$  → 시계열이 각 시점에서 받는 무작위 충격의 크기 → "변동성" 또는 "불확실성"을 나타낸다. 즉, 이 $\sigma^2$ 자체가 커지는 것은 $e_{t}$의 갖을 수 있는 값의 범위가 다양해지니까 무작위 충격이 심해짐 ! → 시계열 그래프가 불규칙해진다. 
+	- 지속성(Persistence): $\phi$ → 자기회귀 계수 → 과거 값이 현재 값에 미치는 크기, 충격의 영향이 얼마나 오래 지속? → "기억"이나 "관성"을 나타냄. 
 ## Moving-Average: MA(q)
 $$
 Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
