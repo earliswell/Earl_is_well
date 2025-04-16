@@ -335,7 +335,43 @@ $$
 $$
 - If $|\phi| < 1$, then $Y_{t}$ is [[Time Series, 02. Regression Analysis with Time Series Data#Stationarity and Ergodicity| Strictly Stationary and Ergodic]]
 - The Equation for $Y_t$ can have an intercept, the above results are unchanged except that the mean of $Y_{t}$ can be computed from the relationship $E(Y_{t}) = \frac{\delta}{1-\phi}$
-- 
+	- AR(1) Process를 Wold Form으로 변환시켰을 때를 의미함.
+
+###### Impulse-Response Analysis In AR(1)
+- We already know that the AR(1) process can be expressed by the [[#Wold Decomposition (Wold form, Wold Representation)|Wold Representation]]
+	- **Deterministic component** (Expected value): $\frac{\delta}{1-\phi}$
+	- **Stochastic component** (Shock or prediction error): $e_{t} + \phi e_{t-1} + \phi^2e_{t-2} + \phi^3e_{t-3} + \cdots$
+$$
+Y_{t} = \frac{\delta}{1-\phi} + e_{t} + \phi e_{t-1} + \phi^2e_{t-2} + \dots + \phi^je_{t-j} + \dots
+$$
+$$
+\frac{\partial Y_{t+k}}{\partial e_{t}} = \frac{\partial Y_{t}}{\partial e_{t-k}} = \phi^k
+$$
+#### AR(2) Process
+$$
+Y_{t} = \delta + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + e_{t}, e_{t} \sim iid(0, \sigma^2)
+$$
+- Mean in Stationary: $\frac{\delta}{1 - \phi_{1} - \phi_{2}}$ 
+$$
+\begin{gather}
+E(Y_{t}) = \delta + \phi_{1}E(Y_{t-1}) + \phi_{2}E(Y_{t-2}) + E(e_{t}) \\
+E(Y_{t}) - \phi_{1}E(Y_{t-1}) - \phi_{2}E(Y_{t-2}) = \delta \\
+E(Y_{t}) (1-\phi_{1} - \phi_{2}) = \delta
+\end{gather}
+$$
+- Variance in Stationary: $\frac{\sigma^2}{1-\phi_{1}^2 - \phi_{2}^2}$
+$$
+\begin{gather}
+Var(Y_{t}) = \phi_{1}^2Var(Y_{t-1}) + \phi_{2}^2Var(Y_{t-2}) + Var(e_{t}) \\
+Var(Y_{t}) - \phi_{1}^2Var(Y_{t-1}) - \phi_{2}^2Var(Y_{t-2}) = \sigma^2 \\
+Var(Y_{t})(1- \phi_{1}^2 - \phi_{2}^2) = \sigma^2
+\end{gather}
+$$
+
+$$
+Var(Y_t) = \phi_1^2 Var(Y_{t-1}) + \phi_2^2 Var(Y_{t-2}) + 2\phi_1\phi_2 Cov(Y_{t-1}, Y_{t-2}) + \sigma^2
+$$
+
 
 ## Moving-Average: MA(q)
 $$
