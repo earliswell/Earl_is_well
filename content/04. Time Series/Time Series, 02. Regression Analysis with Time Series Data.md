@@ -322,6 +322,7 @@ $$
 		- $|\phi|$가 0에 가까울수록 → 과거의 충격이 빠르게 소멸
 		- $|\phi| =0$인 경우 → 이전 관측값이 현재 값에 영향을 주지 않음 
 	- $|\phi| =0 \to Y_{t} = \delta + e_{t}$: 과거 값이 현재 값을 예측하는 데 아무런 도움이 안되고, 시계열은 단순 평균$(\delta)$ 주위를 무작위로 변동함 → 백색 잡음!이라는 의미임.
+- The permanent effects of the shock $(\phi= 1)$ implies the stochastic process is not stationary
 
 ## Moving-Average: MA(q)
 $$
