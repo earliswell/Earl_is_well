@@ -285,5 +285,63 @@ print(f"데이터셋2 - 평균: {mean2}, 표준편차: {std2:.2f}, 변동계수:
 5. **통계적 추론**: 표본에서 계산된 통계량을 활용해 모집단에 대한 추론을 할 수 있습니다.
 ---
 ## 확률
-
 #### 조건부 확률
+
+**정의**: 조건부 확률은 특정 사건 B가 발생했다는 전제 하에서 다른 사건 A가 발생할 확률을 의미합니다. 즉, "B가 주어졌을 때 A의 확률"입니다.
+
+**수식**:
+
+$$P(A|B) = \frac{P(A \cap B)}{P(B)}$$
+- P(A|B): B가 주어졌을 때 A의 확률
+- P(A ∩ B): A와 B가 동시에 일어날 확률(교집합)
+- P(B): 사건 B가 일어날 확률 (단, P(B) > 0)
+
+**특징**
+
+1. 범위: 조건부 확률도 일반 확률과 마찬가지로 0과 1 사이의 값을 가집니다.
+2. 독립 사건: 두 사건 A와 B가 독립이면 P(A|B) = P(A)입니다.
+3. 곱셈 법칙: P(A ∩ B) = P(B) × P(A|B)
+4. 전체 확률 법칙: 표본 공간의 분할 B₁, B₂, ..., Bₙ에 대해 P(A) = Σᵢ P(A|Bᵢ)P(Bᵢ)
+5. 베이즈 정리: P(A|B) = \[P(B|A)P(A)] / P(B)
+
+**코드 예시**:
+```python
+import numpy as np
+import pandas as pd
+
+# 예시 1: 카드 뽑기 조건부 확률
+def card_conditional_prob():
+    # 카드 정의
+    suits = ['Heart', 'Diamond', 'Club', 'Spade']
+    ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    
+    # 모든 카드 조합
+    cards = [(suit, rank) for suit in suits for rank in ranks]
+    
+    # 사건 정의
+    event_A = [(suit, rank) for suit, rank in cards if rank == 'A']  # 에이스
+    event_B = [(suit, rank) for suit, rank in cards if suit == 'Heart']  # 하트 
+    event_A_and_B = [(suit, rank) for suit, rank in cards if suit == 'Heart' and rank == 'A']  # 하트 에이스
+    
+    # 확률 계산
+    P_A = len(event_A) / len(cards)  # P(에이스)
+    P_B = len(event_B) / len(cards)  # P(하트)
+    P_A_and_B = len(event_A_and_B) / len(cards)  # P(하트 에이스)
+    
+    # 조건부 확률 P(A|B): 하트 중에서 에이스가 나올 확률
+    P_A_given_B = P_A_and_B / P_B
+    
+    return {
+        'P(A)': P_A,
+        'P(B)': P_B,
+        'P(A∩B)': P_A_and_B,
+        'P(A|B)': P_A_given_B
+    }
+
+# 함수 실행
+results = card_conditional_prob()
+print(f"P(에이스) = {results['P(A)']}")
+print(f"P(하트) = {results['P(B)']}")
+print(f"P(하트 에이스) = {results['P(A∩B)']}")
+print(f"P(에이스|하트) = {results['P(A|B)']}")
+```
