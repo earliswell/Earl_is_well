@@ -564,7 +564,17 @@ $$
 $$
 E(Y_{t}) = \mu
 $$
-- 
+- Variance (no need stationarity):
+$$
+Var(Y_{t}) = (1 + \theta^2)\sigma^2
+$$
+- Auto-covariance (assuming $\mu=0$)
+$$
+\begin{align}
+ & \gamma(1) = \theta \sigma^2  \\
+ & \gamma(2) = 0
+\end{align}
+$$
 ## ARMA(p, q)
 $$
 Y_{t} = \delta + \phi_{1}Y_{t-1}+\phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2} e_{t-2} + \cdots + \theta_{q}e_{t-q}
