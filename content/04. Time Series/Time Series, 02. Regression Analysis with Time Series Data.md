@@ -412,13 +412,80 @@ $$
 $$
 \frac{\partial Y_{t+k}}{\partial e_{t}} = \frac{\partial Y_{t}}{\partial e_{t-k}} = (1, 1) \text{ element of } F^k
 $$
-
-
-
+- Because
+$$
+\begin{pmatrix}
+Y_{t} \\
+Y_{t-1}
+\end{pmatrix} = \begin{pmatrix}
+e_{t} \\
+0
+\end{pmatrix} +\begin{pmatrix}
+\phi_{1} & \phi_{2} \\
+1 & 0 
+\end{pmatrix}\cdot \begin{pmatrix}
+e_{t-1} \\
+0
+\end{pmatrix} + \begin{pmatrix}
+\phi_{1} & \phi_{2} \\
+1 & 0
+\end{pmatrix}^2 \cdot \begin{pmatrix}
+e_{t-1} \\
+0
+\end{pmatrix} + \cdots + \begin{pmatrix}
+\phi_{1} & \phi_{2}  \\
+1 & 0
+\end{pmatrix}^k \cdot \begin{pmatrix}
+e_{t-k} \\
+0
+\end{pmatrix} + \cdots
 $$
 
+#### Characteristic root: Eigen Value 
+- Let $x(x\neq 0)$, $F$ be a 2 by 1 non-zero, 2 by 2 vector and $\lambda$ be a scalar,
+$$
+F \cdot x = \lambda \cdot x \Longleftrightarrow \begin{pmatrix}
+f(11) & f(12) \\
+f(21) & f(22)
+\end{pmatrix} \begin{pmatrix}
+x_{1} \\
+x_{2}
+\end{pmatrix} = \lambda \cdot \begin{pmatrix}
+x_{1} \\
+x_{2}
+\end{pmatrix}
+$$
+$$
+(F - \lambda I_{2})x = 0
+$$
+- Since $x\neq 0$, the equations are singular 
+$$
+|F - \lambda I_{2}| = 0
+$$
+$$
+\left| \begin{pmatrix}
+f(11) & f(12) \\
+f(21) & f(22)
+\end{pmatrix} - \begin{pmatrix}
+\lambda & 0 \\
+0 & \lambda
+\end{pmatrix}
+\right| = 0 \Longleftrightarrow \left| 
+\begin{pmatrix}
+f_{11} - \lambda & f_{12} \\
+f_{21}  &  f_{22}-\lambda
+\end{pmatrix}
+\right| = 0
+$$
+$$
+\begin{gather}
+(f_{11} - \lambda)(f_{22}- \lambda) - f_{12}f_{21} = 0 \\
+\lambda^2 + a\lambda + b =0
+\end{gather}
 $$
 
+- where $a\equiv-(f_{11}+f_{22})$ and $b \equiv f_{11}f_{22} - f_{12}f_{21}$. The last equation is the characteristic equation and corresponding roots are characteristic roots: $\lambda_{1}, \lambda_{2}$
+- The characteristic vectors
 ## Moving-Average: MA(q)
 $$
 Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
