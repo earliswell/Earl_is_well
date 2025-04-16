@@ -7,9 +7,7 @@ tags:
   - "#probability"
   - "#확률"
 ---
-# 기초통계량: 정의, 예시 및 코드 구현
-
-기초통계량은 데이터셋의 특성을 요약하는 수치들로, 데이터 분석의 기본이 됩니다. 각 통계량의 정의와 파이썬 코드로 구현하는 방법을 살펴보겠습니다.
+# 기초통계량
 
 ## 1. 평균 (Mean)
 
@@ -2069,3 +2067,576 @@ print(tukey_comb)
 2. 필요한 경우 단순 주효과 분석 (한 요인의 수준별로 다른 요인의 효과 분석)
 3. 사후검정을 통한 구체적인 차이 확인
 
+# 비모수검정 (Non-parametric Tests)
+
+## 1. 카이제곱검정 - 적합성 검정 (Chi-square Goodness of Fit Test)
+
+**정의**: 관측된 범주형 데이터의 분포가 기대되는 이론적 분포와 일치하는지 검정하는 방법입니다. 즉, 실제 관측된 빈도와 기대 빈도 간의 차이를 분석합니다.
+
+**수식**: $\chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}$ 여기서 $O_i$는 범주 i의 관측 빈도, $E_i$는 범주 i의 기대 빈도, k는 범주의 수입니다.
+
+**특징**:
+
+- 귀무가설은 "관측된 빈도가 기대 빈도와 일치한다"입니다.
+- 각 범주의 기대 빈도는 5 이상이어야 합니다.
+- 자유도는 (범주 수 - 1)입니다.
+- 모든 범주는 상호 배타적이어야 합니다.
+- 정규성 가정이 필요 없어 분포에 제약이 없습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 예시: 주사위 던지기
+observed = np.array([15, 20, 18, 16, 12, 19])  # 관측된 각 면의 빈도
+n = sum(observed)  # 총 던진 횟수
+k = len(observed)  # 범주 수 (주사위 면의 수)
+expected = np.array([n/k] * k)  # 공정한 주사위라면 모든 면이 동일한 빈도로 나와야 함
+
+# 카이제곱 적합성 검정 수행
+chi2_stat, p_value = stats.chisquare(observed, expected)
+
+print(f"관측 빈도: {observed}")
+print(f"기대 빈도: {expected}")
+print(f"카이제곱 통계량: {chi2_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'관측 빈도와 기대 빈도가 유의하게 다름' if p_value < 0.05 else '관측 빈도와 기대 빈도 간 유의한 차이 없음'}")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+categories = [f'면 {i+1}' for i in range(k)]
+width = 0.35
+x = np.arange(k)
+
+plt.bar(x - width/2, observed, width, label='관측 빈도')
+plt.bar(x + width/2, expected, width, label='기대 빈도')
+
+plt.xlabel('주사위 면')
+plt.ylabel('빈도')
+plt.title(f'카이제곱 적합성 검정: χ²={chi2_stat:.2f}, p={p_value:.4f}')
+plt.xticks(x, categories)
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 주사위나 룰렛 같은 게임의 공정성 검정 시
+- 유전학에서 멘델의 법칙 검증 시 (예: 3:1 비율 가설)
+- 도시의 교통사고 발생 분포가 예상 패턴과 일치하는지 확인할 때
+- 설문조사 응답이 특정 기대 분포를 따르는지 검증할 때
+- 제품 결함이 랜덤하게 발생하는지 또는 특정 패턴이 있는지 분석할 때
+
+## 2. 카이제곱검정 - 독립성 검정 (Chi-square Test of Independence)
+
+**정의**: 두 범주형 변수 간에 통계적으로 유의한 관계가 있는지 검정하는 방법입니다. 즉, 한 변수의 분포가 다른 변수의 수준에 따라 달라지는지 확인합니다.
+
+**수식**: $\chi^2 = \sum_{i=1}^{r}\sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$ 여기서 $E_{ij} = \frac{R_i \times C_j}{n}$, $R_i$는 i행의 합, $C_j$는 j열의 합, n은 총 관측치 수입니다.
+
+**특징**:
+
+- 귀무가설은 "두 변수는 서로 독립적이다"입니다.
+- 각 셀의 기대 빈도는 5 이상이 권장됩니다.
+- 자유도는 (행 수 - 1) × (열 수 - 1)입니다.
+- 분할표(교차표, contingency table)를 사용하여 데이터를 정리합니다.
+- 변수 간 연관성의 존재만 알려주며, 인과관계는 확인할 수 없습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 예시: 교육 수준과 정치 성향의 관계
+# 데이터 생성: 교육 수준(고졸, 대졸, 대학원졸)과 정치 성향(보수, 중도, 진보)
+np.random.seed(42)
+n = 500  # 표본 크기
+
+# 약간의 연관성이 있는 데이터 생성
+education = np.random.choice(['고졸', '대졸', '대학원졸'], size=n, p=[0.3, 0.5, 0.2])
+political_tendency = []
+
+for edu in education:
+    if edu == '고졸':
+        political_tendency.append(np.random.choice(['보수', '중도', '진보'], p=[0.5, 0.3, 0.2]))
+    elif edu == '대졸':
+        political_tendency.append(np.random.choice(['보수', '중도', '진보'], p=[0.3, 0.4, 0.3]))
+    else:  # 대학원졸
+        political_tendency.append(np.random.choice(['보수', '중도', '진보'], p=[0.2, 0.3, 0.5]))
+
+# 데이터 프레임 생성
+df = pd.DataFrame({'education': education, 'political': political_tendency})
+
+# 교차표 생성
+contingency_table = pd.crosstab(df['education'], df['political'])
+print("교차표:")
+print(contingency_table)
+
+# 카이제곱 독립성 검정 수행
+chi2_stat, p_value, dof, expected = stats.chi2_contingency(contingency_table)
+
+print(f"\n카이제곱 통계량: {chi2_stat:.4f}")
+print(f"자유도: {dof}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'변수 간 유의한 연관성이 있음' if p_value < 0.05 else '변수 간 연관성이 없음'}")
+
+print("\n기대 빈도:")
+expected_df = pd.DataFrame(expected, index=contingency_table.index, columns=contingency_table.columns)
+print(expected_df.round(2))
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 교차표 히트맵
+plt.subplot(1, 2, 1)
+sns.heatmap(contingency_table, annot=True, fmt='d', cmap='Blues')
+plt.title('교육 수준과 정치 성향 빈도')
+
+# 2. 100% 누적 막대 그래프
+plt.subplot(1, 2, 2)
+props = contingency_table.div(contingency_table.sum(axis=1), axis=0)
+props.plot(kind='bar', stacked=True, width=0.8)
+plt.title('교육 수준별 정치 성향 비율')
+plt.xlabel('교육 수준')
+plt.ylabel('비율')
+plt.legend(title='정치 성향')
+plt.ylim(0, 1)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 교육 수준과 정치 성향의 관계 분석 시
+- 성별과 특정 질병 발생률의 연관성 검사 시
+- 마케팅 전략과 구매 행동 간의 관계 파악 시
+- 인구통계학적 특성과 소비 패턴 간의 연관성 연구 시
+- 지역과 특정 의견의 연관성 확인 시
+
+## 3. 카이제곱검정 - 동질성 검정 (Chi-square Test of Homogeneity)
+
+**정의**: 서로 다른 집단 간에 특정 범주형 변수의 분포가 동일한지 검정하는 방법입니다. 즉, 여러 집단에서 관측된 범주의 비율이 동일한지 확인합니다.
+
+**수식**: 동질성 검정도 독립성 검정과 동일한 공식을 사용합니다: $\chi^2 = \sum_{i=1}^{r}\sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$
+
+**특징**:
+
+- 귀무가설은 "모든 집단에서 범주의 분포가 동일하다"입니다.
+- 수학적으로는 독립성 검정과 동일하지만, 실험 설계와 해석이 다릅니다.
+- 독립성 검정에서는 한 표본에서 두 변수의 관계를 검사하지만, 동질성 검정에서는 여러 독립 표본에서 한 변수의 분포를 비교합니다.
+- 각 셀의 기대 빈도는 5 이상이 권장됩니다.
+- 자유도는 (행 수 - 1) × (열 수 - 1)입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 예시: 세 지역에서의 선호 교통수단 비율 비교
+# 데이터 생성: 지역 A, B, C에서의 교통수단(자가용, 대중교통, 자전거) 선호도
+transportation = {
+    '지역 A': [120, 80, 30],  # 자가용, 대중교통, 자전거 선호 인원
+    '지역 B': [100, 100, 50],
+    '지역 C': [80, 110, 60]
+}
+
+# 데이터 프레임 생성
+df = pd.DataFrame(transportation, index=['자가용', '대중교통', '자전거'])
+print("교차표:")
+print(df)
+
+# 카이제곱 동질성 검정 수행
+chi2_stat, p_value, dof, expected = stats.chi2_contingency(df)
+
+print(f"\n카이제곱 통계량: {chi2_stat:.4f}")
+print(f"자유도: {dof}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'지역 간 교통수단 선호도에 유의한 차이가 있음' if p_value < 0.05 else '지역 간 교통수단 선호도에 유의한 차이가 없음'}")
+
+print("\n기대 빈도:")
+expected_df = pd.DataFrame(expected, index=df.index, columns=df.columns)
+print(expected_df.round(2))
+
+# 시각화
+plt.figure(figsize=(12, 6))
+
+# 1. 빈도 그래프
+plt.subplot(1, 2, 1)
+df.plot(kind='bar', width=0.7)
+plt.title('지역별 교통수단 선호도 (빈도)')
+plt.xlabel('교통수단')
+plt.ylabel('선호 인원')
+plt.grid(True, alpha=0.3)
+
+# 2. 100% 누적 막대 그래프
+plt.subplot(1, 2, 2)
+props = df.div(df.sum(axis=0), axis=1).T  # 열 기준으로 비율 계산하고 전치
+props.plot(kind='bar', stacked=True, width=0.7)
+plt.title('지역별 교통수단 선호도 (비율)')
+plt.xlabel('지역')
+plt.ylabel('비율')
+plt.ylim(0, 1)
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 여러 지역 간 특정 제품 선호도 비교 시
+- 다양한 인구통계학적 집단의 응답 패턴 비교 시
+- 서로 다른 치료법에 대한 환자 반응 분포 비교 시
+- 여러 학교 또는 학급 간의 학생 성적 분포 비교 시
+- 다양한 시간대 또는 요일별 고객 유형 분포 비교 시
+
+## 4. 맨휘트니 U 검정 (Mann-Whitney U Test / Wilcoxon Rank-Sum Test)
+
+**정의**: 두 독립적인 집단의 분포가 통계적으로 유의하게 다른지 검정하는 비모수적 방법입니다. 독립표본 t-검정의 비모수적 대안으로 사용됩니다.
+
+**수식**: $U = n_1 n_2 + \frac{n_1(n_1+1)}{2} - R_1$ 여기서 $n_1$과 $n_2$는 두 집단의 표본 크기, $R_1$은 첫 번째 집단의 순위합입니다.
+
+**특징**:
+
+- 귀무가설은 "두 집단의 분포가 동일하다"입니다.
+- 데이터의 정규성을 가정하지 않습니다.
+- 서열 척도 데이터에도 적용 가능합니다.
+- 모든 관측값을 통합하여 순위를 매기고, 각 집단의 순위합을 비교합니다.
+- 중앙값뿐만 아니라 분포 전체의 차이를 검정합니다.
+- 이상치에 강건합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 데이터 생성: 두 치료법의 회복 시간 비교
+np.random.seed(42)
+treatment_A = np.random.exponential(scale=10, size=30)  # 비대칭 분포 (정규성 가정 위배)
+treatment_B = np.random.exponential(scale=7, size=30) + 3
+
+# 맨휘트니 U 검정 수행
+u_stat, p_value = stats.mannwhitneyu(treatment_A, treatment_B, alternative='two-sided')
+
+print(f"맨휘트니 U 통계량: {u_stat}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'두 집단의 분포가 유의하게 다름' if p_value < 0.05 else '두 집단의 분포에 유의한 차이가 없음'}")
+
+# 참고: 동일한 데이터로 t-검정 수행 (정규성 가정 확인 없이)
+t_stat, t_p_value = stats.ttest_ind(treatment_A, treatment_B)
+print(f"\nt-검정 p-value: {t_p_value:.4f} (참고용)")
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 데이터 분포 비교
+plt.subplot(1, 2, 1)
+plt.hist(treatment_A, bins=10, alpha=0.5, label='치료법 A')
+plt.hist(treatment_B, bins=10, alpha=0.5, label='치료법 B')
+plt.xlabel('회복 시간')
+plt.ylabel('빈도')
+plt.title('두 치료법의 회복 시간 분포')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. 박스플롯
+plt.subplot(1, 2, 2)
+plt.boxplot([treatment_A, treatment_B], labels=['치료법 A', '치료법 B'])
+plt.ylabel('회복 시간')
+plt.title(f'맨휘트니 U 검정: p={p_value:.4f}')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 데이터가 정규분포를 따르지 않을 때 두 집단 비교 시
+- 척도가 서열형일 때 (예: 리커트 척도 설문 결과)
+- 이상치가 있는 데이터 분석 시
+- 표본 크기가 작을 때 정규성 가정을 확신할 수 없는 경우
+- 고객 만족도와 같은 주관적 평가 데이터 비교 시
+
+## 5. 크루스칼-월리스 검정 (Kruskal-Wallis Test)
+
+**정의**: 세 개 이상의 독립적인 집단 간의 분포 차이를 검정하는 비모수적 방법입니다. 일원배치 ANOVA의 비모수적 대안으로 사용됩니다.
+
+**수식**: $H = (N-1) \frac{\sum_{i=1}^{g} n_i(\bar{r}_i - \bar{r})^2}{\sum_{i=1}^{N} (r_i - \bar{r})^2}$ 여기서 $N$은 전체 표본 크기, $n_i$는 집단 i의 표본 크기, $\bar{r}_i$는 집단 i의 평균 순위, $\bar{r}$은 전체 평균 순위입니다.
+
+**특징**:
+
+- 귀무가설은 "모든 집단의 분포가 동일하다"입니다.
+- 데이터의 정규성을 가정하지 않습니다.
+- 모든 관측값을 통합하여 순위를 매기고, 집단별 평균 순위를 비교합니다.
+- 자유도가 k-1인 카이제곱 분포를 따릅니다 (k는 집단 수).
+- 유의한 결과를 얻으면 사후 검정(예: Dunn 검정)을 통해 어떤 집단 간에 차이가 있는지 확인해야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import scikit_posthocs as sp
+
+# 데이터 생성: 세 가지 학습 방법의 성취도 점수
+np.random.seed(42)
+method_A = np.random.normal(loc=70, scale=10, size=25)
+method_B = np.random.normal(loc=75, scale=12, size=25)
+method_C = np.random.normal(loc=80, scale=15, size=25)
+
+# 데이터를 비대칭으로 변환 (비모수 검정의 필요성 강조)
+method_A = np.exp(method_A / 25)
+method_B = np.exp(method_B / 25)
+method_C = np.exp(method_C / 25)
+
+# 크루스칼-월리스 검정 수행
+H, p_value = stats.kruskal(method_A, method_B, method_C)
+
+print(f"크루스칼-월리스 H 통계량: {H:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'집단 간 유의한 차이가 있음' if p_value < 0.05 else '집단 간 유의한 차이가 없음'}")
+
+# 사후 검정 (Dunn 검정)
+if p_value < 0.05:
+    # 모든 데이터와 그룹 라벨 준비
+    all_data = np.concatenate([method_A, method_B, method_C])
+    groups = np.repeat(['A', 'B', 'C'], [len(method_A), len(method_B), len(method_C)])
+    
+    # Dunn 검정 수행
+    dunn_results = sp.posthoc_dunn([method_A, method_B, method_C], p_adjust='bonferroni')
+    print("\nDunn 사후 검정 결과 (p-values):")
+    print(dunn_results)
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 박스플롯
+plt.subplot(1, 2, 1)
+plt.boxplot([method_A, method_B, method_C], labels=['방법 A', '방법 B', '방법 C'])
+plt.ylabel('성취도 점수')
+plt.title(f'크루스칼-월리스 검정: H={H:.2f}, p={p_value:.4f}')
+plt.grid(True, alpha=0.3)
+
+# 2. 바이올린 플롯
+plt.subplot(1, 2, 2)
+data = [method_A, method_B, method_C]
+violin = plt.violinplot(data, showmeans=True, showmedians=True)
+for i, pc in enumerate(violin['bodies']):
+    pc.set_facecolor(f'C{i}')
+    pc.set_alpha(0.7)
+
+plt.xticks([1, 2, 3], ['방법 A', '방법 B', '방법 C'])
+plt.ylabel('성취도 점수')
+plt.title('방법별 성취도 분포')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 데이터가 정규분포를 따르지 않을 때 세 개 이상 집단 비교 시
+- 서열 척도로 측정된 여러 집단의 성과 비교 시
+- 다양한 수업 방식, 치료법, 약물 등의 효과 비교 시
+- 이상치가 많아 ANOVA 가정을 충족하지 못하는 경우
+- 작은 표본 크기로 정규성을 확신할 수 없는 경우
+
+## 6. 윌콕슨 부호 순위 검정 (Wilcoxon Signed-Rank Test)
+
+**정의**: 두 대응(짝지어진) 표본의 차이가 통계적으로 유의한지 검정하는 비모수적 방법입니다. 대응표본 t-검정의 비모수적 대안입니다.
+
+**수식**: $W = \min(W^+, W^-)$ 여기서 $W^+$는 양의 순위합, $W^-$는 음의 순위합입니다.
+
+**특징**:
+
+- 귀무가설은 "대응된 차이의 중앙값이 0이다"입니다.
+- 차이의 크기와 방향을 모두 고려합니다.
+- 정규성 가정이 필요 없습니다.
+- 동일한 개체나 대상에 대한 전후 비교에 적합합니다.
+- 이상치에 강건합니다.
+- 0이 아닌 차이에 대해서만 순위를 매깁니다(차이가 0인 쌍은 제외).
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# 데이터 생성: 10명의 환자에 대한 치료 전후 통증 점수
+np.random.seed(42)
+n = 15  # 환자 수
+before = np.random.normal(loc=7, scale=1.5, size=n)  # 치료 전 통증 점수 (0-10 척도)
+before = np.clip(before, 0, 10)  # 0-10 범위로 클리핑
+
+# 치료 효과에 개인차 (비정규성 추가)
+effect = np.random.exponential(scale=2, size=n) * -1  # 음수 효과 (통증 감소)
+after = before + effect
+after = np.clip(after, 0, 10)  # 0-10 범위로 클리핑
+
+# 윌콕슨 부호 순위 검정 수행
+w_stat, p_value = stats.wilcoxon(before, after)
+
+print(f"윌콕슨 부호 순위 통계량: {w_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'치료 전후 통증에 유의한 차이가 있음' if p_value < 0.05 else '치료 전후 통증에 유의한 차이가 없음'}")
+
+# 대응표본 t-검정 (비교용)
+t_stat, t_p_value = stats.ttest_rel(before, after)
+print(f"\n대응표본 t-검정 p-value: {t_p_value:.4f} (참고용)")
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 1. 개인별 전후 변화
+plt.subplot(1, 2, 1)
+for i in range(n):
+    plt.plot([1, 2], [before[i], after[i]], 'o-', alpha=0.5)
+
+plt.plot([1, 2], [np.mean(before), np.mean(after)], 'r-', linewidth=2, label='평균')
+plt.xticks([1, 2], ['치료 전', '치료 후'])
+plt.ylabel('통증 점수')
+plt.ylim(0, 10)
+plt.title('환자별 치료 전후 통증 변화')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 2. 차이 분포
+plt.subplot(1, 2, 2)
+differences = before - after
+plt.hist(differences, bins=8, alpha=0.7, color='skyblue')
+plt.axvline(np.median(differences), color='r', linestyle='--', 
+            label=f'중앙값: {np.median(differences):.2f}')
+plt.axvline(0, color='k', linestyle='-', alpha=0.3)
+plt.xlabel('치료 전 - 치료 후')
+plt.ylabel('빈도')
+plt.title(f'통증 점수 차이 (p={p_value:.4f})')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 약물 치료 전후의 증상 변화가 정규분포를 따르지 않을 때
+- 교육 프로그램 전후의 능력 변화 평가 시
+- 새로운 훈련 방법 도입 전후의 운동 성과 비교 시
+- 환자의 주관적 통증 점수 같은 서열 척도 데이터 분석 시
+- 동일 주제에 대한 두 평가자의 점수 차이 분석 시
+
+## 7. 프리드먼 검정 (Friedman Test)
+
+**정의**: 세 개 이상의 대응된(관련된) 집단 간의 차이를 검정하는 비모수적 방법입니다. 반복측정 일원배치 ANOVA의 비모수적 대안입니다.
+
+**수식**: $\chi_r^2 = \frac{12n}{k(k+1)}\sum_{j=1}^{k}(R_j - \frac{k+1}{2})^2$ 여기서 n은 블록(주체) 수, k는 처리(조건) 수, R_j는 j번째 처리의 평균 순위입니다.
+
+**특징**:
+
+- 귀무가설은 "모든 처리의 효과가 동일하다"입니다.
+- 대응된 설계에서 사용됩니다 (예: 동일한 대상으로 여러 처리 비교).
+- 각 블록 내에서 처리에 순위를 매깁니다.
+- 정규성 가정이 필요 없습니다.
+- 유의한 결과를 얻으면 사후 검정이 필요합니다.
+- 자유도가 k-1인 카이제곱 분포를 따릅니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import pandas as pd
+import scikit_posthocs as sp
+
+# 데이터 생성: 10명의 피험자가 4가지 다른 운동을 한 후의 심박수
+np.random.seed(42)
+n_subjects = 10  # 피험자 수
+n_exercises = 4  # 운동 유형 수
+
+# 기본 심박수와 개인차
+base_heart_rates = np.random.normal(loc=70, scale=5, size=n_subjects)
+
+# 4가지 운동의 효과 (운동별로 심박수 증가 정도가 다름)
+exercise_effects = {
+    'A': np.random.normal(loc=20, scale=3, size=n_subjects),  # 가벼운 운동
+    'B': np.random.normal(loc=35, scale=5, size=n_subjects),  # 중간 강도
+    'C': np.random.normal(loc=50, scale=7, size=n_subjects),  # 고강도
+    'D': np.random.normal(loc=30, scale=4, size=n_subjects)   # 중간-고강도
+}
+
+# 데이터 생성
+data = {}
+for ex, effects in exercise_effects.items():
+    data[f'운동{ex}'] = base_heart_rates + effects
+
+# 데이터프레임 생성
+df = pd.DataFrame(data)
+print("피험자별 각 운동 후 심박수:")
+print(df)
+
+# 프리드먼 검정 수행
+chi2_stat, p_value = stats.friedmanchisquare(*[df[col] for col in df.columns])
+
+print(f"\n프리드먼 카이제곱 통계량: {chi2_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'운동 종류에 따라 심박수에 유의한 차이가 있음' if p_value < 0.05 else '운동 종류에 따른 심박수에 유의한 차이가 없음'}")
+
+# 사후 검정 (Nemenyi 검정)
+if p_value < 0.05:
+    post_hoc = sp.posthoc_nemenyi_friedman(df.values)
+    post_hoc.columns = df.columns
+    post_hoc.index = df.columns
+    print("\nNemenyi 사후 검정 결과 (p-values):")
+    print(post_hoc)
+
+# 시각화
+plt.figure(figsize=(12, 6))
+
+# 1. 박스플롯
+plt.subplot(1, 2, 1)
+df.boxplot()
+plt.ylabel('심박수')
+plt.title(f'운동별 심박수 비교\n프리드먼 검정: χ²={chi2_stat:.2f}, p={p_value:.4f}')
+plt.grid(True, alpha=0.3)
+
+# 2. 주체별 라인 그래프
+plt.subplot(1, 2, 2)
+for i in range(n_subjects):
+    plt.plot(df.columns, df.iloc[i], 'o-', alpha=0.4)
+
+plt.plot(df.columns, df.mean(), 'ro-', linewidth=2, label='평균')
+plt.ylabel('심박수')
+plt.title('피험자별 운동에 따른 심박수 변화')
+plt.grid(True, alpha=0.3)
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 동일한 참가자가 여러 다른 조건에서 평가되는 실험 분석 시
+- 여러 제품에 대한 소비자 선호도 평가 시
+- 반복 시행으로 동일한 측정을 여러 번 하는 경우
+- 데이터가 정규성 가정을 충족하지 않는 반복측정 설계 분석 시
+- 여러 재배 조건에서 동일한 식물 품종의 성장 비교 시
