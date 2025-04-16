@@ -324,7 +324,7 @@ $$
 	- $|\phi| =0 \to Y_{t} = \delta + e_{t}$: 과거 값이 현재 값을 예측하는 데 아무런 도움이 안되고, 시계열은 단순 평균$(\delta)$ 주위를 무작위로 변동함 → 백색 잡음!이라는 의미임.
 - The permanent effects of the shock $(\phi= 1)$ implies the stochastic process is not stationary → $E(Y_{t}) = \delta + E(Y_{t-1})$ ... 계속 누적됨.
 - [[#Stationarity and Ergodicity, Definition 1|Auto-Covariance]] 유도하기
-![[Pasted image 20250416132358.png]]
+	- ![[Pasted image 20250416132358.png]]
 
 ## Moving-Average: MA(q)
 $$
