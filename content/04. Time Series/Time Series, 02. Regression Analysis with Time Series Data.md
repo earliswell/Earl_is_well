@@ -288,7 +288,7 @@ $$
 $$
 Y_{t} = Y_{t-1} + e_{t}
 $$
-- $e_{t}$ is a martinage difference sequence (MDS) if $E(e_{t}|\Gamma_{t-1}) = 0$ 
+- $e_{t}$ is a martingale difference sequence (MDS) if $E(e_{t}|\Gamma_{t-1}) = 0$ 
 	- 오차항 $e_{t}$가 마팅게일 차이 수열이라는 것 → 과거 정보 $\Gamma_{t-1}$를 모두 고려했을 때, 오차의 평균이 0이 된다는 것을 의미함. → 모델이 과거 정보에서 추출할 수 있는 모든 예측 가능한 패턴을 이미 포착했다는 것 !!!!!
 - ==The MDS property== for the regression error plays the same role in a time-series regression as does [[Time Series, 01. Basic of Regression#Assumption E.3, Zero Conditional Mean|the conditional mean-zero property]] for the regression error in a cross-section regression. In fact, it is even more important in the time-series context, as it is difficult to derive distribution theories without this property.
 - The MDS property implies $E(Y_{t-k}e_{t}) = 0$ for any $k>0$.
