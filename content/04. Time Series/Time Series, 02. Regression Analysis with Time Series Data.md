@@ -509,7 +509,7 @@ x_{1} & x_{2}
 \end{pmatrix} \Longleftrightarrow F \cdot C = C \cdot \Lambda
 $$
 $$
-F^k = C \cdot \Lambda \cdot C^{-1} = \begin{pmatrix}
+F^k = C \cdot \Lambda^k \cdot C^{-1} = \begin{pmatrix}
 c_{11} & c_{12} \\
 c_{21} & c_{22}
 \end{pmatrix} \cdot \begin{pmatrix}
