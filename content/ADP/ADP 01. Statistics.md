@@ -345,3 +345,415 @@ print(f"P(하트) = {results['P(B)']}")
 print(f"P(하트 에이스) = {results['P(A∩B)']}")
 print(f"P(에이스|하트) = {results['P(A|B)']}")
 ```
+
+# 확률분포 개념
+
+## 1. 공분산과 상관계수
+
+**정의**:
+
+- 공분산: 두 확률변수의 선형 관계 정도를 나타내는 값으로, 두 변수가 함께 변화하는 경향을 측정합니다.
+- 상관계수: 공분산을 각 변수의 표준편차의 곱으로 나눈 값으로, -1에서 1 사이의 값을 가지며 선형 관계의 강도와 방향을 나타냅니다.
+
+**수식**:
+
+- 공분산: $Cov(X,Y) = E[(X-\mu_X)(Y-\mu_Y)] = E[XY] - E[X]E[Y]$
+- 상관계수: $\rho_{X,Y} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y}$
+
+**특징**:
+
+- 공분산은 단위가 있고, 상관계수는 단위가 없는 표준화된 측정치입니다.
+- 상관계수가 1이면 완벽한 양의 선형관계, -1이면 완벽한 음의 선형관계, 0이면 선형관계가 없음을 의미합니다.
+- 두 변수가 독립이면 공분산과 상관계수는 0이지만, 역은 성립하지 않습니다(상관계수가 0이어도 독립이 아닐 수 있음).
+
+**코드 예시**:
+
+```python
+import numpy as np
+
+# 두 변수 생성
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2, 4, 5, 4, 5])
+
+# 공분산 계산
+cov_xy = np.cov(x, y)[0, 1]
+print(f"공분산: {cov_xy}")
+
+# 상관계수 계산
+corr_xy = np.corrcoef(x, y)[0, 1]
+print(f"상관계수: {corr_xy}")
+```
+
+**개념의 활용**:
+
+- 두 변수 간의 관계를 탐색할 때(EDA 과정에서)
+- 예측 모델에서 다중공선성을 진단할 때
+- 포트폴리오 구성 및 리스크 관리 시 자산 간 상관관계 분석 시
+- 차원 축소 기법(PCA)의 기초 개념으로 활용될 때
+- 회귀분석에서 변수 선택 시 다중공선성 문제를 확인할 때
+
+## 2. 베르누이 분포
+
+**정의**: 성공 확률이 p인 단 한 번의 시행에서 성공(1) 또는 실패(0)와 같이 두 가지 결과만 가능한 확률분포입니다.
+
+**수식**:
+
+- 확률질량함수: $P(X=x) = p^x(1-p)^{1-x}, x \in {0,1}$
+- 평균: $E[X] = p$
+- 분산: $Var(X) = p(1-p)$
+
+**특징**:
+
+- 가장 단순한 이산형 확률분포입니다.
+- 결과는 반드시 0 또는 1입니다.
+- 이항분포의 특수한 경우(n=1)입니다.
+- 모든 시행이 독립적입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 베르누이 시행 시뮬레이션 (p=0.3)
+p = 0.3
+bernoulli_trials = np.random.binomial(n=1, p=p, size=1000)
+
+# 결과 빈도 계산 및 시각화
+values, counts = np.unique(bernoulli_trials, return_counts=True)
+plt.bar(values, counts/1000)
+plt.xlabel('결과 (0=실패, 1=성공)')
+plt.ylabel('상대 빈도')
+plt.title(f'베르누이 분포 (p={p})')
+plt.show()
+```
+
+**개념의 활용**:
+
+- 동전 던지기, 합격/불합격 등 이진 결과를 모델링할 때
+- 로지스틱 회귀의 출력 결과를 해석할 때
+- A/B 테스트 분석 시
+- 기계학습에서 이진 분류 문제의 확률적 기반으로 사용할 때
+- 베이지안 네트워크에서 이진 노드를 표현할 때
+
+## 3. 이항분포
+
+**정의**: 성공 확률이 p인 독립적인 n번의 베르누이 시행에서 성공 횟수 X의 확률분포입니다.
+
+**수식**:
+
+- 확률질량함수: $P(X=k) = \binom{n}{k}p^k(1-p)^{n-k}, k=0,1,...,n$
+- 평균: $E[X] = np$
+- 분산: $Var(X) = np(1-p)$
+
+**특징**:
+
+- 각 시행은 독립적입니다.
+- 시행 횟수 n이 고정되어 있습니다.
+- 모든 시행에서 성공 확률 p는 동일합니다.
+- n이 큰 경우 정규분포로 근사할 수 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import binom
+
+# 이항분포 확률질량함수
+n, p = 10, 0.3
+k = np.arange(0, n+1)
+pmf = binom.pmf(k, n, p)
+
+# 시각화
+plt.bar(k, pmf)
+plt.xlabel('성공 횟수 (k)')
+plt.ylabel('확률')
+plt.title(f'이항분포 B({n}, {p})')
+plt.show()
+```
+
+**개념의 활용**:
+
+- 고정된 수의 독립적인 시행에서 성공 횟수를 모델링할 때
+- 품질 관리에서 불량품 개수 예측 시
+- 여론조사나 설문조사 결과의 신뢰구간 계산 시
+- 임상 시험에서 치료 효과 분석 시
+- A/B 테스트에서 전환율(conversion rate) 비교 시
+
+## 4. 음이항분포
+
+**정의**: 성공 확률이 p인 베르누이 시행에서, r번째 성공을 달성하기 위해 필요한 총 시행 횟수 X의 확률분포입니다.
+
+**수식**:
+
+- 확률질량함수: $P(X=k) = \binom{k-1}{r-1}p^r(1-p)^{k-r}, k=r,r+1,...$
+- 평균: $E[X] = \frac{r}{p}$
+- 분산: $Var(X) = \frac{r(1-p)}{p^2}$
+
+**특징**:
+
+- 성공 횟수 r이 고정되어 있습니다.
+- 시행 횟수는 변수로, 이론적으로는 무한대가 될 수 있습니다.
+- 각 시행은 독립적입니다.
+- 기하분포는 r=1인 특수한 경우입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import nbinom
+
+# 음이항분포 확률질량함수
+r, p = 3, 0.3  # 3번째 성공을 위한 분포
+k = np.arange(r, 20)  # r부터 시작
+pmf = nbinom.pmf(k-r, r, p)  # scipy에서는 k-r로 표현
+
+# 시각화
+plt.bar(k, pmf)
+plt.xlabel('시행 횟수 (k)')
+plt.ylabel('확률')
+plt.title(f'음이항분포 NB({r}, {p})')
+plt.show()
+```
+
+**개념의 활용**:
+
+- 목표 성공 횟수를 달성하기 위한 시도 횟수를 모델링할 때
+- 특정 수의 고객을 획득하기까지 필요한 마케팅 접촉 횟수 예측 시
+- 품질 관리에서 r번째 불량품 발견까지의 생산 개수 예측 시
+- 스포츠 경기에서 특정 수의 득점을 달성하기까지의 시도 횟수 예측 시
+- 의약품 임상시험에서 목표 환자 수 모집에 필요한 시간 예측 시
+
+## 5. 초기하분포
+
+**정의**: 크기가 N인 유한 모집단에서, M개의 성공과 N-M개의 실패가 있을 때, 크기 n인 비복원 추출 표본에서 얻은 성공 횟수 X의 확률분포입니다.
+
+**수식**:
+
+- 확률질량함수: $P(X=k) = \frac{\binom{M}{k}\binom{N-M}{n-k}}{\binom{N}{n}}, max(0, n+M-N) \leq k \leq min(n, M)$
+- 평균: $E[X] = n\frac{M}{N}$
+- 분산: $Var(X) = n\frac{M}{N}(1-\frac{M}{N})(\frac{N-n}{N-1})$
+
+**특징**:
+
+- 비복원 추출이므로 각 시행은 독립적이지 않습니다.
+- 모집단 크기 N, 성공 항목 수 M, 표본 크기 n이 모두 고정되어 있습니다.
+- N이 매우 크고 n이 상대적으로 작을 때는 이항분포로 근사됩니다.
+- 유한 모집단 수정 계수 $(N-n)/(N-1)$가 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import hypergeom
+
+# 초기하분포 확률질량함수
+N, M, n = 50, 20, 10  # 전체 50개 중 20개가 성공, 10개 추출
+k = np.arange(0, min(n, M) + 1)
+pmf = hypergeom.pmf(k, N, M, n)
+
+# 시각화
+plt.bar(k, pmf)
+plt.xlabel('성공 횟수 (k)')
+plt.ylabel('확률')
+plt.title(f'초기하분포 H({N}, {M}, {n})')
+plt.show()
+```
+
+**개념의 활용**:
+
+- 비복원 추출 상황에서 성공 횟수를 모델링할 때
+- 카드 게임에서 특정 카드를 뽑을 확률 계산 시
+- 품질 관리에서 배치 샘플링 검사 시
+- 선거 투표용지 재검표 시 표본 추출 설계 시
+- 생태학에서 표본을 통한 개체 수 추정 시
+
+## 6. 포아송분포
+
+**정의**: 주어진 시간 또는 공간에서 사건이 발생하는 평균 횟수가 λ일 때, 실제 발생 횟수 X의 확률분포입니다.
+
+**수식**:
+
+- 확률질량함수: $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}, k=0,1,2,...$
+- 평균: $E[X] = \lambda$
+- 분산: $Var(X) = \lambda$
+
+**특징**:
+
+- 평균과 분산이 같습니다(λ).
+- 사건 발생은 서로 독립적입니다.
+- 작은 시간/공간 단위로 쪼개면 사건 발생 확률은 그 단위에 비례합니다.
+- 고정된 시간/공간 안에서 사건이 발생할 횟수의 분포입니다.
+- n이 크고 p가 작은 이항분포(n,p)는 λ=np인 포아송분포로 근사됩니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import poisson
+
+# 포아송분포 확률질량함수
+lambda_val = 3.5  # 평균 발생 횟수
+k = np.arange(0, 15)
+pmf = poisson.pmf(k, lambda_val)
+
+# 시각화
+plt.bar(k, pmf)
+plt.xlabel('사건 발생 횟수 (k)')
+plt.ylabel('확률')
+plt.title(f'포아송분포 Pois({lambda_val})')
+plt.show()
+```
+
+**개념의 활용**:
+
+- 단위 시간당 고객 도착, 전화 건수, 사고 발생과 같은 이벤트 횟수 모델링 시
+- 단위 면적당 입자, 세포, 별과 같은 개체 수 모델링 시
+- 서비스 요청 대기열 분석 시
+- 네트워크 트래픽 분석 시
+- 보험 및 금융에서 클레임 발생 빈도 모델링 시
+
+## 7. 이산형균일분포
+
+**정의**: 유한한 범위의 정수값들이 모두 같은 확률로 발생하는 확률분포입니다.
+
+**수식**:
+
+- 확률질량함수: $P(X=k) = \frac{1}{b-a+1}, k=a,a+1,...,b$
+- 평균: $E[X] = \frac{a+b}{2}$
+- 분산: $Var(X) = \frac{(b-a+1)^2 - 1}{12}$
+
+**특징**:
+
+- 모든 가능한 값이 동일한 확률을 가집니다.
+- 범위 [a,b] 내의 모든 정수값이 취할 수 있는 값입니다.
+- 공정한 주사위나 랜덤 숫자 생성기의 기본 모델입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import randint
+
+# 이산형균일분포 확률질량함수
+a, b = 1, 6  # 주사위 (1부터 6까지)
+k = np.arange(a, b+1)
+pmf = np.ones_like(k) / (b - a + 1)  # 모든 값의 확률은 동일
+
+# 시각화
+plt.bar(k, pmf)
+plt.xlabel('결과값 (k)')
+plt.ylabel('확률')
+plt.title(f'이산형균일분포 DU({a}, {b})')
+plt.show()
+```
+
+**개념의 활용**:
+
+- 공정한 주사위, 룰렛, 카드 선택과 같은 게임의 결과 모델링 시
+- 랜덤 숫자 생성 시
+- 몬테카를로 시뮬레이션의 기초 분포로 사용할 때
+- 동일한 확률을 가진 옵션 중 무작위 선택을 모델링할 때
+- 데이터 샘플링 과정에서 무작위 인덱스 생성 시
+
+## 8. 지수분포
+
+**정의**: 연속적인 시간 또는 공간에서, 사건 발생 간의 대기 시간이나 거리를 모델링하는 연속확률분포입니다.
+
+**수식**:
+
+- 확률밀도함수: $f(x) = \lambda e^{-\lambda x}, x \geq 0$
+- 평균: $E[X] = \frac{1}{\lambda}$
+- 분산: $Var(X) = \frac{1}{\lambda^2}$
+
+**특징**:
+
+- 기억이 없는 특성(memoryless property)을 가집니다: $P(X > s+t | X > s) = P(X > t)$
+- 포아송 과정에서 발생 간 대기 시간은 지수분포를 따릅니다.
+- 생존분석에서 중요한 분포입니다.
+- 파라미터 λ는 단위 시간당 사건 발생률입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import expon
+
+# 지수분포 확률밀도함수
+lambda_val = 0.5  # 사건 발생률
+x = np.linspace(0, 10, 1000)
+pdf = expon.pdf(x, scale=1/lambda_val)  # scipy에서는 scale=1/lambda 사용
+
+# 시각화
+plt.plot(x, pdf)
+plt.xlabel('시간/거리 (x)')
+plt.ylabel('확률밀도')
+plt.title(f'지수분포 Exp({lambda_val})')
+plt.grid(True)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 고객 서비스 시간, 제품 수명, 대기 시간 모델링 시
+- 장비 고장 시간 예측 시
+- 생존 분석에서 사망이나 실패까지의 시간 모델링 시
+- 대기열 이론에서 서비스 시간 모델링 시
+- 신뢰성 공학에서 부품 수명 예측 시
+
+## 9. 정규분포
+
+**정의**: 자연계의 많은 현상에서 관찰되는 종 모양의 확률분포로, 평균 μ와 표준편차 σ에 의해 특징지어집니다.
+
+**수식**:
+
+- 확률밀도함수: $f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}, -\infty < x < \infty$
+- 평균: $E[X] = \mu$
+- 분산: $Var(X) = \sigma^2$
+
+**특징**:
+
+- 평균, 중앙값, 최빈값이 모두 같은 값 μ입니다.
+- 분포는 μ를 중심으로 좌우 대칭입니다.
+- 68-95-99.7 규칙: 데이터의 약 68%는 μ±σ 내에, 95%는 μ±2σ 내에, 99.7%는 μ±3σ 내에 있습니다.
+- 중심극한정리에 의해 많은 독립적인 확률변수의 합은 정규분포에 가까워집니다.
+- 표준정규분포는 μ=0, σ=1인 특수한 경우입니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# 정규분포 확률밀도함수
+mu, sigma = 0, 1  # 평균과 표준편차
+x = np.linspace(-4, 4, 1000)
+pdf = norm.pdf(x, mu, sigma)
+
+# 시각화
+plt.plot(x, pdf)
+plt.xlabel('값 (x)')
+plt.ylabel('확률밀도')
+plt.title(f'정규분포 N({mu}, {sigma}²)')
+plt.grid(True)
+plt.axvline(mu, color='red', linestyle='--', alpha=0.3)  # 평균선
+plt.axvline(mu + sigma, color='green', linestyle='--', alpha=0.3)  # μ+σ
+plt.axvline(mu - sigma, color='green', linestyle='--', alpha=0.3)  # μ-σ
+plt.show()
+```
+
+**개념의 활용**:
+
+- 키, 몸무게, IQ 점수와 같은 자연적 측정값 모델링 시
+- 오차와 노이즈 모델링 시
+- 통계적 추론 및 가설 검정의 기초로 사용할 때
+- 금융에서 자산 수익률 모델링 시
+- 품질 관리에서 제조 공정 변동 분석 시
+
