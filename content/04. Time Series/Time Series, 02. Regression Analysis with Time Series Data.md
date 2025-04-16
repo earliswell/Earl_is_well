@@ -274,4 +274,7 @@ $$
 $$
 E(Y_{t}|\Gamma_{t-1}) = E(Y_{t}| Y_{t-1}, Y_{t-2}, \dots, Y_{t-k})
 $$
-- 
+- The most common AR model is the linear model
+$$
+E(Y_{t}| Y_{t-1}, Y_{t-2}, \dots, Y_{t-k}) = \delta + \sum_{j=1}^{k}\phi^jY_{t-j} 
+$$
