@@ -248,5 +248,23 @@ $$
 $$
 Y_{t} = \delta + \phi Y_{t-1} + e_{t}, e_{t} \sim iid\, N(0, \sigma^2)
 $$
+- 위 식에서 $\hat{\phi}$를 찾기 위해서는 그냥 OLS를 해서 찾을 수는 있음 ..!
 - By Back-Substitution(반복 대입), we have
+$$
+\begin{align}
+ & Y_{t} = \delta + \phi Y_{t-1} + e_{t} \\
+ & Y_{t} = \delta + \phi(\delta + \phi Y_{t-2} + e_{t-1}) \\
+ & Y_{t} = \delta + \phi \delta + \phi^2Y_{t-2} + e_{t} + \phi e_{t-1} \\
+ & Y_{t} = \delta + \phi \delta + \phi^2(\delta + \phi Y_{t-3} + e_{t-2}) + e_{t} + \phi e_{t-1} \\
+ & Y_{t} = \delta + \phi \delta + \phi^2 \delta + \phi^3Y_{t-3} + e_{t} + \phi e_{t-1} + \phi^2 e_{t-2} \\
+ & \vdots \\
+ & Y_{t} = \delta(1 + \phi + \phi^2 + \cdots + \phi^{j-1}) + \phi^jY_{t-j} + e_{t} + \phi e_{t-1} + \phi^2e_{t-2} + \cdots + \phi^je_{t-j}
+\end{align}
+$$
+- If $|\phi|<1$ and $j \to \infty$
+$$
+Y_{t} = \frac{\delta}{1- \phi} + e_{t} + \phi e_{t-1} + \phi^2e_{t-2} + \cdots + \phi^je_{t-j}
+$$
+- We call the process AR(1)
+## Autoregression: AR(p)
 
