@@ -3132,3 +3132,1003 @@ plt.show()
 - 게임 결과나 도박 결과의 공정성 평가 시
 - DNA 서열이나 기타 생물학적 서열의 무작위성 분석 시
 ---
+# 상관분석 (Correlation Analysis)
+
+## 1. 상관관계분석 (Correlation Analysis)
+
+**정의**: 상관관계분석은 두 연속형 변수 간의 선형적 관계의 강도와 방향을 측정하는 통계적 방법입니다. 두 변수가 함께 변화하는 경향이 있는지, 그리고 그 경향이 어느 정도인지를 수치화합니다.
+
+**수식**:
+
+- 피어슨 상관계수(Pearson's correlation coefficient): $r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2 \sum_{i=1}^{n}(y_i - \bar{y})^2}}$
+    
+- 스피어만 상관계수(Spearman's rank correlation): $r_s = 1 - \frac{6\sum d_i^2}{n(n^2-1)}$ 여기서 $d_i$는 i번째 관측값의 두 변수 간 순위 차이입니다.
+    
+
+**특징**:
+
+- 상관계수는 -1에서 1 사이의 값을 가집니다.
+- 1에 가까울수록 강한 양의 상관관계, -1에 가까울수록 강한 음의 상관관계를 나타냅니다.
+- 0에 가까우면 선형적 관계가 없다는 것을 의미합니다.
+- 피어슨 상관계수는 선형 관계만 측정하며, 비선형 관계는 감지하지 못합니다.
+- 상관관계는 인과관계를 의미하지 않습니다.
+- 이상치에 민감하며, 분포의 형태에 영향을 받을 수 있습니다.
+- 스피어만 상관계수는 변수의 순위를 사용하므로 비선형 관계도 측정할 수 있고 이상치에 덜 민감합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+
+# 데이터 생성
+np.random.seed(42)
+n = 50
+
+# 강한 양의 상관관계
+x1 = np.random.normal(0, 1, n)
+y1 = x1 * 0.8 + np.random.normal(0, 0.5, n)
+
+# 약한 음의 상관관계
+x2 = np.random.normal(0, 1, n)
+y2 = -x2 * 0.4 + np.random.normal(0, 0.8, n)
+
+# 상관관계 없음
+x3 = np.random.normal(0, 1, n)
+y3 = np.random.normal(0, 1, n)
+
+# 비선형 관계 (피어슨은 감지하지 못하지만 스피어만은 감지 가능)
+x4 = np.random.uniform(-3, 3, n)
+y4 = x4**2 + np.random.normal(0, 1, n)
+
+# 피어슨 상관계수 계산
+pearson1, p_value1 = stats.pearsonr(x1, y1)
+pearson2, p_value2 = stats.pearsonr(x2, y2)
+pearson3, p_value3 = stats.pearsonr(x3, y3)
+pearson4, p_value4 = stats.pearsonr(x4, y4)
+
+# 스피어만 상관계수 계산
+spearman1, sp_value1 = stats.spearmanr(x1, y1)
+spearman2, sp_value2 = stats.spearmanr(x2, y2)
+spearman3, sp_value3 = stats.spearmanr(x3, y3)
+spearman4, sp_value4 = stats.spearmanr(x4, y4)
+
+# 결과 출력
+print("강한 양의 상관관계:")
+print(f"피어슨 상관계수: {pearson1:.4f}, p-value: {p_value1:.4f}")
+print(f"스피어만 상관계수: {spearman1:.4f}, p-value: {sp_value1:.4f}")
+
+print("\n약한 음의 상관관계:")
+print(f"피어슨 상관계수: {pearson2:.4f}, p-value: {p_value2:.4f}")
+print(f"스피어만 상관계수: {spearman2:.4f}, p-value: {sp_value2:.4f}")
+
+print("\n상관관계 없음:")
+print(f"피어슨 상관계수: {pearson3:.4f}, p-value: {p_value3:.4f}")
+print(f"스피어만 상관계수: {spearman3:.4f}, p-value: {sp_value3:.4f}")
+
+print("\n비선형 관계:")
+print(f"피어슨 상관계수: {pearson4:.4f}, p-value: {p_value4:.4f}")
+print(f"스피어만 상관계수: {spearman4:.4f}, p-value: {sp_value4:.4f}")
+
+# 상관관계 시각화
+plt.figure(figsize=(14, 10))
+
+plt.subplot(2, 2, 1)
+plt.scatter(x1, y1)
+plt.title(f'강한 양의 상관관계\n피어슨: {pearson1:.4f}, 스피어만: {spearman1:.4f}')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(2, 2, 2)
+plt.scatter(x2, y2)
+plt.title(f'약한 음의 상관관계\n피어슨: {pearson2:.4f}, 스피어만: {spearman2:.4f}')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(2, 2, 3)
+plt.scatter(x3, y3)
+plt.title(f'상관관계 없음\n피어슨: {pearson3:.4f}, 스피어만: {spearman3:.4f}')
+plt.grid(True, alpha=0.3)
+
+plt.subplot(2, 2, 4)
+plt.scatter(x4, y4)
+plt.title(f'비선형 관계\n피어슨: {pearson4:.4f}, 스피어만: {spearman4:.4f}')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 주가와 환율 같은 경제 지표 간의 관계 분석 시
+- 학생의 공부 시간과 시험 성적 간의 연관성 파악 시
+- 날씨 변수(온도, 습도 등)와 판매량 간의 관계 분석 시
+- 생체 측정치 간의 상관관계 연구(예: 키와 체중, 혈압과 맥박)
+- 마케팅 활동과 매출 사이의 관계 평가 시
+
+## 2. 편 상관관계분석 (Partial Correlation Analysis)
+
+**정의**: 편 상관관계분석은 다른 변수들의 영향을 통제한 상태에서 두 변수 간의 순수한 선형 관계를 측정하는 방법입니다. 즉, 제3의 변수(또는 여러 변수)의 효과를 제거한 후 남은 두 변수 간의 상관관계를 의미합니다.
+
+**수식**:
+
+- 단일 통제 변수(z)가 있을 때의 x와 y 간의 편 상관계수: $r_{xy.z} = \frac{r_{xy} - r_{xz}r_{yz}}{\sqrt{(1-r_{xz}^2)(1-r_{yz}^2)}}$
+
+여기서 $r_{xy}$, $r_{xz}$, $r_{yz}$는 각각 변수 쌍 간의 피어슨 상관계수입니다.
+
+**특징**:
+
+- 다른 변수들의 간접적 영향을 제거하여 두 변수 간의 직접적인 관계를 측정합니다.
+- 잠재적 혼동 변수(confounding variables)의 효과를 통제할 수 있습니다.
+- 편 상관계수도 -1에서 1 사이의 값을 가집니다.
+- 원래 상관관계와 편 상관관계가 크게 다를 경우, 통제 변수가 중요한 매개 역할을 하는 것으로 해석할 수 있습니다.
+- 여러 변수를 동시에 통제할 수 있습니다.
+- 선형 관계만 측정하며, 비선형 관계는 감지하지 못합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+import pingouin as pg  # 편 상관관계 계산을 위한 라이브러리
+
+# 데이터 생성: 나이(age), 운동량(exercise), 체중(weight)
+np.random.seed(42)
+n = 100
+
+# 나이가 많을수록 체중이 증가하는 경향
+age = np.random.uniform(20, 70, n)
+# 운동량은 나이와 약한 음의 상관관계
+exercise = 10 - 0.05 * age + np.random.normal(0, 2, n)
+# 체중은 나이와 양의 상관관계, 운동량과 음의 상관관계
+weight = 50 + 0.3 * age - 1.2 * exercise + np.random.normal(0, 5, n)
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    'age': age,
+    'exercise': exercise,
+    'weight': weight
+})
+
+# 기본 상관관계 계산
+corr_matrix = df.corr()
+print("기본 상관관계 행렬:")
+print(corr_matrix)
+
+# 편 상관관계 계산
+# 나이를 통제했을 때 운동량과 체중의 상관관계
+pcorr_ex_w_age = pg.partial_corr(data=df, x='exercise', y='weight', covar='age')
+# 운동량을 통제했을 때 나이와 체중의 상관관계
+pcorr_age_w_ex = pg.partial_corr(data=df, x='age', y='weight', covar='exercise')
+
+print("\n편 상관관계 결과:")
+print(f"나이를 통제했을 때 운동량과 체중의 편 상관계수: {pcorr_ex_w_age['r'].values[0]:.4f}")
+print(f"운동량을 통제했을 때 나이와 체중의 편 상관계수: {pcorr_age_w_ex['r'].values[0]:.4f}")
+
+# 각 상관관계 비교
+r_age_weight = corr_matrix.loc['age', 'weight']
+r_exercise_weight = corr_matrix.loc['exercise', 'weight']
+
+print("\n상관계수 비교:")
+print(f"나이와 체중의 기본 상관계수: {r_age_weight:.4f}")
+print(f"운동량을 통제한 후 나이와 체중의 편 상관계수: {pcorr_age_w_ex['r'].values[0]:.4f}")
+print(f"운동량과 체중의 기본 상관계수: {r_exercise_weight:.4f}")
+print(f"나이를 통제한 후 운동량과 체중의 편 상관계수: {pcorr_ex_w_age['r'].values[0]:.4f}")
+
+# 시각화
+plt.figure(figsize=(15, 5))
+
+# 1. 상관관계 히트맵
+plt.subplot(1, 3, 1)
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+plt.title('기본 상관관계 행렬')
+
+# 2. 나이와 체중의 산점도
+plt.subplot(1, 3, 2)
+plt.scatter(df['age'], df['weight'])
+plt.xlabel('나이')
+plt.ylabel('체중')
+plt.title(f'나이와 체중\n상관계수: {r_age_weight:.4f}, 편 상관계수: {pcorr_age_w_ex["r"].values[0]:.4f}')
+plt.grid(True, alpha=0.3)
+
+# 3. 운동량과 체중의 산점도
+plt.subplot(1, 3, 3)
+plt.scatter(df['exercise'], df['weight'])
+plt.xlabel('운동량')
+plt.ylabel('체중')
+plt.title(f'운동량과 체중\n상관계수: {r_exercise_weight:.4f}, 편 상관계수: {pcorr_ex_w_age["r"].values[0]:.4f}')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 소득, 교육수준, 건강 상태 간의 직접적인 관계 분석 시
+- 여러 예측 변수가 있을 때 다중공선성 문제 진단 시
+- 매개 변수의 영향을 제거하여 직접적인 인과 관계 파악 시
+- 약물 효과를 평가할 때 환자의 나이, 성별 등의 혼동 변수 통제 시
+- 경제 지표 간의 순수한 관계 파악을 위해 다른 변수들의 영향 제거 시
+---
+# 회귀분석 (Regression Analysis)
+
+## 1. 회귀모형의 기본가정 (Basic Assumptions of Regression Models)
+
+**정의**: 회귀모형의 기본가정은 회귀분석이 올바르게 적용되고 해석되기 위해 충족해야 하는 통계적 전제 조건들입니다. 이러한 가정들은 추정치의 신뢰성과 유효성을 보장하기 위해 중요합니다.
+
+**수식**: 일반적인 선형 회귀 모형은 다음과 같이 표현됩니다. $Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + ... + \beta_pX_p + \epsilon$
+
+여기서 회귀모형의 기본가정은 주로 오차항 $\epsilon$에 관한 것입니다.
+
+**특징**:
+
+- 선형성(Linearity): 독립변수와 종속변수 간의 관계가 선형적이어야 합니다.
+- 독립성(Independence): 관측치들이 서로 독립적이어야 합니다(자기상관이 없어야 함).
+- 등분산성(Homoscedasticity): 오차항의 분산이 모든 독립변수 값에서 일정해야 합니다.
+- 정규성(Normality): 오차항이 정규분포를 따라야 합니다.
+- 다중공선성 부재(No Multicollinearity): 독립변수들 간에 높은 상관관계가 없어야 합니다.
+- 완전한 다중공선성이 존재하지 않음(Full Rank): 독립변수들이 선형적으로 독립적이어야 합니다.
+- 오차항의 평균이 0: $E(\epsilon) = 0$
+- 이상치의 영향이 제한적이어야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from scipy import stats
+
+# 데이터 생성
+np.random.seed(42)
+n = 100
+
+# 독립변수
+X1 = np.random.normal(0, 1, n)
+X2 = np.random.normal(0, 1, n)
+X3 = 0.8 * X1 + 0.2 * np.random.normal(0, 1, n)  # X1과 높은 상관관계를 가짐
+
+# 종속변수 (선형 관계에 오차 추가)
+Y = 2 + 3 * X1 - 1.5 * X2 + 0.5 * X3 + np.random.normal(0, 1, n)
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    'X1': X1,
+    'X2': X2, 
+    'X3': X3,
+    'Y': Y
+})
+
+# 회귀 모델 적합
+X = sm.add_constant(df[['X1', 'X2', 'X3']])
+model = sm.OLS(df['Y'], X).fit()
+print(model.summary())
+
+# 가정 검정
+residuals = model.resid
+fitted_values = model.fittedvalues
+
+# 1. 선형성 검정: 독립변수와 잔차 간의 산점도
+plt.figure(figsize=(15, 10))
+plt.subplot(2, 2, 1)
+plt.scatter(fitted_values, residuals)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('잔차 vs 예측값 (선형성 검정)')
+plt.xlabel('예측값')
+plt.ylabel('잔차')
+plt.grid(True, alpha=0.3)
+
+# 2. 정규성 검정: QQ 플롯
+plt.subplot(2, 2, 2)
+sm.qqplot(residuals, line='45', fit=True, ax=plt.gca())
+plt.title('잔차의 QQ 플롯 (정규성 검정)')
+plt.grid(True, alpha=0.3)
+
+# 3. 등분산성 검정: 잔차의 분포
+plt.subplot(2, 2, 3)
+plt.scatter(fitted_values, np.abs(residuals))
+plt.title('절대 잔차 vs 예측값 (등분산성 검정)')
+plt.xlabel('예측값')
+plt.ylabel('절대 잔차')
+plt.grid(True, alpha=0.3)
+
+# 4. 다중공선성 검정: VIF 계산
+plt.subplot(2, 2, 4)
+vif_data = pd.DataFrame()
+vif_data["변수"] = X.columns
+vif_data["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+plt.bar(vif_data["변수"], vif_data["VIF"])
+plt.axhline(y=5, color='r', linestyle='--', label='VIF=5')
+plt.axhline(y=10, color='r', linestyle='-', label='VIF=10')
+plt.title('다중공선성 검정 (VIF)')
+plt.ylabel('VIF')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 가정 검정 결과 출력
+print("\n회귀모형 가정 검정 결과:")
+
+# 1. 선형성: Ramsey RESET 검정
+reset_test = sm.stats.diagnostic.linear_reset(model, power=3)
+print(f"선형성 (RESET 검정): F={reset_test[0]:.4f}, p={reset_test[1]:.4f}, {'가정 위배' if reset_test[1] < 0.05 else '가정 충족'}")
+
+# 2. 정규성: Jarque-Bera 검정
+jb_test = stats.jarque_bera(residuals)
+print(f"정규성 (Jarque-Bera 검정): JB={jb_test[0]:.4f}, p={jb_test[1]:.4f}, {'가정 위배' if jb_test[1] < 0.05 else '가정 충족'}")
+
+# 3. 등분산성: Breusch-Pagan 검정
+bp_test = sm.stats.diagnostic.het_breuschpagan(residuals, X)
+print(f"등분산성 (Breusch-Pagan 검정): LM={bp_test[0]:.4f}, p={bp_test[1]:.4f}, {'가정 위배' if bp_test[1] < 0.05 else '가정 충족'}")
+
+# 4. 다중공선성: VIF 값
+print("\n다중공선성 (VIF):")
+print(vif_data)
+```
+
+**개념의 활용**:
+
+- 회귀 모델을 적합하기 전에 데이터 특성을 확인할 때
+- 가정 위반 시 데이터 변환이나 대안적 모델링 방법 선택 시
+- 모델 진단과 잔차 분석을 통한 모델 개선 시
+- 예측 정확도와 신뢰성을 향상시키기 위한 모델 검증 과정에서
+- 통계적으로 올바른 추론을 위한 기반 확인 시
+
+## 2. 단순 선형 회귀 (Simple Linear Regression)
+
+**정의**: 단순 선형 회귀는 하나의 독립변수(X)와 하나의 종속변수(Y) 간의 선형 관계를 모델링하는 방법입니다. 직선 형태의 수학적 함수로 두 변수 사이의 관계를 추정합니다.
+
+**수식**: $Y = \beta_0 + \beta_1X + \epsilon$ 여기서 $\beta_0$는 절편, $\beta_1$은 기울기, $\epsilon$은 오차항입니다.
+
+계수 추정식(최소제곱법): $\beta_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$ $\beta_0 = \bar{y} - \beta_1\bar{x}$
+
+**특징**:
+
+- 가장 단순한 형태의 회귀 모델입니다.
+- X와 Y 사이의 선형 관계만 포착할 수 있습니다.
+- 결정계수(R²)는 모델이 설명하는의 분산의 비율을 나타냅니다.
+- 회귀선은 잔차 제곱합을 최소화하는 방식으로 결정됩니다(최소제곱법).
+- 회귀 계수의 유의성 검정을 통해 관계의 통계적 유의미성을 평가합니다.
+- 직관적이고 해석하기 쉬우며, 계산이 간단합니다.
+- 회귀모형의 기본가정이 모두 적용됩니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error
+
+# 데이터 생성
+np.random.seed(42)
+n = 50
+X = np.random.uniform(1, 10, n)
+Y = 2 + 1.5 * X + np.random.normal(0, 2, n)  # β₀=2, β₁=1.5
+
+# 데이터프레임 생성
+df = pd.DataFrame({'X': X, 'Y': Y})
+
+# statsmodels를 이용한 회귀 분석
+X_sm = sm.add_constant(X)  # 절편 추가
+model = sm.OLS(Y, X_sm).fit()
+print(model.summary())
+
+# 회귀 계수
+intercept = model.params[0]
+slope = model.params[1]
+print(f"회귀식: Y = {intercept:.4f} + {slope:.4f}X")
+
+# 결정계수
+r_squared = model.rsquared
+adj_r_squared = model.rsquared_adj
+print(f"결정계수(R²): {r_squared:.4f}")
+print(f"조정된 결정계수(Adjusted R²): {adj_r_squared:.4f}")
+
+# 회귀 계수의 신뢰구간
+print("\n회귀 계수의 95% 신뢰구간:")
+print(model.conf_int())
+
+# 예측값 계산
+predictions = model.predict(X_sm)
+
+# 평균 제곱 오차(MSE)
+mse = mean_squared_error(Y, predictions)
+print(f"평균 제곱 오차(MSE): {mse:.4f}")
+
+# 시각화
+plt.figure(figsize=(12, 8))
+
+# 1. 산점도와 회귀선
+plt.subplot(2, 2, 1)
+plt.scatter(X, Y, alpha=0.7)
+plt.plot(X, predictions, 'r-', linewidth=2)
+plt.title('단순 선형 회귀: 산점도와 회귀선')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.grid(True, alpha=0.3)
+plt.text(2, max(Y)-2, f'Y = {intercept:.2f} + {slope:.2f}X\nR² = {r_squared:.4f}', fontsize=10)
+
+# 2. 잔차 플롯
+plt.subplot(2, 2, 2)
+residuals = Y - predictions
+plt.scatter(X, residuals, alpha=0.7)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('잔차 플롯')
+plt.xlabel('X')
+plt.ylabel('잔차')
+plt.grid(True, alpha=0.3)
+
+# 3. 잔차의 히스토그램
+plt.subplot(2, 2, 3)
+plt.hist(residuals, bins=10, alpha=0.7, edgecolor='black')
+plt.title('잔차의 히스토그램')
+plt.xlabel('잔차')
+plt.ylabel('빈도')
+plt.grid(True, alpha=0.3)
+
+# 4. 예측값 vs 실제값
+plt.subplot(2, 2, 4)
+plt.scatter(predictions, Y, alpha=0.7)
+plt.plot([min(predictions), max(predictions)], [min(predictions), max(predictions)], 'r--')
+plt.title('예측값 vs 실제값')
+plt.xlabel('예측값')
+plt.ylabel('실제값')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+**개념의 활용**:
+
+- 광고 지출과 매출 간의 관계 분석 시
+- 학습 시간과 시험 점수 간의 관계 예측 시
+- 나이에 따른 혈압 변화 모델링 시
+- 온도와 에너지 소비 간의 관계 파악 시
+- 간단한 예측 모델을 빠르게 구축해야 할 때
+
+## 3. 다중 회귀 (Multiple Regression)
+
+**정의**: 다중 회귀는 둘 이상의 독립변수와 하나의 종속변수 간의 관계를 모델링하는 방법입니다. 여러 예측 변수의 조합을 통해 종속변수를 예측하고 각 독립변수의 상대적 영향력을 평가합니다.
+
+**수식**: $Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + ... + \beta_pX_p + \epsilon$ 여기서 $\beta_0$는 절편, $\beta_1, \beta_2, ..., \beta_p$는 각 독립변수의 회귀 계수, $\epsilon$은 오차항입니다.
+
+행렬 형태로는: $\mathbf{Y} = \mathbf{X\beta} + \mathbf{\epsilon}$ 계수 추정(최소제곱법): $\mathbf{\hat{\beta}} = (\mathbf{X'X})^{-1}\mathbf{X'Y}$
+
+**특징**:
+
+- 여러 독립변수의 영향을 동시에 고려할 수 있습니다.
+- 각 독립변수의 영향을 다른 변수들의 효과를 통제한 상태에서 평가합니다.
+- 상호작용과 다중공선성 문제가 발생할 수 있습니다.
+- 독립변수의 수가 증가할수록 과적합(overfitting)의 위험이 있습니다.
+- 표준화 계수를 통해 변수 간 영향력을 비교할 수 있습니다.
+- 변수 선택 방법(전진, 후진, 단계적 선택)을 통해 모델을 최적화할 수 있습니다.
+- 결정계수(R²)는 독립변수 수가 증가할수록 자동으로 증가하므로, 조정된 R²를 함께 고려해야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from sklearn.preprocessing import StandardScaler
+
+# 데이터 생성
+np.random.seed(42)
+n = 100
+
+# 독립변수
+X1 = np.random.normal(0, 1, n)  # 소득
+X2 = np.random.normal(0, 1, n)  # 교육 수준
+X3 = 0.3 * X1 + 0.5 * X2 + np.random.normal(0, 0.5, n)  # 직업 경험 (소득과 교육 수준과 상관관계 있음)
+
+# 종속변수: 주택 가격
+Y = 3 + 2 * X1 + 1.5 * X2 + 0.8 * X3 + np.random.normal(0, 1, n)
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    '소득': X1,
+    '교육수준': X2,
+    '직업경험': X3,
+    '주택가격': Y
+})
+
+# 상관관계 확인
+correlation = df.corr()
+print("변수 간 상관관계:")
+print(correlation)
+
+# 다중공선성 확인
+X = sm.add_constant(df[['소득', '교육수준', '직업경험']])
+vif_data = pd.DataFrame()
+vif_data["변수"] = X.columns
+vif_data["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+print("\n다중공선성 검정(VIF):")
+print(vif_data)
+
+# 다중 회귀 모델 적합
+model = sm.OLS(df['주택가격'], X).fit()
+print("\n회귀 분석 결과:")
+print(model.summary())
+
+# 표준화 계수 계산
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(df[['소득', '교육수준', '직업경험']])
+X_scaled = sm.add_constant(X_scaled)
+model_scaled = sm.OLS(df['주택가격'], X_scaled).fit()
+
+print("\n표준화 계수:")
+print(model_scaled.params[1:])  # 절편 제외
+
+# 예측값 및 잔차
+predictions = model.predict(X)
+residuals = df['주택가격'] - predictions
+
+# 시각화
+plt.figure(figsize=(15, 10))
+
+# 1. 상관관계 히트맵
+plt.subplot(2, 2, 1)
+sns.heatmap(correlation, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+plt.title('변수 간 상관관계')
+
+# 2. 실제값 vs 예측값
+plt.subplot(2, 2, 2)
+plt.scatter(df['주택가격'], predictions)
+plt.plot([df['주택가격'].min(), df['주택가격'].max()], 
+         [df['주택가격'].min(), df['주택가격'].max()], 'r--')
+plt.xlabel('실제 주택가격')
+plt.ylabel('예측 주택가격')
+plt.title(f'실제값 vs 예측값 (R² = {model.rsquared:.4f})')
+plt.grid(True, alpha=0.3)
+
+# 3. 잔차 플롯
+plt.subplot(2, 2, 3)
+plt.scatter(predictions, residuals)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.xlabel('예측값')
+plt.ylabel('잔차')
+plt.title('잔차 플롯')
+plt.grid(True, alpha=0.3)
+
+# 4. 표준화 계수 비교
+plt.subplot(2, 2, 4)
+plt.bar(['소득', '교육수준', '직업경험'], model_scaled.params[1:])
+plt.axhline(y=0, color='r', linestyle='-')
+plt.ylabel('표준화 계수')
+plt.title('각 변수의 상대적 중요도')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 변수 중요도 분석
+importance = pd.DataFrame({
+    '변수': ['소득', '교육수준', '직업경험'],
+    '회귀계수': model.params[1:],
+    '표준오차': model.bse[1:],
+    't값': model.tvalues[1:],
+    'p값': model.pvalues[1:],
+    '표준화계수': model_scaled.params[1:]
+})
+print("\n변수 중요도 분석:")
+print(importance)
+```
+
+**개념의 활용**:
+
+- 주택 가격 예측 시 위치, 면적, 건축 연도 등 여러 요인 분석
+- 기업 수익에 영향을 미치는 다양한 경제 지표와 내부 요인 모델링
+- 학생 성적에 영향을 미치는 학습 시간, 출석률, 사전 지식 등의 요인 평가
+- 건강 지표에 영향을 주는 여러 생활 습관 및 환경 요인 분석
+- 제품 판매량에 영향을 미치는 가격, 프로모션, 경쟁사 활동 등 다양한 요인 모델링
+
+## 4. 더미 변수 회귀분석 (Dummy Variable Regression)
+
+**정의**: 더미 변수 회귀분석은 범주형 독립변수를 회귀 모델에 포함시키기 위해 이진(0 또는 1) 변수로 변환하여 분석하는 방법입니다. 이를 통해 범주 간의 효과 차이를 정량적으로 평가할 수 있습니다.
+
+**수식**: k개의 범주를 가진 범주형 변수의 경우, (k-1)개의 더미 변수를 생성합니다. $Y = \beta_0 + \beta_1X_1 + ... + \beta_pX_p + \beta_{p+1}D_1 + ... + \beta_{p+k-1}D_{k-1} + \epsilon$
+
+여기서 $D_1, D_2, ..., D_{k-1}$은 더미 변수들이며, 기준 범주(reference category)는 모든 더미 변수가 0인 경우입니다.
+
+**특징**:
+
+- 범주형 변수를 회귀 분석에 포함할 수 있게 해줍니다.
+- 더미 변수의 계수는 기준 범주와 비교한 효과를 나타냅니다.
+- 완전 다중공선성을 피하기 위해 k개 범주에 대해 (k-1)개의 더미 변수만 사용합니다.
+- 기준 범주의 선택은 결과 해석에 영향을 줄 수 있지만, 전체 모델의 적합도는 변하지 않습니다.
+- 순서가 없는 명목형 변수와 순서가 있는 서열형 변수 모두에 적용 가능합니다.
+- 연속형 변수와 범주형 변수를 함께 모델링할 수 있습니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from sklearn.preprocessing import OneHotEncoder
+
+# 데이터 생성: 직업 유형(IT, 금융, 의료)에 따른 급여 데이터
+np.random.seed(42)
+n = 300
+
+# 직업 유형 생성
+job_types = np.random.choice(['IT', '금융', '의료'], size=n)
+
+# 경력 연수 생성
+experience = np.random.uniform(1, 20, n)
+
+# 급여 생성 (직업 유형과 경력에 따라 다름)
+salary = np.zeros(n)
+for i in range(n):
+    if job_types[i] == 'IT':
+        base = 5000  # IT 기본 급여
+        exp_effect = 300  # 경력 1년당 증가액
+    elif job_types[i] == '금융':
+        base = 5500  # 금융 기본 급여
+        exp_effect = 350  # 경력 1년당 증가액
+    else:  # 의료
+        base = 6000  # 의료 기본 급여
+        exp_effect = 400  # 경력 1년당 증가액
+    
+    # 급여 = 기본급 + 경력효과 + 랜덤오차
+    salary[i] = base + exp_effect * experience[i] + np.random.normal(0, 1000)
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    '직업': job_types,
+    '경력': experience,
+    '급여': salary
+})
+
+print("데이터 샘플:")
+print(df.head())
+
+# 직업별 평균 급여
+job_salary = df.groupby('직업')['급여'].agg(['mean', 'std'])
+print("\n직업별 평균 급여:")
+print(job_salary)
+
+# 더미 변수 생성 방법 1: pandas get_dummies
+df_dummies = pd.get_dummies(df, columns=['직업'], drop_first=True)
+print("\n더미 변수 생성 결과:")
+print(df_dummies.head())
+
+# 더미 변수를 사용한 회귀 분석 방법 1: 직접 더미 변수 사용
+X = sm.add_constant(df_dummies[['경력', '직업_의료', '직업_금융']])
+model1 = sm.OLS(df_dummies['급여'], X).fit()
+print("\n더미 변수 회귀 분석 결과:")
+print(model1.summary())
+
+# 방법 2: 공식(formula) 인터페이스 사용 (자동으로 더미 변수 생성)
+model2 = smf.ols('급여 ~ 경력 + C(직업)', data=df).fit()
+print("\n공식 인터페이스 회귀 분석 결과:")
+print(model2.summary())
+
+# 다른 기준 범주 선택
+model3 = smf.ols('급여 ~ 경력 + C(직업, Treatment("의료"))', data=df).fit()
+print("\n의료를 기준 범주로 한 회귀 분석 결과:")
+print(model3.summary())
+
+# 시각화
+plt.figure(figsize=(15, 10))
+
+# 1. 직업별 급여 분포
+plt.subplot(2, 2, 1)
+sns.boxplot(x='직업', y='급여', data=df)
+plt.title('직업별 급여 분포')
+plt.grid(True, alpha=0.3)
+
+# 2. 경력과 급여의 관계 (직업별 색상 구분)
+plt.subplot(2, 2, 2)
+colors = {'IT': 'blue', '금융': 'green', '의료': 'red'}
+for job in df['직업'].unique():
+    subset = df[df['직업'] == job]
+    plt.scatter(subset['경력'], subset['급여'], c=colors[job], alpha=0.6, label=job)
+plt.xlabel('경력')
+plt.ylabel('급여')
+plt.title('경력과 급여의 관계 (직업별)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 3. 직업별 회귀선
+plt.subplot(2, 2, 3)
+sns.lmplot(x='경력', y='급여', hue='직업', data=df, height=5, aspect=1.5)
+plt.title('직업별 경력-급여 회귀선')
+
+# 4. 모델 예측값 vs 실제값
+plt.subplot(2, 2, 4)
+predictions = model2.predict(df)
+plt.scatter(predictions, df['급여'], alpha=0.6)
+plt.plot([df['급여'].min(), df['급여'].max()], [df['급여'].min(), df['급여'].max()], 'r--')
+plt.xlabel('예측 급여')
+plt.ylabel('실제 급여')
+plt.title(f'예측값 vs 실제값 (R² = {model2.rsquared:.4f})')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 결과 해석
+print("\n회귀 분석 결과 해석:")
+print(f"1. 경력 효과: 경력이 1년 증가할 때마다 급여가 평균 {model2.params['경력']:.2f}원 증가")
+
+# 기준 범주는 IT
+it_intercept = model2.params['Intercept']
+print(f"2. IT 직종(기준): 경력 0년일 때 예상 급여는 {it_intercept:.2f}원")
+
+# 다른 직종과 IT의 차이
+finance_diff = model2.params['C(직업)[금융]']
+print(f"3. 금융 직종: IT보다 {finance_diff:.2f}원 더 높음 (p={model2.pvalues['C(직업)[금융]']:.4f})")
+
+medical_diff = model2.params['C(직업)[의료]']
+print(f"4. 의료 직종: IT보다 {medical_diff:.2f}원 더 높음 (p={model2.pvalues['C(직업)[의료]']:.4f})")
+
+# 예시 예측
+new_data = pd.DataFrame({
+    '경력': [10, 10, 10],
+    '직업': ['IT', '금융', '의료']
+})
+predictions = model2.predict(new_data)
+result_df = pd.DataFrame({
+    '직업': new_data['직업'],
+    '경력': new_data['경력'],
+    '예측 급여': predictions
+})
+print("\n경력 10년일 때 직업별 예측 급여:")
+print(result_df)
+```
+
+**개념의 활용**:
+
+- 성별, 학력 등 범주형 변수가 임금에 미치는 영향 분석 시
+- 지역별 부동산 가격 차이 평가 시
+- 다양한 마케팅 전략(A/B/C)의 효과 비교 시
+- 여러 치료법의 효과 차이를 정량적으로 분석할 때
+- 업종별 투자 수익률 차이 평가 시
+
+## 5. 교호작용 유무에 따른 회귀모형 (Regression Models with Interaction Terms)
+
+**정의**: 교호작용(상호작용)이 있는 회귀모형은 두 개 이상의 독립변수 간 상호작용 효과를 포함시켜, 한 변수의 효과가 다른 변수의 수준에 따라 달라지는 현상을 모델링하는 방법입니다.
+
+**수식**: 두 변수 X₁과 X₂ 간의 교호작용이 있는 회귀모형: $Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2) + \epsilon$
+
+여기서 $\beta_3$는 교호작용 효과를 나타내는 계수입니다.
+
+**특징**:
+
+- 교호작용 항의 포함 여부에 따라 회귀 분석 결과와 해석이 크게 달라질 수 있습니다.
+- 교호작용이 있으면 한 변수의 효과가 다른 변수의 값에 따라 달라집니다.
+- 교호작용 항이 통계적으로 유의하면, 주효과(main effects)만으로는 관계를 완전히 설명할 수 없습니다.
+- 교호작용을 포함한 모델은 더 복잡하지만 현실 세계의 복잡한 관계를 더 정확히 반영할 수 있습니다.
+- 다중공선성 문제가 발생할 수 있으므로, 독립변수를 중심화(centering)하는 것이 도움이 될 수 있습니다.
+- 교호작용은 연속형 변수 간, 범주형 변수 간, 또는 연속형과 범주형 변수 간에 모두 가능합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from scipy import stats
+
+# 데이터 생성: 비료 사용량(X1)과 강수량(X2)이 작물 수확량(Y)에 미치는 영향
+np.random.seed(42)
+n = 100
+
+# 독립변수
+X1 = np.random.uniform(10, 50, n)  # 비료 사용량
+X2 = np.random.uniform(20, 100, n)  # 강수량
+
+# 교호작용이 있는 경우의 종속변수: 강수량이 많을수록 비료 효과가 증가
+# Y = β₀ + β₁X₁ + β₂X₂ + β₃(X₁×X₂) + ε
+beta0 = 10    # 절편
+beta1 = 0.5   # 비료 주효과
+beta2 = 0.3   # 강수량 주효과
+beta3 = 0.02  # 교호작용 효과
+epsilon = np.random.normal(0, 5, n)  # 오차항
+
+Y = beta0 + beta1 * X1 + beta2 * X2 + beta3 * (X1 * X2) + epsilon
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    '비료': X1,
+    '강수량': X2,
+    '수확량': Y
+})
+
+# 중심화된 변수 생성 (다중공선성 감소를 위해)
+df['비료_중심화'] = df['비료'] - df['비료'].mean()
+df['강수량_중심화'] = df['강수량'] - df['강수량'].mean()
+df['교호작용'] = df['비료_중심화'] * df['강수량_중심화']
+
+# 1. 교호작용이 없는 모델
+model1 = smf.ols('수확량 ~ 비료 + 강수량', data=df).fit()
+print("1. 교호작용이 없는 모델:")
+print(model1.summary())
+
+# 2. 교호작용이 있는 모델
+model2 = smf.ols('수확량 ~ 비료 + 강수량 + 비료:강수량', data=df).fit()
+print("\n2. 교호작용이 있는 모델:")
+print(model2.summary())
+
+# 3. 중심화 변수를 사용한 교호작용 모델
+model3 = smf.ols('수확량 ~ 비료_중심화 + 강수량_중심화 + 교호작용', data=df).fit()
+print("\n3. 중심화 변수를 사용한 교호작용 모델:")
+print(model3.summary())
+
+# 모델 비교: 추가된 교호작용 항의 유의성 검정
+from statsmodels.stats.anova import anova_lm
+anova_table = anova_lm(model1, model2)
+print("\n모델 비교 (ANOVA):")
+print(anova_table)
+
+# 시각화
+plt.figure(figsize=(15, 12))
+
+# 1. 교호작용 시각화: 등고선 플롯
+plt.subplot(2, 2, 1)
+pivot_table = df.pivot_table(index=pd.cut(df['비료'], 10), 
+                             columns=pd.cut(df['강수량'], 10), 
+                             values='수확량', 
+                             aggfunc='mean')
+sns.heatmap(pivot_table, cmap='viridis', annot=False)
+plt.title('비료와 강수량에 따른 수확량 (등고선 플롯)')
+plt.xlabel('강수량')
+plt.ylabel('비료 사용량')
+
+# 2. 3D 표면 플롯
+from mpl_toolkits.mplot3d import Axes3D
+
+plt.subplot(2, 2, 2, projection='3d')
+ax = plt.gca()
+fertilizer_range = np.linspace(df['비료'].min(), df['비료'].max(), 30)
+rainfall_range = np.linspace(df['강수량'].min(), df['강수량'].max(), 30)
+fertilizer_grid, rainfall_grid = np.meshgrid(fertilizer_range, rainfall_range)
+
+# 모델2 예측 함수
+def predict_yield(fertilizer, rainfall):
+    X_new = pd.DataFrame({
+        '비료': fertilizer.flatten(),
+        '강수량': rainfall.flatten()
+    })
+    return model2.predict(X_new).reshape(fertilizer.shape)
+
+yield_grid = predict_yield(fertilizer_grid, rainfall_grid)
+
+surf = ax.plot_surface(fertilizer_grid, rainfall_grid, yield_grid, cmap='viridis', alpha=0.8)
+ax.set_xlabel('비료 사용량')
+ax.set_ylabel('강수량')
+ax.set_zlabel('수확량')
+ax.set_title('3D 표면 플롯: 교호작용 효과')
+plt.colorbar(surf, ax=ax, shrink=0.5, aspect=5)
+
+# 3. 강수량별 비료 효과 (교호작용 시각화)
+plt.subplot(2, 2, 3)
+# 강수량 수준 선택
+low_rain = df['강수량'].quantile(0.25)
+med_rain = df['강수량'].quantile(0.5)
+high_rain = df['강수량'].quantile(0.75)
+
+# 새 데이터 생성
+fertilizer_range = np.linspace(df['비료'].min(), df['비료'].max(), 100)
+new_data_low = pd.DataFrame({
+    '비료': fertilizer_range,
+    '강수량': np.full_like(fertilizer_range, low_rain)
+})
+new_data_med = pd.DataFrame({
+    '비료': fertilizer_range,
+    '강수량': np.full_like(fertilizer_range, med_rain)
+})
+new_data_high = pd.DataFrame({
+    '비료': fertilizer_range,
+    '강수량': np.full_like(fertilizer_range, high_rain)
+})
+
+# 예측
+pred_low = model2.predict(new_data_low)
+pred_med = model2.predict(new_data_med)
+pred_high = model2.predict(new_data_high)
+
+# 그래프 그리기
+plt.plot(fertilizer_range, pred_low, 'b-', label=f'낮은 강수량 ({low_rain:.1f})')
+plt.plot(fertilizer_range, pred_med, 'g-', label=f'중간 강수량 ({med_rain:.1f})')
+plt.plot(fertilizer_range, pred_high, 'r-', label=f'높은 강수량 ({high_rain:.1f})')
+plt.scatter(df['비료'], df['수확량'], alpha=0.3, color='gray')
+plt.xlabel('비료 사용량')
+plt.ylabel('예측 수확량')
+plt.title('강수량 수준별 비료 효과 (교호작용)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# 4. 비료별 강수량 효과 (교호작용 시각화)
+plt.subplot(2, 2, 4)
+# 비료 수준 선택
+low_fert = df['비료'].quantile(0.25)
+med_fert = df['비료'].quantile(0.5)
+high_fert = df['비료'].quantile(0.75)
+
+# 새 데이터 생성
+rainfall_range = np.linspace(df['강수량'].min(), df['강수량'].max(), 100)
+new_data_low = pd.DataFrame({
+    '비료': np.full_like(rainfall_range, low_fert),
+    '강수량': rainfall_range
+})
+new_data_med = pd.DataFrame({
+    '비료': np.full_like(rainfall_range, med_fert),
+    '강수량': rainfall_range
+})
+new_data_high = pd.DataFrame({
+    '비료': np.full_like(rainfall_range, high_fert),
+    '강수량': rainfall_range
+})
+
+# 예측
+pred_low = model2.predict(new_data_low)
+pred_med = model2.predict(new_data_med)
+pred_high = model2.predict(new_data_high)
+
+# 그래프 그리기
+plt.plot(rainfall_range, pred_low, 'b-', label=f'적은 비료 ({low_fert:.1f})')
+plt.plot(rainfall_range, pred_med, 'g-', label=f'중간 비료 ({med_fert:.1f})')
+plt.plot(rainfall_range, pred_high, 'r-', label=f'많은 비료 ({high_fert:.1f})')
+plt.scatter(df['강수량'], df['수확량'], alpha=0.3, color='gray')
+plt.xlabel('강수량')
+plt.ylabel('예측 수확량')
+plt.title('비료 수준별 강수량 효과 (교호작용)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# 결과 해석
+print("\n결과 해석:")
+print("1. 교호작용이 없는 모델:")
+print(f"   - 비료 효과: 1단위 증가 시 수확량 {model1.params['비료']:.4f} 증가")
+print(f"   - 강수량 효과: 1단위 증가 시 수확량 {model1.params['강수량']:.4f} 증가")
+print(f"   - 모델 설명력(R²): {model1.rsquared:.4f}")
+
+print("\n2. 교호작용이 있는 모델:")
+print(f"   - 비료 주효과: {model2.params['비료']:.4f}")
+print(f"   - 강수량 주효과: {model2.params['강수량']:.4f}")
+print(f"   - 교호작용 효과: {model2.params['비료:강수량']:.4f}")
+print(f"   - 모델 설명력(R²): {model2.rsquared:.4f}")
+
+print("\n교호작용 해석:")
+fert_effect_low = model2.params['비료'] + model2.params['비료:강수량'] * low_rain
+fert_effect_high = model2.params['비료'] + model2.params['비료:강수량'] * high_rain
+print(f"   - 낮은 강수량({low_rain:.1f})에서 비료 1단위 효과: {fert_effect_low:.4f}")
+print(f"   - 높은 강수량({high_rain:.1f})에서 비료 1단위 효과: {fert_effect_high:.4f}")
+```
+
+**개념의 활용**:
+
+- 비료와 물의 상호작용 효과가 작물 수확량에 미치는 영향 분석 시
+- 약물 복용량과 환자의 나이가 치료 효과에 미치는 상호작용 연구 시
+- 광고 지출과 제품 가격이 판매량에 미치는 조합 효과 모델링 시
+- 교육 방법과 학생의 사전 지식 수준 간의 상호작용이 학습 효과에 미치는 영향 분석 시
+- 운동 강도와 식이요법 간의 상호작용이 체중 감소에 미치는 효과 평가 시
