@@ -757,3 +757,287 @@ plt.show()
 - 금융에서 자산 수익률 모델링 시
 - 품질 관리에서 제조 공정 변동 분석 시
 
+# 추정
+
+## 1. 점추정 (Point Estimation)
+
+**정의**: 표본 데이터를 사용하여 모집단의 미지의 매개변수(모수)에 대한 단일 값을 추정하는 방법입니다.
+
+**수식**:
+
+- 표본평균: $\bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i$
+- 표본분산: $S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2$
+- 표본비율: $\hat{p} = \frac{X}{n}$ (X는 성공 횟수)
+
+**특징**:
+
+- 하나의 값으로 모수를 추정합니다
+- 추정량의 품질은 불편성(unbiasedness), 일관성(consistency), 효율성(efficiency) 등으로 평가합니다
+- 최대우도추정법(MLE), 적률추정법(Method of Moments), 최소제곱법(Least Squares) 등의 방법이 있습니다
+- 정확한 값이 아닌 근사치를 제공합니다
+
+**코드 예시**:
+
+```python
+import numpy as np
+
+# 데이터 생성
+data = np.random.normal(loc=50, scale=5, size=100)
+
+# 점추정 - 평균
+mean_estimate = np.mean(data)
+print(f"모평균 점추정값: {mean_estimate:.4f}")
+
+# 점추정 - 분산
+var_estimate = np.var(data, ddof=1)
+print(f"모분산 점추정값: {var_estimate:.4f}")
+
+# 점추정 - 비율 (이진 데이터의 경우)
+binary_data = np.random.binomial(n=1, p=0.3, size=100)
+prop_estimate = np.mean(binary_data)
+print(f"모비율 점추정값: {prop_estimate:.4f}")
+```
+
+**개념의 활용**:
+
+- 모집단의 평균 소득, 키, 무게 등을 단일 값으로 추정해야 할 때
+- 통계 모델 구축 시 최적의 파라미터를 찾아야 할 때
+- 품질 관리에서 제품의 평균 불량률을 추정해야 할 때
+- 의약품 임상 시험에서 약효의 크기를 단일값으로 보고해야 할 때
+- 선거 예측에서 특정 후보의 득표율을 추정할 때
+
+## 2. 구간추정 (Interval Estimation)
+
+**정의**: 모수가 특정 신뢰수준으로 포함될 것으로 예상되는 값의 범위를 추정하는 방법입니다.
+
+**수식**:
+
+- 일반적인 형태: $\hat{\theta} \pm \text{(신뢰계수)} \times \text{(표준오차)}$
+- 신뢰구간: $[L, U]$, L은 하한, U는 상한
+
+**특징**:
+
+- 모수의 불확실성을 명시적으로 나타냅니다
+- 신뢰수준(일반적으로 95%)은 유사한 표본을 계속 추출할 때 해당 비율만큼 실제 모수를 포함하는 구간이 얻어짐을 의미합니다
+- 표본 크기가 클수록 구간이 좁아집니다
+- 통계적 가설 검정과 밀접한 관련이 있습니다
+
+**코드 예시**:
+
+```python
+import numpy as np
+import scipy.stats as stats
+
+# 데이터 생성
+data = np.random.normal(loc=50, scale=5, size=30)
+
+# 평균에 대한 95% 신뢰구간
+mean_estimate = np.mean(data)
+std_err = stats.sem(data)  # 표준오차
+ci_95 = stats.t.interval(0.95, len(data)-1, loc=mean_estimate, scale=std_err)
+
+print(f"95% 신뢰구간: ({ci_95[0]:.4f}, {ci_95[1]:.4f})")
+```
+
+**개념의 활용**:
+
+- 연구 결과의 불확실성을 정량화해야 할 때
+- 정책 결정에서 가능한 결과 범위를 고려해야 할 때
+- 품질 관리에서 제품 특성의 변동 범위를 설정할 때
+- 의학 연구에서 치료 효과의 가능한 범위를 제시할 때
+- 여론 조사 결과 보고 시 오차 범위를 표시해야 할 때
+
+## 3. 모평균에 대한 구간추정 (Confidence Interval for Population Mean)
+
+**정의**: 모집단의 평균 μ를 특정 신뢰수준으로 포함할 것으로 예상되는 구간을 추정하는 방법입니다.
+
+**수식**:
+
+- 모분산을 알 때: $\bar{X} \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$
+- 모분산을 모를 때: $\bar{X} \pm t_{\alpha/2, n-1} \frac{s}{\sqrt{n}}$
+
+**특징**:
+
+- 표본크기가 30 이상이면 보통 정규분포 사용
+- 표본크기가 작으면 t분포 사용
+- 모집단이 정규분포를 따른다고 가정하거나 중심극한정리를 적용
+- 신뢰수준이 높을수록 구간이 넓어짐
+
+**코드 예시**:
+
+```python
+import numpy as np
+import scipy.stats as stats
+
+# 데이터 생성
+data = np.random.normal(loc=50, scale=5, size=25)
+
+# 표본 통계량 계산
+mean = np.mean(data)
+std = np.std(data, ddof=1)
+n = len(data)
+
+# 95% 신뢰구간 계산 (t분포 사용)
+alpha = 0.05
+t_critical = stats.t.ppf(1 - alpha/2, df=n-1)
+margin_error = t_critical * (std / np.sqrt(n))
+
+ci_lower = mean - margin_error
+ci_upper = mean + margin_error
+
+print(f"모평균의 95% 신뢰구간: ({ci_lower:.4f}, {ci_upper:.4f})")
+```
+
+**개념의 활용**:
+
+- 제조업체의 제품 평균 수명 추정 시
+- 약물 임상시험에서 평균 효과 크기 추정 시
+- 학생들의 평균 시험 점수 추정 시
+- 소비자의 제품 평균 만족도 측정 시
+- 공정 관리에서 평균 생산량 예측 시
+
+## 4. 모비율에 대한 구간추정 (Confidence Interval for Population Proportion)
+
+**정의**: 모집단의 비율 p를 특정 신뢰수준으로 포함할 것으로 예상되는 구간을 추정하는 방법입니다.
+
+**수식**: $\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$
+
+**특징**:
+
+- $n\hat{p} \geq 5$와 $n(1-\hat{p}) \geq 5$일 때 정규근사 사용 가능
+- 이항분포의 근사로 정규분포 사용
+- 추정 비율이 0.5에 가까울수록 더 넓은 구간이 생성됨
+- 표본크기가 클수록 구간이 좁아짐
+
+**코드 예시**:
+
+```python
+import numpy as np
+import scipy.stats as stats
+
+# 데이터 생성 (300명 중 120명이 찬성)
+n = 300
+successes = 120
+p_hat = successes / n
+
+# 95% 신뢰구간 계산
+alpha = 0.05
+z_critical = stats.norm.ppf(1 - alpha/2)
+std_err = np.sqrt((p_hat * (1 - p_hat)) / n)
+margin_error = z_critical * std_err
+
+ci_lower = max(0, p_hat - margin_error)  # 0보다 작을 수 없음
+ci_upper = min(1, p_hat + margin_error)  # 1보다 클 수 없음
+
+print(f"모비율의 95% 신뢰구간: ({ci_lower:.4f}, {ci_upper:.4f})")
+```
+
+**개념의 활용**:
+
+- 선거 여론조사에서 후보 지지율 추정 시
+- 마케팅에서 광고 전환율 측정 시
+- 의학 연구에서 치료 성공률 분석 시
+- 품질 관리에서 제품 불량률 추정 시
+- 사회조사에서 특정 의견 지지 비율 파악 시
+
+## 5. 모분산에 대한 구간추정 (Confidence Interval for Population Variance)
+
+**정의**: 모집단의 분산 σ²를 특정 신뢰수준으로 포함할 것으로 예상되는 구간을 추정하는 방법입니다.
+
+**수식**: $\frac{(n-1)s^2}{\chi^2_{\alpha/2, n-1}} \leq \sigma^2 \leq \frac{(n-1)s^2}{\chi^2_{1-\alpha/2, n-1}}$
+
+**특징**:
+
+- 모집단이 정규분포를 따른다고 가정
+- 분산의 신뢰구간은 비대칭적
+- 표준편차의 신뢰구간은 분산 신뢰구간의 제곱근
+- 다른 구간추정보다 더 엄격한 가정이 필요함
+
+**코드 예시**:
+
+```python
+import numpy as np
+import scipy.stats as stats
+
+# 데이터 생성
+data = np.random.normal(loc=50, scale=5, size=20)
+
+# 표본 분산 계산
+var = np.var(data, ddof=1)
+n = len(data)
+
+# 95% 신뢰구간 계산
+alpha = 0.05
+chi2_lower = stats.chi2.ppf(1 - alpha/2, df=n-1)
+chi2_upper = stats.chi2.ppf(alpha/2, df=n-1)
+
+var_upper = (n-1) * var / chi2_upper
+var_lower = (n-1) * var / chi2_lower
+
+print(f"모분산의 95% 신뢰구간: ({var_lower:.4f}, {var_upper:.4f})")
+```
+
+**개념의 활용**:
+
+- 금융 자산의 위험(변동성) 평가 시
+- 제조 공정의 변동성 관리 시
+- 측정 도구의 정밀도 평가 시
+- 실험 결과의 일관성 분석 시
+- 여러 집단 간 변동성 비교 시
+
+## 6. 표본크기 결정 (Sample Size Determination)
+
+**정의**: 원하는 정확도와 신뢰수준을 달성하기 위해 필요한 최소 표본 크기를 결정하는 방법입니다.
+
+**수식**:
+
+- 모평균 추정을 위한 표본크기: $n = \left(\frac{z_{\alpha/2} \sigma}{E}\right)^2$
+- 모비율 추정을 위한 표본크기: $n = \frac{z^2_{\alpha/2} p(1-p)}{E^2}$
+
+**특징**:
+
+- 더 높은 신뢰수준이나 더 작은 오차 범위를 원할수록 더 큰 표본 필요
+- 모집단 변동성이 클수록 더 큰 표본 필요
+- 비율 추정 시 p=0.5가 가장 보수적인(최대 표본 크기) 접근
+- 비용, 시간 등 현실적 제약과 통계적 정확도 사이의 균형이 중요
+
+**코드 예시**:
+
+```python
+import numpy as np
+import math
+from scipy import stats
+
+# 모평균 추정을 위한 표본크기 계산
+def sample_size_mean(margin_error, std_dev, confidence=0.95):
+    # 신뢰계수 z 계산
+    z = stats.norm.ppf(1 - (1 - confidence)/2)
+    # 표본 크기 계산
+    n = (z * std_dev / margin_error)**2
+    return math.ceil(n)  # 올림하여 정수로 변환
+
+# 모비율 추정을 위한 표본크기 계산
+def sample_size_proportion(margin_error, proportion=0.5, confidence=0.95):
+    # 신뢰계수 z 계산
+    z = stats.norm.ppf(1 - (1 - confidence)/2)
+    # 표본 크기 계산
+    n = (z**2 * proportion * (1 - proportion)) / (margin_error**2)
+    return math.ceil(n)  # 올림하여 정수로 변환
+
+# 예시: 모평균 추정 (표준편차가 10이라 가정, 오차 범위 ±2)
+n_mean = sample_size_mean(margin_error=2, std_dev=10, confidence=0.95)
+print(f"모평균 추정을 위한 필요 표본 크기: {n_mean}")
+
+# 예시: 모비율 추정 (비율이 0.5라 가정, 오차 범위 ±0.03)
+n_prop = sample_size_proportion(margin_error=0.03, proportion=0.5, confidence=0.95)
+print(f"모비율 추정을 위한 필요 표본 크기: {n_prop}")
+```
+
+**개념의 활용**:
+
+- 연구 계획 및 실험 설계 단계에서
+- 여론조사 및 시장조사 설계 시
+- 임상 시험 규모 결정 시
+- 품질 검사 샘플링 계획 수립 시
+- 정확도 요구사항과 제한된 자원 사이 균형을 맞출 때
+
