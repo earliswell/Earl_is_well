@@ -1844,3 +1844,228 @@ plt.show()
 - 측정 장비의 정확도가 규격 기준을 만족하는지 확인할 때
 - 소비자 만족도가 특정 목표 수준에 도달했는지 평가할 때
 
+# 분산분석
+
+## 1. 일원배치 분산분석 (One-way ANOVA)
+
+**정의**: 셋 이상의 독립적인 집단의 평균 간에 통계적으로 유의한 차이가 있는지를 검정하는 방법입니다. 단일 요인(독립변수)이 종속변수에 미치는 영향을 분석합니다.
+
+**수식**:
+
+- F = MSB/MSW
+    - MSB(집단 간 평균제곱) = SSB/(k-1)
+    - MSW(집단 내 평균제곱) = SSW/(N-k)
+    - SSB(집단 간 제곱합) = Σnᵢ(x̄ᵢ-x̄)²
+    - SSW(집단 내 제곱합) = ΣΣ(xᵢⱼ-x̄ᵢ)²
+    - k = 집단 수, N = 전체 표본 크기
+
+**특징**:
+
+- 귀무가설은 "모든 집단의 평균이 동일하다"입니다 (H₀: μ₁ = μ₂ = ... = μₖ).
+- 대립가설은 "적어도 하나의 집단 평균이 다르다"입니다.
+- 독립성, 정규성, 등분산성 가정이 필요합니다.
+- F-통계량은 자유도가 (k-1, N-k)인 F-분포를 따릅니다.
+- 차이가 있는지만 알려주며, 어떤 집단 간에 차이가 있는지는 알려주지 않습니다.
+- 사후검정(투키법, 본페로니법 등)을 통해 집단 간 차이를 확인해야 합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+# 데이터 생성 (3개 처리군)
+np.random.seed(42)
+group1 = np.random.normal(loc=5, scale=1, size=30)  # 처리 A
+group2 = np.random.normal(loc=6, scale=1, size=30)  # 처리 B
+group3 = np.random.normal(loc=6.5, scale=1, size=30)  # 처리 C
+
+# 일원배치 ANOVA 수행
+f_stat, p_value = stats.f_oneway(group1, group2, group3)
+
+print(f"F-통계량: {f_stat:.4f}")
+print(f"p-value: {p_value:.4f}")
+print(f"결론: {'집단 간 유의한 차이가 있음' if p_value < 0.05 else '집단 간 유의한 차이가 없음'}")
+
+# 데이터 프레임 생성
+data = np.concatenate([group1, group2, group3])
+labels = np.concatenate([['A']*30, ['B']*30, ['C']*30])
+df = pd.DataFrame({'value': data, 'group': labels})
+
+# 사후검정 (Tukey's HSD)
+tukey = pairwise_tukeyhsd(df['value'], df['group'], alpha=0.05)
+print("\n사후검정 결과:")
+print(tukey)
+
+# 시각화
+plt.figure(figsize=(10, 6))
+plt.boxplot([group1, group2, group3], labels=['처리 A', '처리 B', '처리 C'])
+plt.title(f'일원배치 ANOVA: F={f_stat:.2f}, p={p_value:.4f}')
+plt.ylabel('값')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**개념의 활용**:
+
+- 여러 교육 방법의 효과를 비교할 때 (예: 3가지 교수법의 학습 결과 비교)
+- 다양한 약물 치료의 효과를 비교할 때 (예: 4가지 약물과 위약 효과 비교)
+- 다른 비료 종류가 작물 수확량에 미치는 영향을 분석할 때
+- 여러 제조 방법이 제품 품질에 미치는 영향을 평가할 때
+- 다양한 마케팅 전략이 판매량에, 미치는 효과를 비교할 때
+
+## 2. 이원배치 분산분석 (Two-way ANOVA)
+
+**정의**: 두 개의 독립적인 범주형 변수(요인)가 하나의 연속형 종속변수에 미치는 영향과 두 요인 간의 상호작용을 분석하는 통계 방법입니다.
+
+**수식**:
+
+- 요인 A와 B에 대한 모형:
+    - 총 제곱합(SST) = SS(A) + SS(B) + SS(A×B) + SS(오차)
+    - 요인 A의 F-통계량 = MS(A)/MS(오차)
+    - 요인 B의 F-통계량 = MS(B)/MS(오차)
+    - 상호작용의 F-통계량 = MS(A×B)/MS(오차)
+
+**특징**:
+
+- 세 가지 귀무가설을 검정합니다: 요인 A의 효과 없음, 요인 B의 효과 없음, 상호작용 효과 없음.
+- 주효과(main effects)와 상호작용 효과(interaction effects)를 동시에 분석할 수 있습니다.
+- 주효과: 한 요인이 종속변수에 미치는 독립적인 영향.
+- 상호작용 효과: 한 요인의 효과가 다른 요인의 수준에 따라 달라지는 현상.
+- 여러 개의 일원배치 ANOVA보다 통계적 검정력이 더 높습니다.
+- 전통적인 분석에서는 균형 설계(모든 셀의 표본 크기가 동일)가 권장됩니다.
+- 상호작용 도표(interaction plot)가 결과 해석에 유용합니다.
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+# 데이터 생성: 비료 종류(A,B)와 물 공급량(저,중,고)이 식물 성장에 미치는 영향
+np.random.seed(42)
+
+# 요인 조합 생성
+fertilizer = np.repeat(['A', 'B'], 30)
+water = np.tile(np.repeat(['Low', 'Medium', 'High'], 10), 2)
+
+# 결과값 생성 (상호작용 효과 포함)
+# 비료 A는 물 공급에 덜 민감, 비료 B는 물 공급에 매우 민감
+base_growth = 10
+fertilizer_effect = {'A': 2, 'B': 0}
+water_effect = {'Low': 0, 'Medium': 4, 'High': 7}
+interaction_effect = {
+    ('A', 'Low'): 0, ('A', 'Medium'): 1, ('A', 'High'): 1,
+    ('B', 'Low'): -1, ('B', 'Medium'): 2, ('B', 'High'): 5
+}
+
+growth = []
+for f, w in zip(fertilizer, water):
+    mean_growth = (base_growth + fertilizer_effect[f] + water_effect[w] + 
+                   interaction_effect[(f, w)])
+    growth.append(np.random.normal(mean_growth, 1.5))
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    'growth': growth,
+    'fertilizer': fertilizer,
+    'water': water
+})
+
+# 이원배치 ANOVA 수행
+model = ols('growth ~ C(fertilizer) * C(water)', data=df).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print(anova_table)
+
+# 주효과와 상호작용 시각화
+plt.figure(figsize=(12, 5))
+
+# 상호작용 플롯
+plt.subplot(1, 2, 1)
+interaction_data = df.groupby(['fertilizer', 'water'])['growth'].mean().reset_index()
+interaction_pivot = interaction_data.pivot(index='water', columns='fertilizer', values='growth')
+
+for col in interaction_pivot.columns:
+    plt.plot(interaction_pivot.index, interaction_pivot[col], marker='o', label=f'비료 {col}')
+
+plt.title('상호작용 플롯: 비료 종류와 물 공급량')
+plt.xlabel('물 공급량')
+plt.ylabel('평균 성장률')
+plt.grid(True, alpha=0.3)
+plt.legend()
+
+# 주효과 플롯
+plt.subplot(1, 2, 2)
+fertilizer_means = df.groupby('fertilizer')['growth'].mean()
+water_means = df.groupby('water')['growth'].mean()
+
+plt.bar([1, 2], fertilizer_means, width=0.4, label='비료 종류')
+plt.bar([4, 5, 6], water_means, width=0.4, label='물 공급량')
+
+plt.xticks([1.5, 5], ['비료', '물 공급량'])
+plt.title('주효과 플롯')
+plt.ylabel('평균 성장률')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+# 사후 분석 (Tukey HSD)
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+# 물 공급량에 대한 사후 분석
+print("\n물 공급량 사후 분석:")
+tukey_water = pairwise_tukeyhsd(df['growth'], df['water'], alpha=0.05)
+print(tukey_water)
+
+# 비료와 물 조합에 대한 사후 분석
+df['treatment'] = df['fertilizer'] + '_' + df['water']
+print("\n처리 조합 사후 분석:")
+tukey_comb = pairwise_tukeyhsd(df['growth'], df['treatment'], alpha=0.05)
+print(tukey_comb)
+```
+
+**개념의 활용**:
+
+- 성별과 약물 종류가 치료 효과에 미치는 영향 분석 시
+- 비료 종류와 물 공급량이 식물 성장에 미치는 영향 평가 시
+- 교수법과 학습 환경이 학업 성취도에 미치는 영향 연구 시
+- 온도와 습도가 제품 내구성에 미치는 영향 조사 시
+- 광고 유형과 가격 수준이 제품 판매량에 미치는 영향 분석 시
+
+### 교호작용, 주효과, 사후분석
+
+**교호작용 (Interaction Effect)**:
+
+- 정의: 한 요인의 효과가 다른 요인의 수준에 따라 달라지는 현상입니다.
+- 해석: 상호작용이 유의하면, 한 요인의 효과를 해석할 때 다른 요인의 수준을 고려해야 합니다.
+- 시각화: 상호작용 플롯에서 선이 평행하지 않으면 상호작용이 존재함을 시사합니다.
+
+**주효과 (Main Effect)**:
+
+- 정의: 다른 요인의 수준에 관계없이 한 요인이 종속변수에 미치는 독립적인 영향입니다.
+- 해석: 상호작용이 유의하지 않을 때 주효과를 직접적으로 해석할 수 있습니다.
+- 주의점: 유의한 상호작용이 있다면 주효과만으로 결론을 내리는 것은 오해를 불러일으킬 수 있습니다.
+
+**사후분석 (Post-hoc Analysis)**:
+
+- 목적: ANOVA에서 유의한 차이가 발견됐을 때, 어떤 집단 간에 차이가 있는지 구체적으로 확인합니다.
+- 방법:
+    - Tukey's Honestly Significant Difference (HSD): 모든 가능한 쌍을 비교하며, 제1종 오류를 통제합니다.
+    - Bonferroni: 가장 보수적인 방법으로, 유의수준을 검정 횟수로 나눕니다.
+    - Scheffé: 모든 가능한 대비(contrast)를 고려하는 방법으로, 매우 보수적입니다.
+    - Duncan's Multiple Range Test: 덜 보수적인 방법으로, 검정력이 높지만 제1종 오류가 증가할 수 있습니다.
+- 해석: 각 쌍별 비교의 p-value나 신뢰구간을 통해 유의한 차이가 있는 집단을 확인합니다.
+
+이원배치 분산분석에서 상호작용이 유의한 경우, 분석 순서는 일반적으로 다음과 같습니다:
+
+1. 상호작용 효과 해석 (가장 중요)
+2. 필요한 경우 단순 주효과 분석 (한 요인의 수준별로 다른 요인의 효과 분석)
+3. 사후검정을 통한 구체적인 차이 확인
+
