@@ -9,7 +9,7 @@ tags:
 ## Cross-Sectional Data
 - A cross-sectional data set consists of a sample of individuals, households, firms, cities, states, countries, or a variety of other units, taken at a given point in time. → 한 시점의 $i$
 - An important feature of cross-sectional data is that we can often assume that they have been obtained by <mark style="background: #FF5582A6;">random sampling from the underlying population</mark>
-- ![[Time_Series. Figure.03.png]]
+- ![[Time_Series, Figure.03.png]]
 ## Time Series Data
 - A time series data set consists of observations on a variable or several variables over time. → 여러 시점의 관측된 집합 !
 - Because past events can influence future events and lags(과거값) in behavior are prevalent in the social sciences, time is an important dimension in a time series data set.
@@ -324,7 +324,18 @@ $$
 	- $|\phi| =0 \to Y_{t} = \delta + e_{t}$: 과거 값이 현재 값을 예측하는 데 아무런 도움이 안되고, 시계열은 단순 평균$(\delta)$ 주위를 무작위로 변동함 → 백색 잡음!이라는 의미임.
 - The permanent effects of the shock $(\phi= 1)$ implies the stochastic process is not stationary → $E(Y_{t}) = \delta + E(Y_{t-1})$ ... 계속 누적됨.
 - [[#Stationarity and Ergodicity, Definition 1|Auto-Covariance]] 유도하기
-	- 
+	- ![[Time_Series, Figure.06.png]]
+- [[#Stationarity and Ergodicity, Definition 1|Auto-Correlation]] 유도하기
+$$
+\rho(k) = \frac{\gamma(k)}{\gamma(0)} = \phi^k \frac{\gamma(0)}{\gamma(0)} = \phi^k
+$$
+- Then the stationary condition for AR(1) is
+$$
+|\phi| < 1
+$$
+- If $|\phi| < 1$, then $Y_{t}$ is [[Time Series, 02. Regression Analysis with Time Series Data#Stationarity and Ergodicity| Strictly Stationary and Ergodic]]
+- The Equation for $Y_t$ can have an intercept, the above results are unchanged except that the mean of $Y_{t}$ can be computed from the relationship $E(Y_{t}) = \frac{\delta}{1-\phi}$
+- 
 
 ## Moving-Average: MA(q)
 $$
