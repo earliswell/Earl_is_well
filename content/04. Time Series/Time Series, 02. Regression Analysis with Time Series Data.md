@@ -485,7 +485,13 @@ $$
 $$
 
 - where $a\equiv-(f_{11}+f_{22})$ and $b \equiv f_{11}f_{22} - f_{12}f_{21}$. The last equation is the characteristic equation and corresponding roots are characteristic roots: $\lambda_{1}, \lambda_{2}$
-- The characteristic vectors
+- The characteristic vectors are
+$$
+\begin{align}
+ & \lambda = \lambda_{1} \Rightarrow F\cdot x_{1} = \lambda_{1} \cdot x \\
+ & \lambda = \lambda_{2} \Rightarrow F\cdot x_{2} = \lambda_{2} \cdot x \\
+\end{align}
+$$
 ## Moving-Average: MA(q)
 $$
 Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
