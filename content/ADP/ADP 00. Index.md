@@ -167,4 +167,5 @@ df['columns'].str.contains("포함 문자", na=False, case=True)
 # 두 컬럼의 교차 되는 비율 구하기
 pd.crosstab(df['neighbourhood_group'], df['room_type'], normalize='index') * 100
 ```
-- 
+
+## EDA 필살기
