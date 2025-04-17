@@ -17,19 +17,13 @@ tags:
 
 # 기초통계량
 
-## 1. 평균 (Mean)
+#### 대푯값: 평균 (Mean), 중앙값(Median)
 
-**정의**: 모든 값의 합을 값의 개수로 나눈 것입니다.
-
-**수식**: $\bar{x} = \frac{\sum_{i=1}^{n}x_i}{n}$
+**평균 수식**: $\bar{x} = \frac{\sum_{i=1}^{n}x_i}{n}$
 
 **코드 예시**:
-
 ```python
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import scipy.stats as stats
 
 # 데이터 생성
 data = [4, 8, 6, 5, 3, 2, 8, 9, 2, 5]
@@ -38,36 +32,14 @@ data = [4, 8, 6, 5, 3, 2, 8, 9, 2, 5]
 mean_value = np.mean(data)  # 또는 sum(data)/len(data)
 print(f"평균: {mean_value}")  # 평균: 5.2
 
-# pandas 사용
-df = pd.DataFrame({'값': data})
-print(f"pandas 평균: {df['값'].mean()}")  # pandas 평균: 5.2
-```
-
-## 2. 중앙값 (Median)
-
-**정의**: 데이터를 정렬했을 때 중앙에 위치하는 값입니다. 데이터의 개수가 짝수일 경우, 중앙에 위치한 두 값의 평균을 취합니다.
-
-**특징**: 이상치(outlier)에 덜 민감하여 왜곡된 분포에서 중심 경향을 더 잘 나타냅니다.
-
-**코드 예시**:
-
-```python
-# 중앙값 계산
+# 중앙값 계산 / 이상치(outlier)에 덜 민감하여 왜곡된 분포에서 중심 경향을 더 잘 나타냅니다.
 median_value = np.median(data)
 print(f"중앙값: {median_value}")  # 중앙값: 5.0
-
-# pandas 사용
-print(f"pandas 중앙값: {df['값'].median()}")  # pandas 중앙값: 5.0
-
-# 이상치가 있는 경우 비교
-data_with_outlier = data + [100]  # 이상치 추가
-print(f"이상치 있는 데이터의 평균: {np.mean(data_with_outlier)}")  # 이상치 있는 데이터의 평균: 13.82
-print(f"이상치 있는 데이터의 중앙값: {np.median(data_with_outlier)}")  # 이상치 있는 데이터의 중앙값: 5.0
 ```
 
-## 3. 왜도 (Skewness)
+#### 왜도 (Skewness) & 첨도 (Kurtosis)
 
-**정의**: 분포의 비대칭성을 측정하는 지표입니다.
+**왜도 정의**: 분포의 비대칭성을 측정하는 지표입니다.
 
 **해석**:
 
@@ -76,40 +48,6 @@ print(f"이상치 있는 데이터의 중앙값: {np.median(data_with_outlier)}"
 - 왜도 < 0: 왼쪽으로 꼬리가 긴 분포 (음의 왜도, 좌측 편향)
 
 **수식**: $\text{Skewness} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{x_i-\bar{x}}{\sigma}\right)^3$
-
-**코드 예시**:
-
-```python
-# 왜도 계산
-skewness = stats.skew(data)
-print(f"왜도: {skewness}")  # 왜도: 0.11262749661320474
-
-# pandas 사용
-print(f"pandas 왜도: {df['값'].skew()}")  # pandas 왜도: 0.11262749661320474
-
-# 다양한 왜도 시각화
-fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-# 양의 왜도 (오른쪽으로 긴 꼬리)
-positive_skew = np.random.exponential(size=1000)
-axes[0].hist(positive_skew, bins=30)
-axes[0].set_title(f'양의 왜도: {stats.skew(positive_skew):.2f}')
-
-# 대칭 분포 (왜도 ≈ 0)
-normal_dist = np.random.normal(size=1000)
-axes[1].hist(normal_dist, bins=30)
-axes[1].set_title(f'대칭 분포 (왜도 ≈ 0): {stats.skew(normal_dist):.2f}')
-
-# 음의 왜도 (왼쪽으로 긴 꼬리)
-negative_skew = -np.random.exponential(size=1000)
-axes[2].hist(negative_skew, bins=30)
-axes[2].set_title(f'음의 왜도: {stats.skew(negative_skew):.2f}')
-
-plt.tight_layout()
-plt.show()
-```
-
-## 4. 첨도 (Kurtosis)
 
 **정의**: 분포의 뾰족한 정도를 측정하는 지표입니다. 정규분포 대비 꼬리 부분의 두꺼움을 나타냅니다.
 
@@ -126,37 +64,15 @@ plt.show()
 **코드 예시**:
 
 ```python
-# 첨도 계산 (scipy.stats는 초과 첨도를 반환)
+# 왜도 계산
+skewness = stats.skew(data)
+print(f"왜도: {skewness}")  # 왜도: 0.11262749661320474
+
 kurtosis = stats.kurtosis(data)
 print(f"초과 첨도: {kurtosis}")  # 초과 첨도: -0.9804899212734136
-print(f"첨도: {kurtosis + 3}")  # 첨도: 2.0195100787265864
-
-# pandas 사용
-print(f"pandas 초과 첨도: {df['값'].kurtosis()}")  # pandas 초과 첨도: -0.9804899212734136
-
-# 다양한 첨도 시각화
-fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-# 높은 첨도 (뾰족한 분포)
-high_kurtosis = np.random.normal(size=1000) * 0.5 + np.random.laplace(size=1000) * 0.5
-axes[0].hist(high_kurtosis, bins=30)
-axes[0].set_title(f'높은 첨도: {stats.kurtosis(high_kurtosis) + 3:.2f}')
-
-# 정규분포 (첨도 = 3)
-normal_dist = np.random.normal(size=1000)
-axes[1].hist(normal_dist, bins=30)
-axes[1].set_title(f'정규분포 (첨도 = 3): {stats.kurtosis(normal_dist) + 3:.2f}')
-
-# 낮은 첨도 (완만한 분포)
-low_kurtosis = np.random.uniform(size=1000)
-axes[2].hist(low_kurtosis, bins=30)
-axes[2].set_title(f'낮은 첨도: {stats.kurtosis(low_kurtosis) + 3:.2f}')
-
-plt.tight_layout()
-plt.show()
 ```
 
-## 5. 분위수 (Quantiles)
+#### 분위수 (Quantiles)
 
 **정의**: 데이터를 크기 순서대로 나열했을 때 특정 비율에 해당하는 값입니다.
 
@@ -178,31 +94,14 @@ q3 = np.percentile(data, 75)  # 3사분위수 (75%)
 print(f"1사분위수(Q1): {q1}")  # 1사분위수(Q1): 3.0
 print(f"2사분위수(Q2): {q2}")  # 2사분위수(Q2): 5.0
 print(f"3사분위수(Q3): {q3}")  # 3사분위수(Q3): 8.0
-
-# pandas 사용
-quantiles = df['값'].quantile([0.25, 0.5, 0.75])
-print("pandas 분위수:")
-print(quantiles)
-
-# 여러 분위수 한번에 계산
-deciles = np.percentile(data, np.arange(0, 101, 10))
-print(f"십분위수(Deciles): {deciles}")
-
-# 분위수 시각화 (박스플롯)
-plt.figure(figsize=(8, 6))
-plt.boxplot(data)
-plt.title('데이터의 분위수 표현 (박스플롯)')
-plt.grid(True)
-plt.show()
 ```
 
-## 6. 분산 (Variance)
+#### 분산 (Variance) & 표준편차 (Standard Deviation)
 
 **정의**: 데이터가 평균으로부터 퍼져 있는 정도를 측정합니다. 각 값과 평균의 차이를 제곱한 값들의 평균입니다.
 
-**수식**: $\sigma^2 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n}$ (모분산) $s^2 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}$ (표본분산)
-
-**특징**: 제곱을 취하기 때문에 원래 데이터와 단위가 다릅니다.
+**분산 수식**: $\sigma^2 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n}$ (모분산) $s^2 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}$ (표본분산)
+**표준편차 수식**: $\sigma = \sqrt{\sigma^2}$ (모표준편차) $s = \sqrt{s^2}$ (표본표준편차)
 
 **코드 예시**:
 
@@ -215,19 +114,6 @@ print(f"표본 분산: {variance}")  # 표본 분산: 6.622222222222222
 pop_variance = np.var(data, ddof=0)  # ddof=0: 자유도 0 (n으로 나눔)
 print(f"모 분산: {pop_variance}")  # 모 분산: 5.96
 
-# pandas 사용 (기본적으로 표본 분산 계산)
-print(f"pandas 분산: {df['값'].var()}")  # pandas 분산: 6.622222222222222
-```
-
-## 7. 표준편차 (Standard Deviation)
-
-**정의**: 분산의 제곱근으로, 데이터가 평균으로부터 얼마나 퍼져 있는지를 원래 데이터와 같은 단위로 나타냅니다.
-
-**수식**: $\sigma = \sqrt{\sigma^2}$ (모표준편차) $s = \sqrt{s^2}$ (표본표준편차)
-
-**코드 예시**:
-
-```python
 # 표준편차 계산 (표본 표준편차)
 std_dev = np.std(data, ddof=1)
 print(f"표본 표준편차: {std_dev}")  # 표본 표준편차: 2.5732970374516482
@@ -235,23 +121,9 @@ print(f"표본 표준편차: {std_dev}")  # 표본 표준편차: 2.5732970374516
 # 모표준편차 계산
 pop_std_dev = np.std(data, ddof=0)
 print(f"모 표준편차: {pop_std_dev}")  # 모 표준편차: 2.4413111231467406
-
-# pandas 사용 (기본적으로 표본 표준편차 계산)
-print(f"pandas 표준편차: {df['값'].std()}")  # pandas 표준편차: 2.5732970374516482
-
-# 표준편차 시각화
-plt.figure(figsize=(10, 6))
-plt.bar(range(len(data)), data, alpha=0.7)
-plt.axhline(mean_value, color='r', linestyle='-', label=f'평균: {mean_value}')
-plt.axhline(mean_value + std_dev, color='g', linestyle='--', label=f'평균 + 표준편차: {mean_value + std_dev:.2f}')
-plt.axhline(mean_value - std_dev, color='g', linestyle='--', label=f'평균 - 표준편차: {mean_value - std_dev:.2f}')
-plt.legend()
-plt.title('데이터, 평균, 표준편차 시각화')
-plt.grid(True)
-plt.show()
 ```
 
-## 8. 변동계수 (Coefficient of Variation)
+#### 변동계수 (Coefficient of Variation)
 
 **정의**: 표준편차를 평균으로 나눈 값으로, 상대적인 분산 정도를 측정합니다. 단위가 다른 데이터 간의 산포도 비교에 유용합니다.
 
@@ -282,7 +154,7 @@ print(f"데이터셋1 - 평균: {mean1}, 표준편차: {std1:.2f}, 변동계수:
 print(f"데이터셋2 - 평균: {mean2}, 표준편차: {std2:.2f}, 변동계수: {cv2:.2f}%")
 ```
 
-## 기초통계량의 활용
+#### 기초통계량의 활용
 
 1. **데이터 요약**: 대용량 데이터셋의 특성을 압축적으로 파악할 수 있습니다.
 2. **이상치 감지**: 평균, 중앙값, 표준편차를 통해 잠재적 이상치를 식별할 수 있습니다.
@@ -290,8 +162,8 @@ print(f"데이터셋2 - 평균: {mean2}, 표준편차: {std2:.2f}, 변동계수:
 4. **데이터셋 비교**: 변동계수를 통해 서로 다른 규모의 데이터셋의 산포도를 비교할 수 있습니다.
 5. **통계적 추론**: 표본에서 계산된 통계량을 활용해 모집단에 대한 추론을 할 수 있습니다.
 ---
-# 확률
-## 조건부 확률
+## 확률
+#### 조건부 확률
 
 **정의**: 조건부 확률은 특정 사건 B가 발생했다는 전제 하에서 다른 사건 A가 발생할 확률을 의미합니다. 즉, "B가 주어졌을 때 A의 확률"입니다.
 
@@ -353,9 +225,9 @@ print(f"P(에이스|하트) = {results['P(A|B)']}")
 ```
 
 ---
-# 확률분포 개념
+## 확률분포 개념
 
-## 1. 공분산과 상관계수
+#### 1. 공분산과 상관계수
 
 **정의**:
 
@@ -399,7 +271,7 @@ print(f"상관계수: {corr_xy}")
 - 차원 축소 기법(PCA)의 기초 개념으로 활용될 때
 - 회귀분석에서 변수 선택 시 다중공선성 문제를 확인할 때
 
-## 2. 베르누이 분포
+#### 2. 베르누이 분포
 
 **정의**: 성공 확률이 p인 단 한 번의 시행에서 성공(1) 또는 실패(0)와 같이 두 가지 결과만 가능한 확률분포입니다.
 
@@ -443,7 +315,7 @@ plt.show()
 - 기계학습에서 이진 분류 문제의 확률적 기반으로 사용할 때
 - 베이지안 네트워크에서 이진 노드를 표현할 때
 
-## 3. 이항분포
+#### 3. 이항분포
 
 **정의**: 성공 확률이 p인 독립적인 n번의 베르누이 시행에서 성공 횟수 X의 확률분포입니다.
 
@@ -488,7 +360,7 @@ plt.show()
 - 임상 시험에서 치료 효과 분석 시
 - A/B 테스트에서 전환율(conversion rate) 비교 시
 
-## 4. 음이항분포
+#### 4. 음이항분포
 
 **정의**: 성공 확률이 p인 베르누이 시행에서, r번째 성공을 달성하기 위해 필요한 총 시행 횟수 X의 확률분포입니다.
 
@@ -533,7 +405,7 @@ plt.show()
 - 스포츠 경기에서 특정 수의 득점을 달성하기까지의 시도 횟수 예측 시
 - 의약품 임상시험에서 목표 환자 수 모집에 필요한 시간 예측 시
 
-## 5. 초기하분포
+#### 5. 초기하분포
 
 **정의**: 크기가 N인 유한 모집단에서, M개의 성공과 N-M개의 실패가 있을 때, 크기 n인 비복원 추출 표본에서 얻은 성공 횟수 X의 확률분포입니다.
 
@@ -578,7 +450,7 @@ plt.show()
 - 선거 투표용지 재검표 시 표본 추출 설계 시
 - 생태학에서 표본을 통한 개체 수 추정 시
 
-## 6. 포아송분포
+#### 6. 포아송분포
 
 **정의**: 주어진 시간 또는 공간에서 사건이 발생하는 평균 횟수가 λ일 때, 실제 발생 횟수 X의 확률분포입니다.
 
@@ -624,7 +496,7 @@ plt.show()
 - 네트워크 트래픽 분석 시
 - 보험 및 금융에서 클레임 발생 빈도 모델링 시
 
-## 7. 이산형균일분포
+#### 7. 이산형균일분포
 
 **정의**: 유한한 범위의 정수값들이 모두 같은 확률로 발생하는 확률분포입니다.
 
@@ -668,7 +540,7 @@ plt.show()
 - 동일한 확률을 가진 옵션 중 무작위 선택을 모델링할 때
 - 데이터 샘플링 과정에서 무작위 인덱스 생성 시
 
-## 8. 지수분포
+#### 8. 지수분포
 
 **정의**: 연속적인 시간 또는 공간에서, 사건 발생 간의 대기 시간이나 거리를 모델링하는 연속확률분포입니다.
 
@@ -714,7 +586,7 @@ plt.show()
 - 대기열 이론에서 서비스 시간 모델링 시
 - 신뢰성 공학에서 부품 수명 예측 시
 
-## 9. 정규분포
+#### 9. 정규분포
 
 **정의**: 자연계의 많은 현상에서 관찰되는 종 모양의 확률분포로, 평균 μ와 표준편차 σ에 의해 특징지어집니다.
 
@@ -764,9 +636,9 @@ plt.show()
 - 금융에서 자산 수익률 모델링 시
 - 품질 관리에서 제조 공정 변동 분석 시
 ---
-# 추정
+## 추정
 
-## 1. 점추정 (Point Estimation)
+#### 1. 점추정 (Point Estimation)
 
 **정의**: 표본 데이터를 사용하여 모집단의 미지의 매개변수(모수)에 대한 단일 값을 추정하는 방법입니다.
 
@@ -813,7 +685,7 @@ print(f"모비율 점추정값: {prop_estimate:.4f}")
 - 의약품 임상 시험에서 약효의 크기를 단일값으로 보고해야 할 때
 - 선거 예측에서 특정 후보의 득표율을 추정할 때
 
-## 2. 구간추정 (Interval Estimation)
+#### 2. 구간추정 (Interval Estimation)
 
 **정의**: 모수가 특정 신뢰수준으로 포함될 것으로 예상되는 값의 범위를 추정하는 방법입니다.
 
@@ -854,7 +726,7 @@ print(f"95% 신뢰구간: ({ci_95[0]:.4f}, {ci_95[1]:.4f})")
 - 의학 연구에서 치료 효과의 가능한 범위를 제시할 때
 - 여론 조사 결과 보고 시 오차 범위를 표시해야 할 때
 
-## 3. 모평균에 대한 구간추정 (Confidence Interval for Population Mean)
+#### 3. 모평균에 대한 구간추정 (Confidence Interval for Population Mean)
 
 **정의**: 모집단의 평균 μ를 특정 신뢰수준으로 포함할 것으로 예상되는 구간을 추정하는 방법입니다.
 
@@ -903,7 +775,7 @@ print(f"모평균의 95% 신뢰구간: ({ci_lower:.4f}, {ci_upper:.4f})")
 - 소비자의 제품 평균 만족도 측정 시
 - 공정 관리에서 평균 생산량 예측 시
 
-## 4. 모비율에 대한 구간추정 (Confidence Interval for Population Proportion)
+#### 4. 모비율에 대한 구간추정 (Confidence Interval for Population Proportion)
 
 **정의**: 모집단의 비율 p를 특정 신뢰수준으로 포함할 것으로 예상되는 구간을 추정하는 방법입니다.
 
@@ -947,7 +819,7 @@ print(f"모비율의 95% 신뢰구간: ({ci_lower:.4f}, {ci_upper:.4f})")
 - 품질 관리에서 제품 불량률 추정 시
 - 사회조사에서 특정 의견 지지 비율 파악 시
 
-## 5. 모분산에 대한 구간추정 (Confidence Interval for Population Variance)
+#### 5. 모분산에 대한 구간추정 (Confidence Interval for Population Variance)
 
 **정의**: 모집단의 분산 σ²를 특정 신뢰수준으로 포함할 것으로 예상되는 구간을 추정하는 방법입니다.
 
@@ -992,7 +864,7 @@ print(f"모분산의 95% 신뢰구간: ({var_lower:.4f}, {var_upper:.4f})")
 - 실험 결과의 일관성 분석 시
 - 여러 집단 간 변동성 비교 시
 
-## 6. 표본크기 결정 (Sample Size Determination)
+#### 6. 표본크기 결정 (Sample Size Determination)
 
 **정의**: 원하는 정확도와 신뢰수준을 달성하기 위해 필요한 최소 표본 크기를 결정하는 방법입니다.
 
@@ -1048,9 +920,9 @@ print(f"모비율 추정을 위한 필요 표본 크기: {n_prop}")
 - 품질 검사 샘플링 계획 수립 시
 - 정확도 요구사항과 제한된 자원 사이 균형을 맞출 때
 ---
-# 가설검정
+## 가설검정
 
-## 1. 귀무가설과 대립가설 (Null and Alternative Hypotheses)
+#### 1. 귀무가설과 대립가설 (Null and Alternative Hypotheses)
 
 **정의**:
 
@@ -1103,7 +975,7 @@ print(f"결론: {'귀무가설 기각' if p_value < alpha else '귀무가설 기
 - 마케팅 캠페인의 전환율 향상을 평가할 때 (H₀: 향상 없음, H₁: 향상됨)
 - 두 집단 간 소득 차이를 검증할 때 (H₀: 차이 없음, H₁: 차이 있음)
 
-## 2. 1종오류와 2종오류 (Type I and Type II Errors)
+#### 2. 1종오류와 2종오류 (Type I and Type II Errors)
 
 **정의**:
 
@@ -1124,67 +996,6 @@ print(f"결론: {'귀무가설 기각' if p_value < alpha else '귀무가설 기
 - 표본 크기를 늘리면 두 오류를 모두 줄일 수 있습니다.
 - 실무에서는 상황에 따라 어떤 오류가 더 심각한지 고려하여 적절한 α 값을 선택합니다.
 
-**코드 예시**:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
-
-# 1종오류와 2종오류 시각화
-def plot_error_types(mu0, mu1, sigma, alpha=0.05, n=30):
-    # 표준오차
-    se = sigma / np.sqrt(n)
-    
-    # 임계값 계산
-    critical_value = mu0 + stats.norm.ppf(1-alpha) * se
-    
-    # x 범위 설정
-    x = np.linspace(mu0 - 4*se, mu1 + 4*se, 1000)
-    
-    # 귀무가설과 대립가설 하의 분포
-    y_h0 = stats.norm.pdf(x, mu0, se)
-    y_h1 = stats.norm.pdf(x, mu1, se)
-    
-    # 그래프 그리기
-    plt.figure(figsize=(10, 6))
-    
-    # 분포 곡선
-    plt.plot(x, y_h0, 'b-', label='H₀ 분포 (μ='+str(mu0)+')')
-    plt.plot(x, y_h1, 'r-', label='H₁ 분포 (μ='+str(mu1)+')')
-    
-    # 임계값 표시
-    plt.axvline(critical_value, color='k', linestyle='--', label='임계값')
-    
-    # 오류 영역 표시
-    # 1종오류 (α)
-    x_alpha = np.linspace(critical_value, mu0 + 4*se, 100)
-    plt.fill_between(x_alpha, 0, stats.norm.pdf(x_alpha, mu0, se), color='blue', alpha=0.3, label='1종오류(α)')
-    
-    # 2종오류 (β)
-    x_beta = np.linspace(mu1 - 4*se, critical_value, 100)
-    plt.fill_between(x_beta, 0, stats.norm.pdf(x_beta, mu1, se), color='red', alpha=0.3, label='2종오류(β)')
-    
-    plt.title('1종오류(α)와 2종오류(β) 시각화')
-    plt.xlabel('표본평균')
-    plt.ylabel('확률밀도')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    
-    # 계산된 1종오류와 2종오류 확률
-    alpha_actual = 1 - stats.norm.cdf(critical_value, mu0, se)
-    beta_actual = stats.norm.cdf(critical_value, mu1, se)
-    
-    print(f"1종오류(α) 확률: {alpha_actual:.4f}")
-    print(f"2종오류(β) 확률: {beta_actual:.4f}")
-    print(f"검정력(1-β): {1-beta_actual:.4f}")
-    
-    plt.show()
-
-# 예시: H₀: μ=100 vs H₁: μ=103, σ=5
-plot_error_types(mu0=100, mu1=103, sigma=5)
-```
-
 **개념의 활용**:
 
 - 제약회사의 신약 개발 과정에서 효과가 없는 약을 효과적이라고 잘못 판단하는 위험(1종오류)과 효과적인 약을 효과가 없다고 잘못 판단하는 위험(2종오류) 사이의 균형을 맞출 때
@@ -1193,7 +1004,7 @@ plot_error_types(mu0=100, mu1=103, sigma=5)
 - 범죄 수사에서 무죄인 사람을 유죄로 판단하는 오류(1종오류)와 유죄인 사람을 무죄로 판단하는 오류(2종오류) 중 어느 오류를 더 엄격히 제한할지 결정할 때
 - A/B 테스트에서 효과가 없는 변경을 효과적이라고 잘못 판단하는 위험(1종오류)과 효과적인 변경을 효과가 없다고 잘못 판단하는 위험(2종오류) 사이의 균형을 맞출 때
 
-## 3. 대립가설의 형태에 따른 기각역 (Rejection Region Based on Alternative Hypothesis Form)
+#### 3. 대립가설의 형태에 따른 기각역 
 
 **정의**: 귀무가설을 기각하게 되는 검정통계량의 값 영역으로, 대립가설의 형태(양측, 우측, 좌측)에 따라 결정됩니다.
 
@@ -1255,45 +1066,6 @@ for alt in ['two-sided', 'greater', 'less']:
     print(f"t-통계량: {results[alt]['t_stat']:.4f}")
     print(f"p-값: {results[alt]['p_value']:.4f}")
     print(f"결론: 귀무가설 {results[alt]['conclusion']}")
-
-# t-분포와 기각역 시각화
-def plot_rejection_region(df, alpha=0.05, alternative='two-sided'):
-    x = np.linspace(-4, 4, 1000)
-    y = stats.t.pdf(x, df)
-    
-    plt.figure(figsize=(10, 6))
-    plt.plot(x, y, 'b-', label='t-분포(df={})'.format(df))
-    
-    if alternative == 'two-sided':
-        # 양측검정 기각역
-        t_crit = stats.t.ppf(1-alpha/2, df)
-        plt.fill_between(x[x >= t_crit], 0, stats.t.pdf(x[x >= t_crit], df), color='r', alpha=0.3)
-        plt.fill_between(x[x <= -t_crit], 0, stats.t.pdf(x[x <= -t_crit], df), color='r', alpha=0.3)
-        plt.axvline(t_crit, color='r', linestyle='--', label='임계값 ±{:.4f}'.format(t_crit))
-        plt.axvline(-t_crit, color='r', linestyle='--')
-        
-    elif alternative == 'greater':
-        # 우측검정 기각역
-        t_crit = stats.t.ppf(1-alpha, df)
-        plt.fill_between(x[x >= t_crit], 0, stats.t.pdf(x[x >= t_crit], df), color='r', alpha=0.3)
-        plt.axvline(t_crit, color='r', linestyle='--', label='임계값 {:.4f}'.format(t_crit))
-        
-    else:  # 'less'
-        # 좌측검정 기각역
-        t_crit = stats.t.ppf(alpha, df)
-        plt.fill_between(x[x <= t_crit], 0, stats.t.pdf(x[x <= t_crit], df), color='r', alpha=0.3)
-        plt.axvline(t_crit, color='r', linestyle='--', label='임계값 {:.4f}'.format(t_crit))
-    
-    plt.title('대립가설 형태: {} (α={})'.format(alternative, alpha))
-    plt.xlabel('t-통계량')
-    plt.ylabel('확률밀도')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.show()
-
-# 세 가지 대립가설에 대한 기각역 시각화
-for alt in ['two-sided', 'greater', 'less']:
-    plot_rejection_region(df=len(data)-1, alternative=alt)
 ```
 
 **개념의 활용**:
@@ -1304,7 +1076,7 @@ for alt in ['two-sided', 'greater', 'less']:
 - 두 집단의 평균이 서로 다른지(양측) 비교할 때
 - 마케팅 캠페인이 매출을 증가시키는지(우측) 검증할 때
 
-## 4. 검정력과 유의확률 (Statistical Power and p-value)
+#### 4. 검정력과 유의확률 (Statistical Power and p-value)
 
 **정의**:
 
@@ -1353,20 +1125,6 @@ def calculate_power(n, effect_size, alpha=0.05, test_type='two-sided'):
 sample_sizes = np.arange(5, 100, 5)
 effect_sizes = [0.2, 0.5, 0.8]  # 작은, 중간, 큰 효과 크기
 
-plt.figure(figsize=(10, 6))
-
-for es in effect_sizes:
-    powers = [calculate_power(n, es) for n in sample_sizes]
-    plt.plot(sample_sizes, powers, marker='o', label=f'효과 크기 = {es}')
-
-plt.axhline(0.8, color='r', linestyle='--', label='권장 검정력 = 0.8')
-plt.title('표본 크기와 효과 크기에 따른 검정력')
-plt.xlabel('표본 크기 (n)')
-plt.ylabel('검정력 (1-β)')
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.show()
-
 # p-value 예시: 두 집단 간 평균 비교
 np.random.seed(42)
 group1 = np.random.normal(loc=10, scale=2, size=30)
@@ -1388,9 +1146,9 @@ print(f"결론: {'귀무가설 기각 (유의한 차이 있음)' if p_value < 0.
 - 효과 크기가 작을 때 필요한 표본 크기 증가를 정당화할 때
 - 연구 결과의 실질적 중요성을 평가할 때 p-value 외에 효과 크기와 신뢰구간 함께 고려
 
-## 5. 정규성 검정 (Tests for Normality)
+#### 5. 정규성 검정 (Tests for Normality)
 
-### Shapiro-Wilk 검정
+###### Shapiro-Wilk 검정
 
 **정의**: 데이터가 정규분포를 따르는지 검정하는 방법으로, 특히 작은 표본에 효과적입니다.
 
@@ -1445,7 +1203,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-### Kolmogorov-Smirnov 검정
+###### Kolmogorov-Smirnov 검정
 
 **정의**: 실증적 분포 함수와 가정된 분포 함수 사이의 최대 차이를 측정하여 분포의 적합성을 검정하는 방법입니다.
 
