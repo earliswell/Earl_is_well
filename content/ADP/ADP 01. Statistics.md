@@ -1259,5 +1259,551 @@ print(f"카이제곱 독립성 검정: 통계량={chi2_stat:.4f}, p값={p_val:.4
 - 질병과 위험요인의 연관성 평가
 - 여러 집단 간 선호도/반응 패턴 비교
 
+---
+## 1. 상관분석
 
+#### 상관관계 분석
 
+**정의**: 두 연속형 변수 간의 선형적 관계의 강도와 방향을 측정하는 통계적 방법
+
+**수식**:
+
+- 피어슨 상관계수: $r_{xy} = \frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2\sum(y_i-\bar{y})^2}} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y}$
+- 스피어만 순위상관계수: $r_s = 1 - \frac{6\sum d_i^2}{n(n^2-1)}$ (d: 순위 차이)
+
+**특징**:
+
+- 상관계수 범위: -1(완전 음의 상관) ~ 0(무상관) ~ 1(완전 양의 상관)
+- 피어슨 상관계수는 선형 관계만 측정, 비선형 관계는 감지 못함
+- 상관관계는 인과관계를 의미하지 않음
+- 이상치에 민감하여 영향을 많이 받음
+- 두 변수 모두 정규분포 가정 필요(비정규 시 스피어만 사용)
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 데이터 생성
+np.random.seed(42)
+x = np.random.normal(0, 1, 100)
+y = 0.7 * x + np.random.normal(0, 0.5, 100)  # 양의 상관관계
+z = -0.4 * x + np.random.normal(0, 0.8, 100)  # 음의 상관관계
+
+# 피어슨 상관계수
+pearson_xy, p_xy = stats.pearsonr(x, y)
+pearson_xz, p_xz = stats.pearsonr(x, z)
+print(f"X와 Y의 피어슨 상관계수: r = {pearson_xy:.4f}, p-value = {p_xy:.4f}")
+print(f"X와 Z의 피어슨 상관계수: r = {pearson_xz:.4f}, p-value = {p_xz:.4f}")
+
+# 스피어만 순위상관계수
+spearman_xy, p_sxy = stats.spearmanr(x, y)
+spearman_xz, p_sxz = stats.spearmanr(x, z)
+print(f"X와 Y의 스피어만 순위상관계수: r = {spearman_xy:.4f}, p-value = {p_sxy:.4f}")
+print(f"X와 Z의 스피어만 순위상관계수: r = {spearman_xz:.4f}, p-value = {p_sxz:.4f}")
+
+# 상관행렬 계산
+data = pd.DataFrame({'X': x, 'Y': y, 'Z': z})
+correlation_matrix = data.corr()
+print("\n상관행렬(피어슨):")
+print(correlation_matrix)
+
+# 시각화: 산점도 및 상관행렬
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+# 산점도
+sns.scatterplot(x=x, y=y, ax=axes[0])
+axes[0].set_title(f'X vs Y (r = {pearson_xy:.2f})')
+axes[0].set_xlabel('X')
+axes[0].set_ylabel('Y')
+
+# 상관행렬 히트맵
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', ax=axes[1])
+axes[1].set_title('상관행렬 히트맵')
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+
+- 변수 간 관계 강도 파악에 활용
+- 데이터 탐색 분석(EDA)의 기초
+- 변수 선택 시 다중공선성 진단
+- 예측 모델링 전 변수 관계 이해
+- 위험 요인 분석에서 연관성 측정
+
+#### 편 상관관계 분석
+
+**정의**: 다른 변수의 영향을 통제한 후 두 변수 간의 순수한 선형 관계를 측정하는 방법
+
+**수식**:
+
+- X와 Y의 편상관계수(Z 통제): $r_{XY.Z} = \frac{r_{XY} - r_{XZ}r_{YZ}}{\sqrt{(1-r_{XZ}^2)(1-r_{YZ}^2)}}$
+
+**특징**:
+
+- 제3의 변수에 의한 허위상관(spurious correlation) 제거
+- 변수 간 직접적 관계 파악 가능
+- 다중 통제변수 적용 가능
+- 피어슨 상관계수의 확장
+
+**코드 예시**:
+
+```python
+# 편상관관계 분석
+from pingouin import partial_corr
+
+# 데이터 준비
+np.random.seed(42)
+z = np.random.normal(0, 1, 100)  # 통제변수
+x = 0.7*z + np.random.normal(0, 0.3, 100)  # z의 영향을 받음
+y = 0.6*z + np.random.normal(0, 0.3, 100)  # z의 영향을 받음
+
+# 일반 상관계수
+pearson_xy, _ = stats.pearsonr(x, y)
+print(f"X와 Y의 피어슨 상관계수: r = {pearson_xy:.4f}")
+
+# 편상관계수(Z 통제)
+pcorr = partial_corr(data=pd.DataFrame({'x': x, 'y': y, 'z': z}), 
+                     x='x', y='y', covar='z')
+print("\n편상관계수(Z 통제):")
+print(pcorr)
+
+# 복수 변수 통제
+w = np.random.normal(0, 1, 100)  # 추가 통제변수
+x = 0.5*z + 0.3*w + np.random.normal(0, 0.3, 100)
+y = 0.4*z + 0.4*w + np.random.normal(0, 0.3, 100)
+
+pcorr_multi = partial_corr(data=pd.DataFrame({'x': x, 'y': y, 'z': z, 'w': w}), 
+                           x='x', y='y', covar=['z', 'w'])
+print("\n편상관계수(Z, W 통제):")
+print(pcorr_multi)
+```
+
+**개념의 활용**:
+
+- 교란변수(confounding)의 영향 제거
+- 경로분석 및 구조방정식 모델의 기초
+- 직접 효과와 간접 효과 구분
+- 다변량 인과관계 분석에서 활용
+- 변수 간 실제 관계 파악에 필수적
+
+## 2. 회귀분석
+
+#### 단순 선형 회귀
+
+**정의**: 하나의 독립변수(X)와 종속변수(Y) 간의 선형 관계를 모델링하는 통계적 방법
+
+**수식**:
+
+- 모델: $Y = \beta_0 + \beta_1X + \varepsilon$
+- 추정: $\hat{Y} = b_0 + b_1X$
+- 회귀계수 추정: $b_1 = \frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sum(x_i-\bar{x})^2}$, $b_0 = \bar{y} - b_1\bar{x}$
+
+**특징**:
+
+- 독립변수와 종속변수 간의 관계를 직선으로 근사
+- 최소제곱법(OLS)으로 회귀계수 추정
+- $R^2$(결정계수)로 모델 설명력 평가
+- 회귀계수는 X가 한 단위 증가할 때 Y의 평균 변화량
+
+**코드 예시**:
+
+```python
+import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
+
+# 데이터 생성
+np.random.seed(42)
+X = np.random.normal(0, 1, 100)
+Y = 2 + 3*X + np.random.normal(0, 1, 100)  # Y = 2 + 3X + ε
+
+# statsmodels 사용
+X_sm = sm.add_constant(X)  # 상수항 추가
+model = sm.OLS(Y, X_sm).fit()
+print(model.summary())
+
+# 회귀계수 해석
+print(f"절편(b₀) = {model.params[0]:.4f}: X=0일 때 Y의 예측값")
+print(f"기울기(b₁) = {model.params[1]:.4f}: X가 1단위 증가할 때 Y의 평균 변화량")
+
+# 결정계수(R²)
+print(f"결정계수(R²) = {model.rsquared:.4f}: 모델이 설명하는 Y 분산의 비율")
+print(f"조정 결정계수(Adjusted R²) = {model.rsquared_adj:.4f}")
+
+# 예측 및 신뢰구간
+X_new = np.array([0, 1, 2])
+X_new_sm = sm.add_constant(X_new)
+predictions = model.predict(X_new_sm)
+prediction_ci = model.get_prediction(X_new_sm).conf_int(alpha=0.05)
+
+print("\n예측값 및 95% 신뢰구간:")
+for i, x in enumerate(X_new):
+    print(f"X = {x}: 예측값 = {predictions[i]:.4f}, 95% CI = [{prediction_ci[i, 0]:.4f}, {prediction_ci[i, 1]:.4f}]")
+
+# 시각화: 산점도, 회귀선, 신뢰구간
+plt.figure(figsize=(10, 6))
+plt.scatter(X, Y, alpha=0.6)
+plt.plot(X_new, predictions, 'r-', label='회귀선')
+plt.fill_between(X_new, prediction_ci[:, 0], prediction_ci[:, 1], color='r', alpha=0.1, label='95% 신뢰구간')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('단순 선형 회귀')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.7)
+```
+
+**개념의 활용**:
+
+- 변수 간 관계의 방향과 강도 정량화
+- 예측 모델 구축의 기초
+- 비즈니스 의사결정 지원(영향력 파악)
+- 트렌드 분석 및 예측
+- 인과관계 추론의 첫 단계
+
+#### 다중 회귀
+
+**정의**: 여러 독립변수(X₁, X₂, ...)가 종속변수(Y)에 미치는 영향을 동시에 모델링하는 방법
+
+**수식**:
+
+- 모델: $Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + ... + \beta_pX_p + \varepsilon$
+- 행렬 형태: $\mathbf{Y} = \mathbf{X\beta} + \mathbf{\varepsilon}$
+- 추정: $\hat{\mathbf{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$
+
+**특징**:
+
+- 여러 독립변수의 동시 효과 고려
+- 각 회귀계수는 다른 변수의 효과를 통제한 순수 효과
+- 다중공선성 문제 발생 가능
+- 모형 적합도: 결정계수($R^2$), 조정 결정계수, AIC, BIC 등
+- 변수 선택법: 전진, 후진, 단계적 선택법 활용
+
+**코드 예시**:
+
+```python
+# 다중 회귀 분석
+# 데이터 생성
+np.random.seed(42)
+X1 = np.random.normal(0, 1, 100)
+X2 = np.random.normal(0, 1, 100)
+X3 = np.random.normal(0, 1, 100)
+Y = 1 + 2*X1 + 3*X2 - 0.5*X3 + np.random.normal(0, 1, 100)
+
+# 데이터프레임 생성
+df = pd.DataFrame({
+    'X1': X1,
+    'X2': X2,
+    'X3': X3,
+    'Y': Y
+})
+
+# statsmodels 사용
+X = sm.add_constant(df[['X1', 'X2', 'X3']])
+model = sm.OLS(df['Y'], X).fit()
+print(model.summary())
+
+# 회귀계수 해석
+print("\n회귀계수 해석:")
+for i, var in enumerate(['Const', 'X1', 'X2', 'X3']):
+    print(f"{var}: {model.params[i]:.4f} (p={model.pvalues[i]:.4f})")
+
+# 다중공선성 검정
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+vif_data = pd.DataFrame()
+vif_data["Variable"] = X.columns
+vif_data["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+print("\n다중공선성(VIF):")
+print(vif_data)
+
+# 변수 선택 (후진제거법 예시)
+X_all = sm.add_constant(df[['X1', 'X2', 'X3']])
+model_all = sm.OLS(df['Y'], X_all).fit()
+print("\n모든 변수 포함 모델 AIC:", model_all.aic)
+
+# 각 변수 제거 후 AIC 비교
+variables = ['X1', 'X2', 'X3']
+for var in variables:
+    remaining_vars = [v for v in variables if v != var]
+    X_reduced = sm.add_constant(df[remaining_vars])
+    model_reduced = sm.OLS(df['Y'], X_reduced).fit()
+    print(f"{var} 제거 모델 AIC: {model_reduced.aic}")
+```
+
+**개념의 활용**:
+
+- 복잡한 현상의 다양한 영향 요인 분석
+- 예측 모델의 정확도 향상
+- 교란변수 통제를 통한 인과관계 추론
+- 중요 변수 식별 및 변수 선택
+- 비즈니스 의사결정에서 다양한 요인 고려
+
+#### 회귀모형의 기본가정
+
+**정의**: 선형회귀모형의 유효성과 신뢰성을 보장하기 위한 기본 전제조건들
+
+**주요 가정**:
+
+1. 선형성(Linearity): 독립변수와 종속변수 간 선형 관계
+2. 독립성(Independence): 오차항 간 상관관계 없음
+3. 정규성(Normality): 오차항이 정규분포를 따름
+4. 등분산성(Homoscedasticity): 오차항의 분산이 일정
+5. 다중공선성 없음(No Multicollinearity): 독립변수 간 강한 상관관계 없음
+
+**코드 예시**:
+
+```python
+# 회귀모형 가정 검정
+# 모델 적합
+model = sm.OLS(df['Y'], X).fit()
+residuals = model.resid
+fitted_values = model.fittedvalues
+
+# 1. 선형성 & 등분산성 검정: 잔차 대 적합값 산점도
+plt.figure(figsize=(12, 8))
+plt.subplot(2, 2, 1)
+plt.scatter(fitted_values, residuals)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.xlabel('적합값')
+plt.ylabel('잔차')
+plt.title('잔차 vs 적합값')
+
+# 2. 정규성 검정: Q-Q 플롯 & 히스토그램
+plt.subplot(2, 2, 2)
+sm.qqplot(residuals, line='45', fit=True, ax=plt.gca())
+plt.title('잔차의 Q-Q 플롯')
+
+plt.subplot(2, 2, 3)
+plt.hist(residuals, bins=15, alpha=0.7, edgecolor='black')
+plt.xlabel('잔차')
+plt.ylabel('빈도')
+plt.title('잔차 히스토그램')
+
+# 3. 독립성 검정: Durbin-Watson 통계량
+from statsmodels.stats.stattools import durbin_watson
+dw = durbin_watson(residuals)
+print(f"\nDurbin-Watson 통계량: {dw:.4f}")
+print("(값이 2에 가까울수록 자기상관 없음 / 0에 가까우면 양의 자기상관 / 4에 가까우면 음의 자기상관)")
+
+# 4. 다중공선성 검정: VIF (이미 위에서 계산됨)
+
+# 5. 영향점 진단: Cook's Distance
+from statsmodels.stats.outliers_influence import OLSInfluence
+influence = OLSInfluence(model)
+cooks_d = influence.cooks_distance[0]
+
+plt.subplot(2, 2, 4)
+plt.stem(cooks_d, markerfmt=',')
+plt.xlabel('관측치 인덱스')
+plt.ylabel("Cook's Distance")
+plt.title("Cook's Distance 플롯")
+plt.tight_layout()
+
+# 영향점 식별 (일반적인 기준: 4/n)
+threshold = 4/len(df)
+influential_points = np.where(cooks_d > threshold)[0]
+print(f"\n영향점(Cook's D > {threshold:.4f}): {influential_points}")
+```
+
+**특징**:
+
+- 가정 위반 시 회귀계수 추정 및 검정이 편향될 수 있음
+- 가정 위반 정도에 따라 변수 변환, 이상치 처리, 모형 변경 등 대응
+- 실무에서는 완벽한 가정 충족은 어려우나 심각한 위반은 피해야 함
+- 진단을 통해 모형 개선 방향 식별
+
+**개념의 활용**:
+
+- 신뢰할 수 있는 회귀분석 결과 도출
+- 모델 진단 및 개선
+- 예측의 불확실성 평가
+- 모형 타당성 검증
+- 이상치 및 영향점 식별
+
+#### 더미 변수 회귀분석
+
+**정의**: 범주형 독립변수를 수치화하여 회귀모형에 포함시키는 방법
+
+**수식**:
+
+- 기본 모델: $Y = \beta_0 + \beta_1X_1 + ... + \beta_kD_k + \varepsilon$
+- D₁, D₂, ...: 더미변수(0 또는 1의 값)
+- k개 범주 → (k-1)개 더미변수 필요(기준범주 설정)
+
+**특징**:
+
+- 범주형 변수의 각 수준이 종속변수에 미치는 영향 측정
+- 기준범주 대비 다른 범주의 효과 해석
+- 연속형 변수와 함께 모델링 가능
+- 범주 간 차이의 통계적 유의성 검정 가능
+
+**코드 예시**:
+
+```python
+# 더미변수 회귀분석
+# 데이터 생성
+np.random.seed(42)
+X_numeric = np.random.normal(0, 1, 150)
+category = np.random.choice(['A', 'B', 'C'], size=150)
+Y = 10 + 2*X_numeric + np.where(category=='B', 3, 0) + np.where(category=='C', -2, 0) + np.random.normal(0, 2, 150)
+
+# 데이터프레임 생성
+df_dummy = pd.DataFrame({
+    'X': X_numeric,
+    'category': category,
+    'Y': Y
+})
+
+# 범주형 변수 더미 변환 (A를 기준범주로)
+dummies = pd.get_dummies(df_dummy['category'], prefix='category', drop_first=True)
+df_reg = pd.concat([df_dummy[['X', 'Y']], dummies], axis=1)
+
+# 회귀모형 적합
+X_with_dummies = sm.add_constant(df_reg.drop('Y', axis=1))
+dummy_model = sm.OLS(df_reg['Y'], X_with_dummies).fit()
+print(dummy_model.summary())
+
+# 더미변수 해석
+print("\n더미변수 해석:")
+print(f"기준범주(A)의 효과: 절편에 포함됨")
+for var in ['category_B', 'category_C']:
+    print(f"{var}의 계수: {dummy_model.params[var]:.4f} (p={dummy_model.pvalues[var]:.4f})")
+    print(f"- 해석: 다른 변수가 동일할 때, 기준범주(A) 대비 {var.split('_')[1]} 범주의 Y 평균 차이")
+
+# 각 범주별 예측값 계산
+X_new = 0  # X=0 기준
+y_a = dummy_model.params['const'] + dummy_model.params['X'] * X_new
+y_b = y_a + dummy_model.params['category_B']
+y_c = y_a + dummy_model.params['category_C']
+
+print(f"\nX={X_new}일 때 각 범주의 예측값:")
+print(f"범주 A: {y_a:.4f}")
+print(f"범주 B: {y_b:.4f} (A보다 {dummy_model.params['category_B']:.4f} 높음)")
+print(f"범주 C: {y_c:.4f} (A보다 {dummy_model.params['category_C']:.4f} 높음)")
+```
+
+**개념의 활용**:
+
+- 성별, 학력, 지역 등 범주형 변수의 효과 분석
+- 정책, 프로그램, 처치 효과의 정량적 평가
+- A/B 테스트 결과 분석
+- 그룹 간 차이 분석에 활용
+- 계절성 등 시간 효과 모델링
+
+#### 교호작용을 포함한 회귀모형
+
+**정의**: 두 독립변수의 결합 효과가 각 변수의 독립적 효과의 합과 다를 때 이를 모델링하는 방법
+
+**수식**:
+
+- 기본 모델: $Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2) + \varepsilon$
+- β₃: 교호작용(상호작용) 효과
+
+**특징**:
+
+- 한 변수의 효과가 다른 변수의 수준에 따라 달라지는 현상 포착
+- 주효과(main effect)와 교호작용 효과(interaction effect) 구분
+- 비가법성(non-additivity) 모델링
+- 모형의 설명력 향상 가능
+
+**코드 예시**:
+
+```python
+# 교호작용 회귀모형
+# 데이터 생성
+np.random.seed(42)
+X1 = np.random.normal(0, 1, 100)
+X2 = np.random.normal(0, 1, 100)
+Y = 2 + 3*X1 + 2*X2 + 1.5*X1*X2 + np.random.normal(0, 1, 100)  # 교호작용 포함
+
+# 데이터프레임 생성
+df_interact = pd.DataFrame({
+    'X1': X1,
+    'X2': X2,
+    'Y': Y
+})
+
+# 주효과만 있는 모델
+X_main = sm.add_constant(df_interact[['X1', 'X2']])
+main_model = sm.OLS(df_interact['Y'], X_main).fit()
+
+# 교호작용 포함 모델
+df_interact['X1X2'] = df_interact['X1'] * df_interact['X2']  # 교호작용 항 생성
+X_interact = sm.add_constant(df_interact[['X1', 'X2', 'X1X2']])
+interact_model = sm.OLS(df_interact['Y'], X_interact).fit()
+
+print("주효과 모델:")
+print(main_model.summary().tables[1])
+print("\n교호작용 모델:")
+print(interact_model.summary().tables[1])
+
+# 모델 비교
+from statsmodels.stats.anova import anova_lm
+print("\n모델 비교 (ANOVA):")
+print(anova_lm(main_model, interact_model))
+
+# AIC, BIC 비교
+print(f"\n주효과 모델 - AIC: {main_model.aic:.4f}, BIC: {main_model.bic:.4f}")
+print(f"교호작용 모델 - AIC: {interact_model.aic:.4f}, BIC: {interact_model.bic:.4f}")
+
+# 교호작용 시각화
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure(figsize=(12, 5))
+
+# 3D 표면 플롯
+ax1 = fig.add_subplot(121, projection='3d')
+x1_grid, x2_grid = np.meshgrid(np.linspace(X1.min(), X1.max(), 50),
+                              np.linspace(X2.min(), X2.max(), 50))
+z_grid = (interact_model.params[0] + 
+          interact_model.params[1] * x1_grid + 
+          interact_model.params[2] * x2_grid + 
+          interact_model.params[3] * x1_grid * x2_grid)
+
+surf = ax1.plot_surface(x1_grid, x2_grid, z_grid, cmap='viridis', alpha=0.7)
+ax1.scatter(X1, X2, Y, color='red', alpha=0.2)
+ax1.set_xlabel('X1')
+ax1.set_ylabel('X2')
+ax1.set_zlabel('Y')
+ax1.set_title('교호작용 효과 3D 시각화')
+
+# 조건부 효과 플롯
+ax2 = fig.add_subplot(122)
+x1_vals = np.linspace(X1.min(), X1.max(), 100)
+
+# X2가 다양한 값일 때 X1의 효과
+for x2_val in [-1, 0, 1]:
+    y_pred = (interact_model.params[0] + 
+              interact_model.params[1] * x1_vals + 
+              interact_model.params[2] * x2_val + 
+              interact_model.params[3] * x1_vals * x2_val)
+    ax2.plot(x1_vals, y_pred, label=f'X2 = {x2_val}')
+
+ax2.set_xlabel('X1')
+ax2.set_ylabel('Y')
+ax2.set_title('X2 값에 따른 X1의 조건부 효과')
+ax2.legend()
+ax2.grid(True, linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+```
+
+**특징**:
+
+- 교호작용이 있으면 한 변수의 효과가 다른 변수에 따라 달라짐
+- 교호작용 항의 통계적 유의성 검증 중요
+- 연속변수 × 연속변수, 범주변수 × 범주변수, 연속변수 × 범주변수 교호작용 가능
+- 모델 복잡성 증가에 따른 과적합 위험 고려 필요
+
+**개념의 활용**:
+
+- 조건부 효과 분석
+- 복잡한 관계 모델링
+- 조절효과(moderating effect) 분석
+- 특정 상황에서의 효과 예측
+- 상승작용/길항작용 파악
