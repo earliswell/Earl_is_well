@@ -568,6 +568,114 @@ plt.show()
 
 **개념의 활용**: 시계열 데이터 분석, 판매 예측, 주가 분석, 계절성 탐지 등 시간 관련 패턴이 중요한 모든 분석에서 필수적입니다. 특히 날짜/시간 컴포넌트를 추출하여 특성으로 활용함으로써 모델의 예측 성능을 크게 향상시킬 수 있습니다.
 
+# Pandas DateTime과 DateOffset 요약
+
+## 1. DateTime 기본 사용법
+
+날짜와 시간 데이터는 시계열 분석에서 매우 중요합니다. pandas에서는 다양한 방법으로 날짜/시간 데이터를 다룰 수 있습니다:
+
+```python
+import pandas as pd
+import numpy as np
+from datetime import datetime
+
+# 1. 문자열에서 datetime으로 변환
+dates = pd.to_datetime('2021-05-15')                      # 기본 변환
+dates_with_format = pd.to_datetime('15/05/2021', format='%d/%m/%Y')  # 특정 형식 지정
+dates_with_hour = pd.to_datetime('2021-05-15:15', format='%Y-%m-%d:%H')  # 시간 포함
+
+# 2. 시리즈 변환
+date_strings = ['2021-05-15', '2021-06-20', '2021-07-30']
+dates_series = pd.to_datetime(date_strings)
+
+# 3. datetime 속성 접근하기
+print(dates_series.dt.year)    # 연도만 추출: [2021, 2021, 2021]
+print(dates_series.dt.month)   # 월만 추출: [5, 6, 7]
+print(dates_series.dt.day)     # 일만 추출: [15, 20, 30]
+print(dates_series.dt.dayofweek)  # 요일 번호(0=월요일): [5, 6, 4]
+print(dates_series.dt.day_name())  # 요일 이름: ['Saturday', 'Sunday', 'Friday']
+
+# 4. 날짜 범위 생성
+date_range = pd.date_range(start='2021-01-01', end='2021-01-10')  # 기본 일별
+date_range_monthly = pd.date_range(start='2021-01-01', periods=12, freq='M')  # 월별
+date_range_business = pd.date_range(start='2021-01-01', periods=5, freq='B')  # 영업일
+
+# 5. 날짜 연산
+print(dates + pd.Timedelta(days=5))  # 5일 추가: 2021-05-20
+```
+
+## 2. DateOffset 활용하기
+
+DateOffset은 날짜/시간에 대한 더 복잡한 연산과 조정을 가능하게 합니다. Timedelta와 달리 월말, 휴일 등의 캘린더 규칙을 따릅니다:
+
+```python
+# 1. 기본 DateOffset 사용
+dt = pd.Timestamp('2021-05-15')
+print(dt + pd.DateOffset(months=1))    # 1개월 후: 2021-06-15
+print(dt + pd.DateOffset(years=2))     # 2년 후: 2023-05-15
+print(dt + pd.DateOffset(days=10, hours=3))  # 복합 오프셋: 2021-05-25 03:00:00
+
+# 2. 특수 DateOffset (빈도별)
+print(dt + pd.offsets.MonthEnd())      # 해당 월 마지막 날: 2021-05-31
+print(dt + pd.offsets.MonthBegin())    # 다음 월 첫 날: 2021-06-01
+print(dt + pd.offsets.QuarterEnd())    # 해당 분기 마지막 날: 2021-06-30
+print(dt + pd.offsets.BusinessDay(5))  # 5 영업일 후: 2021-05-21
+
+# 3. 월말 조정 예제
+dt_month_end = pd.Timestamp('2021-05-31')
+print(dt_month_end + pd.DateOffset(months=1))  # 1개월 후: 2021-06-30 (월말 유지)
+print(dt + pd.DateOffset(months=1))           # 1개월 후: 2021-06-15 (일자 유지)
+
+# 4. 요일 기반 조정
+print(dt + pd.offsets.Week(weekday=0))  # 다음 월요일: 2021-05-17
+print(dt + pd.offsets.Week(weekday=4))  # 다음 금요일: 2021-05-21
+
+# 5. 휴일 처리 (미국 연방 공휴일 예시)
+from pandas.tseries.holiday import USFederalHolidayCalendar
+cal = USFederalHolidayCalendar()
+holidays = cal.holidays(start='2021-01-01', end='2021-12-31')
+business_day = pd.offsets.CustomBusinessDay(calendar=cal)
+print(dt + business_day)  # 다음 영업일 (공휴일 제외)
+
+# 6. 시계열 데이터 리샘플링
+ts = pd.Series(np.random.randn(100), 
+              index=pd.date_range('2021-01-01', periods=100, freq='D'))
+monthly_data = ts.resample('M').mean()  # 월별 평균
+weekly_data = ts.resample('W').sum()    # 주별 합계
+```
+
+## 3. 실용적인 활용 예제
+
+```python
+# 1. 월별 마지막 영업일 찾기
+business_month_end = pd.offsets.BusinessMonthEnd()
+dt = pd.Timestamp('2021-05-15')
+last_business_day = dt + business_month_end
+print(f"5월 마지막 영업일: {last_business_day}")  # 2021-05-31
+
+# 2. 날짜 차이 계산 (기간)
+start_date = pd.Timestamp('2021-01-01')
+end_date = pd.Timestamp('2021-05-15')
+period = end_date - start_date
+print(f"두 날짜 사이 일수: {period.days}일")  # 134일
+
+# 3. 특정 요일 찾기 (예: 다음 3번째 금요일)
+next_third_friday = dt + pd.offsets.Week(weekday=4) * 3
+print(f"다음 3번째 금요일: {next_third_friday}")  # 2021-06-04
+
+# 4. 월별 데이터 시프트 (이전/이후 비교)
+monthly_data = pd.Series(np.random.randn(12), 
+                        index=pd.date_range('2021-01-31', periods=12, freq='M'))
+previous_month = monthly_data.shift(1)  # 1개월 전 데이터
+growth_rate = (monthly_data / previous_month) - 1  # 월별 성장률 계산
+
+# 5. 특정 날짜가 영업일인지 확인
+is_business_day = pd.Timestamp('2021-05-15').day_name() not in ['Saturday', 'Sunday']
+print(f"영업일 여부: {is_business_day}")  # False (토요일)
+```
+
+DateOffset은 단순한 날짜 연산을 넘어 비즈니스 로직, 재무 분석, 시계열 예측 등 다양한 분야에서 유용하게 활용할 수 있습니다. 특히 월말 처리나 영업일 기반 분석에서 강력한 도구가 됩니다.
+
 # 기타기출 파트 정리
 
 ## 관리도
