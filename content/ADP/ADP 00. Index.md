@@ -40,7 +40,6 @@ longform:
 #### 통계
 
 통계 영역은 ‘데이터 탐색 및 기초 통계 분석’,‘통계적 추론 및 통계 모형 구축’등을 포괄한다.
-
 ##### 데이터 탐색 및 기초 통계 분석
 ###### **유형1 :** 기술통계량 계산 및 시각화
 평균, 중앙값, 분산 표준편차 등의 기술 통계량을 계산하고, 히스토그램, 산점도, 상자그림 등 시각화 기법을 사용하여 데이터의 분포, 이상값, 패턴 등을 시각적으로 표현하는 등의 작업이 포함된다.
@@ -86,18 +85,7 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 1. 머신러닝 (60점, 대문제 2개, 소문제 8~13개)
 2. 통계 (40점, 대문제 3~4개, 소문제 6~8개)
 3. 패키지/라이브러리 외 추가 설치가 가능함 ! 
-4. 주요 패키지 체크 !
-	1. notebook → 주피터 인터페이스 차이가 있음 !
-	2. pandas
-	3. numpy
-	4. scikit-learn
-	5. scipy
-	6. statsmodels
-	7. konlpy
-	8. tensorflow
-	9. torch
-	10. Keras
-5. pip install nbclassic → 
+4. pip install nbclassic 
 
 ### 최근 시험 경향
 - 전처리 비중이 증가 / 난이도 증가
@@ -131,11 +119,6 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 	- t-검정, z-검정, 상관계수검정, 비율검정, 맨-휘트니U검정, 카이제곱검정, 크루스컬윌리스검정, 코크란 Q검정, 사후검정
 - 기타 : NPV, Kaplan Meier(생존분석), 선형계획법
 
-### 머신러닝 통계 개념 대비 (feat. ChatGPT)
-- 공부해야할 카테고리 정리
-- 개념 정리
-- 오픈북에 필요 내용 정리
-	- 정의 및 장단점 및 실사례에 대해서 및 파이썬 코드 세트에 대해서 ~ → 정리를 해서 가져가면 좋음 ! 
 ### 주피터 노트북 사용 요령
 - 프로그래밍을 최대한 빨리 하기 위해서 ~ 
 	- 패키지 자동완성: shift → 가장 중요함!
@@ -168,13 +151,764 @@ df['columns'].str.contains("포함 문자", na=False, case=True)
 pd.crosstab(df['neighbourhood_group'], df['room_type'], normalize='index') * 100
 ```
 
+# ADP 데이터 EDA 필살기: 종합 가이드
+
+## 1. EDA 체크리스트: 데이터 탐색 단계별 접근법
+
+### 1.1 데이터 개요 파악
+
+- [ ] **데이터 크기 및 구조 확인**
+```python
+# 기본 정보 확인
+print(f"데이터 크기: {df.shape}")
+print(f"데이터 메모리 사용량: {df.memory_usage().sum() / 1024**2:.2f} MB")
+
+# 데이터 미리보기
+print("데이터 상위 5행:")
+display(df.head())
+print("\n데이터 하위 5행:")
+display(df.tail())
+
+# 데이터 정보 요약
+df.info()
+```
+
+- [ ] **변수 유형 식별**
+```python
+# 데이터 타입 확인
+print(df.dtypes)
+
+# 데이터 타입별 변수 수
+print(df.dtypes.value_counts())
+
+# 범주형/수치형 변수 분리
+numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+categorical_cols = df.select_dtypes(include=['object', 'category', 'bool']).columns.tolist()
+datetime_cols = df.select_dtypes(include=['datetime64']).columns.tolist()
+
+print(f"수치형 변수 ({len(numeric_cols)}): {numeric_cols}")
+print(f"범주형 변수 ({len(categorical_cols)}): {categorical_cols}")
+print(f"시간 변수 ({len(datetime_cols)}): {datetime_cols}")
+```
+
+### 1.2 데이터 품질 검사
+
+- [ ] **결측치 분석**
+```python
+# 전체 결측치 확인
+print("결측치 개수:")
+print(df.isnull().sum())
+
+# 결측치 비율
+print("\n결측치 비율(%):")
+print(df.isnull().mean() * 100)
+
+# 결측치 패턴 시각화
+import missingno as msno
+msno.matrix(df)
+msno.heatmap(df)  # 결측치 간 상관관계
+```
+
+- [ ] **중복 데이터 확인**
+```python
+# 전체 중복 행 확인
+print(f"중복 행 수: {df.duplicated().sum()}")
+
+# 특정 열 기준 중복 확인
+print(f"특정 열 기준 중복 행 수: {df.duplicated(subset=['col1', 'col2']).sum()}")
+
+# 중복 행 예시
+duplicates = df[df.duplicated(keep='last')]
+print(f"중복 행 예시:\n{duplicates.head()}")
+```
+
+- [ ] **이상치 탐지**
+```python
+# 기술통계량 확인
+print(df.describe(include='all'))
+
+# Z-점수 이상치 탐지
+from scipy import stats
+z_scores = stats.zscore(df[numeric_cols])
+abs_z_scores = np.abs(z_scores)
+outliers_z = (abs_z_scores > 3).any(axis=1)
+print(f"Z-점수 기준 이상치 수: {outliers_z.sum()}")
+
+# IQR 이상치 탐지
+def detect_outliers_iqr(df, col):
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    outliers = df[(df[col] < lower_bound) | (df[col] > upper_bound)]
+    return outliers
+
+# 각 수치형 변수별 이상치 확인
+for col in numeric_cols:
+    outliers = detect_outliers_iqr(df, col)
+    print(f"{col}: {len(outliers)} 이상치 탐지됨")
+```
+
+### 1.3 기술 통계 분석
+
+- [ ] **수치형 데이터 분석**
+```python
+# 기본 통계량
+print(df[numeric_cols].describe())
+
+# 추가 통계량
+additional_stats = pd.DataFrame({
+    'Skewness': df[numeric_cols].skew(),
+    'Kurtosis': df[numeric_cols].kurtosis(),
+    'Median': df[numeric_cols].median(),
+    'IQR': df[numeric_cols].quantile(0.75) - df[numeric_cols].quantile(0.25),
+    'CV(%)': (df[numeric_cols].std() / df[numeric_cols].mean() * 100)
+})
+print(additional_stats)
+```
+
+- [ ] **범주형 데이터 분석**
+```python
+# 범주별 빈도수
+for col in categorical_cols:
+    print(f"\n{col} 빈도 분석:")
+    value_counts = df[col].value_counts()
+    print(value_counts)
+    print(f"고유값 수: {df[col].nunique()}")
+    
+    # 범주별 비율
+    print(f"{col} 비율(%):")
+    print(df[col].value_counts(normalize=True) * 100)
+```
+
+- [ ] **시간 데이터 분석** (해당 시)
+```python
+# 시간 범위 확인
+for col in datetime_cols:
+    print(f"\n{col} 시간 범위:")
+    print(f"시작: {df[col].min()}")
+    print(f"종료: {df[col].max()}")
+    print(f"기간: {df[col].max() - df[col].min()}")
+    
+    # 시간 단위별 분포
+    if len(df) > 0:
+        print(f"{col} 연도별 분포:")
+        print(df[col].dt.year.value_counts().sort_index())
+        print(f"{col} 월별 분포:")
+        print(df[col].dt.month.value_counts().sort_index())
+        print(f"{col} 요일별 분포:")
+        print(df[col].dt.dayofweek.value_counts().sort_index())
+```
+
+### 1.4 데이터 관계 분석
+
+- [ ] **상관관계 분석**
+```python
+# 상관계수 행렬
+correlation = df[numeric_cols].corr()
+
+# 높은 상관관계 추출
+high_corr = correlation[abs(correlation) > 0.7]
+high_corr = high_corr[high_corr < 1.0].dropna(how='all').dropna(axis=1, how='all')
+print("높은 상관관계 (|r| > 0.7):")
+print(high_corr)
+```
+
+- [ ] **그룹별 통계 분석**
+```python
+# 범주형 변수별 수치형 변수 통계
+if len(categorical_cols) > 0 and len(numeric_cols) > 0:
+    cat_col = categorical_cols[0]  # 분석할 범주형 변수 선택
+    num_col = numeric_cols[0]      # 분석할 수치형 변수 선택
+    
+    print(f"{cat_col}별 {num_col} 통계:")
+    group_stats = df.groupby(cat_col)[num_col].agg(['count', 'mean', 'std', 'min', 'median', 'max'])
+    print(group_stats)
+    
+    # ANOVA로 그룹 간 차이 검정
+    from scipy import stats
+    groups = [df[df[cat_col] == val][num_col].dropna() for val in df[cat_col].unique()]
+    f_stat, p_value = stats.f_oneway(*groups)
+    print(f"ANOVA 결과: F={f_stat:.4f}, p={p_value:.4f}")
+    print(f"결론: {'그룹 간 유의한 차이가 있음' if p_value < 0.05 else '그룹 간 유의한 차이가 없음'}")
+```
+
+- [ ] **교차 분석** (범주형 변수 간)
+```python
+if len(categorical_cols) >= 2:
+    cat_col1 = categorical_cols[0]
+    cat_col2 = categorical_cols[1]
+    
+    # 교차표
+    cross_tab = pd.crosstab(df[cat_col1], df[cat_col2])
+    print(f"{cat_col1} 와 {cat_col2} 교차표:")
+    print(cross_tab)
+    
+    # 카이제곱 검정
+    from scipy.stats import chi2_contingency
+    chi2, p, dof, expected = chi2_contingency(cross_tab)
+    print(f"카이제곱 검정 결과: chi2={chi2:.4f}, p={p:.4f}")
+    print(f"결론: {'변수 간 연관성이 있음' if p < 0.05 else '변수 간 연관성이 없음'}")
+```
+
+### 1.5 데이터 분포 및 이상치 시각화
+
+- [ ] **수치형 변수 분포**
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 히스토그램 및 커널 밀도 추정
+for col in numeric_cols[:5]:  # 처음 5개 변수만 시각화
+    plt.figure(figsize=(12, 5))
+    
+    # 히스토그램
+    plt.subplot(1, 2, 1)
+    sns.histplot(df[col].dropna(), kde=True)
+    plt.title(f'{col} 히스토그램')
+    
+    # 박스플롯
+    plt.subplot(1, 2, 2)
+    sns.boxplot(x=df[col].dropna())
+    plt.title(f'{col} 박스플롯')
+    
+    plt.tight_layout()
+    plt.show()
+```
+
+- [ ] **수치형 변수 정규성 검정**
+```python
+from scipy import stats
+
+for col in numeric_cols[:5]:
+    # Q-Q 플롯
+    plt.figure(figsize=(10, 4))
+    stats.probplot(df[col].dropna(), dist="norm", plot=plt)
+    plt.title(f'{col} Q-Q Plot')
+    plt.tight_layout()
+    plt.show()
+    
+    # Shapiro-Wilk 정규성 검정
+    sample = df[col].dropna().sample(min(5000, len(df[col].dropna()))).values  # 최대 5000개 샘플링
+    stat, p = stats.shapiro(sample)
+    print(f"{col} Shapiro-Wilk 검정: 통계량={stat:.4f}, p={p:.4f}")
+    print(f"결론: {'정규 분포를 따르지 않음' if p < 0.05 else '정규 분포를 따름'}")
+```
+
+## 2. Pandas와 Numpy 콜라보: 데이터 조작 필살기
+
+### 2.1 데이터 전처리 핵심 기술
+
+- **결측치 처리**
+```python
+# 결측치 삭제
+df_dropped = df.dropna(subset=['중요_변수'])  # 특정 열 기준
+df_dropped_all = df.dropna()  # 모든 열 기준
+
+# 결측치 대체
+df['수치_변수'] = df['수치_변수'].fillna(df['수치_변수'].mean())  # 평균으로 대체
+df['수치_변수'] = df['수치_변수'].fillna(df['수치_변수'].median())  # 중앙값으로 대체
+df['범주_변수'] = df['범주_변수'].fillna(df['범주_변수'].mode()[0])  # 최빈값으로 대체
+
+# 그룹별 결측치 대체
+df['수치_변수'] = df['수치_변수'].fillna(df.groupby('그룹_변수')['수치_변수'].transform('mean'))
+
+# 보간법을 이용한 결측치 대체(시계열 데이터)
+df['시계열_변수'] = df['시계열_변수'].interpolate(method='linear')
+```
+
+- **이상치 처리**
+```python
+# IQR 방식으로 이상치 제거
+def remove_outliers_iqr(df, col):
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+
+# 이상치 상하한 설정(capping)
+def cap_outliers(df, col):
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    df[col] = np.where(df[col] < lower_bound, lower_bound, df[col])
+    df[col] = np.where(df[col] > upper_bound, upper_bound, df[col])
+    return df
+
+# Z-점수 방식으로 이상치 제거
+def remove_outliers_zscore(df, col, threshold=3):
+    z_scores = np.abs(stats.zscore(df[col]))
+    return df[z_scores < threshold]
+```
+
+- **데이터 변환**
+```python
+# 로그 변환(양의 왜도 개선)
+df['log_변수'] = np.log1p(df['변수'])  # log(1+x) 변환
+
+# 제곱근 변환
+df['sqrt_변수'] = np.sqrt(df['변수'])
+
+# 박스-콕스 변환
+from scipy import stats
+df['boxcox_변수'], lambda_value = stats.boxcox(df['양수_변수'])
+
+# 표준화(Z-점수)
+df['표준화_변수'] = (df['변수'] - df['변수'].mean()) / df['변수'].std()
+
+# 정규화(Min-Max)
+df['정규화_변수'] = (df['변수'] - df['변수'].min()) / (df['변수'].max() - df['변수'].min())
+```
+
+- **범주형 변수 인코딩**
+```python
+# One-Hot 인코딩
+df_encoded = pd.get_dummies(df, columns=['범주_변수'], drop_first=True)  # 첫 범주 제외
+
+# Label 인코딩
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['인코딩_변수'] = le.fit_transform(df['범주_변수'])
+
+# Ordinal 인코딩(순서가 있는 범주)
+order_mapping = {'낮음': 0, '중간': 1, '높음': 2}
+df['순서_변수'] = df['범주_변수'].map(order_mapping)
+
+# Target 인코딩
+target_mean = df.groupby('범주_변수')['타겟'].mean()
+df['타겟인코딩_변수'] = df['범주_변수'].map(target_mean)
+```
+
+### 2.2 고급 데이터 변환 및 집계 기술
+
+- **데이터 피벗 및 재구성**
+```python
+# 피벗 테이블 생성
+pivot_table = df.pivot_table(
+    values='측정값',
+    index='행_변수',
+    columns='열_변수',
+    aggfunc='mean',
+    fill_value=0
+)
+
+# Long to Wide 포맷 변환
+wide_df = df.pivot(index='ID', columns='변수명', values='값')
+
+# Wide to Long 포맷 변환
+long_df = pd.melt(
+    wide_df,
+    id_vars=['ID'],
+    value_vars=['변수1', '변수2', '변수3'],
+    var_name='변수명',
+    value_name='값'
+)
+```
+
+- **그룹별 복잡한 집계**
+```python
+# 다중 집계 함수
+agg_result = df.groupby('그룹_변수').agg({
+    '수치_변수1': ['min', 'max', 'mean', 'median'],
+    '수치_변수2': ['mean', 'std', lambda x: x.quantile(0.75) - x.quantile(0.25)]
+})
+
+# 사용자 정의 집계 함수
+def range_ratio(x):
+    return (x.max() - x.min()) / x.mean() if x.mean() != 0 else np.nan
+
+custom_agg = df.groupby('그룹_변수')['수치_변수'].agg([
+    ('평균', 'mean'),
+    ('중앙값', 'median'),
+    ('범위_비율', range_ratio)
+])
+
+# 변환 함수와 함께 사용
+transformed = df.groupby('그룹_변수').transform(lambda x: (x - x.mean()) / x.std())
+```
+
+- **창 함수와 이동 통계량**
+```python
+# 이동 평균
+df['MA_7'] = df['시계열_변수'].rolling(window=7).mean()
+
+# 이동 표준편차
+df['MA_STD_7'] = df['시계열_변수'].rolling(window=7).std()
+
+# 누적 합계
+df['CUMSUM'] = df['변수'].cumsum()
+
+# 확장 창 함수
+df['EXP_AVG'] = df['변수'].ewm(span=7).mean()  # 지수 가중 이동 평균
+
+# Shift를 이용한 지연 변수 생성
+df['LAG_1'] = df['변수'].shift(1)  # 1기 이전 값
+df['LEAD_1'] = df['변수'].shift(-1)  # 1기 이후 값
+
+# 순위 및 백분위
+df['RANK'] = df['변수'].rank(method='average')
+df['PCTILE'] = df['변수'].rank(pct=True)
+```
+
+### 2.3 Numpy와 Pandas 최적 조합
+
+- **벡터화 연산으로 속도 향상**
+```python
+# 반복문 대신 벡터화 연산 사용
+# 느린 방법
+result = []
+for i in range(len(df['변수1'])):
+    result.append(df['변수1'].iloc[i] * df['변수2'].iloc[i])
+
+# 빠른 방법
+result = df['변수1'] * df['변수2']
+
+# Numpy 유니버설 함수 활용
+df['log_ratio'] = np.log(df['변수1'] / df['변수2'])
+df['복합_변수'] = np.where(df['조건_변수'] > 0, np.sqrt(df['변수']), df['변수']**2)
+```
+
+- **고급 인덱싱 및 필터링**
+
+```python
+# Boolean 인덱싱
+mask = (df['변수1'] > 10) & (df['변수2'] < 100)
+filtered_df = df.loc[mask]
+
+# iloc와 loc 조합
+subset = df.loc[df['변수'] > 0, ['변수1', '변수2']]
+
+# isin을 이용한 필터링
+categories_of_interest = ['A', 'C', 'E']
+filtered_by_category = df[df['범주_변수'].isin(categories_of_interest)]
+
+# query 메서드 사용
+filtered_by_query = df.query('변수1 > 10 and 변수2 < 100')
+
+# np.select를 이용한 조건부 값 할당
+conditions = [
+    df['변수'] < 0,
+    (df['변수'] >= 0) & (df['변수'] < 50),
+    df['변수'] >= 50
+]
+choices = ['낮음', '중간', '높음']
+df['등급'] = np.select(conditions, choices, default='알 수 없음')
+```
+
+## 3. 시각화: matplotlib 및 seaborn 기초 코드
+
+### 3.1 단변량 분석 시각화
+
+- **수치형 변수 분포**
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 기본 설정
+plt.style.use('seaborn-whitegrid')
+plt.rcParams['figure.figsize'] = (10, 6)
+plt.rcParams['font.size'] = 12
+
+# 히스토그램
+plt.figure()
+sns.histplot(df['수치_변수'], kde=True, bins=30)
+plt.title('히스토그램 및 분포')
+plt.xlabel('값')
+plt.ylabel('빈도')
+plt.show()
+
+# 박스플롯
+plt.figure()
+sns.boxplot(y=df['수치_변수'])
+plt.title('박스플롯')
+plt.ylabel('값')
+plt.show()
+
+# 바이올린 플롯
+plt.figure()
+sns.violinplot(y=df['수치_변수'])
+plt.title('바이올린 플롯')
+plt.ylabel('값')
+plt.show()
+
+# ECDF(경험적 누적 분포 함수)
+plt.figure()
+sns.ecdfplot(df['수치_변수'])
+plt.title('ECDF 플롯')
+plt.xlabel('값')
+plt.ylabel('비율')
+plt.show()
+```
+
+- **범주형 변수 분포**
+```python
+# 막대 그래프
+plt.figure()
+sns.countplot(y=df['범주_변수'], order=df['범주_변수'].value_counts().index)
+plt.title('범주별 빈도')
+plt.xlabel('빈도')
+plt.ylabel('범주')
+plt.show()
+
+# 원 그래프
+plt.figure()
+df['범주_변수'].value_counts().plot.pie(autopct='%1.1f%%')
+plt.title('범주별 비율')
+plt.ylabel('')
+plt.show()
+```
+
+### 3.2 이변량 분석 시각화
+
+- **수치형 vs 수치형**
+```python
+# 산점도
+plt.figure()
+sns.scatterplot(x='수치_변수1', y='수치_변수2', data=df, alpha=0.7)
+plt.title('산점도')
+plt.xlabel('변수1')
+plt.ylabel('변수2')
+plt.show()
+
+# 산점도 + 회귀선
+plt.figure()
+sns.regplot(x='수치_변수1', y='수치_변수2', data=df)
+plt.title('산점도 및 회귀선')
+plt.xlabel('변수1')
+plt.ylabel('변수2')
+plt.show()
+
+# 육각 빈 플롯(대용량 데이터)
+plt.figure()
+plt.hexbin(df['수치_변수1'], df['수치_변수2'], gridsize=20, cmap='Blues')
+plt.colorbar(label='빈도')
+plt.title('육각 빈 플롯')
+plt.xlabel('변수1')
+plt.ylabel('변수2')
+plt.show()
+
+# 상관 히트맵
+plt.figure(figsize=(10, 8))
+correlation = df[numeric_cols].corr()
+mask = np.triu(correlation)
+sns.heatmap(correlation, annot=True, cmap='coolwarm', vmin=-1, vmax=1, 
+            mask=mask, fmt='.2f', linewidths=0.5)
+plt.title('상관 히트맵')
+plt.tight_layout()
+plt.show()
+```
+
+- **범주형 vs 수치형**
+```python
+# 박스플롯
+plt.figure()
+sns.boxplot(x='범주_변수', y='수치_변수', data=df)
+plt.title('범주별 박스플롯')
+plt.xlabel('범주')
+plt.ylabel('값')
+plt.show()
+
+# 바이올린 플롯
+plt.figure()
+sns.violinplot(x='범주_변수', y='수치_변수', data=df)
+plt.title('범주별 바이올린 플롯')
+plt.xlabel('범주')
+plt.ylabel('값')
+plt.show()
+
+# 스트립 플롯 + 박스플롯
+plt.figure()
+sns.boxplot(x='범주_변수', y='수치_변수', data=df, whis=1.5)
+sns.stripplot(x='범주_변수', y='수치_변수', data=df, 
+              size=4, jitter=True, alpha=0.3, color='black')
+plt.title('박스플롯 + 스트립 플롯')
+plt.xlabel('범주')
+plt.ylabel('값')
+plt.show()
+
+# 막대 그래프(평균 및 오차 막대)
+plt.figure()
+sns.barplot(x='범주_변수', y='수치_변수', data=df, ci=95)
+plt.title('범주별 평균 및 95% 신뢰구간')
+plt.xlabel('범주')
+plt.ylabel('평균 값')
+plt.show()
+```
+
+- **범주형 vs 범주형**
+```python
+# 모자이크 플롯
+from statsmodels.graphics.mosaicplot import mosaic
+plt.figure(figsize=(10, 6))
+mosaic(df, ['범주_변수1', '범주_변수2'])
+plt.title('모자이크 플롯')
+plt.show()
+
+# 히트맵으로 교차표 시각화
+plt.figure()
+cross_tab = pd.crosstab(df['범주_변수1'], df['범주_변수2'])
+sns.heatmap(cross_tab, annot=True, cmap='Blues', fmt='d')
+plt.title('교차표 히트맵')
+plt.xlabel('범주 변수2')
+plt.ylabel('범주 변수1')
+plt.show()
+```
+
+### 3.3 다변량 분석 시각화
+
+- **페어플롯 (변수 쌍 관계)**
+```python
+# 기본 페어플롯
+plt.figure(figsize=(12, 10))
+sns.pairplot(df[numeric_cols[:5]], diag_kind='kde')
+plt.suptitle('수치형 변수간 페어플롯', y=1.02)
+plt.show()
+
+# 범주로 색상 구분
+plt.figure(figsize=(12, 10))
+sns.pairplot(df, vars=numeric_cols[:4], hue='범주_변수')
+plt.suptitle('범주별 페어플롯', y=1.02)
+plt.show()
+```
+
+- **다차원 시각화**
+```python
+# 버블 차트(3개 변수)
+plt.figure(figsize=(10, 8))
+scatter = plt.scatter(df['변수1'], df['변수2'], s=df['변수3']*20, 
+                      c=df['변수3'], alpha=0.6, cmap='viridis')
+plt.colorbar(scatter, label='변수3')
+plt.title('버블 차트')
+plt.xlabel('변수1')
+plt.ylabel('변수2')
+plt.show()
+
+# 범주별 다중 히스토그램
+plt.figure(figsize=(12, 8))
+g = sns.FacetGrid(df, col='범주_변수', col_wrap=3, height=4)
+g.map(sns.histplot, '수치_변수', kde=True)
+g.fig.suptitle('범주별 분포', y=1.02)
+plt.show()
+
+# 3D 산점도
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(df['변수1'], df['변수2'], df['변수3'], alpha=0.6)
+ax.set_xlabel('변수1')
+ax.set_ylabel('변수2')
+ax.set_zlabel('변수3')
+ax.set_title('3D 산점도')
+plt.show()
+```
+
+- **시계열 데이터 시각화**
+```python
+# 시계열 플롯
+plt.figure(figsize=(12, 6))
+plt.plot(df['날짜'], df['값'], marker='o', linestyle='-', markersize=4)
+plt.title('시계열 플롯')
+plt.xlabel('날짜')
+plt.ylabel('값')
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# 다중 시계열 비교
+plt.figure(figsize=(12, 6))
+for category in df['범주'].unique():
+    subset = df[df['범주'] == category]
+    plt.plot(subset['날짜'], subset['값'], marker='o', linestyle='-', 
+             label=category, markersize=4)
+plt.title('범주별 시계열 비교')
+plt.xlabel('날짜')
+plt.ylabel('값')
+plt.grid(True)
+plt.legend()
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# 히트맵으로 시간 패턴 분석
+if '날짜' in df.columns:
+    time_data = df.copy()
+    time_data['year'] = time_data['날짜'].dt.year
+    time_data['month'] = time_data['날짜'].dt.month
+    
+    # 월별-연도별 평균값 히트맵
+    monthly_data = time_data.groupby(['year', 'month'])['값'].mean().unstack()
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(monthly_data, cmap='YlGnBu', annot=True, fmt='.1f')
+    plt.title('연-월별 평균값')
+    plt.xlabel('월')
+    plt.ylabel('연도')
+    plt.show()
+```
+
+### 3.4 고급 시각화 팁
+
+- **서브플롯 활용**
+```python
+# 다중 서브플롯
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# 왼쪽 위: 히스토그램
+sns.histplot(df['수치_변수1'], kde=True, ax=axes[0, 0])
+axes[0, 0].set_title('변수1 분포')
+
+# 오른쪽 위: 산점도
+sns.scatterplot(x='수치_변수1', y='수치_변수2', data=df, ax=axes[0, 1])
+axes[0, 1].set_title('변수1 vs 변수2')
+
+# 왼쪽 아래: 박스플롯
+sns.boxplot(x='범주_변수', y='수치_변수1', data=df, ax=axes[1, 0])
+axes[1, 0].set_title('범주별 변수1 분포')
+
+# 오른쪽 아래: 바 차트
+sns.barplot(x='범주_변수', y='수치_변수1', data=df, ax=axes[1, 1])
+axes[1, 1].set_title('범주별 변수1 평균')
+
+plt.tight_layout()
+plt.suptitle('다중 시각화 대시보드', fontsize=16, y=1.02)
+plt.show()
+```
+
+- **스타일 및 테마 적용**
+```python
+# 시본 테마 적용
+sns.set_theme(style="whitegrid", palette="pastel")
+
+# 맷플롯립 스타일 적용
+plt.style.use('ggplot')  # or 'fivethirtyeight', 'seaborn-whitegrid', etc.
+
+# 폰트 및 글자 크기 설정
+plt.rcParams.update({
+    'font.size': 12,
+    'axes.titlesize': 16,
+    'axes.labelsize': 14,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 12
+})
+
+# 그래프 배경 및 그리드 설정
+plt.figure(figsize=(10, 6))
+ax = plt.gca()
+ax.set_facecolor('#f5f5f5')
+plt.grid(True, linestyle='--', alpha=0.7)
+```
 
 ## 1. 머신러닝 분석 흐름도: 문제 접근 방법
 
 ### 1.1 문제 유형 파악과 분석 방향 설정
 
 **문제 키워드에 따른 접근법:**
-
 - "예측하라/분류하라" → 지도학습 (회귀/분류)
 - "그룹을 나누어라" → 군집화(클러스터링)
 - "차원을 축소하라" → 차원 축소(PCA 등)
@@ -183,7 +917,6 @@ pd.crosstab(df['neighbourhood_group'], df['room_type'], normalize='index') * 100
 - "최적의 모델을 선택하라" → 모델 평가 및 선택
 
 **데이터 특성에 따른 분석 방법:**
-
 - 레이블 있음 → 지도학습
 - 레이블 없음 → 비지도학습
 - 범주형 타겟 → 분류 문제
@@ -192,7 +925,6 @@ pd.crosstab(df['neighbourhood_group'], df['room_type'], normalize='index') * 100
 - 불균형 데이터 → 리샘플링 후 분석
 
 ### 1.2 분석 단계별 핵심 질문
-
 1. **데이터 이해 단계**
     - 데이터 크기와 형태는? (행, 열 수)
     - 변수 유형은? (범주형/연속형)
