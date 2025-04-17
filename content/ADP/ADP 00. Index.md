@@ -157,6 +157,14 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 
 ## 전처리 문제 중에서 알면 좋은 것들 
 - "문자열" 포함 
+	- na=False → 결측치 제외
+	- case=True → 대소문자 구분
 ```python
-df['columns'].str.contains("포함 문자", )
+# 문자열 포함
+df['columns'].str.contains("포함 문자", na=False, case=True)
+
+
+# 두 컬럼의 교차 되는 비율 구하기
+pd.crosstab(df['neighbourhood_group'], df['room_type'], normalize='index') * 100
 ```
+- 
