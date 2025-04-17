@@ -327,253 +327,72 @@ if len(df.select_dtypes(include=['int64', 'float64']).columns) > 2:
     - [ ] 이상치 처리 전략
     - [ ] 스케일링/인코딩 필요성
 
-# 시각화 필살기
-
-## 1. 향상된 단변량 시각화
-
-### 바이올린 플롯: 분포 형태와 통계량 동시 표현
-
+## 통계 기본 가정
 ```python
-# 수치형 변수의 분포를 더 자세히 보여주는 바이올린 플롯
-plt.figure(figsize=(12, 6))
-for i, col in enumerate(df.select_dtypes(include=['float64', 'int64']).columns[:5]):
-    plt.subplot(1, 5, i+1)
-    sns.violinplot(y=df[col])
-    plt.title(f'{col}')
-plt.tight_layout()
-plt.show()
-```
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-### ECDF(경험적 누적 분포 함수): 데이터 분포 완전히 표현
+# 모델 적합 (X는 독립변수들의 DataFrame, y는 종속변수)
+X_with_const = sm.add_constant(X)
+model = sm.OLS(y, X_with_const).fit()
+print(model.summary())
 
-```python
-# ECDF로 분포 분석
+# 1. 선형성 & 등분산성 확인 - 잔차 플롯
 plt.figure(figsize=(10, 6))
-for col in df.select_dtypes(include=['float64', 'int64']).columns[:3]:
-    sns.ecdfplot(data=df, x=col, label=col)
-plt.legend()
-plt.title('Empirical Cumulative Distribution')
-plt.grid(True, alpha=0.3)
+plt.scatter(model.fittedvalues, model.resid)
+plt.axhline(y=0, color='r', linestyle='--')
+plt.xlabel('예측값')
+plt.ylabel('잔차')
+plt.title('잔차 vs 예측값 (선형성 & 등분산성 확인)')
 plt.show()
-```
 
-## 2. 향상된 이변량 시각화
-
-### 육각형 빈 플롯: 대용량 데이터의 산점도 개선
-
-```python
-# 대용량 데이터에서 산점도보다 효과적인 육각형 빈 플롯
-plt.figure(figsize=(10, 8))
-sns.jointplot(
-    x=df.select_dtypes(include=['float64']).columns[0],
-    y=df.select_dtypes(include=['float64']).columns[1],
-    data=df,
-    kind='hex',
-    cmap='viridis'
-)
+# 2. 잔차의 정규성 확인
+plt.figure(figsize=(10, 6))
+sns.histplot(model.resid, kde=True)
+plt.title('잔차의 분포 (정규성 확인)')
 plt.show()
+
+# QQ-플롯으로 정규성 추가 확인
+from scipy import stats
+fig, ax = plt.subplots(figsize=(10, 6))
+_, (__, ___, r) = stats.probplot(model.resid, plot=ax, fit=True)
+plt.title('잔차의 QQ 플롯 (정규성 확인)')
+plt.show()
+
+# 3. 다중공선성 확인 (VIF)
+vif_data = pd.DataFrame()
+vif_data["변수"] = X_with_const.columns
+vif_data["VIF"] = [variance_inflation_factor(X_with_const.values, i) 
+                   for i in range(X_with_const.shape[1])]
+print("다중공선성 확인 (VIF 값):")
+print(vif_data)
+print("일반적으로 VIF > 10이면 다중공선성 문제가 있을 수 있습니다.")
+
+# 4. 자기상관성 확인 (시계열 데이터인 경우)
+from statsmodels.stats.stattools import durbin_watson
+dw = durbin_watson(model.resid)
+print(f"더빈-왓슨 통계량: {dw:.4f}")
+print("2에 가까우면 자기상관 없음, 0에 가까우면 양의 자기상관, 4에 가까우면 음의 자기상관")
+
+# 5. 이상치 확인 - 표준화된 잔차
+std_resid = model.get_influence().resid_studentized_internal
+plt.figure(figsize=(10, 6))
+plt.scatter(range(len(std_resid)), std_resid)
+plt.axhline(y=0, color='r', linestyle='--')
+plt.axhline(y=2, color='g', linestyle='--')
+plt.axhline(y=-2, color='g', linestyle='--')
+plt.xlabel('관측치 인덱스')
+plt.ylabel('표준화된 잔차')
+plt.title('이상치 확인 (|표준화된 잔차| > 2 인 경우 확인)')
+plt.show()
+
+# 이상치 관측치 확인
+outliers = np.where(abs(std_resid) > 2)[0]
+if len(outliers) > 0:
+    print(f"이상치로 의심되는 관측치 인덱스: {outliers}")
 ```
 
-### 페어와이즈 비교 플롯 확장
-
-```python
-# 타겟 변수로 색상 구분한 페어플롯
-if 'target' in df.columns:
-    pair_plot = sns.pairplot(
-        df.select_dtypes(include=['float64', 'int64']).join(df['target']), 
-        hue='target',
-        corner=True,  # 중복 제거로 가독성 향상
-        diag_kind='kde',  # 대각선에 커널 밀도 플롯
-        plot_kws={'alpha': 0.6}
-    )
-    pair_plot.fig.suptitle('Pairwise Relationships with Target Variable', y=1.02)
-    plt.show()
-```
-
-## 3. 다변량 시각화 기법
-
-### 평행 좌표 그래프: 다차원 데이터 패턴 찾기
-
-```python
-# 평행 좌표 그래프로 다차원 데이터 패턴 시각화
-from pandas.plotting import parallel_coordinates
-
-# 데이터 샘플링 (대용량 데이터의 경우)
-sample_df = df.sample(min(1000, len(df)))
-
-if 'target' in sample_df.columns:
-    plt.figure(figsize=(12, 6))
-    parallel_coordinates(
-        sample_df.select_dtypes(include=['float64', 'int64']).join(sample_df['target']),
-        'target',
-        colormap='viridis'
-    )
-    plt.title('Parallel Coordinates Plot')
-    plt.grid(False)
-    plt.show()
-```
-
-### 앤드류스 곡선: 다차원 데이터의 패턴 시각화
-
-```python
-# 앤드류스 곡선으로 다차원 데이터 패턴 시각화
-from pandas.plotting import andrews_curves
-
-if 'target' in df.columns:
-    plt.figure(figsize=(12, 6))
-    andrews_curves(
-        df.select_dtypes(include=['float64', 'int64']).join(df['target']).sample(min(200, len(df))),
-        'target',
-        colormap='rainbow'
-    )
-    plt.title('Andrews Curves')
-    plt.show()
-```
-
-## 4. 특수 목적 시각화
-
-### 결측 패턴 시각화
-
-```python
-# 결측 패턴 시각화를 위한 missingno 패키지 활용
-import missingno as msno
-
-if df.isnull().sum().sum() > 0:
-    plt.figure(figsize=(12, 6))
-    msno.matrix(df)
-    plt.title('Missing Value Patterns')
-    plt.show()
-    
-    plt.figure(figsize=(12, 6))
-    msno.heatmap(df)
-    plt.title('Missing Value Correlation')
-    plt.show()
-```
-
-### 시계열 데이터 시각화
-
-```python
-# 시계열 데이터 시각화
-if any(pd.api.types.is_datetime64_any_dtype(df[col]) for col in df.columns):
-    # 날짜 열 찾기
-    date_col = next(col for col in df.columns if pd.api.types.is_datetime64_any_dtype(df[col]))
-    
-    # 시간별 집계를 위한 수치형 변수 선택
-    numeric_col = df.select_dtypes(include=['float64', 'int64']).columns[0]
-    
-    # 시계열 시각화
-    plt.figure(figsize=(14, 7))
-    
-    # 시간에 따른 값 변화
-    df.set_index(date_col)[numeric_col].plot()
-    plt.title(f'{numeric_col} over Time')
-    plt.grid(True, alpha=0.3)
-    
-    # 계절성 분석
-    plt.figure(figsize=(14, 7))
-    sns.boxplot(x=df[date_col].dt.month, y=df[numeric_col])
-    plt.title('Monthly Patterns')
-    plt.xlabel('Month')
-    plt.show()
-```
-
-## 5. 고급 시각화 기법
-
-### 차원 축소 결과의 클러스터 시각화
-
-```python
-# t-SNE로 차원 축소 후 시각화
-from sklearn.manifold import TSNE
-from sklearn.preprocessing import StandardScaler
-
-numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
-if len(numeric_cols) >= 3:
-    # 데이터 표준화
-    scaler = StandardScaler()
-    scaled_data = scaler.fit_transform(df[numeric_cols])
-    
-    # t-SNE 적용
-    tsne = TSNE(n_components=2, random_state=42)
-    tsne_result = tsne.fit_transform(scaled_data)
-    
-    # 시각화
-    plt.figure(figsize=(10, 8))
-    
-    # 타겟 변수가 있는 경우
-    if 'target' in df.columns:
-        scatter = plt.scatter(tsne_result[:, 0], tsne_result[:, 1], 
-                   c=df['target'], cmap='viridis', alpha=0.6)
-        plt.colorbar(scatter)
-    else:
-        plt.scatter(tsne_result[:, 0], tsne_result[:, 1], alpha=0.6)
-        
-    plt.title('t-SNE Visualization')
-    plt.xlabel('t-SNE 1')
-    plt.ylabel('t-SNE 2')
-    plt.grid(True, alpha=0.3)
-    plt.show()
-```
-
-### 복합적 데이터 관계 시각화
-
-```python
-# 크기, 색상 등을 활용한 버블 차트로 3개 이상 변수 관계 시각화
-if len(df.select_dtypes(include=['float64', 'int64']).columns) >= 3:
-    x_col = df.select_dtypes(include=['float64', 'int64']).columns[0]
-    y_col = df.select_dtypes(include=['float64', 'int64']).columns[1]
-    size_col = df.select_dtypes(include=['float64', 'int64']).columns[2]
-    
-    plt.figure(figsize=(12, 10))
-    
-    # 타겟 변수가 있는 경우 색상으로 구분
-    if 'target' in df.columns:
-        scatter = plt.scatter(
-            df[x_col], df[y_col],
-            s=df[size_col] * 20,  # 크기 조정
-            c=df['target'],
-            cmap='viridis',
-            alpha=0.6
-        )
-        plt.colorbar(scatter, label='Target')
-    else:
-        scatter = plt.scatter(
-            df[x_col], df[y_col],
-            s=df[size_col] * 20,
-            alpha=0.6
-        )
-    
-    plt.title(f'Relationship between {x_col}, {y_col}, and {size_col}')
-    plt.xlabel(x_col)
-    plt.ylabel(y_col)
-    plt.grid(True, alpha=0.3)
-    plt.show()
-```
-
-## 6. 인터랙티브 시각화 (보고서나 대시보드용)
-
-```python
-# Plotly를 활용한 인터랙티브 시각화
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-
-# 인터랙티브 산점도
-if len(df.select_dtypes(include=['float64', 'int64']).columns) >= 2:
-    x_col = df.select_dtypes(include=['float64', 'int64']).columns[0]
-    y_col = df.select_dtypes(include=['float64', 'int64']).columns[1]
-    
-    fig = px.scatter(
-        df, x=x_col, y=y_col,
-        color='target' if 'target' in df.columns else None,
-        size=df.select_dtypes(include=['float64', 'int64']).columns[2] 
-            if len(df.select_dtypes(include=['float64', 'int64']).columns) >= 3 else None,
-        hover_data=df.columns,
-        title=f'Interactive Scatter Plot: {x_col} vs {y_col}'
-    )
-    
-    # HTML 파일로 저장 (Jupyter Notebook에서는 직접 표시됨)
-    fig.write_html('interactive_scatter.html')
-    # fig.show()  # Jupyter Notebook에서 직접 표시
-```
-
-이러한 시각화 기법들은 데이터의 패턴, 관계, 이상점 등을 더 효과적으로 발견하는 데 도움을 줍니다. 각 프로젝트의 특성과 목적에 맞게 적절한 시각화 기법을 선택하여 사용하면 데이터에 대한 이해도를 크게 높일 수 있습니다. 특히 탐색 초기에는 다양한 시각화 기법을 시도해보고, 가장 유용한 인사이트를 제공하는 방법을 찾아내는 것이 좋습니다.
