@@ -1144,120 +1144,1111 @@ print(anova_table2)
 - 품질에 영향을 미치는 요인 식별
 - 실험 설계와 분석의 기초 방법
 
-#### 비모수 검정
+---
+## 1. 비모수 검정의 기본 개념
 
-**정의**: 정규성 가정이 필요 없는 검정 방법(순위나 부호에 기반)
-
-**주요 유형**:
-
-- Mann-Whitney U 검정(윌콕슨 순위합 검정): 독립표본 t-검정의 비모수적 대안
-- 윌콕슨 부호순위 검정: 대응표본 t-검정의 비모수적 대안
-- Kruskal-Wallis 검정: 일원배치 분산분석의 비모수적 대안
-- 카이제곱 검정: 범주형 변수의 독립성, 동질성, 적합도 검정
-
-**코드 예시**:
-
-```python
-# 비모수 검정 예시
-# Mann-Whitney U 검정(독립 2표본)
-# 정규성을 만족하지 않는 데이터
-group1_nonormal = np.random.exponential(scale=2, size=30)
-group2_nonormal = np.random.exponential(scale=3, size=30)
-
-u_stat, p_val = stats.mannwhitneyu(group1_nonormal, group2_nonormal, alternative='two-sided')
-print(f"Mann-Whitney U 검정: 통계량={u_stat}, p값={p_val:.4f}")
-
-# 윌콕슨 부호순위 검정(대응표본)
-before_nonormal = np.random.exponential(scale=2, size=30)
-after_nonormal = before_nonormal + np.random.exponential(scale=1, size=30)
-
-w_stat, p_val = stats.wilcoxon(before_nonormal, after_nonormal)
-print(f"윌콕슨 부호순위 검정: 통계량={w_stat}, p값={p_val:.4f}")
-
-# Kruskal-Wallis 검정(3개 이상 집단)
-group_a_nonormal = np.random.exponential(scale=2, size=30)
-group_b_nonormal = np.random.exponential(scale=2.5, size=30)
-group_c_nonormal = np.random.exponential(scale=3, size=30)
-
-kw_stat, p_val = stats.kruskal(group_a_nonormal, group_b_nonormal, group_c_nonormal)
-print(f"Kruskal-Wallis 검정: 통계량={kw_stat:.4f}, p값={p_val:.4f}")
-
-# 카이제곱 독립성 검정
-# 범주형 데이터 예시
-contingency_table = np.array([[30, 10, 10], [15, 15, 20]])
-chi2_stat, p_val, dof, expected = stats.chi2_contingency(contingency_table)
-print(f"카이제곱 독립성 검정: 통계량={chi2_stat:.4f}, p값={p_val:.4f}, 자유도={dof}")
-print("기대빈도:")
-print(expected)
-```
+**정의**: 모집단의 분포에 대한 가정(특히 정규성)을 필요로 하지 않는 통계적 검정 방법으로, 데이터의 순위, 부호, 빈도 등을 활용하여 분석하는 기법
 
 **특징**:
 
-- 정규성 가정이 필요 없어 다양한 분포에 적용 가능
-- 일반적으로 모수적 검정보다 검정력이 낮음
-- 극단값에 덜 민감(robust)
+- 모수적 검정보다 일반적으로 검정력이 낮음(데이터가 정규분포를 따를 때)
+- 정규성 가정이 위배될 때 더 신뢰할 수 있는 결과 제공
+- 이상치에 덜 민감(로버스트)한 성질
+- 서열척도 데이터에 적용 가능
 - 표본 크기가 작을 때 유용
-- 측정값이 아닌 순위를 사용하는 경우가 많음
 
 **개념의 활용**:
 
-- 서열척도 데이터 분석(만족도, 선호도 등)
-- 비정규 분포를 따르는 자료 분석
-- 표본 크기가 작은 연구
-- 범주형 데이터의 관계 분석(독립성, 동질성)
+- 정규성 가정을 만족하지 않는 데이터 분석
+- 서열척도나 명목척도 데이터 분석
+- 소표본 분석
+- 이상치가 존재하는 데이터 분석
+- 모수적 검정의 대안 또는 보완으로 활용
 
-### 카이제곱 검정
+## 2. 두 독립표본 검정
 
-**정의**: 범주형 데이터를 분석하는 비모수적 방법
+### 맨-휘트니 U 검정(Mann-Whitney U test) / 윌콕슨 순위합 검정
 
-**주요 유형**:
+**정의**: 두 독립된 집단의 위치 모수(중앙값 등)에 차이가 있는지 검정하는 방법으로, 독립표본 t-검정의 비모수적 대안
 
-- 적합도 검정: 관측빈도가 기대빈도와 일치하는지 검정
-- 독립성 검정: 두 범주형 변수 간 관련성 유무 검정
-- 동질성 검정: 여러 집단의 분포가 동일한지 검정
+**수식**:
 
-**수식**: $\chi^2 = \sum \frac{(O - E)^2}{E}$ (O: 관측빈도, E: 기대빈도)
+- U 통계량: $U = n_1n_2 + \frac{n_1(n_1+1)}{2} - R_1$ 또는 $U = n_1n_2 + \frac{n_2(n_2+1)}{2} - R_2$
+- 여기서 n₁, n₂는 각 표본 크기, R₁, R₂는 각 집단의 순위합
+
+**특징**:
+
+- 두 표본을 통합하여 순위를 매긴 후 각 집단의 순위합 비교
+- 귀무가설: 두 집단의 분포가 동일함
+- 두 집단의 분포 형태는 동일하다고 가정(위치 모수만 다를 수 있음)
+- 표본 크기가 클 경우 정규분포로 근사
 
 **코드 예시**:
 
 ```python
-# 카이제곱 검정 예시
-# 적합도 검정
-# 예: 주사위가 공정한지(모든 면이 동일한 확률로 나오는지)
-observed = np.array([15, 10, 12, 8, 9, 16])  # 각 면이 나온 횟수
-expected = np.ones(6) * np.sum(observed) / 6  # 기대빈도(동일확률)
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
 
-chi2_stat, p_val = stats.chisquare(observed, expected)
-print(f"카이제곱 적합도 검정: 통계량={chi2_stat:.4f}, p값={p_val:.4f}")
+# 데이터 생성
+np.random.seed(42)
+group1 = np.random.exponential(scale=2, size=30)  # 비정규 분포
+group2 = np.random.exponential(scale=3, size=30)  # 비정규 분포
 
-# 독립성 검정
-# 예: 성별과 선호 색상의 관계
-# 관측 데이터(행: 성별, 열: 색상)
+# 맨-휘트니 U 검정
+u_stat, p_value = stats.mannwhitneyu(group1, group2, alternative='two-sided')
+
+print(f"맨-휘트니 U 검정:")
+print(f"U 통계량: {u_stat}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'집단 간 차이가 있음' if p_value < 0.05 else '집단 간 차이가 없음'}")
+
+# 시각화: 상자그림
+plt.figure(figsize=(8, 6))
+box = plt.boxplot([group1, group2], labels=['집단 1', '집단 2'], patch_artist=True)
+plt.title('맨-휘트니 U 검정: 두 집단 비교')
+plt.ylabel('값')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# 결과 주석 추가
+plt.annotate(f"U = {u_stat}, p = {p_value:.4f}", 
+             xy=(0.5, 0.05), xycoords='axes fraction', 
+             bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 정규성 가정이 위배될 때 두 집단 비교(t-검정 대신)
+- 서열척도 데이터로 두 집단 비교
+- 이상치가 존재하는 두 집단 비교
+- 약물 효과, 처리 방법 등의 비교 연구
+- 표본 크기가 작은 두 집단 비교
+
+## 3. 대응표본 검정
+
+### 윌콕슨 부호순위 검정(Wilcoxon Signed-Rank Test)
+
+**정의**: 대응된 두 집단 간 차이의 중앙값이 0인지 검정하는 방법으로, 대응표본 t-검정의 비모수적 대안
+
+**수식**:
+
+- 검정통계량: $W = \min(W^+, W^-)$
+- $W^+$: 양의 차이 순위합, $W^-$: 음의 차이 순위합
+- 표준화 통계량: $Z = \frac{W - \frac{n(n+1)}{4}}{\sqrt{\frac{n(n+1)(2n+1)}{24}}}$
+
+**특징**:
+
+- 대응 관측값 간 차이를 계산하고 0이 아닌 차이에 순위 부여
+- 차이의 절대값이 큰 순서대로 순위 부여
+- 차이의 부호 정보를 활용하여 통계량 계산
+- 귀무가설: 차이의 중앙값이 0이다
+- 표본 크기가 클 경우 정규분포로 근사
+
+**코드 예시**:
+
+```python
+# 대응 데이터 생성
+np.random.seed(42)
+pre_treatment = np.random.normal(loc=100, scale=15, size=25)
+effect = np.random.normal(loc=8, scale=10, size=25)  # 평균적으로 8 증가
+post_treatment = pre_treatment + effect
+
+# 윌콕슨 부호순위 검정
+w_stat, p_value = stats.wilcoxon(post_treatment, pre_treatment, zero_method='wilcox')
+
+print(f"윌콕슨 부호순위 검정:")
+print(f"W 통계량: {w_stat}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'치료 효과가 있음' if p_value < 0.05 else '치료 효과가 없음'}")
+
+# 시각화: 전후 비교와 차이의 분포
+plt.figure(figsize=(12, 5))
+
+# 전후 비교
+plt.subplot(1, 2, 1)
+plt.plot([1, 2], [pre_treatment, post_treatment], 'b-', alpha=0.3)
+plt.boxplot([pre_treatment, post_treatment], positions=[1, 2])
+plt.xticks([1, 2], ['치료 전', '치료 후'])
+plt.title('치료 전후 비교')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# 차이의 분포
+plt.subplot(1, 2, 2)
+differences = post_treatment - pre_treatment
+plt.hist(differences, bins=10, alpha=0.7)
+plt.axvline(x=0, color='r', linestyle='--')
+plt.title('치료 효과(차이)의 분포')
+plt.xlabel('효과 크기')
+plt.ylabel('빈도')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+plt.annotate(f"W = {w_stat}, p = {p_value:.4f}", 
+             xy=(0.5, 0.05), xycoords='figure fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 정규성 가정이 위배될 때 대응 비교(대응 t-검정 대신)
+- 처치 전후 효과 비교(약물, 교육, 훈련 등)
+- 동일 대상 반복 측정 데이터 분석
+- 서열척도 대응 데이터 분석
+- 이상치가 있는 대응 데이터 분석
+
+### 부호 검정(Sign Test)
+
+**정의**: 대응 관측값 간 차이의 부호만을 고려하여 중앙값의 차이가 0인지 검정하는 방법
+
+**수식**:
+
+- 검정통계량: $S^+$ (양의 부호 개수)
+- 이항분포를 따름: $S^+ \sim Bin(n, 0.5)$ (귀무가설 하에서)
+
+**특징**:
+
+- 차이의 크기는 무시하고 부호(양, 음)만 고려
+- 윌콕슨 부호순위 검정보다 단순하지만 검정력이 낮음
+- 차이가 0인 경우는 분석에서 제외
+- 이상치에 매우 강건(robust)
+- 중앙값에 대한 검정에 적합
+
+**코드 예시**:
+
+```python
+# 부호 검정
+from statsmodels.stats.descriptivestats import sign_test
+
+# 부호 검정 수행
+s_stat, p_value = sign_test(post_treatment, pre_treatment)
+
+print(f"부호 검정:")
+print(f"S+ 통계량: {s_stat}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'치료 효과가 있음' if p_value < 0.05 else '치료 효과가 없음'}")
+
+# 시각화: 부호 분석
+plt.figure(figsize=(8, 6))
+differences = post_treatment - pre_treatment
+positive = sum(differences > 0)
+negative = sum(differences < 0)
+zero = sum(differences == 0)
+
+plt.bar(['양의 차이', '음의 차이', '차이 없음'], [positive, negative, zero])
+plt.title('부호 검정: 차이의 부호 분석')
+plt.ylabel('빈도')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.annotate(f"S+ = {s_stat}, p = {p_value:.4f}", 
+             xy=(0.5, 0.05), xycoords='axes fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 극단적 이상치가 있는 대응 데이터 분석
+- 서열척도 또는 이분형 결과 데이터 분석
+- 단순한 중앙값 변화 여부 확인
+- 윌콕슨 부호순위 검정의 보완으로 활용
+- 쌍대 선호도 검정(A와 B 중 선호하는 것 비교)
+
+## 4. 세 집단 이상의 비교
+
+### 크루스칼-월리스 검정(Kruskal-Wallis Test)
+
+**정의**: 세 개 이상 독립 집단 간 위치 모수에 차이가 있는지 검정하는 방법으로, 일원배치 분산분석(ANOVA)의 비모수적 대안
+
+**수식**:
+
+- 검정통계량: $H = \frac{12}{N(N+1)}\sum_{i=1}^{k}\frac{R_i^2}{n_i} - 3(N+1)$
+- 여기서 N은 전체 표본 크기, k는 집단 수, Ri는 i번째 집단의 순위합, ni는 i번째 집단의 크기
+
+**특징**:
+
+- 모든 데이터를 통합하여 순위를 매긴 후 각 집단의 평균 순위 비교
+- 귀무가설: 모든 집단의 분포가 동일함
+- 집단 간 분포 형태는 동일하다고 가정
+- p값이 유의할 경우 사후검정 필요(Dunn's test 등)
+- 표본 크기가 클 경우 카이제곱 분포로 근사
+
+**코드 예시**:
+
+```python
+# 세 집단 데이터 생성
+np.random.seed(42)
+group1 = np.random.normal(loc=10, scale=2, size=20)
+group2 = np.random.normal(loc=12, scale=2, size=20)
+group3 = np.random.normal(loc=10, scale=2, size=20)
+
+# 크루스칼-월리스 검정
+kw_stat, p_value = stats.kruskal(group1, group2, group3)
+
+print(f"크루스칼-월리스 검정:")
+print(f"H 통계량: {kw_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'집단 간 차이가 있음' if p_value < 0.05 else '집단 간 차이가 없음'}")
+
+# 사후검정(Dunn's test)
+from scikit_posthocs import posthoc_dunn
+import pandas as pd
+
+# 데이터 병합 및 레이블 부여
+all_data = np.concatenate([group1, group2, group3])
+group_labels = np.repeat(['Group 1', 'Group 2', 'Group 3'], [len(group1), len(group2), len(group3)])
+df = pd.DataFrame({'values': all_data, 'group': group_labels})
+
+# Dunn's test
+if p_value < 0.05:
+    dunn_results = posthoc_dunn([group1, group2, group3], p_adjust='bonferroni')
+    print("\nDunn's 사후검정 결과:")
+    print(dunn_results)
+
+# 시각화
+plt.figure(figsize=(10, 6))
+boxplot = plt.boxplot([group1, group2, group3], labels=['집단 1', '집단 2', '집단 3'], patch_artist=True)
+plt.title('크루스칼-월리스 검정: 세 집단 비교')
+plt.ylabel('값')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.annotate(f"H = {kw_stat:.4f}, p = {p_value:.4f}", 
+             xy=(0.5, 0.05), xycoords='axes fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 정규성 가정이 위배될 때 세 집단 이상 비교(ANOVA 대신)
+- 서열척도 데이터로 여러 집단 비교
+- 이상치가 존재하는 다중 집단 비교
+- 약물 용량, 처리 방법 등의 다집단 비교 연구
+- 다양한 범주에 따른 응답 차이 분석
+
+### 프리드만 검정(Friedman Test)
+
+**정의**: 세 개 이상의 대응된(반복 측정) 집단 간 차이를 검정하는 방법으로, 반복측정 분산분석의 비모수적 대안
+
+**수식**:
+
+- 검정통계량: $\chi_r^2 = \frac{12}{nk(k+1)}\sum_{j=1}^{k}R_j^2 - 3n(k+1)$
+- 여기서 n은 블록(주체) 수, k는 처리(조건) 수, Rj는 j번째 처리의 순위합
+
+**특징**:
+
+- 각 블록(주체) 내에서 순위를 매기고 처리 간 평균 순위 비교
+- 귀무가설: 모든 처리의 효과가 동일함
+- 블록 간의 차이를 통제하면서 처리 효과 검정
+- 유의할 경우 사후검정 필요(Nemenyi test 등)
+- 무작위화 블록 설계에 적합
+
+**코드 예시**:
+
+```python
+# 대응 데이터 생성(3가지 처리, 15명의 피험자)
+np.random.seed(42)
+subjects = 15
+treatments = 3
+
+# 기본 점수 생성(피험자별 차이 반영)
+base_scores = np.random.normal(loc=70, scale=10, size=subjects)
+
+# 처리별 효과 생성
+treatment_effects = [0, 5, 10]  # 처리 2와 3은 효과가 있음
+noise = np.random.normal(loc=0, scale=5, size=(subjects, treatments))
+
+# 데이터 구성
+data = np.zeros((subjects, treatments))
+for i in range(subjects):
+    for j in range(treatments):
+        data[i, j] = base_scores[i] + treatment_effects[j] + noise[i, j]
+
+# 프리드만 검정
+f_stat, p_value = stats.friedmanchisquare(*[data[:, j] for j in range(treatments)])
+
+print(f"프리드만 검정:")
+print(f"Chi-square 통계량: {f_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'처리 간 차이가 있음' if p_value < 0.05 else '처리 간 차이가 없음'}")
+
+# 사후검정(posthoc_nemenyi)
+import scikit_posthocs as sp
+
+if p_value < 0.05:
+    # 데이터프레임 형태로 변환
+    df_data = pd.DataFrame(data, columns=[f'처리{i+1}' for i in range(treatments)])
+    nemenyi_result = sp.posthoc_nemenyi_friedman(df_data)
+    print("\nNemenyi 사후검정 결과:")
+    print(nemenyi_result)
+
+# 시각화
+plt.figure(figsize=(10, 6))
+positions = np.arange(1, treatments+1)
+medians = np.median(data, axis=0)
+
+# 상자그림
+boxplot = plt.boxplot([data[:, j] for j in range(treatments)], 
+                      labels=[f'처리 {j+1}' for j in range(treatments)], 
+                      patch_artist=True)
+
+# 개인별 변화 추적
+for i in range(subjects):
+    plt.plot(positions, data[i, :], 'b-', alpha=0.3)
+
+plt.title('프리드만 검정: 처리 간 비교')
+plt.ylabel('값')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.annotate(f"Chi-square = {f_stat:.4f}, p = {p_value:.4f}", 
+             xy=(0.5, 0.05), xycoords='axes fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 정규성 가정이 위배될 때 반복측정 분석
+- 동일 피험자의 다양한 처리 효과 비교
+- 블록 설계 실험의 비모수적 분석
+- 선호도 순위 분석
+- 시간에 따른 반복 측정 데이터 분석
+
+## 5. 범주형 데이터 분석
+
+### 카이제곱 검정(Chi-Square Test)
+
+#### 독립성 검정(Test of Independence)
+
+**정의**: 두 범주형 변수 간에 연관성이 있는지 검정하는 방법
+
+**수식**:
+
+- 검정통계량: $\chi^2 = \sum_{i=1}^{r}\sum_{j=1}^{c}\frac{(O_{ij} - E_{ij})^2}{E_{ij}}$
+- 여기서 O_{ij}는 관측빈도, E_{ij}는 기대빈도
+- 기대빈도: $E_{ij} = \frac{R_i \times C_j}{n}$ (행합×열합/전체합)
+
+**특징**:
+
+- 귀무가설: 두 변수는 독립적이다(연관성 없음)
+- 모든 셀의 기대빈도가 5 이상이어야 함(작은 경우 피셔의 정확검정 사용)
+- 자유도: (r-1)(c-1), r은 행 수, c는 열 수
+- 연관성의 강도는 크래머의 V, 파이계수 등으로 측정
+- 연관성의 패턴은 표준화 잔차로 분석
+
+**코드 예시**:
+
+```python
+# 독립성 검정 예시(성별과 선호 제품 유형)
+import pandas as pd
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 분할표(교차표) 데이터
 observed = np.array([
-    [30, 10, 25],  # 남성
-    [15, 20, 30]   # 여성
+    [40, 30, 30],  # 남성
+    [20, 45, 35]   # 여성
 ])
 
-chi2_stat, p_val, dof, expected = stats.chi2_contingency(observed)
-print(f"카이제곱 독립성 검정: 통계량={chi2_stat:.4f}, p값={p_val:.4f}, 자유도={dof}")
+# 카이제곱 검정
+chi2_stat, p_value, dof, expected = stats.chi2_contingency(observed)
 
-# 동질성 검정(독립성 검정과 동일한 방법으로 수행)
-# 다른 해석: 두 집단(행)의 분포가 동일한지 검정
+print(f"카이제곱 독립성 검정:")
+print(f"Chi-squared 통계량: {chi2_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"자유도: {dof}")
+print(f"결론: {'성별과 제품 선호도는 연관이 있음' if p_value < 0.05 else '성별과 제품 선호도는 독립적임'}")
+
+# 기대빈도
+print("\n기대빈도:")
+print(pd.DataFrame(
+    expected, 
+    index=['남성', '여성'], 
+    columns=['제품A', '제품B', '제품C']
+))
+
+# 표준화 잔차 계산
+def standardized_residuals(observed, expected):
+    return (observed - expected) / np.sqrt(expected)
+
+std_residuals = standardized_residuals(observed, expected)
+print("\n표준화 잔차:")
+print(pd.DataFrame(
+    std_residuals, 
+    index=['남성', '여성'], 
+    columns=['제품A', '제품B', '제품C']
+))
+
+# 효과 크기(크래머의 V) 계산
+n = np.sum(observed)
+r, c = observed.shape
+v = np.sqrt(chi2_stat / (n * min(r-1, c-1)))
+print(f"\n크래머의 V: {v:.4f}")
+print(f"해석: {'강한 연관성' if v > 0.25 else '중간 연관성' if v > 0.15 else '약한 연관성'}")
+
+# 시각화: 모자이크 플롯
+plt.figure(figsize=(12, 6))
+
+# 관측값과 기대값 히트맵 비교
+plt.subplot(1, 2, 1)
+sns.heatmap(observed, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=['제품A', '제품B', '제품C'], 
+            yticklabels=['남성', '여성'])
+plt.title('관측 빈도')
+
+plt.subplot(1, 2, 2)
+sns.heatmap(std_residuals, annot=True, fmt='.2f', cmap='RdBu_r', 
+            xticklabels=['제품A', '제품B', '제품C'], 
+            yticklabels=['남성', '여성'])
+plt.title('표준화 잔차(>|2|: 유의한 셀)')
+
+plt.tight_layout()
+plt.suptitle(f"Chi-squared = {chi2_stat:.4f}, p = {p_value:.4f}, Cramer's V = {v:.4f}", 
+             y=1.05)
 ```
-
-**특징**:
-
-- 귀무가설: 적합도(분포 일치), 독립성(변수 간 관계 없음), 동질성(분포 동일)
-- 각 셀의 기대빈도가 5 미만인 경우가 전체의 20% 이상이면 피셔의 정확검정 권장
-- 자유도: 적합도(k-1), 독립성((r-1)(c-1))
-- 효과 크기: 크래머의 V, 파이계수 등으로 측정
 
 **개념의 활용**:
 
-- 설문조사 결과 분석(범주형 응답)
-- 마케팅 전략과 구매 행동 관계 분석
-- 질병과 위험요인의 연관성 평가
-- 여러 집단 간 선호도/반응 패턴 비교
+- 두 범주형 변수 간 연관성 분석
+- 마케팅 세그먼트 분석(성별, 연령과 구매 행동)
+- 위험 요인 분석(흡연과 질병 발생)
+- 사회학적 연구(교육 수준과 정치적 성향)
+- 제품 선호도 분석
+
+#### 적합도 검정(Goodness-of-Fit Test)
+
+**정의**: 관측된 범주형 데이터의 분포가 이론적으로 기대되는 분포와 일치하는지 검정하는 방법
+
+**수식**:
+
+- 검정통계량: $\chi^2 = \sum_{i=1}^{k}\frac{(O_i - E_i)^2}{E_i}$
+- 여기서 O_i는 관측빈도, E_i는 기대빈도
+- 자유도: k-1-m (k: 범주 수, m: 추정한 모수 개수)
+
+**특징**:
+
+- 귀무가설: 데이터가 특정 분포를 따른다
+- 각 범주의 기대빈도가 5 이상이어야 함
+- 이론적 분포(균등분포, 이항분포, 포아송분포 등)와의 일치성 검정
+- 자발적 임의성 검정에도 활용
+
+**코드 예시**:
+
+```python
+# 적합도 검정 예시(주사위 공정성 검정)
+# 관측 빈도
+observed_dice = np.array([22, 15, 19, 24, 17, 23])  # 각 면이 나온 횟수
+n = sum(observed_dice)
+
+# 기대 빈도(공정한 주사위라면 모든 면이 균등하게 나와야 함)
+expected_dice = np.ones(6) * n/6
+
+# 카이제곱 적합도 검정
+chi2_stat, p_value = stats.chisquare(observed_dice, expected_dice)
+
+print(f"카이제곱 적합도 검정(주사위):")
+print(f"Chi-squared 통계량: {chi2_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'주사위가 공정하지 않음' if p_value < 0.05 else '주사위가 공정함'}")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+bar_width = 0.35
+x = np.arange(6) + 1  # 주사위 면 번호(1~6)
+
+plt.bar(x - bar_width/2, observed_dice, bar_width, label='관측 빈도')
+plt.bar(x + bar_width/2, expected_dice, bar_width, label='기대 빈도')
+
+plt.xlabel('주사위 면')
+plt.ylabel('빈도')
+plt.title('주사위 적합도 검정')
+plt.xticks(x)
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.annotate(f"Chi-squared = {chi2_stat:.4f}, p = {p_value:.4f}", 
+             xy=(0.5, 0.05), xycoords='axes fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 균등성 검정(공정한 주사위, 동전)
+- 이론적 분포 적합성 검증(포아송, 이항분포 등)
+- 선거 투표 패턴 분석
+- 확률적 모델 검증
+- 표본의 대표성 평가
+
+#### 동질성 검정(Homogeneity Test)
+
+**정의**: 서로 다른 모집단에서 추출한 표본들의 분포가 동일한지 검정하는 방법
+
+**수식**:
+
+- 검정통계량: 독립성 검정과 동일한 $\chi^2$ 사용
+- 자유도: (r-1)(c-1), r은 집단 수, c는 범주 수
+
+**특징**:
+
+- 귀무가설: 모든 집단의 분포가 동일하다
+- 집단 간 분포 차이 검정에 활용
+- 독립성 검정과 계산 방법은 같으나 해석이 다름
+- 각 집단별 표본 크기가 다를 수 있음
+
+**코드 예시**:
+
+```python
+# 동질성 검정 예시(세 지역의 선호 정당 분포 비교)
+# 관측 빈도
+region_preferences = np.array([
+    [120, 80, 50],  # 지역 A
+    [100, 100, 50],  # 지역 B
+    [80, 70, 100]   # 지역 C
+])
+
+# 카이제곱 동질성 검정
+chi2_stat, p_value, dof, expected = stats.chi2_contingency(region_preferences)
+
+print(f"카이제곱 동질성 검정:")
+print(f"Chi-squared 통계량: {chi2_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"자유도: {dof}")
+print(f"결론: {'지역별 정당 선호도 분포가 다름' if p_value < 0.05 else '지역별 정당 선호도 분포가 동일함'}")
+
+# 상대 빈도 계산(행별로 정규화)
+row_sums = region_preferences.sum(axis=1, keepdims=True)
+relative_freq = region_preferences / row_sums
+
+# 시각화
+plt.figure(figsize=(12, 5))
+
+# 절대 빈도
+plt.subplot(1, 2, 1)
+x = np.arange(3)  # 정당 수
+width = 0.25
+  
+plt.bar(x - width, region_preferences[0], width, label='지역 A')
+plt.bar(x, region_preferences[1], width, label='지역 B')
+plt.bar(x + width, region_preferences[2], width, label='지역 C')
+  
+plt.xlabel('정당')
+plt.ylabel('빈도')
+plt.title('절대 빈도 비교')
+plt.xticks(x, ['정당 X', '정당 Y', '정당 Z'])
+plt.legend()
+
+# 상대 빈도
+plt.subplot(1, 2, 2)
+plt.bar(x - width, relative_freq[0], width, label='지역 A')
+plt.bar(x, relative_freq[1], width, label='지역 B')
+plt.bar(x + width, relative_freq[2], width, label='지역 C')
+  
+plt.xlabel('정당')
+plt.ylabel('상대 빈도')
+plt.title('상대 빈도 비교')
+plt.xticks(x, ['정당 X', '정당 Y', '정당 Z'])
+plt.legend()
+
+plt.tight_layout()
+plt.annotate(f"Chi-squared = {chi2_stat:.4f}, p = {p_value:.4f}", 
+             xy=(0.5, 0.02), xycoords='figure fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 지역별, 집단별 선호도 분포 비교
+- 연령대별 응답 패턴 비교
+- 다양한 처리에 따른 결과 분포 비교
+- 마케팅 전략별 반응 분포 비교
+- 제품 유형별 고객 만족도 패턴 비교
+
+### 피셔의 정확검정(Fisher's Exact Test)
+
+**정의**: 표본 크기가 작거나 기대빈도가 작은 2×2 분할표에서 두 변수의 독립성을 검정하는 방법
+
+**수식**:
+
+- 초기하분포에 기반한 p값 계산: $p = \frac{\binom{a+b}{a}\binom{c+d}{c}}{\binom{n}{a+c}} = \frac{(a+b)!(c+d)!(a+c)!(b+d)!}{a!b!c!d!n!}$
+- 여기서 a, b, c, d는 2×2 분할표의 각 셀 빈도, n은 총 표본 크기
+
+**특징**:
+
+- 귀무가설: 두 변수는 독립적이다
+- 정확한 p값 계산(근사 없음)
+- 기대빈도가 5 미만인 셀이 있을 때 카이제곱 검정 대신 사용
+- 계산이 복잡하나 현대 컴퓨터로 쉽게 수행
+- 양측검정(two-sided)과 단측검정(one-sided) 가능
+
+**코드 예시**:
+
+```python
+# 피셔의 정확검정 예시(소규모 임상시험)
+# 2×2 분할표
+table = np.array([
+    [9, 3],  # 치료군: 개선 9명, 비개선 3명
+    [4, 10]  # 대조군: 개선 4명, 비개선 10명
+])
+
+# 피셔의 정확검정
+oddsratio, p_value = stats.fisher_exact(table)
+
+print(f"피셔의 정확검정:")
+print(f"오즈비: {oddsratio:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'치료와 개선 여부는 연관이 있음' if p_value < 0.05 else '치료와 개선 여부는 독립적임'}")
+
+# 시각화
+plt.figure(figsize=(8, 6))
+sns.heatmap(table, annot=True, fmt='d', cmap='Blues',
+            xticklabels=['개선', '비개선'],
+            yticklabels=['치료군', '대조군'])
+plt.title('치료 효과 분석')
+plt.tight_layout()
+plt.annotate(f"Fisher's exact: p = {p_value:.4f}, 오즈비 = {oddsratio:.2f}", 
+             xy=(0.5, 0.05), xycoords='axes fraction', 
+             ha='center', bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+```
+
+**개념의 활용**:
+
+- 소규모 임상시험 분석
+- 희귀사건 연관성 분석
+- 정밀 매칭된 표본 분석
+- 2×2 분할표에서 기대빈도가 작을 때
+- 작은 표본에서 정확한 추론이 필요할 때
+
+### 맥니마 검정(McNemar's Test)
+
+**정의**: 대응된 이분형 데이터에서 사전사후 또는 짝지은 관측값의 변화 여부를 검정하는 방법
+
+**수식**:
+
+- 검정통계량: $\chi^2 = \frac{(b-c)^2}{b+c}$
+- 여기서 b는 (사전 0, 사후 1)인 사례 수, c는 (사전 1, 사후 0)인 사례 수
+
+**특징**:
+
+- 귀무가설: 변화 확률이 양방향으로 동일하다(b=c)
+- 오직 불일치 쌍(b, c)만 분석에 사용
+- 정확한 이항 검정으로도 수행 가능
+- 연속성 보정(correction for continuity) 사용 가능
+- 2×2 대응 데이터에 적합
+
+**코드 예시**:
+
+```python
+# 맥니마 검정 예시(치료 전후 증상 변화)
+# 2×2 분할표: 행(사전), 열(사후), 셀값(환자 수)
+contingency_table = np.array([
+    [20, 10],  # 사전 음성: 사후 음성 20명, 사후 양성 10명
+    [25, 45]   # 사전 양성: 사후 음성 25명, 사후 양성 45명
+])
+
+# 맥니마 검정
+result = stats.mcnemar(contingency_table, exact=False, correction=True)
+
+print(f"맥니마 검정:")
+print(f"통계량: {result.statistic:.4f}")
+print(f"p-값: {result.pvalue:.4f}")
+print(f"결론: {'치료 전후 차이가 있음' if result.pvalue < 0.05 else '치료 전후 차이가 없음'}")
+
+# 데이터 재구성 및 분석
+before_positive = contingency_table[1, 0] + contingency_table[1, 1]  # 사전 양성 수
+after_positive = contingency_table[0, 1] + contingency_table[1, 1]  # 사후 양성 수
+total = np.sum(contingency_table)
+
+print(f"\n양성률 변화:")
+print(f"치료 전 양성: {before_positive}명 ({before_positive/total*100:.1f}%)")
+print(f"치료 후 양성: {after_positive}명 ({after_positive/total*100:.1f}%)")
+print(f"순 변화: {after_positive - before_positive}명 ({(after_positive - before_positive)/total*100:.1f}%)")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+
+# 분할표 히트맵
+plt.subplot(1, 2, 1)
+sns.heatmap(contingency_table, annot=True, fmt='d', cmap='Blues',
+            xticklabels=['사후 음성', '사후 양성'],
+            yticklabels=['사전 음성', '사전 양성'])
+plt.title('사전-사후 분할표')
+
+# 막대 그래프
+plt.subplot(1, 2, 2)
+categories = ['사전', '사후']
+positive_counts = [before_positive, after_positive]
+negative_counts = [total - before_positive, total - after_positive]
+
+plt.bar(categories, positive_counts, label='양성')
+plt.bar(categories, negative_counts, bottom=positive_counts, label='음성')
+plt.ylabel('환자 수')
+plt.title('치료 전후 양성률 변화')
+plt.legend()
+
+plt.tight_layout()
+plt.suptitle(f"McNemar's test: χ² = {result.statistic:.4f}, p = {result.pvalue:.4f}",
+             y=1.05)
+```
+
+**개념의 활용**:
+
+- 치료 전후 증상 변화 분석
+- 두 진단 검사의 불일치 분석
+- 사전사후 태도 변화 연구
+- 짝지은 표본에서의 일치도 변화 분석
+- 전후 설문 응답 변화 분석
+
+### 코크란의 Q 검정(Cochran's Q Test)
+
+**정의**: 세 개 이상의 대응된 이분형 측정에서 차이가 있는지 검정하는 방법으로, 맥니마 검정의 확장
+
+**수식**:
+
+- 검정통계량: $Q = \frac{k(k-1)\sum_{j=1}^{k}(X_j - \bar{X})^2}{\sum_{i=1}^{n}\sum_{j=1}^{k}X_{ij} - \sum_{i=1}^{n}(\sum_{j=1}^{k}X_{ij})^2/k}$
+- 여기서 k는 처리 수, n은 블록(피험자) 수, X_{ij}는 이분형 결과(0 또는 1)
+
+**특징**:
+
+- 귀무가설: 모든 처리의 효과가 동일함
+- 프리드만 검정의 이분형 데이터 버전
+- 자유도: k-1
+- 큰 표본에서 카이제곱 분포로 근사
+- 사후검정으로 맥니마 검정을 수행할 수 있음
+
+**코드 예시**:
+
+```python
+# 코크란의 Q 검정 예시(세 가지 진단 방법의 결과 비교)
+from statsmodels.stats.contingency_tables import cochrans_q
+
+# 데이터 생성(피험자 x 진단법, 1=양성, 0=음성)
+np.random.seed(42)
+n_subjects = 30
+data = np.zeros((n_subjects, 3), dtype=int)
+
+# 기본 진단 결과(모든 방법이 약 50% 양성)
+base_probability = 0.5
+data[:, 0] = np.random.binomial(1, base_probability, n_subjects)
+
+# 방법 간 상관관계 있는 결과 생성
+for i in range(n_subjects):
+    if data[i, 0] == 1:
+        data[i, 1] = np.random.binomial(1, 0.8)  # 80% 일치
+        data[i, 2] = np.random.binomial(1, 0.7)  # 70% 일치
+    else:
+        data[i, 1] = np.random.binomial(1, 0.2)  # 20% 일치하지 않음
+        data[i, 2] = np.random.binomial(1, 0.3)  # 30% 일치하지 않음
+
+# 코크란의 Q 검정
+q_stat, p_value = cochrans_q(data)
+
+print(f"코크란의 Q 검정:")
+print(f"Q 통계량: {q_stat:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'진단법 간 차이가 있음' if p_value < 0.05 else '진단법 간 차이가 없음'}")
+
+# 각 방법의 양성 비율
+positive_rates = data.mean(axis=0)
+print("\n양성 비율:")
+for i, rate in enumerate(positive_rates):
+    print(f"진단법 {i+1}: {rate*100:.1f}%")
+
+# 사후분석(쌍별 맥니마 검정)
+if p_value < 0.05:
+    print("\n사후분석(쌍별 맥니마 검정):")
+    for i in range(3):
+        for j in range(i+1, 3):
+            # 맥니마 검정용 분할표 생성
+            table = np.zeros((2, 2))
+            for s in range(n_subjects):
+                table[data[s, i], data[s, j]] += 1
+                
+            mcnemar_result = stats.mcnemar(table)
+            print(f"진단법 {i+1} vs 진단법 {j+1}: 통계량={mcnemar_result.statistic:.4f}, p값={mcnemar_result.pvalue:.4f}")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+
+# 양성 비율 비교
+plt.subplot(1, 2, 1)
+plt.bar(range(1, 4), positive_rates)
+plt.xlabel('진단법')
+plt.ylabel('양성 비율')
+plt.title('진단법별 양성 비율')
+plt.xticks(range(1, 4), [f'방법 {i+1}' for i in range(3)])
+plt.ylim(0, 1)
+
+# 피험자별 진단 결과 패턴
+plt.subplot(1, 2, 2)
+plt.imshow(data, aspect='auto', cmap='Blues')
+plt.colorbar(ticks=[0, 1], label='진단 결과')
+plt.xlabel('진단법')
+plt.ylabel('피험자')
+plt.title('피험자별 진단 결과')
+plt.xticks(range(3), [f'방법 {i+1}' for i in range(3)])
+
+plt.tight_layout()
+plt.suptitle(f"Cochran's Q = {q_stat:.4f}, p = {p_value:.4f}", y=1.05)
+```
+
+**개념의 활용**:
+
+- 여러 진단 방법의 일치도 비교
+- 다양한 처리에 대한 이분형 응답 비교
+- 반복 측정된 이분형 결과 분석
+- 설문 문항 간 응답 패턴 비교
+- 다양한 조건에서의 성공/실패 비교
+
+## 6. 순서 및 연관성 검정
+
+### 런 검정(Runs Test)
+
+**정의**: 데이터의 무작위성(randomness)을 검정하는 방법으로, 관측값의 순서가 무작위인지 평가
+
+**수식**:
+
+- 런(run): 같은 범주의 연속된 관측값 그룹
+- 표준화 통계량: $Z = \frac{R - E(R)}{\sigma_R}$
+- $E(R) = \frac{2n_1n_2}{n_1+n_2}+1$, $\sigma_R = \sqrt{\frac{2n_1n_2(2n_1n_2-n_1-n_2)}{(n_1+n_2)^2(n_1+n_2-1)}}$
+- 여기서 R은 런의 수, n₁과 n₂는 각 범주의 빈도
+
+**특징**:
+
+- 귀무가설: 데이터 순서가 무작위적이다
+- 양측검정: 너무 많은 런(교대 패턴) 또는 너무 적은 런(군집 패턴) 모두 비무작위성을 나타냄
+- 이분형 데이터 외에도 중앙값 기준으로 적용 가능
+- 시계열 데이터의 무작위성 검정에 유용
+- 주기성, 추세, 패턴 존재 여부 식별
+
+**코드 예시**:
+
+```python
+# 런 검정 예시
+from statsmodels.stats.nonparametric import runs_test
+
+# 이분형 시퀀스 생성
+np.random.seed(42)
+# 무작위 시퀀스
+random_seq = np.random.choice([0, 1], size=50, p=[0.5, 0.5])
+# 패턴 있는 시퀀스(블록 반복)
+pattern_seq = np.concatenate([np.zeros(5), np.ones(5)] * 5)
+# 교대 시퀀스
+alternating_seq = np.array([0, 1] * 25)
+
+# 런 검정
+def perform_runs_test(sequence, label):
+    # 런 검정 수행
+    runs, runs_pvalue, positive, negative = runs_test(sequence, cutoff='mean')
+    
+    # 런 계산
+    runs_count = 1
+    for i in range(1, len(sequence)):
+        if sequence[i] != sequence[i-1]:
+            runs_count += 1
+    
+    print(f"\n{label} 시퀀스 런 검정:")
+    print(f"런 수: {runs_count}")
+    print(f"통계량: {runs:.4f}")
+    print(f"p-값: {runs_pvalue:.4f}")
+    print(f"결론: {'무작위성 기각(패턴 존재)' if runs_pvalue < 0.05 else '무작위성 채택'}")
+    
+    return runs_count, runs, runs_pvalue
+
+results = {}
+results['무작위'] = perform_runs_test(random_seq, '무작위')
+results['패턴'] = perform_runs_test(pattern_seq, '패턴')
+results['교대'] = perform_runs_test(alternating_seq, '교대')
+
+# 시각화
+plt.figure(figsize=(15, 5))
+
+# 세 시퀀스 시각화
+for i, (label, seq) in enumerate(zip(['무작위', '패턴', '교대'], 
+                                    [random_seq, pattern_seq, alternating_seq])):
+    plt.subplot(1, 3, i+1)
+    plt.plot(seq, '-o', markersize=8, alpha=0.7)
+    plt.xlabel('관측값 순서')
+    plt.ylabel('값')
+    plt.yticks([0, 1])
+    plt.ylim(-0.5, 1.5)
+    plt.title(f'{label} 시퀀스\n런 수: {results[label][0]}, p={results[label][2]:.4f}')
+    plt.grid(True, linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+
+- 시계열 데이터의 무작위성 검정
+- 주가 데이터의 효율적 시장 가설 검정
+- 품질관리에서 공정 안정성 확인
+- 게임 결과, 추첨의 무작위성 검정
+- 시공간적 패턴 탐지
+
+### 스피어만 순위상관계수(Spearman's Rank Correlation)
+
+**정의**: 두 변수 간의 단조적(monotonic) 관계의 강도와 방향을 측정하는 비모수적 상관계수
+
+**수식**:
+
+- $r_s = 1 - \frac{6\sum d_i^2}{n(n^2-1)}$
+- 여기서 d_i는 각 관측값 쌍의 순위 차이, n은 표본 크기
+
+**특징**:
+
+- 피어슨 상관계수의 비모수적 대안
+- 변수들의 실제 값이 아닌 순위를 사용
+- 비선형 단조 관계도 탐지 가능
+- 이상치에 덜 민감(로버스트)
+- 정규성 가정 불필요
+
+**코드 예시**:
+
+```python
+# 스피어만 순위상관계수 예시
+# 데이터 생성
+np.random.seed(42)
+n = 50
+
+# 선형 관계
+x1 = np.random.normal(0, 1, n)
+y1 = 2 * x1 + np.random.normal(0, 1, n)
+
+# 비선형 단조 관계
+x2 = np.random.normal(0, 1, n)
+y2 = np.exp(x2) + np.random.normal(0, 0.5, n)
+
+# 비단조 관계(이차함수)
+x3 = np.random.uniform(-3, 3, n)
+y3 = x3**2 + np.random.normal(0, 1, n)
+
+# 스피어만 상관계수 계산
+spearman_linear, p_linear = stats.spearmanr(x1, y1)
+spearman_monotonic, p_monotonic = stats.spearmanr(x2, y2)
+spearman_nonmonotonic, p_nonmonotonic = stats.spearmanr(x3, y3)
+
+# 비교를 위한 피어슨 상관계수
+pearson_linear, _ = stats.pearsonr(x1, y1)
+pearson_monotonic, _ = stats.pearsonr(x2, y2)
+pearson_nonmonotonic, _ = stats.pearsonr(x3, y3)
+
+print(f"스피어만 vs 피어슨 상관계수 비교:")
+print(f"선형 관계: 스피어만 rs = {spearman_linear:.4f} (p = {p_linear:.4f}), 피어슨 r = {pearson_linear:.4f}")
+print(f"비선형 단조 관계: 스피어만 rs = {spearman_monotonic:.4f} (p = {p_monotonic:.4f}), 피어슨 r = {pearson_monotonic:.4f}")
+print(f"비단조 관계: 스피어만 rs = {spearman_nonmonotonic:.4f} (p = {p_nonmonotonic:.4f}), 피어슨 r = {pearson_nonmonotonic:.4f}")
+
+# 시각화
+plt.figure(figsize=(15, 5))
+
+# 선형 관계
+plt.subplot(1, 3, 1)
+plt.scatter(x1, y1, alpha=0.7)
+plt.title(f'선형 관계\nSpearman rs={spearman_linear:.2f}, Pearson r={pearson_linear:.2f}')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# 비선형 단조 관계
+plt.subplot(1, 3, 2)
+plt.scatter(x2, y2, alpha=0.7)
+plt.title(f'비선형 단조 관계\nSpearman rs={spearman_monotonic:.2f}, Pearson r={pearson_monotonic:.2f}')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# 비단조 관계
+plt.subplot(1, 3, 3)
+plt.scatter(x3, y3, alpha=0.7)
+plt.title(f'비단조 관계(이차함수)\nSpearman rs={spearman_nonmonotonic:.2f}, Pearson r={pearson_nonmonotonic:.2f}')
+plt.grid(True, linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+
+- 서열척도 변수 간 관계 분석
+- 비선형 단조 관계 탐지
+- 이상치가 있는 데이터의 상관관계 분석
+- 정규성 가정을 만족하지 않는 변수의 상관분석
+- 평가, 순위 데이터의 일치도 분석
+
+### 켄달의 타우(Kendall's Tau)
+
+**정의**: 두 변수 간의 순서 일치 정도를 측정하는 또 다른 비모수적 상관계수
+
+**수식**:
+
+- $\tau = \frac{n_c - n_d}{\binom{n}{2}} = \frac{2(n_c - n_d)}{n(n-1)}$
+- 여기서 n_c는 일치쌍(concordant pairs) 수, n_d는 불일치쌍(discordant pairs) 수
+
+**특징**:
+
+- 두 관측값 쌍의 순서 일치 여부 기반
+- 스피어만 계수보다 해석이 직관적(확률 해석 가능)
+- 스피어만보다 작은 값을 가지는 경향
+- 표본 크기가 작을 때 더 정확한 p값 제공
+- 동률(ties)을 처리하는 보정 버전 존재(Tau-b, Tau-c)
+
+**코드 예시**:
+
+```python
+# 켄달의 타우 예시
+# 지휘자 두 명의 오케스트라 순위 매김
+conductor1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+conductor2 = [2, 1, 3, 5, 4, 6, 8, 7, 10, 9]
+
+# 켄달의 타우 계산
+tau, p_value = stats.kendalltau(conductor1, conductor2)
+
+print(f"켄달의 타우:")
+print(f"Tau 상관계수: {tau:.4f}")
+print(f"p-값: {p_value:.4f}")
+print(f"결론: {'두 지휘자의 순위에 일치도가 있음' if p_value < 0.05 else '두 지휘자의 순위에 일치도가 없음'}")
+
+# 일치쌍과 불일치쌍 계산
+concordant = 0
+discordant = 0
+
+for i in range(len(conductor1)):
+    for j in range(i+1, len(conductor1)):
+        # (x1 - x2)과 (y1 - y2)의 부호 비교
+        diff_x = conductor1[i] - conductor1[j]
+        diff_y = conductor2[i] - conductor2[j]
+        
+        sign_product = diff_x * diff_y
+        
+        if sign_product > 0:
+            concordant += 1
+        elif sign_product < 0:
+            discordant += 1
+        # sign_product = 0인 경우는 동률(ties)로 세지 않음
+
+print(f"\n일치쌍 수: {concordant}")
+print(f"불일치쌍 수: {discordant}")
+print(f"전체 비교 쌍 수: {concordant + discordant}")
+print(f"일치 확률 - 불일치 확률 = {tau:.4f}")
+
+# 시각화
+plt.figure(figsize=(10, 6))
+plt.scatter(conductor1, conductor2)
+
+# 각 오케스트라 레이블 추가
+for i in range(len(conductor1)):
+    plt.annotate(f'Orchestra {i+1}', 
+                 (conductor1[i], conductor2[i]),
+                 textcoords="offset points", 
+                 xytext=(0,10), 
+                 ha='center')
+
+plt.plot([0, 11], [0, 11], 'r--', alpha=0.7)  # 완벽한 일치 참조선
+plt.xlabel('지휘자 1 순위')
+plt.ylabel('지휘자 2 순위')
+plt.title(f'두 지휘자의 오케스트라 순위 비교\nKendall\'s Tau = {tau:.4f}')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.xlim(0, 11)
+plt.ylim(0, 11)
+plt.xticks(range(1, 11))
+plt.yticks(range(1, 11))
+```
+
+**개념의 활용**:
+
+- 심사위원 간 순위 일치도 분석
+- 선호도 순위 비교
+- 두 측정 방법의 순서 일치도 평가
+- 동률이 많은 서열 데이터 분석
+- 작은 표본 크기의 비모수적 상관분석
 
 ---
 ## 1. 상관분석

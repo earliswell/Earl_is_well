@@ -398,6 +398,106 @@ if len(df.select_dtypes(include=['int64', 'float64']).columns) > 2:
 - 소표본(n<30): 정규성 검정 중요, 비모수 검정 고려
 - 매우 작은 표본: 정확검정(피셔의 정확검정 등) 고려
 
+### 검정 유형별 선택 가이드
+
+1. **두 집단 비교**
+    
+    - 독립표본: 맨-휘트니 U 검정(정규성 위배 시 t-검정 대신)
+    - 대응표본: 윌콕슨 부호순위 검정(정규성 위배 시 대응 t-검정 대신)
+    - 극단적 이상치 존재: 부호 검정(위치만 중요한 경우)
+2. **세 집단 이상 비교**
+    
+    - 독립표본: 크루스칼-월리스 검정(정규성 위배 시 ANOVA 대신)
+    - 대응표본: 프리드만 검정(정규성 위배 시 반복측정 ANOVA 대신)
+    - 이분형 반복측정: 코크란의 Q 검정
+3. **범주형 데이터 분석**
+    
+    - 독립성 검정: 카이제곱 검정
+    - 적합도 검정: 카이제곱 적합도 검정
+    - 동질성 검정: 카이제곱 동질성 검정
+    - 소표본 또는 기대빈도 작음: 피셔의 정확검정
+    - 대응 이분형 데이터: 맥니마 검정
+4. **순서 및 연관성**
+    
+    - 무작위성 검정: 런 검정
+    - 서열 상관관계: 스피어만 순위상관계수, 켄달의 타우
+
+### ADP 시험 문제 유형별 대응 전략
+
+1. **정규성 검정 이후 비모수 검정**    
+```python
+ # 1) 정규성 검정
+shapiro_test = stats.shapiro(data)
+if shapiro_test.pvalue < 0.05:
+    # 2) 비모수 검정 적용(예: 윌콕슨 부호순위 검정)
+    wilcoxon_result = stats.wilcoxon(pre_data, post_data)
+    # 3) 결과 해석
+    print("정규성 가정을 만족하지 않아 비모수적 방법 적용")
+else:
+    # 모수적 검정 적용
+    ttest_result = stats.ttest_rel(pre_data, post_data)
+```
+2. **이분산성 존재 시 비모수 검정**
+```python
+# 1) 등분산성 검정
+levene_test = stats.levene(group1, group2)
+# 2) 정규성과 등분산성 결과에 따라 적절한 검정 선택
+ if shapiro_test1.pvalue < 0.05 or shapiro_test2.pvalue < 0.05:
+     # 정규성 위배 → 비모수 검정
+    u_test = stats.mannwhitneyu(group1, group2)
+ else:
+    if levene_test.pvalue < 0.05:
+        # 이분산성 → Welch's t-test
+        t_test = stats.ttest_ind(group1, group2, equal_var=False)
+    else:
+        # 등분산 → 일반 t-test
+        t_test = stats.ttest_ind(group1, group2, equal_var=True)
+```
+3. **범주형 데이터 분석 시 기대빈도 확인**
+```python
+# 1) 교차표 생성
+contingency_table = pd.crosstab(df['variable1'], df['variable2'])
+# 2) 기대빈도 계산
+chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
+# 3) 작은 기대빈도 확인
+small_expected = (expected < 5).sum()
+ if small_expected > expected.size * 0.2:
+    # 20% 이상 기대빈도 5 미만 → 피셔의 정확검정
+    if contingency_table.shape == (2, 2):  # 2x2 표만 가능
+        odds_ratio, p_fisher = stats.fisher_exact(contingency_table)
+    print("피셔의 정확검정 p-값:", p_fisher)
+    else:
+        print("범주 병합 또는 몬테카를로 방법 고려")
+ else:
+    # 카이제곱 검정 결과 사용
+    print("카이제곱 검정 p-값:", p)
+```
+4. **서열 데이터 상관관계 분석**
+```
+# 1) 데이터 특성 확인
+# 2) 적절한 비모수 상관계수 선택
+# 작은 표본 또는 동률 많음
+ if n < 30 or has_many_ties:
+    tau, p_tau = stats.kendalltau(x, y)
+    print("Kendall의 타우:", tau)
+ else:
+    # 일반적인 서열 상관
+    rho, p_rho = stats.spearmanr(x, y)
+    print("Spearman의 순위상관계수:", rho)
+# 3) 산점도로 시각화
+plt.scatter(x, y)
+```
+5. **사후검정 수행**
+```python
+# 크루스칼-월리스 검정 후 사후검정
+ if kruskal_result.pvalue < 0.05:
+    # Dunn's 사후검정
+    dunn_result = posthoc_dunn([group1, group2, group3], p_adjust='bonferroni')
+    print("다중비교를 위한 Dunn's 검정 결과:")
+    print(dunn_result)
+```
+
+
 #### 모델 비교 및 선택
 
 **정의**: 여러 통계 모델 중 데이터를 가장 잘 설명하는 모델을 선택하는 방법
