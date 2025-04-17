@@ -328,71 +328,8 @@ if len(df.select_dtypes(include=['int64', 'float64']).columns) > 2:
     - [ ] 스케일링/인코딩 필요성
 
 ## 통계 기본 가정
-```python
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import statsmodels.api as sm
-from statsmodels.stats.outliers_influence import variance_inflation_factor
-
-# 모델 적합 (X는 독립변수들의 DataFrame, y는 종속변수)
-X_with_const = sm.add_constant(X)
-model = sm.OLS(y, X_with_const).fit()
-print(model.summary())
-
-# 1. 선형성 & 등분산성 확인 - 잔차 플롯
-plt.figure(figsize=(10, 6))
-plt.scatter(model.fittedvalues, model.resid)
-plt.axhline(y=0, color='r', linestyle='--')
-plt.xlabel('예측값')
-plt.ylabel('잔차')
-plt.title('잔차 vs 예측값 (선형성 & 등분산성 확인)')
-plt.show()
-
-# 2. 잔차의 정규성 확인
-plt.figure(figsize=(10, 6))
-sns.histplot(model.resid, kde=True)
-plt.title('잔차의 분포 (정규성 확인)')
-plt.show()
-
-# QQ-플롯으로 정규성 추가 확인
-from scipy import stats
-fig, ax = plt.subplots(figsize=(10, 6))
-_, (__, ___, r) = stats.probplot(model.resid, plot=ax, fit=True)
-plt.title('잔차의 QQ 플롯 (정규성 확인)')
-plt.show()
-
-# 3. 다중공선성 확인 (VIF)
-vif_data = pd.DataFrame()
-vif_data["변수"] = X_with_const.columns
-vif_data["VIF"] = [variance_inflation_factor(X_with_const.values, i) 
-                   for i in range(X_with_const.shape[1])]
-print("다중공선성 확인 (VIF 값):")
-print(vif_data)
-print("일반적으로 VIF > 10이면 다중공선성 문제가 있을 수 있습니다.")
-
-# 4. 자기상관성 확인 (시계열 데이터인 경우)
-from statsmodels.stats.stattools import durbin_watson
-dw = durbin_watson(model.resid)
-print(f"더빈-왓슨 통계량: {dw:.4f}")
-print("2에 가까우면 자기상관 없음, 0에 가까우면 양의 자기상관, 4에 가까우면 음의 자기상관")
-
-# 5. 이상치 확인 - 표준화된 잔차
-std_resid = model.get_influence().resid_studentized_internal
-plt.figure(figsize=(10, 6))
-plt.scatter(range(len(std_resid)), std_resid)
-plt.axhline(y=0, color='r', linestyle='--')
-plt.axhline(y=2, color='g', linestyle='--')
-plt.axhline(y=-2, color='g', linestyle='--')
-plt.xlabel('관측치 인덱스')
-plt.ylabel('표준화된 잔차')
-plt.title('이상치 확인 (|표준화된 잔차| > 2 인 경우 확인)')
-plt.show()
-
-# 이상치 관측치 확인
-outliers = np.where(abs(std_resid) > 2)[0]
-if len(outliers) > 0:
-    print(f"이상치로 의심되는 관측치 인덱스: {outliers}")
-```
-
+- 선형성 → 시각화, 회귀 계수(유의미 p-value)
+- 독립선 → 
+- 등분산성
+- 정규성
+- 
