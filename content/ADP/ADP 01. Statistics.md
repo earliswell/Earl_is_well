@@ -11,7 +11,7 @@ tags:
 ---
 ## 1. 기초통계량
 
-### 대표값 (평균, 중앙값)
+#### 대표값 (평균, 중앙값)
 
 **정의**: 데이터의 중심 경향을 나타내는 측정값으로, 데이터 집합의 전형적인 값을 요약
 
@@ -1807,3 +1807,850 @@ plt.tight_layout()
 - 조절효과(moderating effect) 분석
 - 특정 상황에서의 효과 예측
 - 상승작용/길항작용 파악
+---
+
+## 1. 시계열 기초 개념
+
+#### 정상성(Stationarity)
+
+**정의**: 시계열의 통계적 특성(평균, 분산, 자기상관)이 시간에 따라 변하지 않는 특성
+
+**수식**:
+- 약정상성(Weak Stationarity) 조건:
+    1. 평균이 일정: $E[X_t] = \mu$ (모든 t에 대해)
+    2. 분산이 일정: $Var[X_t] = \sigma^2$ (모든 t에 대해)
+    3. 자기공분산이 시차에만 의존: $Cov[X_t, X_{t+k}] = \gamma_k$ (시간 t와 무관)
+
+**특징**:
+- 대부분의 시계열 모델링은 정상성 가정 필요
+- 비정상 시계열은 추세, 계절성, 분산 변동 등 포함
+- 차분, 로그변환 등으로 비정상 시계열을 정상화 가능
+- 정상성 검정: ADF(Augmented Dickey-Fuller), KPSS 검정 활용
+
+**코드 예시**:
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import adfuller, kpss
+
+# 비정상 시계열 생성(추세 포함)
+np.random.seed(42)
+t = np.arange(200)
+trend = 0.05 * t
+noise = np.random.normal(0, 1, 200)
+non_stationary = trend + noise
+
+# 정상 시계열 생성
+stationary = noise.copy()
+
+# 시각화
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 1, 1)
+plt.plot(non_stationary)
+plt.title('비정상 시계열(추세 포함)')
+plt.subplot(2, 1, 2)
+plt.plot(stationary)
+plt.title('정상 시계열')
+plt.tight_layout()
+
+# ADF 검정(귀무가설: 단위근 존재 = 비정상)
+def adf_test(series, title=''):
+    result = adfuller(series, autolag='AIC')
+    print(f"ADF 검정 결과 ({title}):")
+    print(f'ADF 통계량: {result[0]:.4f}')
+    print(f'p-값: {result[1]:.4f}')
+    print(f'임계값: 1%: {result[4]["1%"]:.4f}, 5%: {result[4]["5%"]:.4f}, 10%: {result[4]["10%"]:.4f}')
+    if result[1] <= 0.05:
+        print("귀무가설 기각: 시계열이 정상적임")
+    else:
+        print("귀무가설 채택: 시계열이 비정상적임")
+
+adf_test(non_stationary, '비정상 시계열')
+adf_test(stationary, '정상 시계열')
+
+# 차분을 통한 정상화
+diff_series = np.diff(non_stationary)
+plt.figure(figsize=(10, 4))
+plt.plot(diff_series)
+plt.title('1차 차분 후 시계열')
+plt.tight_layout()
+
+adf_test(diff_series, '차분 후 시계열')
+```
+
+**개념의 활용**:
+- 시계열 모델링의 기본 전제조건 확인
+- 모델 적합 전 필요한 데이터 변환 결정
+- 데이터 특성에 맞는 모델 선택
+- 장기 예측의 신뢰성 평가
+
+#### 시계열 분해(Decomposition)
+
+**정의**: 시계열을 추세(Trend), 계절성(Seasonality), 잔차(Residual) 성분으로 분리하는 과정
+
+**수식**:
+- 가법 모형: $Y_t = T_t + S_t + R_t$
+- 승법 모형: $Y_t = T_t \times S_t \times R_t$
+
+**특징**:
+- 추세: 장기적인 상승/하락 경향
+- 계절성: 일정 주기로 반복되는 패턴
+- 잔차: 불규칙 변동(랜덤 성분)
+- 데이터 특성 파악과 모델링에 중요한 선행 단계
+
+**코드 예시**:
+```python
+from statsmodels.tsa.seasonal import seasonal_decompose
+
+# 계절성 있는 시계열 생성
+np.random.seed(42)
+t = np.arange(100)
+trend = 0.1 * t
+seasonal = 5 * np.sin(2 * np.pi * t / 12)  # 12개월 주기
+noise = np.random.normal(0, 1, 100)
+time_series = trend + seasonal + noise
+
+# 시계열 분해
+# 가법 모형
+decomposition_add = seasonal_decompose(time_series, model='additive', period=12)
+
+# 승법 모형
+# 음수값 처리를 위해 최소값 조정
+ts_pos = time_series - np.min(time_series) + 1
+decomposition_mult = seasonal_decompose(ts_pos, model='multiplicative', period=12)
+
+# 결과 시각화
+plt.figure(figsize=(14, 10))
+
+# 가법 모형 결과
+plt.subplot(2, 2, 1)
+plt.plot(time_series)
+plt.title('원본 시계열')
+
+plt.subplot(2, 2, 2)
+plt.plot(decomposition_add.trend)
+plt.title('추세 성분')
+
+plt.subplot(2, 2, 3)
+plt.plot(decomposition_add.seasonal)
+plt.title('계절성 성분')
+
+plt.subplot(2, 2, 4)
+plt.plot(decomposition_add.resid)
+plt.title('잔차 성분')
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+- 시계열 패턴 이해 및 시각화
+- 적절한 예측 모델 선택에 도움
+- 계절 조정(seasonal adjustment)
+- 이상 탐지(anomaly detection)
+
+## 2. 자기상관과 부분자기상관
+
+#### 자기상관함수(ACF)와 부분자기상관함수(PACF)
+
+**정의**:
+- ACF: 시계열이 시차(lag)에 따라 자신과 갖는 상관관계
+- PACF: 중간 시차의 영향을 제거했을 때 특정 시차의 순수한 자기상관
+
+**수식**:
+- ACF: $\rho_k = \frac{Cov(Y_t, Y_{t-k})}{Var(Y_t)} = \frac{\gamma_k}{\gamma_0}$
+- PACF: k차 편자기상관계수는 $Y_t$와 $Y_{t-k}$ 사이의 상관계수로, $Y_{t-1}, Y_{t-2}, ..., Y_{t-k+1}$의 영향을 제거한 값
+
+**특징**:
+- ACF: 모든 간접 효과를 포함한 전체 상관관계
+- PACF: 직접적인 효과만 측정(중간 시차 효과 제거)
+- ACF, PACF 패턴으로 ARIMA 모형의 차수 식별
+- 신뢰 구간을 벗어나는 시차는 통계적으로 유의미
+
+**코드 예시**:
+```python
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
+# AR(1) 과정 생성
+np.random.seed(42)
+ar_params = [0.7]
+ar1 = sm.tsa.arma_generate_sample(ar_params, [1], 200)
+
+# MA(1) 과정 생성
+ma_params = [0.7]
+ma1 = sm.tsa.arma_generate_sample([1], ma_params, 200)
+
+# ARMA(1,1) 과정 생성
+arma11 = sm.tsa.arma_generate_sample(ar_params, ma_params, 200)
+
+# ACF/PACF 시각화
+fig, axes = plt.subplots(3, 2, figsize=(12, 10))
+
+# AR(1) 과정
+plot_acf(ar1, lags=20, ax=axes[0, 0])
+axes[0, 0].set_title('AR(1) ACF')
+plot_pacf(ar1, lags=20, ax=axes[0, 1])
+axes[0, 1].set_title('AR(1) PACF')
+
+# MA(1) 과정
+plot_acf(ma1, lags=20, ax=axes[1, 0])
+axes[1, 0].set_title('MA(1) ACF')
+plot_pacf(ma1, lags=20, ax=axes[1, 1])
+axes[1, 1].set_title('MA(1) PACF')
+
+# ARMA(1,1) 과정
+plot_acf(arma11, lags=20, ax=axes[2, 0])
+axes[2, 0].set_title('ARMA(1,1) ACF')
+plot_pacf(arma11, lags=20, ax=axes[2, 1])
+axes[2, 1].set_title('ARMA(1,1) PACF')
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+- ARIMA 모형 차수 식별의 핵심 도구
+- 시계열 데이터의 메모리(기억) 특성 파악
+- 시차 종속성 구조 이해
+- 백색 잡음(white noise) 여부 확인
+
+### 시계열 모형 식별 패턴
+**정의**: ACF와 PACF의 패턴을 통해 적절한 ARIMA 모형의 차수를 결정하는 방법
+
+**특징**:
+- AR(p) 모형 패턴:
+    - ACF: 점진적으로 감소 또는 진동하며 감소
+    - PACF: p차까지 유의하고 이후 급격히 절단(cut off)
+
+- MA(q) 모형 패턴:
+    - ACF: q차까지 유의하고 이후 급격히 절단
+    - PACF: 점진적으로 감소 또는 진동하며 감소
+
+- ARMA(p,q) 모형 패턴:
+    - ACF: q차 이후 지수적으로 감소
+    - PACF: p차 이후 지수적으로 감소
+
+**코드 예시**:
+```python
+# 모형 식별 실습
+# 실제 시계열 데이터 불러오기(예: AirPassengers)
+data = sm.datasets.get_rdataset("AirPassengers", "datasets").data
+ts = data["value"]
+
+# 로그 변환 및 차분으로 정상화
+log_ts = np.log(ts)
+diff_log_ts = np.diff(log_ts)
+
+# ACF/PACF 시각화를 통한 모형 식별
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+plot_acf(diff_log_ts, lags=24, ax=axes[0])
+axes[0].set_title('ACF - 로그 변환 & 차분 후')
+plot_pacf(diff_log_ts, lags=24, ax=axes[1])
+axes[1].set_title('PACF - 로그 변환 & 차분 후')
+plt.tight_layout()
+
+# 패턴 해석 주석
+print("ACF/PACF 패턴 해석:")
+print("ACF: 12차에서 큰 스파이크 - 계절성 존재 가능")
+print("PACF: 초기 몇 개 시차에서 유의하고 점차 감소 - AR 성분 존재 가능")
+print("가능한 모형: SARIMA(p,1,q)(P,1,Q)12 - 계절성 및 차분 고려")
+```
+
+**개념의 활용**:
+- 데이터 기반의 객관적 모형 선택
+- 과대적합(overfitting) 방지를 위한 간결한 모형 선택
+- 시계열 데이터의 기저 생성 메커니즘 이해
+- 적절한 예측 모델 구축을 위한 기초
+
+## 3. ARIMA 모형
+
+### 자기회귀(AR)와 이동평균(MA) 모형
+
+**정의**:
+- AR(p): 현재 값이 과거 p개 시점의 값에 선형적으로 의존하는 모형
+- MA(q): 현재 값이 현재와 과거 q개 시점의 오차항에 의존하는 모형
+
+**수식**:
+- AR(p): $Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + ... + \phi_p Y_{t-p} + \varepsilon_t$
+- MA(q): $Y_t = \mu + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + ... + \theta_q \varepsilon_{t-q}$
+
+**특징**:
+- AR 모형: 시계열의 "관성"이나 "추세 지속성" 모델링
+- MA 모형: 시계열의 "충격의 잔향" 모델링
+- 정상성 조건: AR 모형의 특성방정식 근이 단위원 밖에 위치
+- 가역성 조건: MA 모형의 특성방정식 근이 단위원 밖에 위치
+
+**코드 예시**:
+```python
+from statsmodels.tsa.arima.model import ARIMA
+
+# AR(2) 모델링
+ar2_model = ARIMA(ar1, order=(2, 0, 0))
+ar2_results = ar2_model.fit()
+print("AR(2) 모형 요약:")
+print(ar2_results.summary().tables[1])
+
+# MA(1) 모델링
+ma1_model = ARIMA(ma1, order=(0, 0, 1))
+ma1_results = ma1_model.fit()
+print("\nMA(1) 모형 요약:")
+print(ma1_results.summary().tables[1])
+
+# 모델 예측
+ar_forecast = ar2_results.forecast(steps=10)
+ma_forecast = ma1_results.forecast(steps=10)
+
+# 예측값 시각화
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.plot(ar1, label='실제 값')
+plt.plot(range(len(ar1), len(ar1)+10), ar_forecast, 'r--', label='예측 값')
+plt.title('AR(2) 모형 예측')
+plt.legend()
+
+plt.subplot(1, 2, 2)
+plt.plot(ma1, label='실제 값')
+plt.plot(range(len(ma1), len(ma1)+10), ma_forecast, 'r--', label='예측 값')
+plt.title('MA(1) 모형 예측')
+plt.legend()
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+- AR: 경제 지표, 주가 등 관성이 있는 시계열 모델링
+- MA: 충격이 일시적으로 영향을 미치는 시계열 모델링
+- 모형 차수는 ACF/PACF 또는 정보 기준(AIC, BIC)으로 결정
+- 복잡한 패턴은 AR과 MA의 조합으로 모델링
+
+### ARIMA 모형
+**정의**: 자기회귀(Auto-Regressive), 차분(Integrated), 이동평균(Moving Average)을 결합한 시계열 모형으로, ARIMA(p,d,q)로 표기
+
+**수식**:
+- ARIMA(p,d,q): $(1-\phi_1B-\phi_2B^2-...-\phi_pB^p)(1-B)^d Y_t = (1+\theta_1B+\theta_2B^2+...+\theta_qB^q)\varepsilon_t$
+- 여기서 B는 후행 연산자(Backshift Operator): $B^k Y_t = Y_{t-k}$
+
+**특징**:
+- p: 자기회귀 차수 - 과거 값의 영향
+- d: 차분 차수 - 정상화를 위한 차분 횟수
+- q: 이동평균 차수 - 과거 오차의 영향
+- 정상 시계열에 대해 AR과 MA 성분 결합
+- 비정상 시계열은 차분(d)을 통해 정상화 후 모델링
+
+**코드 예시**:
+```python
+# ARIMA 모델링
+# 비정상 시계열 데이터 생성
+np.random.seed(42)
+t = np.arange(200)
+trend = 0.05 * t
+ar_component = np.zeros(200)
+for i in range(2, 200):
+    ar_component[i] = 0.7 * ar_component[i-1] - 0.3 * ar_component[i-2] + np.random.normal(0, 1)
+    
+non_stationary_arima = trend + ar_component
+
+# ARIMA 모형 적합
+# 모형 차수: (2,1,0) - AR(2), 1차 차분, MA(0)
+arima_model = ARIMA(non_stationary_arima, order=(2, 1, 0))
+arima_results = arima_model.fit()
+print("ARIMA(2,1,0) 모형 요약:")
+print(arima_results.summary().tables[1])
+
+# 예측
+arima_forecast = arima_results.forecast(steps=20)
+forecast_index = np.arange(len(non_stationary_arima), len(non_stationary_arima) + 20)
+
+# 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(non_stationary_arima, label='실제 값')
+plt.plot(forecast_index, arima_forecast, 'r--', label='예측 값')
+plt.fill_between(forecast_index, 
+                 arima_forecast - 1.96 * np.sqrt(arima_results.forecast_variance(steps=20)),
+                 arima_forecast + 1.96 * np.sqrt(arima_results.forecast_variance(steps=20)),
+                 color='r', alpha=0.2, label='95% 신뢰구간')
+plt.title('ARIMA(2,1,0) 모형 예측')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# 모형 비교(여러 차수 비교)
+orders = [(1,1,0), (2,1,0), (1,1,1), (2,1,1)]
+results = {}
+
+for order in orders:
+    model = ARIMA(non_stationary_arima, order=order)
+    fit_result = model.fit()
+    results[order] = {
+        'AIC': fit_result.aic,
+        'BIC': fit_result.bic,
+        'HQIC': fit_result.hqic
+    }
+
+# 결과 비교
+result_df = pd.DataFrame(results).T
+print("\n모형 비교:")
+print(result_df)
+```
+
+### SARIMA 모형
+**정의**: 계절성(Seasonal) 패턴을 포함한 ARIMA 모형으로, SARIMA(p,d,q)(P,D,Q)s로 표기
+
+**수식**:
+- SARIMA(p,d,q)(P,D,Q)s: $\Phi_P(B^s)\phi_p(B)(1-B)^d(1-B^s)^D Y_t = \Theta_Q(B^s)\theta_q(B)\varepsilon_t$
+- 여기서 s는 계절 주기, P, D, Q는 각각 계절성 AR, 차분, MA 차수
+
+**특징**:
+- ARIMA 모형에 계절성 성분 추가
+- 계절 차분(D)으로 계절적 비정상성 제거
+- 비계절 성분(p,d,q)과 계절 성분(P,D,Q) 결합
+- 월별(s=12), 분기별(s=4), 주별(s=7) 등 다양한 계절성 모델링 가능
+
+**코드 예시**:
+```python
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+
+# 계절성 있는 시계열 데이터 불러오기
+data = sm.datasets.get_rdataset("AirPassengers", "datasets").data
+ts = data["value"]
+
+# 로그 변환(분산 안정화)
+log_ts = np.log(ts)
+
+# 계절 패턴 시각화
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 1, 1)
+plt.plot(ts)
+plt.title('원본 시계열')
+plt.subplot(2, 1, 2)
+plt.plot(log_ts)
+plt.title('로그 변환 시계열')
+plt.tight_layout()
+
+# SARIMA 모형 적합
+# 모형 차수: (1,1,1)(1,1,1)12 - 월별 데이터의 계절성
+sarima_model = SARIMAX(log_ts, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+sarima_results = sarima_model.fit(disp=False)
+print("SARIMA(1,1,1)(1,1,1)12 모형 요약:")
+print(sarima_results.summary().tables[1])
+
+# 원래 스케일로 예측값 변환
+forecast_log = sarima_results.forecast(steps=24)
+forecast = np.exp(forecast_log)
+forecast_index = pd.date_range(start=data.index[-1], periods=25, freq='MS')[1:]
+
+# 예측 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(data.index, ts, label='실제 값')
+plt.plot(forecast_index, forecast, 'r--', label='예측 값')
+plt.title('SARIMA 모형 예측')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# 잔차 진단
+residuals = sarima_results.resid
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+
+# 잔차 시계열
+axes[0, 0].plot(residuals)
+axes[0, 0].set_title('잔차')
+axes[0, 0].axhline(y=0, color='r', linestyle='-')
+
+# 잔차 히스토그램
+axes[0, 1].hist(residuals, bins=20)
+axes[0, 1].set_title('잔차 히스토그램')
+
+# 잔차 ACF
+plot_acf(residuals, lags=36, ax=axes[1, 0])
+axes[1, 0].set_title('잔차 ACF')
+
+# Q-Q 플롯
+sm.qqplot(residuals, line='45', ax=axes[1, 1])
+axes[1, 1].set_title('잔차 Q-Q 플롯')
+
+plt.tight_layout()
+```
+
+### VAR 모형(Vector Autoregression)
+**정의**: 여러 시계열 변수 간의 상호 영향을 모델링하는 다변량 자기회귀 모형
+
+**수식**:
+- VAR(p): $\mathbf{Y}_t = \mathbf{c} + \mathbf{A}_1 \mathbf{Y}_{t-1} + \mathbf{A}_2 \mathbf{Y}_{t-2} + ... + \mathbf{A}_p \mathbf{Y}_{t-p} + \mathbf{\varepsilon}_t$
+- 여기서 $\mathbf{Y}_t$는 k개 변수의 벡터, $\mathbf{A}_i$는 k×k 계수 행렬
+
+**특징**:
+- 여러 변수 간 동시적 상호작용 고려
+- 각 변수가 자신과 다른 모든 변수의 과거값에 의존
+- 그랜저 인과성 검정, 충격반응함수, 분산분해 등 다양한 분석 도구 제공
+- 모든 변수는 정상성 가정 필요(필요시 차분)
+
+**코드 예시**:
+```python
+from statsmodels.tsa.api import VAR
+from statsmodels.tsa.vector_ar.vecm import coint_johansen
+
+# 다변량 시계열 데이터 생성
+np.random.seed(42)
+n_obs = 200
+# 두 개의 상호작용하는 시계열
+e1 = np.random.normal(0, 1, n_obs)
+e2 = np.random.normal(0, 1, n_obs)
+
+y1 = np.zeros(n_obs)
+y2 = np.zeros(n_obs)
+
+# VAR(1) 과정 생성: y1과 y2는 상호 영향
+for t in range(1, n_obs):
+    y1[t] = 0.5 * y1[t-1] + 0.3 * y2[t-1] + e1[t]
+    y2[t] = 0.2 * y1[t-1] + 0.7 * y2[t-1] + e2[t]
+
+# 데이터프레임 생성
+var_data = pd.DataFrame({'y1': y1, 'y2': y2})
+
+# 시각화
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 1, 1)
+plt.plot(var_data['y1'])
+plt.title('변수 y1')
+plt.subplot(2, 1, 2)
+plt.plot(var_data['y2'])
+plt.title('변수 y2')
+plt.tight_layout()
+
+# VAR 모형 적합
+var_model = VAR(var_data)
+
+# 최적 시차 선택
+lag_order_results = var_model.select_order(maxlags=10)
+print("정보 기준에 따른 최적 시차:")
+print(lag_order_results.summary())
+
+# 선택된 시차로 모형 적합
+selected_order = lag_order_results.aic  # AIC 기준
+var_fitted = var_model.fit(selected_order)
+print("\nVAR 모형 요약:")
+print(var_fitted.summary())
+
+# 그랜저 인과성 검정
+causality_y1_to_y2 = var_fitted.test_causality('y2', ['y1'])
+print("\ny1 → y2 그랜저 인과성 검정:")
+print(f"검정 통계량: {causality_y1_to_y2.test_statistic:.4f}, p-값: {causality_y1_to_y2.pvalue:.4f}")
+
+causality_y2_to_y1 = var_fitted.test_causality('y1', ['y2'])
+print("y2 → y1 그랜저 인과성 검정:")
+print(f"검정 통계량: {causality_y2_to_y1.test_statistic:.4f}, p-값: {causality_y2_to_y1.pvalue:.4f}")
+
+# 충격반응함수(IRF) 계산
+irf = var_fitted.irf(10)  # 10단계 ahead
+
+# 충격반응함수 시각화
+plt.figure(figsize=(12, 8))
+irf.plot(orth=True)
+plt.suptitle('직교화된 충격반응함수')
+plt.tight_layout()
+plt.subplots_adjust(top=0.9)
+
+# 예측
+var_forecast = var_fitted.forecast(var_data.values[-selected_order:], steps=10)
+forecast_index = range(len(var_data), len(var_data) + 10)
+
+# 예측 시각화
+plt.figure(figsize=(12, 8))
+plt.subplot(2, 1, 1)
+plt.plot(var_data['y1'], label='y1 실제값')
+plt.plot(forecast_index, var_forecast[:, 0], 'r--', label='y1 예측값')
+plt.legend()
+plt.title('y1 예측')
+
+plt.subplot(2, 1, 2)
+plt.plot(var_data['y2'], label='y2 실제값')
+plt.plot(forecast_index, var_forecast[:, 1], 'r--', label='y2 예측값')
+plt.legend()
+plt.title('y2 예측')
+
+plt.tight_layout()
+```
+
+## 4. 시계열 모형 선택 및 진단
+
+#### 잔차 분석
+
+**정의**: 시계열 모형 적합 후 잔차의 특성을 분석하여 모형의 적절성을 평가하는 과정
+
+**특징**:
+- 좋은 모형의 잔차는 백색 잡음(white noise) 특성을 보임
+    - 평균이 0
+    - 일정한 분산
+    - 자기상관 없음(독립성)
+    - 정규분포 따름
+- 잔차 분석을 통해 모형의 개선점 파악 가능
+
+**코드 예시**:
+```python
+# 모형 잔차 진단(ARIMA 모형 예시)
+# 잔차 추출
+residuals = arima_results.resid
+
+# 기본 통계량
+print("잔차 기본 통계량:")
+print(f"평균: {np.mean(residuals):.4f}")
+print(f"표준편차: {np.std(residuals):.4f}")
+print(f"왜도: {stats.skew(residuals):.4f}")
+print(f"첨도: {stats.kurtosis(residuals):.4f}")
+
+# 정규성 검정
+shapiro_test = stats.shapiro(residuals)
+print(f"\n잔차 정규성 검정(Shapiro-Wilk):")
+print(f"통계량: {shapiro_test.statistic:.4f}, p-값: {shapiro_test.pvalue:.4f}")
+
+# 자기상관 검정(Ljung-Box 검정)
+from statsmodels.stats.diagnostic import acorr_ljungbox
+lb_test = acorr_ljungbox(residuals, lags=[10, 20, 30])
+print("\nLjung-Box 검정:")
+print(lb_test)
+
+# 이분산성 검정(Engle's ARCH 검정)
+from statsmodels.stats.diagnostic import het_arch
+arch_test = het_arch(residuals)
+print("\nARCH 효과 검정:")
+print(f"통계량: {arch_test[0]:.4f}, p-값: {arch_test[1]:.4f}")
+
+# 잔차 진단 시각화
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+
+# 잔차 시계열
+axes[0, 0].plot(residuals)
+axes[0, 0].set_title('잔차 시계열')
+axes[0, 0].axhline(y=0, color='r', linestyle='-')
+
+# 잔차 히스토그램
+axes[0, 1].hist(residuals, bins=20, density=True, alpha=0.7)
+xmin, xmax = axes[0, 1].get_xlim()
+x = np.linspace(xmin, xmax, 100)
+axes[0, 1].plot(x, stats.norm.pdf(x, np.mean(residuals), np.std(residuals)), 'r-')
+axes[0, 1].set_title('잔차 히스토그램과 정규분포')
+
+# 잔차 ACF
+plot_acf(residuals, lags=30, ax=axes[1, 0])
+axes[1, 0].set_title('잔차 ACF')
+
+# Q-Q 플롯
+sm.qqplot(residuals, line='45', ax=axes[1, 1])
+axes[1, 1].set_title('잔차 Q-Q 플롯')
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+- 모형 적합도 평가
+- 모형 가정 충족 여부 검증
+- 잔여 패턴 식별 및 모형 개선 방향 도출
+- 예측 불확실성 평가의 기초
+
+#### 정보 기준과 모형 선택  
+
+**정의**: 여러 모형의 적합도와 복잡성을 고려하여 최적 모형을 선택하는 기준
+
+**수식**:
+- AIC(Akaike Information Criterion): $AIC = -2\ln(L) + 2k$
+- BIC(Bayesian Information Criterion): $BIC = -2\ln(L) + k\ln(n)$
+- HQIC(Hannan-Quinn Information Criterion): $HQIC = -2\ln(L) + 2k\ln(\ln(n))$
+
+여기서 L은 최대우도, k는 모수 수, n은 표본 크기
+
+**특징**:
+- 작은 값일수록 좋은 모형을 의미
+- BIC는 AIC보다 모형 복잡성에 더 큰 페널티 부여
+- 단순히 적합도만 고려하지 않고 과적합 위험 반영
+- 비중첩 모형 간 비교 가능
+
+**코드 예시**:
+```python
+# 여러 ARIMA 모형 비교
+# 후보 모형 차수
+p_values = range(0, 3)
+d_values = [1]  # 1차 차분 고정
+q_values = range(0, 3)
+
+best_aic = float('inf')
+best_bic = float('inf')
+best_hqic = float('inf')
+best_order_aic = None
+best_order_bic = None
+best_order_hqic = None
+
+results_df = pd.DataFrame(columns=['order', 'AIC', 'BIC', 'HQIC'])
+
+for p in p_values:
+    for d in d_values:
+        for q in q_values:
+            try:
+                model = ARIMA(non_stationary_arima, order=(p, d, q))
+                results = model.fit()
+                
+                # 결과 저장
+                results_df = results_df.append({
+                    'order': (p, d, q),
+                    'AIC': results.aic,
+                    'BIC': results.bic,
+                    'HQIC': results.hqic
+                }, ignore_index=True)
+                
+                # 최적 모형 업데이트
+                if results.aic < best_aic:
+                    best_aic = results.aic
+                    best_order_aic = (p, d, q)
+                
+                if results.bic < best_bic:
+                    best_bic = results.bic
+                    best_order_bic = (p, d, q)
+                    
+                if results.hqic < best_hqic:
+                    best_hqic = results.hqic
+                    best_order_hqic = (p, d, q)
+                    
+            except:
+                continue
+
+# 결과 정렬 및 출력
+results_df = results_df.sort_values('AIC')
+print("ARIMA 모형 비교:")
+print(results_df)
+
+print(f"\n최적 모형(AIC 기준): ARIMA{best_order_aic}")
+print(f"최적 모형(BIC 기준): ARIMA{best_order_bic}")
+print(f"최적 모형(HQIC 기준): ARIMA{best_order_hqic}")
+
+# 정보 기준 시각화
+plt.figure(figsize=(10, 6))
+for i, criterion in enumerate(['AIC', 'BIC', 'HQIC']):
+    plt.subplot(3, 1, i+1)
+    order_list = [str(order) for order in results_df['order']]
+    plt.bar(order_list, results_df[criterion])
+    plt.title(f'{criterion} by Model Order')
+    plt.xticks(rotation=45)
+    plt.ylabel(criterion)
+
+plt.tight_layout()
+```
+
+**개념의 활용**:
+- 복잡한 모형과 단순한 모형 간 객관적 비교
+- 과적합 방지를 통한 예측 성능 향상
+- 최적의 모형 차수(p, d, q) 결정
+- 여러 종류의 모형(ARIMA, ETS, VAR 등) 간 비교
+
+#### 예측 정확도 평가
+**정의**: 시계열 모형의 예측 성능을 정량적으로 평가하는 지표
+
+**수식**:
+
+- MAE(Mean Absolute Error): $MAE = \frac{1}{n}\sum_{i=1}^{n}|y_i - \hat{y}_i|$
+- RMSE(Root Mean Squared Error): $RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}$
+- MAPE(Mean Absolute Percentage Error): $MAPE = \frac{100\%}{n}\sum_{i=1}^{n}|\frac{y_i -\hat{y}_i}{y_i}$
+
+**특징**:
+
+- MAE: 오차의 절대적 크기 측정, 이상치에 덜 민감
+- RMSE: 큰 오차에 더 가중치 부여, 제곱으로 인해 이상치에 민감
+- MAPE: 상대적 오차 측정, 다른 스케일의 시계열 비교 가능
+- 시계열 교차 검증: 시간 순서를 고려한 특수한 교차 검증 방법
+
+**코드 예시**:
+```python
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import math
+
+# 데이터 분할(훈련/테스트)
+train_size = int(len(log_ts) * 0.8)
+train, test = log_ts[:train_size], log_ts[train_size:]
+
+# SARIMA 모형 적합(훈련 데이터만 사용)
+sarima_model_eval = SARIMAX(train, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+sarima_results_eval = sarima_model_eval.fit(disp=False)
+
+# 테스트 기간 예측
+forecast_test = sarima_results_eval.forecast(steps=len(test))
+
+# 원래 스케일로 변환(로그 역변환)
+forecast_test_orig = np.exp(forecast_test)
+test_orig = np.exp(test)
+
+# 예측 정확도 평가
+mae = mean_absolute_error(test_orig, forecast_test_orig)
+rmse = math.sqrt(mean_squared_error(test_orig, forecast_test_orig))
+mape = np.mean(np.abs((test_orig - forecast_test_orig) / test_orig)) * 100
+
+print("예측 정확도 평가:")
+print(f"MAE: {mae:.2f}")
+print(f"RMSE: {rmse:.2f}")
+print(f"MAPE: {mape:.2f}%")
+
+# 시계열 교차 검증
+from sklearn.model_selection import TimeSeriesSplit
+
+# 시계열 분할
+tscv = TimeSeriesSplit(n_splits=5)
+
+# 시각화
+plt.figure(figsize=(12, 8))
+plt.subplot(2, 1, 1)
+plt.plot(test_orig.index, test_orig, label='실제값')
+plt.plot(test_orig.index, forecast_test_orig, 'r--', label='예측값')
+plt.title('테스트 세트 예측 결과')
+plt.legend()
+
+# 교차 검증 시각화
+plt.subplot(2, 1, 2)
+fold = 0
+for train_idx, test_idx in tscv.split(log_ts):
+    fold += 1
+    plt.plot(np.arange(len(log_ts))[test_idx], [fold] * len(test_idx), 'r-', lw=10, alpha=0.4)
+    plt.plot(np.arange(len(log_ts))[train_idx], [fold] * len(train_idx), 'c-', lw=10, alpha=0.4)
+
+plt.title('시계열 교차 검증 분할')
+plt.yticks(np.arange(1, 6), [f'폴드 {i}' for i in range(1, 6)])
+plt.xlabel('시간')
+plt.tight_layout()
+```
+
+**개념의 활용**:
+- 여러 모형의 예측 성능 객관적 비교
+- 실무 요구사항에 맞는 평가 지표 선택
+- 모형 개선 방향 도출
+- 예측의 신뢰성 평가
+
+## 5. 시계열 모델링 종합 사례
+
+#### 시계열 모델링 프로세스
+
+**단계별 과정**:
+1. 데이터 탐색 및 전처리
+    - 추세, 계절성, 주기성 확인
+    - 결측치, 이상치 처리
+    - 변환(로그, 차분 등)을 통한 정상화
+
+2. 정상성 검정
+    - 시각적 검토(시계열 플롯, ACF/PACF)
+    - 통계적 검정(ADF, KPSS)
+    - 필요시 차분 적용
+
+3. 모형 식별 및 추정
+    - ACF/PACF 패턴 분석
+    - 정보 기준(AIC, BIC)을 통한 모형 선택
+    - 매개변수 추정
+
+4. 모형 진단
+    - 잔차 분석(백색 잡음 검정)
+    - 과적합 여부 확인
+    - 필요시 모형 수정
+
+5. 예측 및 평가
+    - 모형을 이용한 미래 예측
+    - 예측 정확도 평가(MAE, RMSE, MAPE)
+    - 예측 구간 제시
+
+## 시계열 모델 선택 가이드 및 ADP 대응 전략
+
+
+시계열 분석은 데이터의 시간적 의존성을 활용하여 패턴을 이해하고 미래를 예측하는 중요한 통계적 방법론입니다. ARIMA, SARIMA, VAR 등의 모형을 상황에 맞게 적용함으로써 다양한 시간 패턴을 효과적으로 모델링할 수 있습니다. ADP 시험에서는 시계열 데이터의 특성 파악부터 적절한 모형 선택, 추정, 진단, 예측까지의 전체 과정을 체계적으로 이해하고 적용하는 능력이 중요하게 평가됩니다.
