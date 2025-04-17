@@ -1287,9 +1287,9 @@ plt.show()
 - 회귀분석의 잔차가 정규분포를 따르는지 확인할 때
 - 복잡한 통계 모델의 가정을 검증할 때
 
-## 6. 등분산 검정 (Tests for Homogeneity of Variance)
+#### 6. 등분산 검정 (Tests for Homogeneity of Variance)
 
-### Levene, Bartlett, Fligner 등분산 검정
+##### Levene, Bartlett, Fligner 등분산 검정
 
 **정의**: 여러 집단의 분산이 동일한지 검정하는 방법으로, 모수적 검정의 중요한 가정을 확인하는 데 사용됩니다.
 
