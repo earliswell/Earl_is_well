@@ -18,7 +18,7 @@ $$
 - 우리가 데이터를 통해 누군가에게 설명을 할 때 특정한 어떤 값을 통해서 우리의 분석 내용에 대해 전달하는 데, 이때 우리는 대푯값을 통해 누군가에게 설명하는 경우가 많음. 
 	- 예를 들어, 1시간 당 평균 n개의 빵이 팔렸다. 
 	- 이러한 대푯값을 나열하면, 평균, 최빈값, 최소값, 최대값 등등이 있는데, 대부분 평균을 사용함
-	- 평균값은 가운데 있는 정도를 의미하고(First moment), 매우 직관적이고, 계산에 용이함(Decompose)[[Statistics, 01. Discrete Distributions#Moments Moment-Generating Functions]]
+	- 평균값은 가운데 있는 정도를 의미하고(First moment), 매우 직관적이고, 계산에 용이함(Decompose)[[Statistics, 01. Discrete Distributions#Moments Moment-Generating Functions|Moment Condition]]
 - 따라서 위 모형에서 $y$는 종속변수(dependence variable, target, response, outcome) 등으로 표현되고, $x$는 독립변수(independence variable, feature, input, predictor) 등으로 표현된다. $\epsilon$은 measurement errors(측정 오차)라고 한다.
 - 우리가 어떤 데이터를 분석한다고 했을 때, 우리가 제시해야 할 목적에 대해서 분석 방법이 다양해진다.
 	- 어떤 y를 예측하거나 (예측)
@@ -126,7 +126,7 @@ $$
 $$
 - 하나의 열이 1로 채워져 있는 것을 볼 수 있는데, 이는 절편(intercept)을 의미한다. 즉 $x_{10}, x_{20} \cdots, x_{n0} = 1$ 이다.
 - This is a problem in multivariable calculus. For $\boldsymbol{\hat{\beta}}$ to minimize the sum of squared residuals, it must solve the first order condition
-- [[Statistics, 09. Linear Models and Estimation by Least Squares#The Method of Least Squares]]
+- [[Statistics, 09. Linear Models and Estimation by Least Squares#The Method of Least Squares|OLS]]
 $$
 \begin{align}
 SSR(\mathbf{b})  & = \sum_{i=1}^{n} (y_{i}-\mathbf{x}_{i}\mathbf{b})^2 \\
@@ -175,14 +175,14 @@ $$
 - Conditional on the entire matrix $\mathbf{X}$, each error $u_{i}$ has zero mean: $E(u_{i}|\mathbf{X})= 0, i=1, 2, \dots, n.$
 - 매트릭스 $\mathbf{X}$는 주어지는 것 (Given)임을 잊지 말자. $\mathbf{X}$가 주어졌을 때 에러의 평균은 0이다. 위 조건을 통해서, $E(u\mathbf{X}) = 0$이며, 이는 관측되지 않은 데이터 $u$와 관측된 데이터인 $\mathbf{X}$가 독립임을 의미한다.
 - 하지만? 현실에서는 이런 조건이 만족되기 쉽지 않으며, 만약 위 조건이 위배된다면 내생성(bias) 문제가 생긴다. 내생성의 문제는 우리의 coefficient의 크기를 희석시킨다는 문제가 있다. 따라서, 이러한 문제를 해결하기 위해 여러 인과추론의 모델을 통해 위 가정이 위배되었을 때, 어떻게 극복해 나갈 것인지 고민할 필요가 있다.
-	- [[Statistics, 10. Method of Moment for Single Linear Equation Models#Omitted Variable Bias]]
+- [[Statistics, 10. Method of Moment for Single Linear Equation Models#Omitted Variable Bias|생략 변수 편의]]
 
 ###### Assumption E.4, Homoskedasticity
 - Conditional on $\mathbf{X}$, the variance are constant:
 $$
 Var(u_{i}|\mathbf{X}) = \sigma^2, i = 1, 2, \dots, n.
 $$
-- [[Statistics, 10. Method of Moment for Single Linear Equation Models#LSE Asymptotic Distribution]]
+- [[Statistics, 10. Method of Moment for Single Linear Equation Models#LSE Asymptotic Distribution|Heteroskedasticity]]
 - 이는 에러항의 모든 분산이 동일하다는 의미를 갖는다(동분산성). 이 가정 또한 현실세계에서 많이 위배가 된다. 예를 들어, 소득에 따른 저축액을 분석하는 회귀식이 있다고 가정하자. 그렇다면 100만원을 버는 상태에 저축액의 분산과 1억을 버는 상태에서 저축액의 분산은 과연 동일할까?
 
 ###### Assumption E.5, No Serial Correlation
@@ -254,7 +254,7 @@ Var(\boldsymbol{\hat{\beta}}|\mathbf{X}) &  = (\mathbf{X'}\mathbf{X})^{-1}\mathb
 $$
 
 ###### THEOREM E.4, Unbiasedness of $\hat{\sigma}^2$
-- Under Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#E.5]], $\hat{\sigma}^2: E(\hat{\sigma}^2|\mathbf{X}) = \sigma^2$  for all $\sigma^2 >0$.
+- Under Assumptions [[#Assumption E.1, Linear in Parameters]] through [[#Assumption E.5, No Serial Correlation]], $\hat{\sigma}^2: E(\hat{\sigma}^2|\mathbf{X}) = \sigma^2$  for all $\sigma^2 >0$.
 - **Proof**: Write $\mathbf{\hat{u}} = \mathbf{y} - \mathbf{X}\boldsymbol{\hat{\beta}} = \mathbf{y} - \mathbf{X(X'X)^{-1}X'y} = \mathbf{My} = \mathbf{Mu}$, where $\mathbf{M} = \mathbf{I}_{n} -\mathbf{X(X'X)^{-1}X'}$, and the last equality follows because $\mathbf{MX} = 0$ because $\mathbf{M}$ is symmetric and idempotent,
 $$
 \mathbf{\hat{u}'u} = \mathbf{u'M'Mu} = \mathbf{u'Mu}.
