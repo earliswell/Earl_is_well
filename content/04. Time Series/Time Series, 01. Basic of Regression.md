@@ -669,7 +669,7 @@ y_{i}/\sqrt{ h_{i} } = \beta_{0}\sqrt{ h_{i} } + \beta_{1}(x_{i1}/\sqrt{ h_{i} }
 $$
 - or
 $$
-y_{i}^* + \beta_{0}x_{i0}^*+ \beta_{1}x_{i1}^* + \cdots + \beta_{k}x_{ik}^* + u_{i}^*
+y_{i}^* = \beta_{0}x_{i0}^*+ \beta_{1}x_{i1}^* + \cdots + \beta_{k}x_{ik}^* + u_{i}^*
 $$
 - WLS는 GLS의 특별한 경우이고 → GLS는 다양한 공분산 구조를 다룰 수 있고, WLS는 GLS의 특수한 경우로 오직 이분산성이 존재할 때만 사용 가능 !!
 - What if the assumed Heteroskedasticity function is ==Wrong?==
@@ -681,7 +681,7 @@ $$
 - The most important issue is whether misspecification of $h(x)$ causes bias or inconsistency in the WLS estimator. → 가장 중요한 이슈, Bias와 Inconsistency
 	- [[Statistics, 06. Estimation#The Bias and Mean Square Error of Point Estimators]]
 	- [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency]]
-- Fortunately, the answer is no, at least under [[#Assumption E.3, Zero Conditional Mean]], $E(u|x) = 0$ → 둘이 독립이라면 ! → 여전히 WLS의 함수는 unbiased와 consistency를 유지함.
+- Fortunately, the answer is no, at least under [[#Assumption E.3, Zero Conditional Mean]], $E(u|x) = 0$ → 둘이 상관관계가 없다면 ! → 여전히 WLS의 함수는 unbiased와 consistency를 유지함.
 - The usual WLS standard errors and test statistics, computed under the assumption that $Var(y|x) = \sigma^2h(x)$ are no longer valid, even in large samples.
 
 ## Maximum Likelihood Estimation
