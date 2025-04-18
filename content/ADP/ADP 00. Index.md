@@ -2,8 +2,12 @@
 longform:
   format: scenes
   title: ADP
+  workflow: Default Workflow
   sceneFolder: /
-  scenes: []
+  scenes:
+    - ADP 01. Statistics
+    - ADP 02. Machine Learning
+    - ADP 03. Etc.
   ignoredFiles: []
 ---
 ### 주요 내용
