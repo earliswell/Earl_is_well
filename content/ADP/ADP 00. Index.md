@@ -1824,4 +1824,3 @@ def time_series_analysis(time_series, seasonal_period=None):
 - [ ] 효과 크기 계산 및 해석
 - [ ] 실무적 의미와 활용방안 제시
 - [ ] 분석의 한계점 및 추가 연구 방향 제시
-
