@@ -374,8 +374,8 @@ $$
 
 ###### T-test (Point Estimation) → 각각의 $\beta$를 추정
 - 점 추정과 구간 추정이 있음. 어떤 하나의 값을 추정하는 것이 Point Estimation. 신뢰구간과 같은 것을 추정하는 것을 interval estimation이라고 함.
-- Independent small Sample: [[Statistics, 08. Hypothesis Testing#Small-Sample Hypothesis Testing for $ mu$ and $ mu_{1}- mu_{2}$]]
-- Mean Differencing: [[Statistics, 08. Hypothesis Testing#Small-Sample Hypothesis Testing for $ mu$ and $ mu_{1}- mu_{2}$]]
+- Independent small Sample: [[Statistics, 08. Hypothesis Testing#Small-Sample Hypothesis Testing for $ mu$ and $ mu_{1}- mu_{2}$|Small Sample T-test]]
+- Mean Differencing: [[Statistics, 08. Hypothesis Testing#Small-Sample Hypothesis Testing for $ mu$ and $ mu_{1}- mu_{2}$|T-test, Mean differencing]]
 
 #### Explanatory Variable Selection
 - What if we add too many explanatory variables to the model? (Goodness-of-fit, $R^2$) or What it too few explanatory variables are used for estimation? (Omitted variable bias)
