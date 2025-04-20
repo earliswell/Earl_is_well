@@ -210,7 +210,7 @@ e_{t} \sim iid(0, \sigma^2)
 $$
 - then
 $$
-E(Y_{t} = \mu)
+E(Y_{t} )= \mu
 $$
 - Also, we assume (finite variance)
 $$
