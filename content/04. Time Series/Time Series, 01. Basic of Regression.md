@@ -340,7 +340,7 @@ $$
 P(-z_{\alpha/2} \leq Z \leq z_{\alpha/2}) = 1-\alpha
 $$
 ![[Time_Series, Figure.02.png]]
-- Substituting for $Z$ in the probability statement, we have $(1-\alpha)$% confidence interval for $\theta$ 
+- Substitu3ting for $Z$ in the probability statement, we have $(1-\alpha)$% confidence interval for $\theta$ 
 $$
 \begin{align}
 P\left( -z_{\alpha/2} \leq\frac{\hat{\theta}- \theta}{\sigma_{\hat{\theta}}} \leq z_{\alpha/2} \right)  = 1- \alpha\\
