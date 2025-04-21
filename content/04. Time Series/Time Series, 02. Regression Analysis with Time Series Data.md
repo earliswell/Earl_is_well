@@ -488,8 +488,8 @@ $$
 - The characteristic vectors are
 $$
 \begin{align}
- & \lambda = \lambda_{1} \Rightarrow F\cdot x_{1} = \lambda_{1} \cdot x \\
- & \lambda = \lambda_{2} \Rightarrow F\cdot x_{2} = \lambda_{2} \cdot x \\
+ & \lambda = \lambda_{1} \Rightarrow F\cdot x_{1} = \lambda_{1} \cdot x_{1} \\
+ & \lambda = \lambda_{2} \Rightarrow F\cdot x_{2} = \lambda_{2} \cdot x_{2} \\
 \end{align}
 $$
 - To find finite roots we need normalization
