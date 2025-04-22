@@ -165,7 +165,7 @@ $$
 $$
 E(Y_{t}) = \text{plim}_{n \to \infty} \frac{1}{n} \sum_{i=1}^{n} y^i_{t} = \text{plim}_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} Y_{t} = \mu
 $$
-- $Cov(Y_{t}, Y_{t-1})$: 시간의 차이에 영향을 바지 않음.
+- $Cov(Y_{t}, Y_{t-1})$: 시간의 차이에 영향을 받지 않음.
 - 첫 번째 $\text{plim}_{n \to \infty}\frac{1}{N}\sum_{i=1}^{n}y^i_{t}$ → Ensemble
 - 두 번째 $\text{plim}_{T \to \infty}\frac{1}{T}\sum_{t=1}^{T}Y_{t}$ → Time Series
 
