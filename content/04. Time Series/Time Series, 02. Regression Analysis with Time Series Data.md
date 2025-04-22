@@ -225,7 +225,7 @@ $$
 E(Y_{t}|I_{t-1}) = \mu + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \psi_{3}e_{t-3} + \cdots
 $$
 - $I_{t-1}$ : Information ($t-1$기 까지) → $t-1$기 까지 random이 아님 (→ 실행됨 | 고정됨)
-- **Stationary process = Unconditional Expectation + Conditional Expectation**
+- **Prediction Error = True Value - Conditional Expectation**
 $$
 Y_{t} - E(Y_{t}|I_{t-1}) = e_{t}, e_{t} \sim iid(0, \sigma^2)
 $$
