@@ -142,6 +142,325 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 - 페이지 맨 마지막에 "끝. x페이지"
 - ![[Pasted image 20250405173310.png]]
 
+```
+datetime
+│
+├── datetime                   # 날짜와 시간을 모두 처리하는 클래스
+│   ├── now()                  # 현재 날짜와 시간을 반환
+│   ├── strptime()             # 문자열을 datetime 객체로 변환
+│   ├── strftime()             # datetime 객체를 문자열로 변환
+│   ├── year                   # 년도 추출
+│   ├── month                  # 월 추출
+│   ├── day                    # 일 추출
+│   ├── hour                   # 시간 추출
+│   ├── minute                 # 분 추출
+│   ├── second                 # 초 추출
+│   ├── date()                 # 날짜 (년, 월, 일)만 반환
+│   ├── time()                 # 시간 (시, 분, 초)만 반환
+│   ├── replace()              # 특정 날짜/시간 값을 변경하여 새로운 datetime 객체 반환
+│   ├── weekday()              # 요일 반환 (월: 0, 일: 6)
+│   └── combine()              # 날짜와 시간을 결합하여 새로운 datetime 객체 생성
+│
+├── date                       # 날짜만 처리하는 클래스
+│   ├── today()                # 오늘 날짜 반환
+│   ├── fromisoformat()        # ISO 형식의 문자열에서 date 객체 생성
+│   ├── year                   # 년도 추출
+│   ├── month                  # 월 추출
+│   └── day                    # 일 추출
+│
+├── time                       # 시간만 처리하는 클래스
+│   ├── hour                   # 시간 추출
+│   ├── minute                 # 분 추출
+│   ├── second                 # 초 추출
+│   └── microsecond            # 마이크로초 추출
+│
+├── timedelta                  # 두 날짜 또는 시간 간의 차이를 계산하는 클래스
+│   ├── days                   # 차이 나는 일수
+│   ├── seconds                # 차이 나는 초
+│   └── total_seconds()        # 총 차이 시간을 초 단위로 반환
+│
+└── timezone                   # 시간대 정보를 다루는 클래스
+    ├── utc                    # UTC 시간대 객체
+    └── tzinfo                 # 사용자 정의 시간대 설정을 위한 클래스
+```
+
+#### 1.2. numpy==1.21.6
+
+```
+numpy
+│
+├── 기본 통계 함수
+│   ├── mean()                 # 데이터의 평균값 계산
+│   ├── median()               # 데이터의 중앙값 계산
+│   ├── std()                  # 데이터의 표준편차 계산
+│   ├── var()                  # 데이터의 분산 계산
+│   ├── sum()                  # 데이터의 합계 계산
+│   ├── prod()                 # 데이터의 곱 계산
+│
+├── 퍼센타일 및 백분위 함수
+│   ├── percentile()           # 데이터의 특정 퍼센타일 값 계산
+│   ├── quantile()             # 데이터의 특정 분위 값 계산
+│
+├── 최소값/최대값 관련 함수
+│   ├── min()                  # 데이터의 최소값 반환
+│   ├── max()                  # 데이터의 최대값 반환
+│   ├── argmin()               # 최소값의 인덱스 반환
+│   ├── argmax()               # 최대값의 인덱스 반환
+│
+├── 데이터 생성 및 처리 함수
+│   ├── histogram()            # 데이터의 히스토그램 계산
+│   ├── unique()               # 데이터에서 고유 값 반환
+│   ├── bincount()             # 정수 배열의 값의 빈도 계산
+│
+├── 랜덤 데이터 생성 (통계적 실험 시 사용 가능)
+│   ├── random.randn()         # 표준 정규분포를 따르는 랜덤 값 생성
+│   ├── random.normal()        # 정규분포를 따르는 랜덤 값 생성
+│   ├── random.randint()       # 정수 범위에서 랜덤 값 생성
+│   ├── random.choice()        # 데이터에서 랜덤 샘플 추출
+```
+
+#### 1.3. scipy==1.7.3
+
+```
+scipy
+│
+├── stats                      # 통계 분석과 확률 분포 관련 함수 제공
+│   ├── norm                   # 정규분포 관련 함수 (PDF, CDF, 랜덤 샘플링 등)
+|   |── uniform                # 균등분포
+|   |── bernoulli              # 베르누이 분포
+|   |── binom                  # 이항분포
+│   ├── ttest_ind              # 독립 두 표본에 대한 t-검정
+│   ├── ttest_rel              # 대응표본 t-검정
+│   ├── mannwhitneyu           # Mann-Whitney U 비모수 검정
+│   ├── chi2_contingency        # 카이제곱 독립성 검정
+│   ├── shapiro                # Shapiro-Wilk 정규성 검정
+│   ├── kstest                 # Kolmogorov-Smirnov 검정 (분포 적합성 검정)
+│   ├── probplot               # Q-Q plot 생성 (정규성 시각화)
+│   ├── pearsonr               # Pearson 상관계수 계산
+│   ├── spearmanr              # Spearman 순위 상관계수 계산
+│   └── describe               # 기술 통계량 제공 (평균, 표준편차 등)
+│
+├── optimize                   # 함수 최적화 및 곡선 피팅 관련 모듈
+│   ├── minimize               # 다변수 함수의 최소값을 찾는 최적화 도구
+│   ├── curve_fit              # 비선형 곡선 피팅 (최소제곱법 기반)
+│   └── root                   # 방정식의 근을 찾는 도구
+│
+├── linalg                     # 선형대수 관련 함수
+│   ├── inv                    # 행렬의 역행렬 계산
+│   ├── det                    # 행렬식 계산
+│   └── svd                    # 특이값 분해(SVD) 수행
+│
+├── interpolate                # 데이터 보간 관련 함수
+│   ├── interp1d               # 1차원 선형 보간 함수
+│   └── griddata               # 다차원 보간 수행 (비정형 데이터에 사용)
+│
+└── special                    # 특수 함수 (감마 함수, 베타 함수 등)
+    ├── gamma                  # 감마 함수
+    └── beta                   # 베타 함수
+```
+
+#### 1.4. pandas==1.1.2
+
+- [1.1.2 api reference](https://pandas.pydata.org/pandas-docs/version/1.1.2/reference/index.html)
+
+```
+pandas
+│
+├── melt: pivot 형태를 다시바꾸기
+│
+├── DataFrame                  # 2차원 데이터 구조, 테이블 형태의 데이터 관리
+│   ├── groupby                # 데이터프레임 그룹핑
+│   ├── merge                  # SQL 스타일로 데이터프레임 병합
+│   ├── join                   # 데이터프레임 조인 (인덱스를 기준)
+│   ├── pivot_table            # 피벗 테이블 생성
+│   ├── apply                  # 사용자 정의 함수를 데이터프레임에 적용
+│   ├── isnull                 # 결측치 여부 확인
+│   ├── fillna                 # 결측치 대체
+│   └── drop                   # 행 또는 열 삭제
+│
+├── Series                     # 1차원 데이터 구조, 배열 형태의 데이터 관리
+│   ├── value_counts           # 고유 값의 빈도수 반환
+│   └── unique                 # 고유 값 반환
+│
+├── time_series                # 시계열 데이터 처리 도구
+│   ├── to_datetime            # 문자열을 날짜 형식으로 변환
+│   ├── resample               # 시계열 데이터 리샘플링
+│   ├── shift                  # 데이터를 앞이나 뒤로 이동
+│   └── rolling                # 이동 평균 등 롤링 윈도우 계산
+│
+└── plotting                   # 데이터 시각화 도구
+    ├── plot                   # 라인 플롯, 기본 시각화 함수
+    ├── hist                   # 히스토그램 생성
+    ├── boxplot                # 박스 플롯 생성
+    └── scatter                # 산점도 생성
+```
+
+#### 1.5. statsmodel==0.13.2
+
+```
+scipy
+│
+├── stats                      # 통계 분석과 확률 분포 관련 함수 제공
+│   ├── norm                   # 정규분포 관련 함수 (PDF, CDF, 랜덤 샘플링 등)
+|   |── uniform                # 균등분포
+|   |── bernoulli              # 베르누이 분포
+|   |── binom                  # 이항분포
+│   ├── ttest_ind              # 독립 두 표본에 대한 t-검정
+│   ├── ttest_rel              # 대응표본 t-검정
+│   ├── mannwhitneyu           # Mann-Whitney U 비모수 검정
+│   ├── chi2_contingency        # 카이제곱 독립성 검정
+│   ├── shapiro                # Shapiro-Wilk 정규성 검정
+│   ├── kstest                 # Kolmogorov-Smirnov 검정 (분포 적합성 검정)
+│   ├── probplot               # Q-Q plot 생성 (정규성 시각화)
+│   ├── pearsonr               # Pearson 상관계수 계산
+│   ├── spearmanr              # Spearman 순위 상관계수 계산
+│   └── describe               # 기술 통계량 제공 (평균, 표준편차 등)
+│
+├── optimize                   # 함수 최적화 및 곡선 피팅 관련 모듈
+│   ├── minimize               # 다변수 함수의 최소값을 찾는 최적화 도구
+│   ├── curve_fit              # 비선형 곡선 피팅 (최소제곱법 기반)
+│   └── root                   # 방정식의 근을 찾는 도구
+│
+├── linalg                     # 선형대수 관련 함수
+│   ├── inv                    # 행렬의 역행렬 계산
+│   ├── det                    # 행렬식 계산
+│   └── svd                    # 특이값 분해(SVD) 수행
+│
+├── interpolate                # 데이터 보간 관련 함수
+│   ├── interp1d               # 1차원 선형 보간 함수
+│   └── griddata               # 다차원 보간 수행 (비정형 데이터에 사용)
+│
+└── special                    # 특수 함수 (감마 함수, 베타 함수 등)
+    ├── gamma                  # 감마 함수
+    └── beta                   # 베타 함수
+```
+
+#### 1.6. sklearn==0.23.2
+
+- [0.23.2 api reference](https://scikit-learn.org/0.23/modules/classes.html)
+
+```
+scikit-learn
+│
+├── model_selection          # 모델 평가, 검증, 및 데이터 분할
+│   ├── train_test_split      # 데이터를 훈련 세트와 테스트 세트로 분할
+│   ├── cross_val_score       # 교차 검증 점수 계산
+│   ├── GridSearchCV          # 하이퍼파라미터 최적화
+│   └── KFold                 # K-폴드 교차 검증
+│
+├── preprocessing             # 데이터 전처리 및 스케일링
+│   ├── StandardScaler        # 데이터 표준화 (평균 0, 표준편차 1로 스케일링)
+│   ├── MinMaxScaler          # 데이터 값을 0과 1 사이로 스케일링
+│   ├── LabelEncoder          # 범주형 데이터를 숫자로 변환
+│   └── OneHotEncoder         # 범주형 데이터를 원-핫 인코딩
+│
+├── decomposition             # 차원 축소 기법
+│   ├── PCA                   # 주성분 분석 (Principal Component Analysis)
+│   ├── TruncatedSVD          # 차원 축소 (Singular Value Decomposition)
+│   └── NMF                   # 비음수 행렬 분해 (Non-negative Matrix Factorization)
+│
+├── metrics                   # 모델 평가 지표
+│   ├── accuracy_score        # 정확도 평가
+│   ├── confusion_matrix      # 혼동 행렬 계산
+│   ├── classification_report # 분류 모델 평가 보고서
+│   ├── roc_auc_score         # ROC AUC 점수 계산
+│   └── mean_squared_error    # 회귀 모델의 MSE 계산
+│
+├── linear_model              # 선형 모델
+│   ├── LinearRegression      # 선형 회귀
+│   ├── LogisticRegression    # 로지스틱 회귀
+│   ├── Ridge                 # 릿지 회귀 (L2 정규화)
+│   ├── Lasso                 # 라쏘 회귀 (L1 정규화)
+│   └── ElasticNet            # 엘라스틱넷 회귀 (L1 + L2 정규화)
+│
+├── ensemble                  # 앙상블 학습
+│   ├── RandomForestClassifier# 랜덤 포레스트 분류기
+│   ├── GradientBoostingClassifier # 그래디언트 부스팅 분류기
+│   ├── RandomForestRegressor # 랜덤 포레스트 회귀
+│   └── GradientBoostingRegressor # 그래디언트 부스팅 회귀
+│
+├── neighbors                 # 최근접 이웃 알고리즘
+│   ├── KNeighborsClassifier  # K-최근접 이웃 분류기
+│   ├── KNeighborsRegressor   # K-최근접 이웃 회귀
+│   └── NearestNeighbors      # 최근접 이웃 검색
+│
+├── svm                       # 서포트 벡터 머신
+│   ├── SVC                   # 서포트 벡터 분류기
+│   └── SVR                   # 서포트 벡터 회귀
+│
+├── tree                      # 결정 트리 알고리즘
+│   ├── DecisionTreeClassifier # 결정 트리 분류기
+│   └── DecisionTreeRegressor  # 결정 트리 회귀
+│
+└── cluster                   # 클러스터링 알고리즘
+    ├── KMeans                # K-평균 클러스터링
+    ├── DBSCAN                # 밀도 기반 클러스터링
+    └── AgglomerativeClustering # 계층적 클러스터링
+```
+
+### 2. 데이터 전처리
+
+- datetime 자료형
+    - 날짜와 시간을 표현하는 자료형
+    - datetime(2023, 10, 9, 14, 30, 0) # 2023-10-09 14:30:00
+    - ts.to_pydatetime() 함수로 ts→ dt변환 가능
+- timstamp 자료형
+    - 유닉스 타임 스탬프로, 1970년 1월 1일로부터 경과 시간을 측정
+    - pd.Timestamp() 함수로 dt → ts 변환 가능
+
+- 문자형 자료형 -> datetime
+    - pd.to_datetime('2020-01-01 01:00', format = ‘%Y-%m-%d %H:%M’)
+
+- 예시
+
+```
+from datetime import datetime
+
+# 문자열을 datetime 객체로 변환
+date_string = '01/01/2018 00:15'
+date_object = datetime.strptime(date_string, '%m/%d/%Y %H:%M')
+
+# 년, 월, 일, 시간, 분 추출
+year = date_object.year
+month = date_object.month
+day = date_object.day
+hour = date_object.hour
+minute = date_object.minute
+```
+
+- 특정 시간 기준으로 시간 간격 구하기
+
+```
+#실용 예제1
+time_mid = '2024-10-09 00:00:00'
+from datetime import datetime
+time_stamp = datetime.strptime(time_mid, '%Y-%m-%d %H:%M:%S')
+(datetime.now() - time_stamp).total_seconds()/60
+
+#실용예제2
+from datetime import datetime
+y = df['datetime'] - df['datetime'].apply(lambda x : datetime.combine(x, datetime.min.time()))
+df['nsd'] = y.apply(lambda td :td.total_seconds()/60)
+```
+
+- 피벗
+
+```
+pd.pivot_table(values, index, columns, aggfunc='mean')
+```
+
+- 언피벗
+
+```
+pd.melt(id_vars = [기준컬럼], value_vars = [값컬럼], value_name = '값이름')
+```
+
+- 머지
+
+```
+pd.merge(df1, df2, how = 'left', on = 'key')
+```
+
 ## 전처리 문제 중에서 알면 좋은 것들 
 - "문자열" 포함 
 	- na=False → 결측치 제외
