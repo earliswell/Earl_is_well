@@ -23,4 +23,14 @@ $$
 	- $x|\mu, \sigma^2$ : density → 파라미터의 가정을 한 pdf라 생각.
 	- $\mu, \sigma^2|x$ : Likelihood  → 데이터가 주어졌을 때 파라미터를 추정.
 - Likelihood의 사고를 확장하기 위하여 $x=1$이라 생각해보자. 그렇다면 $\mu_{1}=3, \sigma^2_{1}=1$도 가능할 수 있고, $\mu_{2}=1, \sigma^2_{2}=1$도 가능할 수도 있다. 그렇다면 우리는 어떤 것이 더 개연성에 맞는 시나리오일까? 를 고민해보자. 아마 $\mu_{2}, \sigma^2_{2}$의 조합이 더 가능성이 높아 보인다. 이런 일련의 과정을 MLE라고 하는데 장점 3가지만 나열하고 나머지는 넘기도록 하자.
-- MLE에는 좋은 성질 3가지가 있
+	1. Asymptotically Normal
+	2. Asymptotically Consistency
+	3. Asymptotically Efficient
+###### MLE(Maximum Likelihood Estimation) 예시
+- 동전이 있는데, 앞, 뒷면이 나오는 것이 unfair하다고 생각해보자. 
+	- $\text{Event} = {H, T}$
+	- $\theta = Pr(H)$ : 앞면이 나올 확률을 $\theta$
+	- $Y=1,0,0,0,1,0,0,0,0,0$
+- 우리가 구해야 할 것은 $f(Y|\theta)$=$L(\theta|Y)$ 임.
+	- 위 수식은 베이지안 관점에서 작성된 수식임. 이유는 빈도주의에서는 보통 $f(x; \theta)$로 표기함. 모수는 fixed되는 값이라서, Conditional로 표기되지 않음.
+- 
