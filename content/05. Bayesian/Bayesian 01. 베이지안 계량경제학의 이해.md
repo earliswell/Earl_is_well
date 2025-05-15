@@ -49,4 +49,4 @@ P(A|B)  & = \frac{P(A,B)}{P(B)} = \frac{P(B|A)P(A)}{P(B)} \\
  & = \frac{P(B|A)}{P(B)}P(A)
 \end{align}
 $$
-- 위 식을 살펴보면 
+- 위 식을 살펴보면 좌항과 우항의 $P(A)$는 
