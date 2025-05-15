@@ -33,4 +33,20 @@ $$
 	- $Y=1,0,0,0,1,0,0,0,0,0$
 - 우리가 구해야 할 것은 $f(Y|\theta)$=$L(\theta|Y)$ 임.
 	- 위 수식은 베이지안 관점에서 작성된 수식임. 이유는 빈도주의에서는 보통 $f(x; \theta)$로 표기함. 모수는 fixed되는 값이라서, Conditional로 표기되지 않음.
-- 
+	- 로그를 사용해서 Likelihood를 maximize하는 것이 일반적임.
+$$
+\begin{align}
+ f(Y|\theta)  & = \theta^2(1-\theta)^8 \\
+ & = \prod \theta^{y_{i}}(1-\theta)^{1-y_{i}} \\
+ & = L(\theta|y)
+\end{align}
+$$
+### 베이지안
+- 베이지안을 먼저 수식으로 바라봐보자.
+$$
+\begin{align}
+P(A|B)  & = \frac{P(A,B)}{P(B)} = \frac{P(B|A)P(A)}{P(B)} \\
+ & = \frac{P(B|A)}{P(B)}P(A)
+\end{align}
+$$
+- 위 식을 살펴보면 
