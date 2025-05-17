@@ -87,3 +87,24 @@ $$
 $$
 \psi(L) = \phi(L)^{-1}
 $$
+#### Stationary condition: AR(2) case
+
+$$
+Y_{t} = \delta + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + e_{t}, e_{t} \sim iid(0, \sigma^2)
+$$
+- Auto-covariance (assuming $\delta = 0$):
+$$
+\begin{align}
+ & \gamma(k) = Cov(Y_{t}, Y_{t-k}) = E(Y_{t}Y_{t_{k}}) \\
+ & \gamma(k) = E(Y_{t}Y_{t-k}) = \phi_{1}E(Y_{t-{1}}Y_{t-k}) + \phi_{2}E(Y_{t-2}Y_{t-k}) + E(e_{t}Y_{t-k}) = \phi \gamma(k-1) \\
+ & \rho(k) = \phi_{1}\rho(k-1) + \phi_{2}\rho(k-2)
+\end{align}
+$$
+- From this autocorrelation function we know the characteristic equation such that
+$$
+\begin{align}
+ & \rho(k) - \phi_{1}\rho(k-1) - \phi_{2}\rho(k-2) =0 \\
+ & \to \lambda^2 - \phi_{1}\lambda - \phi_{2} =0
+\end{align}
+$$
+
