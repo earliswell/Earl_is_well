@@ -108,3 +108,11 @@ $$
 \end{align}
 $$
 - 추가적인 AR(2) Process는 [[Time Series, 02. Regression Analysis with Time Series Data#AR(2) Process]]를 참고하자.
+- Now consider the lag operator, first, AR(1) case
+$$
+\begin{align}
+\rho(k) = \phi \rho(k-1) \\
+\to \lambda - \phi =0
+\end{align}
+$$
+- 
