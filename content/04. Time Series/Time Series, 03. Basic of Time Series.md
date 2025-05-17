@@ -107,4 +107,4 @@ $$
  & \to \lambda^2 - \phi_{1}\lambda - \phi_{2} =0
 \end{align}
 $$
-
+- 추가적인 AR(2) Process는 [[Time Series, 02. Regression Analysis with Time Series Data#AR(2) Process]]를 참고하자.
