@@ -170,3 +170,21 @@ $$
 - Then by calculating the corrleation of the transformed time series we obtain the partial autocorrelation function (PACF) → 어떤 특정 시기의 Direct한 효과를 파악하고 싶은데 이는 시간이 점차 그 효과를 희석시키게 됨. 따라서 partial 관계를 통해 이를 극복해보고자 함.
 - The PACF is most useful for **identifying the order of an autoregressive model.** 
 - Specifically, sample partial autocorrelations that are significantly different from 0 indicate lagged terms of $y$ that are useful predictors of $Y_{t}$. It is important that the choice of the order makes sense.
+- For example, suppose you have blood pressure readings for every day over the past two years. You may find that an AR(1) or AR(2) model is appropriate for modeling ==blood pressure==. 
+- However, the PACF may indicate a large partial autocorrelation value at a lag of 17, but such a large order for an autoregressive model likely does not make much sense.
+$$
+\begin{align}
+ & AR(1): Y_{t} = \phi_{11}Y_{t-1} + e_{t} \\
+ & AR(2): Y_{t} = \phi_{21}Y_{t-1} + \phi_{22}Y_{t-2} + e_{t} \\
+ & AR(3): Y_{t} = \phi_{31}Y_{t-1} + \phi_{32}Y_{t-2} + \phi_{33} Y_{t-3} + e_{t} \\
+ & \,\,\,\,\,\,\,\, \vdots \\
+ & AR(j): Y_{t} = \phi_{j1}Y_{t-1} + \phi_{j2}Y_{t-2} + \phi_{j3}Y_{t-3} + \cdots + \phi_{jj}Y_{t-j} + e_{t} \\
+ & \,\,\,\,\,\,\,\, \vdots \\
+\end{align}
+$$
+- The PACF uses the statistical test for $\phi$'s with the regression of AR(p) models to identify statistically significant coefficients of lags:
+$$
+H_{0}: \phi_{jj} = 0 \text{ v.s. } H_{1}: \phi_{jj} \neq 0
+$$
+- 즉 귀무가설을 기각하지 못하면, 어떤 시차의 $\phi$는 $Y_{t}$에 영향을 미치지 못한다는 것!
+- 
