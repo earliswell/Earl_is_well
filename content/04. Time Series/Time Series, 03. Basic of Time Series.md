@@ -158,3 +158,9 @@ $$
 $$
 - 따라서, Lag Operator를 활용해서 우리는 Stationary Condition을 파악할 수 있다. MA에서 Stationary Condition은 q가 유한한 것이다. 또한, AR에서는 위에서 확인할 수 있듯이 특성근을 활용하여 우리의 Stationary Condition을 쉽게 파악할 수 있다. 
 ## Autocorrelation Function (ACF) and Partial ACF (PACF)
+- The coefficient of corrleation between two values in a teim series is called the autocorrelation function (ACF) for example the ACF for a time series $Y_{t}$ is given by:
+$$
+\rho(k), k=1, 2, 3, \dots
+$$
+- This value of $k$ is the time gap being considered and is called the lag. A lag 1 autocorrelation (i.e., $k=1$ in the above) is the correlation between values that are one time period apart. 
+- More generally, a lag $k$ autocorrelation is the correlation between values that are $k$ time period apart.
