@@ -139,5 +139,20 @@ $$
 #### ARMA(p, q)
 - First, consider the MA(q) case,
 $$
-
+\begin{align}
+ & Y_{t} = \mu + e_{t} + \theta_{1}e_{t-2} + \theta_{2}e_{t-2} + \cdots + \theta_{q} e_{t-q} \\
+ & Y_{t} = \mu +e_{t} + \theta_{1}Le_{t} + \theta_{2}L^2e_{t} + \cdots + \theta_{q}L^qe_{t} \\
+ & Y_{t} = \mu + (1 + \theta_{1}L + \theta_{2}L^2 + \cdots + \theta_{q}L^q)e_{t} \\
+ & Y_{t} = \mu + \theta(L) e_{t}, \text{ where } \theta(L) \equiv 1 + \theta_{1}L + \theta_{2} L^2 + \cdots + \theta_{q}L^q
+\end{align}
+$$
+- Next, the ARMA(p, q) case,
+$$
+\begin{align}
+ & Y_{t} = \mu + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q} e_{t-q} \\
+ & (1 - \phi_{1}L - \phi_{2}L^2 - \phi_{3}L^3 + \cdots + \phi_{p}L^p)Y_{t} = \mu + (1 + \theta_{1}L + \theta_{2}L^2+ \cdots + \theta_{q}L^q)e_{t} \\
+ & \phi(L)Y_{t} = \mu+ \theta(L)e_{t} \\
+ & \text{where } \phi(L) \equiv 1 - \phi_{1}L -\phi_{2}L^2 - \phi_{3}L^3 + \cdots + \phi_{p}L^p \\
+ & \text{and } \theta(L) \equiv 1 + \theta_{1}L + \theta_{2}L^2 + \cdots + \theta_{q}L^q
+\end{align}
 $$
