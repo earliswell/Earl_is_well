@@ -133,4 +133,11 @@ $$
  & |L_{1}|>1, |L_{2}|>2
 \end{align}
 $$
+- AR(2)에서 특성근 방정식(eigen value equation)처럼 Characteristic Equation을 하는 것과 같음 !!!
 - 처음에는 Lag Operator를 약속처럼 사용했으나, 점차 변수처럼(?) 활용할 수 있게됨. 이는 Lag operator가 갖는 특징이자 장점이라고 볼 수 있음.
+- 따라서, $|L_{1}| >1, |L_{2}| >1$이 Stationary Condition이라고 볼 수 있음.
+#### ARMA(p, q)
+- First, consider the MA(q) case,
+$$
+
+$$
