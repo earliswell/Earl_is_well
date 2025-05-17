@@ -166,4 +166,5 @@ $$
 - More generally, a lag $k$ autocorrelation is the correlation between values that are $k$ time period apart.
 - 즉, Autocorrelation Function은 $\rho(k) = \frac{\gamma(k)}{\gamma(0)}$이고, $\gamma(k) = E(Y_{t}Y_{t-k})$이기에 현재 $t$기와 $t-k$기 와의 상관관계를 의미한다. $\gamma(0) = V(Y_{t})$
 - The ACF is a way to measure the linear relationship between an observation at time $t$ and the observations at previous times. → t와 t-k기의 선형 상관관계를 측정하는 방식임.
-- 
+- If we assume an AR($k$) model, then we may wish to only measure the association between $Y_{t}$ and $Y_{t-k}$ and filter out the linear influence of the random variables that lie in between (i.e., $Y_{t-1}, Y_{t-2}, \dots, Y_{t-(k-1)}$), which requires a transformation on the times series. → 오직 $Y_{t}$와 $Y_{t-k}$의 상관관계에 관심이 있음. 
+- Then by calculating the corrleation of the transformed time series we obtain the partial autocorrelation function (PACF) → 어떤 특정 시기의 Direct한 효과를 파악하고 싶은데 이는 시간이 점차 그 효과를 희석시키게 됨. 따라서 partial 관계를 통해 이를 극복해보고자 함?
