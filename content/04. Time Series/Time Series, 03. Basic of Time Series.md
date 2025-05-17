@@ -115,4 +115,22 @@ $$
 \to \lambda - \phi =0
 \end{align}
 $$
-- 
+- The characteristic root of AR(1) is $\lambda = \phi$. The AR(1) with the lag operator $\phi(L) = 1- \phi L$, the root of  $\phi(L) =0$  is
+$$
+L = \frac{1}{\phi}
+$$
+- From the stationary condition $|\phi|<1$ we can rewrite the condition
+$$
+|L| > 1
+$$
+- Back to AR(2) case. Denote $L_{1},L_{2}$ be the characteristic roots of $1- \phi_{1} L-\phi_{2}L^2 = 0$.
+- By using $L = \frac{1}{\lambda}$
+$$
+\begin{align}
+ & 1 - \phi_{1} L - \phi_{2}L^2 =0 \\
+ & \to 1 - \phi_{1}\frac{1}{\lambda} - \phi_{2}\frac{1}{\lambda^2} = 0 \\
+ & \to \lambda^2 - \phi_{1}\lambda - \phi_{2} = 0 \\
+ & |L_{1}|>1, |L_{2}|>2
+\end{align}
+$$
+- 처음에는 Lag Operator를 약속처럼 사용했으나, 점차 변수처럼(?) 활용할 수 있게됨. 이는 Lag operator가 갖는 특징이자 장점이라고 볼 수 있음.
