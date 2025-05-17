@@ -5,7 +5,6 @@ tags:
   - "#OLS"
   - "#TimeSeries"
 ---
-
 ## Cross-Sectional Data
 - A cross-sectional data set consists of a sample of individuals, households, firms, cities, states, countries, or a variety of other units, taken at a given point in time. → 한 시점의 $i$
 - An important feature of cross-sectional data is that we can often assume that they have been obtained by <mark style="background: #FF5582A6;">random sampling from the underlying population</mark>
@@ -588,5 +587,3 @@ $$
 	- 다양한 시계열 패턴 포착: AR(→ 상관관계), MA(→ 충격의 일시적 효과와 감쇠 패턴)
 	- 통계적 효율성: AR과 MA 보다 더 작은 오차를 가짐 → AIC(Akaike Information Criterion)나 BIC(Bayesian Information Criterion)와 같은 정보 기준으로 평가
 	- 이론적 완전성: ARMA 모델은 정상성 조건을 만족하는 시계열에 대한 통합적 표현 제공 → Wold 정리에 따라서, 어떤 약정상 시계열도 결국 무한한 MA 표현으로 나타낼 수 있으며, ARMA 모델은 이를 유한한 매개변수로 근사화.
-## Convergence in Probability
-- 
