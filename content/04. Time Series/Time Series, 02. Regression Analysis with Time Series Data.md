@@ -578,8 +578,6 @@ $$
 -  ![[Time_Series, Figure.07.png|400x400]]
 ###### If MA(3)
 - ![[Time_Series, Figure.08.png|600x600]]
-
-
 ## ARMA(p, q)
 $$
 Y_{t} = \delta + \phi_{1}Y_{t-1}+\phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2} e_{t-2} + \cdots + \theta_{q}e_{t-q}
@@ -590,3 +588,5 @@ $$
 	- 다양한 시계열 패턴 포착: AR(→ 상관관계), MA(→ 충격의 일시적 효과와 감쇠 패턴)
 	- 통계적 효율성: AR과 MA 보다 더 작은 오차를 가짐 → AIC(Akaike Information Criterion)나 BIC(Bayesian Information Criterion)와 같은 정보 기준으로 평가
 	- 이론적 완전성: ARMA 모델은 정상성 조건을 만족하는 시계열에 대한 통합적 표현 제공 → Wold 정리에 따라서, 어떤 약정상 시계열도 결국 무한한 MA 표현으로 나타낼 수 있으며, ARMA 모델은 이를 유한한 매개변수로 근사화.
+## Convergence in Probability
+- 
