@@ -187,4 +187,9 @@ $$
 H_{0}: \phi_{jj} = 0 \text{ v.s. } H_{1}: \phi_{jj} \neq 0
 $$
 - 즉 귀무가설을 기각하지 못하면, 어떤 시차의 $\phi$는 $Y_{t}$에 영향을 미치지 못한다는 것!
-- 
+#### Google Stock Example
+- The closing stock price of a share of Google Stock during 2005-02-07 to 2005-07-07
+- ![[Pasted image 20250517152918.png|400x250]]
+- Here we notice that there is a significant spike at a lag of 1 and much lower spikes for the subsequent lags. Thus, AR(1) model would likely be feasible for this data set.
+- ![[Pasted image 20250517153146.png|400x250]]
+- We next create a lag-1 price variable and consider a scatterplot of price versus this lag-1 variable: → AR(1)을 따를 것이라 가정![[Pasted image 20250517153229.png|400x250]]
