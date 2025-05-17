@@ -157,3 +157,4 @@ $$
 \end{align}
 $$
 - 따라서, Lag Operator를 활용해서 우리는 Stationary Condition을 파악할 수 있다. MA에서 Stationary Condition은 q가 유한한 것이다. 또한, AR에서는 위에서 확인할 수 있듯이 특성근을 활용하여 우리의 Stationary Condition을 쉽게 파악할 수 있다. 
+## Autocorrelation Function (ACF) and Partial ACF (PACF)
