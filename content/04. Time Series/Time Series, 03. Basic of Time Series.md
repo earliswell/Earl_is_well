@@ -74,4 +74,16 @@ $$
  & Y_{t} = e_{t} + \phi e_{t-1} + \phi^2e_{t-2} + \phi^3e_{t-3} + \cdots
 \end{align}
 $$
-
+#### AR(p) case with lag operator
+$$
+\begin{align}
+ & Y_{t} = \phi_{1} Y_{t-1} + \phi_{2} Y_{t-2} + \phi_{3}Y_{t-3} + \cdots + \phi_{p}Y_{t-p} + e_{t} \\
+ & (1 - \phi_{1}L - \phi_{2}L^2 - \phi_{3}L^3 + \cdots + \phi_{p}L^p)Y_{t} = e_{t} \\
+ & \phi(L)Y_{t} = e_{t}, \text{ where } \phi(L) \equiv 1 - \phi_{1}L - \phi_{2}L^2 - \phi_{3}L^3 + \cdots + \phi_{p}L^p \\
+ & Y_{t} = \phi(L)^{-1} e_{t}
+\end{align}
+$$
+- [[#Wold Representation with Lag Operator]] shows
+$$
+\psi(L) = \phi(L)^{-1}
+$$
