@@ -117,6 +117,15 @@ $$
 y_{t}|\beta, \sigma^2  & \sim N(\beta, \sigma^2)
 \end{align}
 $$
+- 우리는 위 세 개의 식을 합쳐서 $y_{t}$에 대한 '계량모형'이라고 부른다. 
+	- 만약, 빈도주의 관점에서 $\beta$와 $\sigma^2$은 확률변수가 아닌 fixed된 값이므로 $y_{t}$에 대한 사전 분포만으로 계량 모형이 결정됨!
+- 
+
+
+
+
+
+
 ## Note
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
 - $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
