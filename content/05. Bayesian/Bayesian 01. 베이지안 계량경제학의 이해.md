@@ -190,9 +190,29 @@ $$
 	1. 하한(lower bound)보다 작을 확률과 상한(upper bound)보다 클 확률이 같다는 조건을 만족하는 equal-tailed interval이다. → 예를 들어, 하위 5% 분위수(Quantile)로부터 95% 분위수에 해당하는 구간이 90% equal-tailed interval에 해당함. 즉, 파라미터가 이 구간에 속할 확률이 90%라고 해석할 수 있음. 
 	2. 또한, Highest posterior density interval(HPDI)이다. 이는 주어진 확률로 확률변수가 가장 좁은 구간을 의미함. 만약 단봉이고 대칭이라면 equal-tailed interval과 HDPI는 동일하다. 하지만 분포가 비대칭이거나 다봉인 경우에는 두 신용구간이 상이할 수 있다.
 #### 예측
-- 
-
-
+- 우리는 의사결정 과정에서 많은 경우 예측에 기반하기도하며 그러한 예측을 위하여 통계분석이 사용됨. 베이지안 접근법하에서는 예측은 대단히 직관적으로 이루어짐. 
+- $Posterior \propto Likelihood \times Prior$, 와 같이 사전 정보를 통해서 사후 분포를 도출하는데, 이 때 도출된 사후 분포와 종속변수의 조건부 분포를 사용해서 미래 종속 변수 $y_{f}$에 대한 예측을 실시함.
+$$
+y_{f}|Y,M
+$$
+- 이렇게 예측 분포가 도출되고 나면 예측치 (point forecasts)와 신용구간을 계산할 수 있음.
+#### 모형 선택과 가설검정
+- 예를 들어 하나의 종속변수에 대해서 아래와 같이 두 종류의 계량모형이 있다고 하자.
+- 모형 1 $M_{1}$:
+$$
+\begin{align}
+\theta &  \sim N(0,1) \\
+  y_{t}|\theta  & \sim N(\theta,1)
+\end{align}
+$$
+- 모형 2 $M_{2}$:
+$$
+\begin{align}
+\theta  & \sim N(0, 1), \\
+y_{t}|\theta  & \sim N(\theta, \theta^2)
+\end{align}
+$$
+- 두 모형의 차이는 $\theta$가 분산까지도 결정하는 경우이다. 
 ## Note
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
 - $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
