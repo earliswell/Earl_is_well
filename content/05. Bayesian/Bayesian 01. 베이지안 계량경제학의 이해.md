@@ -188,7 +188,9 @@ $$
 - 이는 특정 주어진 확률로 파라미터와 같은 확률변수가 속하는 범위를 말함. 
 - 주로 사용되는 신용구간의 종류는 두 가지임.
 	1. 하한(lower bound)보다 작을 확률과 상한(upper bound)보다 클 확률이 같다는 조건을 만족하는 equal-tailed interval이다. → 예를 들어, 하위 5% 분위수(Quantile)로부터 95% 분위수에 해당하는 구간이 90% equal-tailed interval에 해당함. 즉, 파라미터가 이 구간에 속할 확률이 90%라고 해석할 수 있음. 
-	2. 또한, Highest posterior density interval(HPDI)이다. 이는 주어진 확률로 확률변수가 가장 좁은 구간을 의미함. 
+	2. 또한, Highest posterior density interval(HPDI)이다. 이는 주어진 확률로 확률변수가 가장 좁은 구간을 의미함. 만약 단봉이고 대칭이라면 equal-tailed interval과 HDPI는 동일하다. 하지만 분포가 비대칭이거나 다봉인 경우에는 두 신용구간이 상이할 수 있다.
+#### 예측
+- 
 
 
 ## Note
@@ -202,3 +204,8 @@ $$
 $$
 \mathbb{E}(\theta) = \frac{\alpha}{\alpha+\beta}, Var(\theta) = \frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}
 $$
+###### Note 1.2 신용구간과 신뢰구간의 차이
+- 빈도주의 관점: 신뢰구간(confidence interval)이 확률변수이고 파라미터는 고정된 상수임.
+	- 이는 신뢰구간이 참값의 파라미터를  포함할 확률이 95%라고 해석됨.
+- 베이지안 관점: 파라미터가 상수가 아닌 확률변수임.
+	- 이는 파라미터가 신뢰구간 안에 있을 확률이 95%라고 해석됨.
