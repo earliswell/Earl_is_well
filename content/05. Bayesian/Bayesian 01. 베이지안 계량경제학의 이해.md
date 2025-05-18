@@ -105,7 +105,18 @@ y_{t} = \beta + e_{t}, \quad e_{t} \sim N(0, \sigma^2)
 $$
 - 위 수식은 단순선형회귀모형을 예로 설명하면, $t$ 시점의 종속변수가 $y_t$이며, 평균이 $\beta$이고 분산이 $\sigma^2$인 정규 분포로부터 임의로 추출된 $e_{t}$의 합으로 결정된다고 '가정'됨.
 - 이를 위해서 $\beta$와 $\sigma^2$은 어떻게 결정되는지를 설명할 수 있어야 함. 
-	- 즉, $\beta$와 $\sigma^2$
+	- 즉, $\beta$와 $\sigma^2$가 선행적으로 결정되면, 주어진 파라미터 하에서 $y_{t}$를 확률적으로 결정할 수 있음.
+	- 예를 들어, $\beta$가 $N(\beta_{0}, B_{0})$에서 추출되고, $\sigma^2$은 역감마 분포 $IG(v_{0}/2, \delta_{0}/2)$ 에서 생성된다고 가정하면 다음과 같은 모형이 완성됨.
+$$
+
+$$
+$$
+\begin{align}
+ \beta  & \sim N(\beta_{0},B_{0}) \\
+ \sigma^2  & \sim IG(v_{0}/2, \delta_{0}/2), \\ 
+y_{t}|\beta, \sigma^2  & \sim N(\beta, \sigma^2)
+\end{align}
+$$
 ## Note
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
 - $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
