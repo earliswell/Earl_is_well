@@ -143,6 +143,7 @@ $$
 	- 사후 분포의 형태가 대칭일 때 → 사후 평균
 	- 비대칭 → 중위값을 보고하기도 함.
 - 이는 연구자가 극소화하려는 손실함수(Loss function) 형태에 의해서 결정됨.
+- 또한, 사후 분포의 표준 오차도 같이 보고되어야 함 (점추정 결과에 내재된 불확실성을 가늠하기 위하여.)
 ###### 사후 평균 (Posterior Mean)
 - 손실 함수가 2차 함수 형태일 때,
 $$
@@ -166,6 +167,21 @@ $$
 $$
 L_{2}(\hat{\theta}|\theta) = |\hat{\theta}-\theta|
 $$
+- ![[Pasted image 20250518203534.png|400]]
+###### 사후 최빈값(Posterior mode)
+- 손실 함수가 All or Nothing
+$$
+L_{3}(\hat{\theta}|\theta) = \mathbf{I}(|\hat{\theta}-\theta| > b), \,b>0
+$$
+- 기대 손실
+$$
+\int_{-\infty}^{\hat{\theta}-b}\pi(\theta|Y)d\theta + \int_{\hat{\theta}+b}^\infty \pi(\theta|Y)d\theta
+$$
+- 여기서 $b$는 0에 가까운 임의의 양수임. 위 식을 $\hat{\theta}$에 대해서 미분한 값을 0으로 두면,
+$$
+\pi(\hat{\theta}-b|Y) = \pi(\hat{\theta}+b|Y)
+$$
+- 이때, $\theta$의 사후 분포가 단봉(uni-modal)이라면, 0에 가까운 임의의 양수 b에 대해서 위 조건을 만족하는 $\hat{\theta}$는 사후 최빈값이 유일함. 
 
 
 
