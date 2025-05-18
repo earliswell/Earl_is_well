@@ -58,12 +58,28 @@ $$
 $$
 \pi(\theta|y) = \frac{f(y|\theta)}{f(y)} \pi(\theta)
 $$
-- $\pi(\theta)$ : prior → 사전 정보(Information)로 경험, 이론 등과 같은 파라미터에 대한 믿음의 수치를 뜻한다. 보통 베타 분포를 많이 활용함.
+- $\pi(\theta)$ : prior → 사전 정보(Information)로 경험, 이론 등과 같은 파라미터에 대한 믿음의 수치를 뜻한다. 보통 [[#Note 1.1 베타분포. $Beta( alpha, beta)$|베타분포]]를 많이 활용함.
 	- $Beta(\alpha, \beta)$: $\pi(\theta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1}$
 - $f(y|\theta)$ : likelihood, $= L(\theta|y)$
 - $\pi(\theta|y)$ : posterior $\propto f(y|\theta)\pi(\theta)$
 - $f(y)$ : Marginal → Constant
-
+- 따라서, 우리는 이를 위에 예시에 적용을 해보자 ! 우리가 구하고자 하는 사후확률인 $\pi(\theta|y) = \frac{p(y|\theta)\pi(\theta)}{p(y)}$에 의해 정의된다.
+$$
+\pi(\theta|Y) \propto \theta^2(1-\theta)^8 \times \frac{\Gamma(a_{0}+b_{0})}{\Gamma(a_{0})\Gamma(b_{0})}\theta^{a_{0}-1}(1- \theta)^{b_{0}-1}
+$$
+- 이때, $\Gamma(a_{0}+b_{0})/\Gamma(a_{0})\Gamma(b_{0})$ 또한 상수(constant)이므로. 
+$$
+\begin{align}
+\pi (\theta|Y)  & \propto \theta^2(1-\theta)^8\times \theta^{a_{0}-1}(1-\theta)^{b_{0}-1} \\
+ & = \theta^{a_{0}+2-1}(1-\theta)^{b_{0}+8-1}
+\end{align}
+$$
+- 위 수식은 $\pi(\theta|Y)$와 정확하게 동일하다고 얘기할 수는 없다. 하지만, 이 식에 특정 상수를 곱하면 $\pi(\theta|Y)$와 같게 되며 그러한 상수를 **정규화 상수(Normalizing constant)**라 부른다.
+- 우리는 위 수식에서 추정한 식을 통해 사후 분포 또한 베타 분포임을 추축할 수 있다.
+$$
+\theta|Y \sim Beta(a_{0}+2, b_{0}+8)
+$$
+- 따라서, 사후 분포의 평균과 분산을 구할 수 있다.
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
 - $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
 - 밀도함수(pdf), $f(\theta|\alpha, \beta)$ 
@@ -74,4 +90,3 @@ $$
 $$
 \mathbb{E}(\theta) = \frac{\alpha}{\alpha+\beta}, Var(\theta) = \frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}
 $$
-- 
