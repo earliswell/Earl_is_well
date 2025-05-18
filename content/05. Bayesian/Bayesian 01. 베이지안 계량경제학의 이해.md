@@ -212,7 +212,34 @@ $$
 y_{t}|\theta  & \sim N(\theta, \theta^2)
 \end{align}
 $$
-- 두 모형의 차이는 $\theta$가 분산까지도 결정하는 경우이다. 
+- 두 모형의 차이는 $\theta$가 분산까지도 결정하는 경우이다. 따라서 $Y=\{y_{t}\}_{t=1}^T$의 결합밀도함수를 $P(Y|\theta)$로 표현하게 되면 이것이 모형 1과 2 중 어떤 모형의 우도함수를 의미하는 것인지 알 수가 없다. 따라서, $p(Y|\theta,M_{1})$나 $p(Y|\theta, M_{2})$와 같이 모형에 대한 조건이 추가로 들어가 있어야만 우도함수가 정확하게 표현됨. 따라서 엄밀하게 표현하자면
+- 모형 1 $M_{1}$:
+$$
+\begin{align}
+\theta|M_{1}  & \sim N(0,1) \\
+y_{t}|\theta, M_{1} & \sim N(\theta, 1)
+\end{align}
+$$
+- 모형 2 $M_2$:
+$$
+\begin{align}
+\theta|M_{2}  & \sim N(0,1), \\
+y_{t}|\theta, M_{2} & \sim N(\theta, \theta^2)
+\end{align}
+$$
+- 우리는 어떤 모형을 선택해야 할까? 좋은 계량모형의 조건 중 하나는 통계적인 증거이다. 베이지안 모형선택에서 가장 표준적인 통계적 증거는 각 모형의 사후 확률이다.
+$$
+Pr[M_{i}|Y], i=1,2
+$$
+- 
+
+
+
+
+
+
+
+
 ## Note
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
 - $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
