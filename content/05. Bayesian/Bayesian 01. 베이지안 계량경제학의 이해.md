@@ -108,9 +108,6 @@ $$
 	- 즉, $\beta$와 $\sigma^2$가 선행적으로 결정되면, 주어진 파라미터 하에서 $y_{t}$를 확률적으로 결정할 수 있음.
 	- 예를 들어, $\beta$가 $N(\beta_{0}, B_{0})$에서 추출되고, $\sigma^2$은 역감마 분포 $IG(v_{0}/2, \delta_{0}/2)$ 에서 생성된다고 가정하면 다음과 같은 모형이 완성됨.
 $$
-
-$$
-$$
 \begin{align}
  \beta  & \sim N(\beta_{0},B_{0}) \\
  \sigma^2  & \sim IG(v_{0}/2, \delta_{0}/2), \\ 
@@ -239,7 +236,7 @@ $$
 
 
 
-
+---
 ## Note
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
 - $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
