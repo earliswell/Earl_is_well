@@ -139,7 +139,33 @@ $$
 - 파라미터의 사후 분포는 계량 모형의 자료를 통해서 베이지안 업데이트함으로써 획득된다.
 
 #### 점추정치 (Point Estimate)
-- 
+- 베이지안 통계분석에서 점추정치는 사후 평균, 사후 중위수, 사후 최빈값을 의미한다. 
+	- 사후 분포의 형태가 대칭일 때 → 사후 평균
+	- 비대칭 → 중위값을 보고하기도 함.
+- 이는 연구자가 극소화하려는 손실함수(Loss function) 형태에 의해서 결정됨.
+###### 사후 평균 (Posterior Mean)
+- 손실 함수가 2차 함수 형태일 때,
+$$
+L_{1}(\hat{\theta}|\theta) = (\hat{\theta} - \theta)^2
+$$
+- 손실의 크기는 통제 변수인 $\hat{\theta}$와 외생적인 확률 변수 $\theta$에 의해서 결정됨. 이 때 기대 손실을 최소화 하는 $\hat{\theta}$의 사후 평균이다.
+- 기대 손실은
+$$
+\mathbb{E}(L_{1}(\hat{\theta}|\theta)) = \int(\hat{\theta}-\theta)^2\pi(\theta|Y)d\theta
+$$
+- 이를 $\hat{\theta}$로 1차 미분하는 값을 0으로 두면, 
+$$
+2\int(\hat{\theta}-\theta)\pi(\theta|Y)d\theta=0
+$$
+- 따라서, $\hat{\theta}$의 사후 평균,
+$$
+\hat{\theta} = \int \theta \pi(\theta|Y)d\theta = \mathbb{E}(\theta|Y)
+$$
+###### 사후 중위값(Posterior Median)
+- 손실함수가 $\theta$로 부터의 절대값,
+$$
+L_{2}(\hat{\theta}|\theta) = |\hat{\theta}-\theta|
+$$
 
 
 
