@@ -119,12 +119,17 @@ y_{t}|\beta, \sigma^2  & \sim N(\beta, \sigma^2)
 $$
 - 우리는 위 세 개의 식을 합쳐서 $y_{t}$에 대한 '계량모형'이라고 부른다. 
 	- 만약, 빈도주의 관점에서 $\beta$와 $\sigma^2$은 확률변수가 아닌 fixed된 값이므로 $y_{t}$에 대한 사전 분포만으로 계량 모형이 결정됨!
-- 또한, $\beta$와 $\sigma^2$의 사전 분포는 조건부로 표현되지 않음 !! Not $\beta|\beta_{0}, B_{0}$ & $\sigma^2|v_{0},\delta_{0}$ → 잘못된 표기임.
+- 또한, $\beta$와 $\sigma^2$의 사전 분포는 조건부로 표현되지 않음 !! Not $\beta|\beta_{0}, B_{0}$ & $\sigma^2|v_{0},\delta_{0}$ → 잘못된 표기임. 왜냐하면 사전 분포의 형태를 결정하는 파라미터는 연구자의 의해서 선택된 불확실성이 없는 상수이기 때문임!! 
 - 결론적으로 계량모형이란 자료의 생성과정임과 동시에 연구자의 사전분포이다. 
 - Posterior = Data + Model(= DGP = Prior)
+- 위의 동전 던지기에 대한 에시도 완전한 계량모형으로 표현하자면 아래와 같음.
+$$
+\begin{align}
+\theta  & \sim Beta(a_{0},b_{0}) \\
+Pr[y_{t} & =1|\theta] = \theta \text{ and } Pr[y_{t}=0|\theta] = 1-\theta
+\end{align}
+$$
 - 
-
-
 
 
 
