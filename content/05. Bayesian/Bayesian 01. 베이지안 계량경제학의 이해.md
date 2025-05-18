@@ -17,6 +17,7 @@ $$
 - 이와 반대로 **베이지안(Bayesian)** 관점에서 $\beta$는 Random이다. → 이것의 의미하는 것은 우리는 관측된 데이터를 통해서 모수의 불확실성을 나타내는 것이다. 그렇다면 우리는 불확실성을 어떻게 나타낼 수 있을까? 이에 대한 답은 분포를 추정하는 것이다. 따라서 모수에 대한 분포를 통해서 모수가 분포에 있을 구간에 따라 나타나는 확률을 제시하여 불확실성을 정량화 한다고 이해를 해보자. 
 	- 예를 들어, 양치기 소년에 대해서 생각해보자. 양치기 소년이 심심한 마음에 늑대가 왔다고 거짓말을 했다고 했을 때, 처음 주민들은 양을 보호할 목적으로 구하러 왔지만 이는 거짓말이었다. 즉, 거짓말에 대한 사전 정보가 쌓이고, 이 것이 두 번, 세 번이 반복되자 정말로 늑대가 찾아왔을 때, 마을 주민들은 양을 지킬 수 없었다. 즉, 어떠한 사전 정보의 대한 확률에 따라 우리의 의사 결정을 하는 과정에서 확률이 변한다는 것이다 ! → 이러한 점에서 기존의 믿음을 사전적 믿음(prior belief)라고 하며, 사전적 정보를 통해서 업데이트된 믿음을 사후적 믿음(posterior belief)라고 칭한다.
 - 이러한, 설명문의 경우는 직관적으로 이해하기 힘들다. 따라서, 예시를 들어 개념에 대한 이해를 확장해보고자 한다.
+
 $$
 \frac{1}{\sqrt{ 2\pi \sigma^2 }} \exp\left\{ -\frac{(x-\mu)^2}{2\sigma^2} \right\}
 $$
@@ -27,11 +28,12 @@ $$
 	1. Asymptotically Normal
 	2. Asymptotically Consistency
 	3. Asymptotically Efficient
-###### MLE(Maximum Likelihood Estimation) 예시
+#### 베이지안 통계분석의 기본 개념
 - 동전이 있는데, 앞, 뒷면이 나오는 것이 unfair하다고 생각해보자. 
 	- $\text{Event} = {H, T}$
 	- $\theta = Pr(H)$ : 앞면이 나올 확률을 $\theta$
 	- $Y=1,0,0,0,1,0,0,0,0,0$
+###### 빈도주의 접근
 - 우리가 구해야 할 것은 $f(Y|\theta)$=$L(\theta|Y)$ 임.
 	- 위 수식은 베이지안 관점에서 작성된 수식임. 이유는 빈도주의에서는 보통 $f(x; \theta)$로 표기함. 모수는 fixed되는 값이라서, Conditional로 표기되지 않음.
 	- 로그를 사용해서 Likelihood를 maximize하는 것이 일반적임.
@@ -42,7 +44,7 @@ $$
  & = L(\theta|y)
 \end{align}
 $$
-### 베이지안
+###### 베이지안 접근
 - 베이지안을 먼저 수식으로 바라봐보자.
 $$
 \begin{align}
@@ -61,3 +63,15 @@ $$
 - $f(y|\theta)$ : likelihood, $= L(\theta|y)$
 - $\pi(\theta|y)$ : posterior $\propto f(y|\theta)\pi(\theta)$
 - $f(y)$ : Marginal → Constant
+
+###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
+- $\theta \sim B(\alpha, \beta), 0 \leq \theta \leq 1$
+- 밀도함수(pdf), $f(\theta|\alpha, \beta)$ 
+$$
+\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1}
+$$
+- 평균과 분산
+$$
+\mathbb{E}(\theta) = \frac{\alpha}{\alpha+\beta}, Var(\theta) = \frac{\alpha \beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}
+$$
+- 
