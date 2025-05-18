@@ -129,7 +129,7 @@ $$
 Pr[y_{t} & =1|\theta] = \theta \text{ and } Pr[y_{t}=0|\theta] = 1-\theta
 \end{align}
 $$
-- 
+- 여기에서 우리는 파라미터 뿐 아니라, $y_{t}$에 대한 
 
 
 
