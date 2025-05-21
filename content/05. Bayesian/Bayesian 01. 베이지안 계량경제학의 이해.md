@@ -233,6 +233,8 @@ $$
 - 
 
 
+
+
 ---
 ## Note
 ###### Note 1.1 베타분포. $Beta(\alpha, \beta)$
