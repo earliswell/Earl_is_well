@@ -27,10 +27,11 @@ $$
 - 이러한 정규 분포가 있다고 생각을 해보자. 우리는 두 개의 관점에서 위 수식을 이해할 수 있다.
 	- $x|\mu, \sigma^2$ : density → 파라미터의 가정을 한 pdf라 생각.
 	- $\mu, \sigma^2|x$ : Likelihood  → 데이터가 주어졌을 때 파라미터를 추정.
+
 - Likelihood의 사고를 확장하기 위하여 $x=1$이라 생각해보자. 그렇다면 $\mu_{1}=3, \sigma^2_{1}=1$도 가능할 수 있고, $\mu_{2}=1, \sigma^2_{2}=1$도 가능할 수도 있다. 그렇다면 우리는 어떤 것이 더 개연성에 맞는 시나리오일까? 를 고민해보자. 아마 $\mu_{2}, \sigma^2_{2}$의 조합이 더 가능성이 높아 보인다. 이런 일련의 과정을 MLE라고 하는데 장점 3가지만 나열하고 나머지는 넘기도록 하자.
 	1. Asymptotically Normal (CLT)
 	2. Asymptotically Consistency
-	3. Asymptotically Efficient
+	3. Asymptotically Efficiency
 #### 베이지안 통계분석의 기본 개념
 - 동전이 있는데, 앞, 뒷면이 나오는 것이 unfair하다고 생각해보자. 
 	- $\text{Event} = {H, T}$
