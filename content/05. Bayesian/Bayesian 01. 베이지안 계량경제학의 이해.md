@@ -165,7 +165,7 @@ $$
 $$
 L_{2}(\hat{\theta}|\theta) = |\hat{\theta}-\theta|
 $$
-- ![[Pasted image 20250518203534.png|400]]
+- ![[Pasted image 20250518203534.png|500]]
 ###### 사후 최빈값(Posterior mode)
 - 손실 함수가 All or Nothing
 $$
