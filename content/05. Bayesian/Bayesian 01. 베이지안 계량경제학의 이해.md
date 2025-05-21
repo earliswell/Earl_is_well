@@ -64,7 +64,7 @@ $$
 $$
 - $\pi(\theta)$ : prior → 사전 정보(Information)로 경험, 이론 등과 같은 파라미터에 대한 믿음의 수치를 뜻한다. 보통 [[#Note 1.1 베타분포. $Beta( alpha, beta)$|베타분포]]를 많이 활용함.
 	- $Beta(\alpha, \beta)$: $\pi(\theta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1}$
-- $f(y|\theta)$ : likelihood, $= L(\theta|y)$
+- $f(y|\theta)$ : likelihood $= L(\theta|y)$
 - $\pi(\theta|y)$ : posterior $\propto f(y|\theta)\pi(\theta)$
 - $f(y)$ : Marginal → Constant
 - 따라서, 우리는 이를 위에 예시에 적용을 해보자 ! 우리가 구하고자 하는 사후확률인 $\pi(\theta|y) = \frac{p(y|\theta)\pi(\theta)}{p(y)}$에 의해 정의된다.
