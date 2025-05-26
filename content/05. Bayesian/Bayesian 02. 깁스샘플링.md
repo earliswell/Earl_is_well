@@ -42,4 +42,23 @@ $$
 	1. $\beta$의 사후 분포의 도출이 보다 용이해진다.
 	2. 오차항의 크기인 $\sigma^2$이 클수록 연구자가 갖는 $\beta$에 대한 믿음의 강도가 약해질 수 있기 때문이다.
 - $\alpha_{0}, \delta_{0}, \beta_{0}, B_{0}$와 같이 사전 분포의 평균이나 분산을 결정하는 파라미터들을 하이퍼 파라미터(hyper-parameter)라고 한다. → 이는 주어진 값이기 때문에 확률 변수(random variable)이 안됨. 
-- 
+#### Case 1. $\sigma^2$이 알려져 있는 경우
+- 알려져 있다는 것은 무엇을 의미할까? → 주어졌다는 의미이고 Random이 아닌 Fixed되었다는 의미이다. 
+- 따라서, 더 이상 추정 대상이 아니라는 것이다. 이 경우, 모형은 아래과 같이 수정된다.
+$$
+\begin{align}
+\beta  & \sim N(\beta_{0}, \sigma^2B_{0}), \\
+Y|\beta  & \sim N(\mathbf{X}\beta, \sigma^2\mathbf{I}_{T})
+\end{align}
+$$
+- 결과적으로 우리는 $\beta$에 대한 사후 분포만을 도출하면 된다. 
+$$
+\pi(\beta|Y) = \frac{f(Y|\beta)}{f(Y)}\pi(\beta)
+$$
+- $f(Y)$는 상수이므로 사후 밀도는 우도와 사전 밀도에 곱에 비례함.
+$$
+\begin{align}
+\pi(\beta|Y)  &  \propto f(Y|\beta)\pi(\beta) \\
+ & = N(Y|\mathbf{X}\beta, \sigma^2\mathbf{I}_{T}) \times N(\beta|\beta_{0}, \sigma^2B_{0})
+\end{align}
+$$
