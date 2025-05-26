@@ -98,3 +98,23 @@ $$
  & = \exp\left( - \frac{1}{2\sigma^2}(\beta'(\mathbf{X'X} + B_{0}^{-1})\beta - 2\beta'(\mathbf{X'}Y + B_{0}^{-1}\beta_{0})) \right)
 \end{align}
 $$
+- 위 수식은 $\beta$의 사후 밀도 함수에서 정규화 상수가 누락된 것임.
+- 이러한 정규화 상수를 제외한 부분을 **커넬(kernel)** 이라고 칭함.
+- 
+
+## Note
+###### Note 2.1
+- 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
+$$
+\begin{align}
+N(\beta|\beta_{1}, \sigma^2B_{1})  & = \left( \frac{1}{\sqrt{ 2\pi \sigma^2 }} \right)^k \frac{1}{\sqrt{ |B_{1}| }} \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta- \beta_{1}) \right) \\
+ & \propto \exp\left( -\frac{1}{2\sigma^2}(\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1}) \right) \\
+ & = \exp\left( - \frac{1}{2\sigma^2}(\beta'B_{1}^{-1}\beta - 2\beta'B_{1}^{-1}\beta_{1} + \beta_{1}B_{1}^{-1}\beta_{1}) \right)
+\end{align}
+$$
+- 여기서 $\beta_{1}B_{1}^{-1}\beta_{1}$ 항은 확률변수 $\beta$와 관련없는 상수항이기 때문에 제거 가능 !
+$$
+\begin{align}
+N(\beta|\beta_{1}, \sigma^2B_{1})  & \propto \exp\left( -\frac{1}{\sigma^2}(\beta'B_{1}^{-1}\beta - 2\beta'B_{1}^{-1}\beta_{1}) \right)
+\end{align}
+$$
