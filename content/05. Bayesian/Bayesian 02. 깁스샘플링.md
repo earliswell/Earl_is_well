@@ -251,8 +251,30 @@ $$
 \end{split}
 \end{equation}
 $$
-
-- 
+- 위와 같이 추출되지만, 결국 $B_{1}$과 $\sigma^2$는 무관하므로 $\pi(\sigma^2|Y)$는
+$$
+\pi(\sigma^2|Y) \propto\left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left(  - \frac{\delta_{1}}{2\sigma^2} \right)
+$$
+- 결국 $\sigma^2$의 주변 사후 밀도가 역감마 분포의 밀도함수로 도출되므로 $\sigma^2$의 주변 사후 분포(Marginal Posterior Distribution)는 아래와 같음.
+$$
+\sigma^2|Y \sim IG\left( \frac{\alpha_{1}}{2}, \frac{\delta_{1}}{2} \right)
+$$
+###### $\beta$의 주변 사후 분포
+- 이제 $\beta$의 주변 사후 분포(Marginal Posterior Distribution)을 도출하기 위해서 $\pi(\beta, \sigma^2|Y)$를 $\sigma^2$에 대해서 적분을 해야함.
+$$
+\begin{equation}
+\begin{split}
+\pi(\beta, \sigma^2|Y) \propto \left( \frac{1}{\sigma^2} \right)^{(\alpha_{1}+k)/2+1} \times \exp\left( - \frac{1}{2\sigma^2}[(\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1}) + \delta_{1}] \right)
+\end{split}
+\end{equation}
+$$
+- 이후 $\pi(\beta, \sigma^2|Y)$를 $\sigma^2$에 대해서 적분하면
+$$
+\begin{align}
+ \pi(\beta|Y)  & = \int \pi(\beta, \sigma^2|Y)d\sigma^2 \\
+ & \propto 
+\end{align}
+$$
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
