@@ -229,7 +229,30 @@ $$
 &\quad \times \int\left( \frac{1}{\sigma^2} \right)^{k/2} \times  \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)d\beta
 \end{align*}
 $$
+
+- 확인용
+$$
+\begin{equation}
+\begin{split}
+\pi(\sigma^2|Y) &\propto \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right) \\
+&\quad \times \int\left( \frac{1}{\sigma^2} \right)^{k/2} \times  \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)d\beta
+\end{split}
+\end{equation}
+$$
 - 위 식이 얻어짐!
+- 여기에서, 밀도함수의 적분 값은 1이라는 성질에 의해서 위 식의 적분 항은
+$$
+\begin{equation}
+\begin{split}
+& \int \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1}) \right)d \beta \\
+& = (\sqrt{ 2\pi })^k|B_{1}|^{1/2} \\ 
+& \quad \times \int (\sqrt{ 2\pi })^{-k}|B_{1}|^{-1/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1}) \right) d\beta \\
+& = (\sqrt{ 2\pi })^{k}|B_{1}|^{1/2}
+\end{split}
+\end{equation}
+$$
+
+- 
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
