@@ -207,8 +207,7 @@ $$
 - 우선 위 식을 $\beta$와 관련된 항과 그렇지 않은 항으로 정리하여 아래와 같이 표현한다.
 $$
 \begin{align}
-\pi(\beta, \sigma^2|Y)  & \propto \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)  \\
- & \times \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right)
+\pi(\beta, \sigma^2|Y)  & \propto \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)  \times \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right)
 \end{align}
 $$
 - 단,
@@ -223,8 +222,14 @@ $$
 $$
 \pi(\sigma^2|Y) = \int \pi(\beta,\sigma^2|Y)d\beta.
 $$
+- 위 식(39)에서 $\beta$와 무관한 식을 적분 밖으로 옮기면,
+$$
+\begin{align*}
+\pi(\sigma^2|Y) &\propto \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right) \\
+&\quad \times \int\left( \frac{1}{\sigma^2} \right)^{k/2} \times  \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)d\beta
+\end{align*}
+$$
 - 
-
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
