@@ -124,7 +124,7 @@ B_{1}A  & = \frac{\mathbf{(X'X)^{-1}X'}Y + \mathbf{(X'X)}B_{0}^{-1}\beta_{0}}{1 
  & = \frac{Var(\beta)}{Var(\beta) + Var(\hat{\beta}_{OLS})} + \frac{Var(\hat{\beta})}{Var(\beta) + Var(\hat{\beta}_{OLS})} \beta_{0}
 \end{align}
 $$
-
+- 
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
