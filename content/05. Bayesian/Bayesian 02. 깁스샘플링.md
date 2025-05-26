@@ -229,7 +229,7 @@ $$
 &\quad \times \int\left( \frac{1}{\sigma^2} \right)^{k/2} \times  \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)d\beta
 \end{align*}
 $$
-- 
+- 위 식이 얻어짐!
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
