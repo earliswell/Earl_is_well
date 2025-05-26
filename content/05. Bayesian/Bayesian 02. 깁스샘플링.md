@@ -149,7 +149,12 @@ $$
  & \propto \left( \frac{1}{\sigma^2} \right)^{\frac{\alpha_{0}}{2}+1} \exp\left(- \frac{\delta_{0}}{2\sigma^2} \right)
 \end{align}
 $$
-- 
+- $\sigma^2$의 사후 분포는 다음과 같이 계산될 수 있음.
+$$
+\begin{align}
+
+\end{align}
+$$
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
