@@ -237,9 +237,7 @@ $$
 \begin{equation}
 \begin{split}
 & \int \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1}) \right)d \beta \\
-& = (\sqrt{ 2\pi })^k|B_{1}|^{1/2} \\ 
-& \quad \times \int (\sqrt{ 2\pi })^{-k}|B_{1}|^{-1/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1}) \right) d\beta \\
-& = (\sqrt{ 2\pi })^{k}|B_{1}|^{1/2}
+& = (\sqrt{ 2\pi })^k|B_{1}|^{1/2}
 \end{split}
 \end{equation}
 $$
@@ -267,6 +265,23 @@ $$
  & \propto [\delta_{1} + (\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1})]^{-(\alpha_{1} + k)/2}
 \end{align}
 $$
+- 위 식이 유도되는데, 이는 다음에 차차 공부하면서 풀어나가보려고 한다. 
+- 따라서, $\alpha_{1}, \delta_{1}$은 $\beta$와 관련이 없기 때문에 주변 사후 분포는 다음과 같이 정리된다.
+$$
+\begin{align}
+\pi(\beta|Y)  & \propto [1 + (\beta - \beta_{1})'(\delta_{1}B_{1})^{-1}(\beta - \beta_{1})]^{-(\alpha_{1} +k)/2} \\
+ & \propto \left[ 1 + \frac{1}{\alpha_{1}}(\beta - \beta_{1})'\left( \frac{\delta_{1}}{\alpha_{1}}B_{1} \right)^{-1}(\beta - \beta_{1}) \right]^{- (\alpha_{1}+k)/2}
+\end{align}
+$$
+- 이는 평균이 $\mu$이고, 자유도는 $v$이며 스케일 파라미터가 $\Sigma$인 $k$ 차원 다변수 스튜던트-t 분포의 결합 밀도 $f(X=x)$의 커넬은 다음과 같다.
+$$
+\left( 1 + \frac{1}{v}(x - \mu)' \Sigma^{-1}(x - \mu) \right)^{- (v +k)/2}
+$$
+- 이로부터 $\beta$는 평균이 $\beta_{1}$, 자유도는 $\alpha_{1}$, 스케일 파라미터가 $(\delta_{1}/\alpha_{1})B_{1}$인 스튜던트-t 분포를 따른다.
+$$
+\beta|Y \sim St\left( \beta_{1}, \frac{\delta_{1}}{\alpha_{1}}B_{1}, \alpha_{1} \right)
+$$
+- 지금까지는 사후 분포를 수학적으로 도출하였다. 하지만 위와 같이 사후 분포가 수학적으로 도출가능한 경우는 예외적이다. → 웬만하면 거의 불가능함.
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
