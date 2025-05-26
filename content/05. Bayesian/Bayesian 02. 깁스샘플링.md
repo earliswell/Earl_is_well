@@ -62,3 +62,33 @@ $$
  & = N(Y|\mathbf{X}\beta, \sigma^2\mathbf{I}_{T}) \times N(\beta|\beta_{0}, \sigma^2B_{0})
 \end{align}
 $$
+- $N(x|\mu, \Sigma)$는 평균과 분산-공분산이 각각 $\mu$와 $\Sigma$인 정규 분포의 밀도함수다.
+- $f(Y|\beta)$: likelihood
+- $\pi(\beta)$: $\beta$에 대한 Prior density function이다. 
+- $Y|\beta$와 $\beta$ 모두 다변량 정규분포를 따르기 때문에 $f(Y|\beta)$와 $\pi(\beta)$는 각각 아래와 같은 다변량 정규 분포(multivariate normal)의 밀도함수이다.
+$$
+\begin{align}
+f(Y|\beta)  & = N(Y|\mathbf{X}\beta, \sigma^2\mathbf{I}_{T}) \\
+ & = \left( \frac{1}{\sqrt{ 2\pi }} \right)^T \left( \frac{1}{\sigma^2} \right)^{T/2}\exp\left( -\frac{1}{2\sigma^2}(Y-\mathbf{X}\beta)'(Y-\mathbf{X}\beta) \right),  \\
+ \\
+\pi(\beta)  & =N(\beta|\beta_{0}, \sigma^2B_{0}) \\
+ & = \left( \frac{1}{2\pi} \right)^K \frac{1}{|B_{0}|^{\frac{1}{2}}} \left( \frac{1}{\sigma^2} \right)^{k/2}\exp\left( -\frac{1}{2\sigma^2}(\beta - \beta_{0})'B_{0}^{-1}(\beta - \beta_{0}) \right)
+\end{align}
+$$
+- 따라서, $f(Y|\beta) \times \pi(\beta)$은 다음과 같이 계산된다.
+$$
+\begin{align}
+f(Y|\beta)\pi(\beta)  & = 
+  \left( \frac{1}{\sqrt{ 2\pi }} \right)^T \left( \frac{1}{\sigma^2} \right)^{T/2}\exp\left( -\frac{1}{2\sigma^2}(Y-\mathbf{X}\beta)'(Y-\mathbf{X}\beta) \right)  \\
+ & \times\left( \frac{1}{2\pi} \right)^K \frac{1}{|B_{0}|^{\frac{1}{2}}} \left( \frac{1}{\sigma^2} \right)^{k/2}\exp\left( -\frac{1}{2\sigma^2}(\beta - \beta_{0})'B_{0}^{-1}(\beta - \beta_{0}) \right)
+\end{align}
+$$
+- 여기에서 우리가 구하고자 하는 것은 $\beta$에 대한 사후 분포인 $\pi(\beta|Y)$이다. 따라서, $\beta$와 관련없는 항들은 정규화 상수에 불과하기에 제거한다.
+$$
+\pi(\beta|Y) \propto \exp\left(  - \frac{1}{2\sigma^2} [(Y - \mathbf{X}\beta)'(Y- \mathbf{X}\beta) + (\beta - \beta_{0})'B_{0}^{-1}(\beta-\beta_{0})] \right)
+$$
+- $\beta'X'Y = Y'X\beta$이고, $\beta'B_{0}^{-1}\beta_{0} = \beta_{0}'B_{0}^{-1}\beta$이기 때문에, 식을 다음과 같이 정리할 수 있음.
+$$
+\pi(\beta|Y) \propto \exp\left( - \frac{1}{2\sigma^2}(Y'Y - 2\beta'\mathbf{X}'Y + \beta'\mathbf{X'X}\beta + \beta'B_{0}^{-1}\beta_{0} - 2\beta'B_{0}^{-1}\beta_{0} + \beta_{0}'B_{0}^{-1}\beta_{0}) \right)
+$$
+- 
