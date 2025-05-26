@@ -219,7 +219,11 @@ $$
  - \beta_{1}'B_{1}^{-1}\beta_{1} 
 \end{align}
 $$
-
+- 다음으로 $\beta$와 $\sigma^2$의 결합 사후 밀도를 $\beta$에 대해서 적분하면 $\sigma^2$의 Marginal posterior distribution을 계산할 수 있음.
+$$
+\pi(\sigma^2|Y) = \int \pi(\beta,\sigma^2|Y)d\beta.
+$$
+- 
 
 ## Note
 ###### Note 2.1
