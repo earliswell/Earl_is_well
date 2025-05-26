@@ -165,7 +165,11 @@ $$
 \text{with } \alpha_{1}  & = \alpha_{0} + T \text{ and } \delta_{1} = \delta_{0} + (Y - \mathbf{X}\beta)'(Y - \mathbf{X}\beta)
 \end{align}
 $$
--  
+- 이는 결국 역감마 분포의 커넬임을 쉽게 알 수 있다. 즉,
+$$
+\sigma^2|Y \sim IG\left( \frac{\alpha_{1}}{2} , \frac{\delta_{1}}{2} \right)
+$$
+- 
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
