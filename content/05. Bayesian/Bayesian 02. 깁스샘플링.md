@@ -91,4 +91,10 @@ $$
 $$
 \pi(\beta|Y) \propto \exp\left( - \frac{1}{2\sigma^2}(Y'Y - 2\beta'\mathbf{X}'Y + \beta'\mathbf{X'X}\beta + \beta'B_{0}^{-1}\beta_{0} - 2\beta'B_{0}^{-1}\beta_{0} + \beta_{0}'B_{0}^{-1}\beta_{0}) \right)
 $$
-- 
+- 다시 $\beta$와 무관한 $Y'Y$와 $\beta_{0}'B_{0}^{-1}\beta_{0}$를 제외하여 아래와 같은 식을 얻는다.
+$$
+\begin{align}
+\pi(\beta|Y)  & \propto \exp\left( - \frac{1}{2\sigma^2}(-2\beta'\mathbf{X'}Y + \beta'\mathbf{X'X}\beta + \beta'B_{0}^{-1}\beta - 2\beta'B_{0}^{-1}\beta_{0}) \right) \\
+ & = \exp\left( - \frac{1}{2\sigma^2}(\beta'(\mathbf{X'X} + B_{0}^{-1})\beta - 2\beta'(\mathbf{X'}Y + B_{0}^{-1}\beta_{0})) \right)
+\end{align}
+$$
