@@ -126,6 +126,30 @@ B_{1}A  & = \frac{\mathbf{(X'X)^{-1}X'}Y + \mathbf{(X'X)}B_{0}^{-1}\beta_{0}}{1 
 $$
 - 이는 표본의 크기가 커질수록 $Var(\hat{\beta})$의 값이 작아지게 된다. → 이는 표본의 증가가 $\hat{\beta}$의 값이 하나의 값으로 수렴할 Consistency와 이어지는 개념이라고 생각하면 됨. 즉, 표본의 무한히 뽑히면 OLS의 [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency|Consistency]]의 성질을 다시 한 번 생각해보자.
 - 반대로, $Var(\hat{\beta}_{OLS})$값이 커지게 되면 $\hat{\beta}_{OLS}$의 가중치는 작아지고 $\beta_{0}$의 가중치는 커짐. 이러한 경우에서는 사후 평균은 $\hat{\beta}_{OLS}$보다는 사전 평균에 더 가까운 값을 갖게 됨.
+#### Case 2. $\beta$가 알려져 있는 경우
+- 이 경우 $\beta$는 주어진 상수(constant)이기 때문에 선형회귀 모형을 아래와 같이 다시 표현할 수 있음.
+$$
+\begin{align}
+\sigma^2  & \sim IG\left( \frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right), \\
+Y|\sigma^2  & \sim N(\mathbf{X}\beta, \sigma^2\mathbf{I}_{T})
+\end{align}
+$$
+- 우리의 목표는 $\sigma^2$의 사후 분포를 도출하는 것, 즉 $\pi(\sigma^2|Y)$를 알아내는 것이 목표이다.
+$$
+\begin{align}
+\pi(\sigma^2|Y)  & = \frac{f(Y|\sigma^2)}{f(Y)}\pi(\sigma^2) \\
+ & \propto f(Y|\sigma^2)\pi(\sigma^2)
+\end{align}
+$$
+- $f(Y|\sigma^2)$는 수식(8)과 동일함. 
+- $\sigma^2$의 사전 분포는 $(\alpha_{0}/2, \delta_{0}/2)$를 하이퍼 파라미터로 가지는 역감마 분포를 따르며, 커넬은 다음과 같음.
+$$
+\begin{align}
+\pi(\sigma^2)  & =IG\left( \sigma^2|\frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right) \\
+ & \propto \left( \frac{1}{\sigma^2} \right)^{\frac{\alpha_{0}}{2}+1} \exp\left(- \frac{\delta_{0}}{2\sigma^2} \right)
+\end{align}
+$$
+- 
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
