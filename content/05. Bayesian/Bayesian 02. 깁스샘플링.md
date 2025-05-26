@@ -169,7 +169,30 @@ $$
 $$
 \sigma^2|Y \sim IG\left( \frac{\alpha_{1}}{2} , \frac{\delta_{1}}{2} \right)
 $$
-- 
+###### 켤레 사전 분포
+- [[#Case 1. $ sigma 2$이 알려져 있는 경우|Case 1]]과 [[#Case 2. $ beta$가 알려져 있는 경우|Case 2]]로부터 우리는 $\beta$의 사전 분포가 정규 분포로 설정되면 사후 분포도 정규분포로 도출되고, $\sigma^2$의 사전 분포를 역감마 분포로 설정되면, 사후 분포도 역감마 분포로 도출된다는 사실을 확인했다. 
+- 이처럼 파라미터의 사전 분포를 잘 알려진 분포로 설정하고, 사후 분포가 표준적인 분포로 도출되면, 그러한 사전 분포를 켤레 사전 분포(Conjugate Prior)라고 한다. 
+	- 추가적인, 분포 관련 내용은 [위키피디아, Conjugate Prior](https://en.wikipedia.org/wiki/Conjugate_prior)를 참고해보자.
+
+#### Case 3. $\beta$와 $\sigma^2$이 모두 알려져 있지 않은 경우.
+- 앞서 우리가 설정했던 선형회귀 모형을 다시 한 번 써보면 다음과 같다.
+$$
+\begin{align}
+\sigma^2 & \sim IG\left( \frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right), \\
+\beta|\sigma^2  & \sim N(\beta_{0}, \sigma^2B_{0}), \\
+\text{and } Y|\beta, \sigma^2  & \sim N(\mathbf{X}\beta, \sigma^1\mathbf{I}_{T})
+\end{align}
+$$
+- 항상 말했든 우리의 목적은 ($\beta, \sigma^2$)의 결합 사후 분포(joint posterior distribution),
+$$
+\beta, \sigma^2 |Y
+$$
+- 또는 주변 사후 분포(Marginal posterior distribution),
+$$
+\beta|Y \text{ or } \sigma^2|Y
+$$
+- 를 도출하는 것이다.
+
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
