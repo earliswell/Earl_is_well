@@ -224,14 +224,6 @@ $$
 $$
 - 위 식(39)에서 $\beta$와 무관한 식을 적분 밖으로 옮기면,
 $$
-\begin{align*}
-\pi(\sigma^2|Y) &\propto \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right) \\
-&\quad \times \int\left( \frac{1}{\sigma^2} \right)^{k/2} \times  \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)d\beta
-\end{align*}
-$$
-
-- 확인용
-$$
 \begin{equation}
 \begin{split}
 \pi(\sigma^2|Y) &\propto \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right) \\
@@ -272,7 +264,7 @@ $$
 $$
 \begin{align}
  \pi(\beta|Y)  & = \int \pi(\beta, \sigma^2|Y)d\sigma^2 \\
- & \propto 
+ & \propto [\delta_{1} + (\beta - \beta_{1})'B_{1}^{-1}(\beta - \beta_{1})]^{-(\alpha_{1} + k)/2}
 \end{align}
 $$
 ## Note
