@@ -115,7 +115,16 @@ $$
 - 반대로 연구자의 사전적인 믿음이 대단히 강해서 $B_{0}$의 값이 거의 0에 가까운 경우를 생각해보자. 
 - 이 경우에는 반대로 사후 평균이 $B_{1}(\mathbf{X'}Y + B_{0}^{-1}\beta_{0})$가 사전 평균, $\beta_{0}$에 가까워 진다. 
 	- 이는 결국, $B_{0}^{-1}$은 무한대에 가까워 지는 수가 될 것이고, $\mathbf{X}$와 $Y$의 영향이 작아지게 됨. $\frac{\infty}{\infty}$ 
-- 이는 결국 $B_{0}$의 역할을 
+- 사후 평균은 결국 사전 평균 혹은 정보에만 의존한 $\beta$의 추정치의 가중 평균으로 결정됨.
+$$
+\begin{align}
+B_{1}A  & = \frac{\mathbf{(X'X)^{-1}X'}Y + \mathbf{(X'X)}B_{0}^{-1}\beta_{0}}{1 + \mathbf{(X'X)}^{-1}B_{0}^{-1}} \\
+ & =\frac{\hat{\beta}_{OLS} + \frac{Var(\hat{\beta}_{OLS})}{Var(\beta)}\beta_{0}}{1 + \frac{Var(\hat{\beta}_{OLS})}{Var(\beta)}} \\
+ & = \frac{1}{1 + \frac{Var(\hat{\beta}_{OLS})}{Var(\beta)}}\hat{\beta}_{OLS} + \left( 1 - \frac{1}{1+ \frac{Var(\hat{\beta})}{Var(\beta)}} \right)\beta_{0} \\
+ & = \frac{Var(\beta)}{Var(\beta) + Var(\hat{\beta}_{OLS})} + \frac{Var(\hat{\beta})}{Var(\beta) + Var(\hat{\beta}_{OLS})} \beta_{0}
+\end{align}
+$$
+
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
