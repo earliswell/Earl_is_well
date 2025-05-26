@@ -202,7 +202,21 @@ $$
 \end{align}
 $$
 - 이는 더 이상 표준분포로 정리되지 않음. 다시 말해서 커넬을 알 수 없다 !! → 이는 결국 결합 사후 분포의 종류는 물롱 평균이나 분산도 알 수 없다.
-- 
+
+###### $\sigma^2$의 주변 사후 분포
+- 우선 위 식을 $\beta$와 관련된 항과 그렇지 않은 항으로 정리하여 아래와 같이 표현한다.
+$$
+\begin{align}
+\pi(\beta, \sigma^2|Y)  & \propto \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)  \\
+ & \times \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right)
+\end{align}
+$$
+- 단,
+$$
+\begin{align}
+
+\end{align}
+$$
 
 ## Note
 ###### Note 2.1
