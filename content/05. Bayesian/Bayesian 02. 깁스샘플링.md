@@ -124,7 +124,8 @@ B_{1}A  & = \frac{\mathbf{(X'X)^{-1}X'}Y + \mathbf{(X'X)}B_{0}^{-1}\beta_{0}}{1 
  & = \frac{Var(\beta)}{Var(\beta) + Var(\hat{\beta}_{OLS})} + \frac{Var(\hat{\beta})}{Var(\beta) + Var(\hat{\beta}_{OLS})} \beta_{0}
 \end{align}
 $$
-- 
+- 이는 표본의 크기가 커질수록 $Var(\hat{\beta})$의 값이 작아지게 된다. → 이는 표본의 증가가 $\hat{\beta}$의 값이 하나의 값으로 수렴할 Consistency와 이어지는 개념이라고 생각하면 됨. 즉, 표본의 무한히 뽑히면 OLS의 [[Statistics, 07. Properties of Point Estimators and Methods of Estimation#Consistency|Consistency]]의 성질을 다시 한 번 생각해보자.
+- 반대로, $Var(\hat{\beta}_{OLS})$값이 커지게 되면 $\hat{\beta}_{OLS}$의 가중치는 작아지고 $\beta_{0}$의 가중치는 커짐. 이러한 경우에서는 사후 평균은 $\hat{\beta}_{OLS}$보다는 사전 평균에 더 가까운 값을 갖게 됨.
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
