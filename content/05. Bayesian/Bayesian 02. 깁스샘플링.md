@@ -192,6 +192,17 @@ $$
 \beta|Y \text{ or } \sigma^2|Y
 $$
 - 를 도출하는 것이다.
+- 따라서, $\beta, \sigma^2$의 결합 사후 밀도 $\pi(\beta, \sigma^2|Y)$는 우도 함수와 사전 밀도의 곱에 비례한다.
+$$
+\begin{align}
+\pi(\beta, \sigma^2|Y)  & \propto f(Y|\beta, \sigma^2)\pi(\beta|\sigma^2)\pi(\sigma^2) \\
+ & = N(Y|\mathbf{X}\beta, \sigma^2) \times N(\beta|\beta_{0}, \sigma^2B_{0}) \times IG\left( \frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right) \\
+ & \propto \left( \frac{1}{\sigma^2} \right)^{(T+\alpha_{0})/2 + 1} \times \left( \frac{1}{\sigma^2} \right)^{k/2}  \\
+ & \times \exp\left(  - \frac{1}{2\sigma^2}[(Y- \mathbf{X}\beta)'(Y-\mathbf{X}\beta) + (\beta - \beta_{0})'B_{0}^{-1}(\beta - \beta_{0}) + \delta_{0}] \right)
+\end{align}
+$$
+- 이는 더 이상 표준분포로 정리되지 않음. 다시 말해서 커넬을 알 수 없다 !! → 이는 결국 결합 사후 분포의 종류는 물롱 평균이나 분산도 알 수 없다.
+- 
 
 ## Note
 ###### Note 2.1
