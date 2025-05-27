@@ -258,7 +258,16 @@ $$
 \begin{align}
   & Z_{t} \equiv Y_{t-1}e_{t} \\
  E(Z_{t})  & = E(Y_{t-1}e_{t}) = E[E(Y_{t-1}e_{t}|I_{t-1})]   \\
-& = E[Y_{t-1}E(e_{t-1}|I_{t-1})] = 0
+& = E[Y_{t-1}E(e|I_{t-1})] = 0
 \end{align}
 $$
-- 우리는 Expectation of Conditional Expectation의 
+- 우리는 Expectation of Conditional Expectation의 성질을 이용해서 $I_{t-1}$이 주어졌을 때, 즉 Information이 주어졌을 때의 조건부 기댓값으로 성질을 변환하여 문제를 해결할 수 있다.
+- $t-1$기의 정보가 주어졌기 때문에 $Y_{t-1}$이 상수취급 되며 이는 결국 $E(e_{t}|I_{t-1})$는 각 시기별 iid의 성질로 인하여 기댓값이 0이 된다. 
+- and Variance
+$$
+\begin{align}
+Var(Z_{t}) &  = E[(Y_{t-1}e_{t})]^2 = E[Y_{t-1}^2E(e_{t}^2|I_{t-1})] = \sigma^2E(Y_{t-1}^2) \\
+ & =\sigma^2\gamma(0) = \sigma^2Var(Y_{t})
+\end{align}
+$$
+- 위 식 또한, 조건부 기댓값의 기댓값 성질을 이용하는데, 기본 $Var(Z_{t})$는 $E[(Y_{t-1}e_{t})^2] - E(Y_{t-1}e_{t})^2$의 꼴 이다.
