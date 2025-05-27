@@ -323,6 +323,13 @@ $$
 \end{equation}
 $$
 #### 2.2.3 Case C. $\beta$와 $\sigma^2$이 모두 알려져 있지 않은 경우
+- $\beta$와 $\sigma^2$의 결합 사후 밀도 $\pi(\beta, \sigma^2|Y)$는 우도함수, $\beta$의 사전 밀도, $\sigma^2$의 사전 밀도의 곱에 비례한다:
+$$
+\begin{align}
+\pi(\beta, \sigma^2|Y)  & \propto f(Y|\beta, \sigma^2)\pi(\beta)\pi(\sigma^2) \\
+ & =N(Y|\mathbf{X}\beta, \sigma^2)\times N(\beta|\beta_{0}, B_{0}) \times IG\left( \sigma^2|\frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right)
+\end{align}
+$$
 
 
 ## Note
