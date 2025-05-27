@@ -10,7 +10,7 @@ tags:
 - 그렇다면 분포의 정보를 안다는 것은 매우 중요한 부분 중에 하나인데, 우리는 만약 사후 분포의 모양을 알 수 없다면 어떻게 해야할까? 
 - 이러한 의문을 해결하기 위하여 샘플링 기법들을 활용하고 있으며, 본 장에서는 깁스 샘플링에 대한 공부를 이어나가고자 한다.
 
-## 다중선형회귀모형
+## 2.1 다중선형회귀모형
 - 아래와 같은 전형적인 다중선형회귀식을 고려해보자.
 $$
 Y = X_{1}\beta_{1}+X_{2}\beta_{2}+ \dots + X_{k}\beta_{k} + \epsilon, \, \epsilon|X_{1},X_{2},\dots, X_{k} \sim N(0, \sigma^2\mathbf{I}_{T})
@@ -282,6 +282,49 @@ $$
 \beta|Y \sim St\left( \beta_{1}, \frac{\delta_{1}}{\alpha_{1}}B_{1}, \alpha_{1} \right)
 $$
 - 지금까지는 사후 분포를 수학적으로 도출하였다. 하지만 위와 같이 사후 분포가 수학적으로 도출가능한 경우는 예외적이다. → 웬만하면 거의 불가능함.
+## 2.2 완전 조건부 분포와 깁스 샘플링
+- 앞서 $\beta$의 사전 분포, $\beta|\sigma^2 \sim N(\beta_{0}, \sigma^2B_{0})$는 $\sigma^2$에 의존하였다. 
+- 여기서 사전 분산이 작을수록 사전 분포가 자료의 정보에 비해 상대적으로 $\beta$의 사후 분포에 강하게 반영된다. 
+- 실무적으로 사전 분산을 통해 연구자가 사전 정보의 양을 수치화하고자 할 때, 사전 분산을 $\sigma^2$과 독립적으로 설정하는 것이 보다 정밀하거나 설득력있는 경우가 많다.
+- **$\sigma^2$에 의존하지 않는 $\beta$의 사전 분포**
+$$
+\beta \sim N(\beta_{0}, B_{0})
+$$
+- $\sigma^2$의 사전 분포는 역감마 분포를 가정하면 선형 회귀모형은 아래와 같이 표현할 수 있다.
+$$
+\begin{equation}
+\begin{split}
+\sigma^2 & \sim IG\left( \frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right),\\
+\beta & \sim N(\beta_{0}, B_{0}),\\
+Y|\beta, \sigma^2 & \sim N(\mathbf{X}\beta, \sigma^2\mathbf{I}_{T})
+\end{split}
+\end{equation}
+$$
+#### 2.2.1 Case A. $\sigma^2$이 알려져 있는 경우
+- 이 경우, 사후 분포는 $\beta|Y \sim N(B_{1}(\sigma^{-2}\mathbf{X'}Y+B_{0}^{-1}\beta_{0}), B_{1}), \text{where }B_1=(\sigma^{-2}\mathbf{X'X}+B_{0}^{-1})$이다.
+$$
+\begin{equation}
+\begin{split}
+B_{1} & = (\sigma^{-2}\mathbf{X'X}+B_{0}^{-1})^{-1}, \\
+A & = \sigma^{-2}\mathbf{X'}Y + B_{0}^{-1}\beta_{0}, \\
+\beta|Y & \sim N(B_{1}A_{1}, B_{1})
+\end{split}
+\end{equation}
+$$
+
+#### 2.2.2 Case B. $\beta$가 알려져 있는 경우
+- $\sigma^2$의 사후 분포는 $\beta$의 사전 분포가 $\sigma^2$에 의존한 경우와 동일함.
+$$
+\begin{equation}
+\begin{split}
+\sigma^2|Y & \sim IG\left( \frac{\alpha_{1}}{2}, \frac{\delta_{1}}{2} \right), \\
+\text{with } \alpha_{1} & =\alpha_{0} \text{ and } \delta_{1} = \delta_{0} + (Y - \mathbf{X}\beta)'(Y - \mathbf{X}\beta)
+\end{split}
+\end{equation}
+$$
+#### 2.2.3 Case C. $\beta$와 $\sigma^2$이 모두 알려져 있지 않은 경우
+
+
 ## Note
 ###### Note 2.1
 - 평균이 $\beta_{1}$이고 분산-공분산이 $\sigma^2B_{1}$이 정규 분포를 따르는 $\beta$의 밀도함수로부터 커넬을 유도해보고자 한다.
