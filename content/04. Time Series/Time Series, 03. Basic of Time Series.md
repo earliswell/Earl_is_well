@@ -276,3 +276,50 @@ $$
 $$
 \bar{Z} \sim \left( 0, \frac{\sigma^2\gamma(0)}{T} \right)
 $$
+- which means $\bar{z} \to^p 0$ as $T \to \infty$
+- To find the asymptotic distribution we will use $\sqrt{ T }$
+$$
+\begin{align}
+ & \sqrt{ T }\bar{Z} \sim N(0, \sigma^2\gamma(0)) \\
+ & \to \frac{1}{\sqrt{ T }}\sum_{i=1}^{T} Z_{t} \sim N(0, \sigma^2\gamma(0)) \\
+ & \to \frac{1}{\sqrt{ T }} \sum_{i=1}^{T} Y_{t-1}e_{t} \sim N(0, \sigma^2 \gamma(0))
+\end{align}
+$$
+- $\gamma(0)$ can be estimated by
+$$
+\hat{\gamma(0)} = \frac{1}{T}\sum_{i=1}^{T} (Y_{t-1}- E(Y_{t-1}))^2 = \frac{1}{T}\sum_{i=1}^{T} (Y_{t-1})^2
+$$
+- $E(Y_{t-1})$: t-1기의 Prediction값의 평균.
+- and we know
+$$
+\hat{\gamma}(0) →^p \gamma(0)
+$$
+- Now from the AR(1)
+$$
+\begin{align} 
+\hat{\phi}  & = \phi + \frac{Y_{t-1}e_{t}}{\sum Y_{t-1}^2} = \phi + \frac{\frac{1}{T}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2} \\
+ & = \phi+\frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }}
+\end{align}
+$$
+- By the asymptotic theory,
+$$
+\begin{align}
+ \frac{1}{\sqrt{ T }}\sum_{i=1}^{T} Y_{t-1}e_{t}  & \to^d N(0, \sigma^2\gamma(0)) \\
+ \frac{1}{T}\sum Y_{t-1}^2  & \to^p \gamma(0)
+\end{align}
+$$
+- Due to $\frac{1}{\sqrt{ T }}$
+$$
+\frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \to^p 0
+$$
+- 분자는 분포로 수렴하고, 분모는 점으로 수렴함. 그리고 $\frac{1}{\sqrt{ T }}$는 0으로 수렴하게 됨.
+- In order to find the distribution
+$$
+\begin{align}
+ & \hat{\phi} = \phi + \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \\
+ & \hat{\phi} - \phi = \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \\
+ \sqrt{ T }(\hat{\phi}-\phi)  & = \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \to^p \gamma(0)N(0, \sigma^2\gamma(0))
+\end{align}
+$$
+- 우리가 이렇게 하는 이유는 우리는 이러한 추정값들의 통계적 Test를 하고 싶은데, 그러려면 분포를 알아야 함. 따라서, 이러한 수식 전개를 통해 어떤 분포의 평균, 분산을 구하여 통계적으로 유의한지를 선보이고자함.
+
