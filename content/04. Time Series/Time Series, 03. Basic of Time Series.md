@@ -335,4 +335,12 @@ $$
 $$
 H_{0}: \phi=0 \text{ v.s. } H_{1}:\phi<0
 $$
-- 
+- T-test 가능 !
+- Under the condition that the null hypothesis is true, we know
+$$
+\begin{align}
+ & \sqrt{ T }(\hat{\phi} - \phi) \to^d N(0, 1 - \phi^2) \\
+ & \to \sqrt{ T }\hat{\phi } \to^d N(0, 1)(\because \phi=0)
+\end{align}
+$$
+- 그런데 우리는 $H_{0}: \phi=1$이라고 
