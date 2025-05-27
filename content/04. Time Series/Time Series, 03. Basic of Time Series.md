@@ -189,11 +189,11 @@ $$
 - 즉 귀무가설을 기각하지 못하면, 어떤 시차의 $\phi$는 $Y_{t}$에 영향을 미치지 못한다는 것!
 #### Google Stock Example
 - The closing stock price of a share of Google Stock during 2005-02-07 to 2005-07-07
-- ![[Pasted image 20250517152918.png|400x250]]
+- ![[Time_Series, Figure.09.png|400x250]]
 - Here we notice that there is a significant spike at a lag of 1 and much lower spikes for the subsequent lags. Thus, AR(1) model would likely be feasible for this data set.
-- ![[Pasted image 20250517153146.png|400x250]]
+- ![[Time_Series, Figure.10.png|400x250]]
 - We next create a lag-1 price variable and consider a scatterplot of price versus this lag-1 variable: → AR(1)을 따를 것이라 가정
-- ![[Pasted image 20250517153229.png|400x250]]
+- ![[Time_Series, Figure.11.png|400x250]]
 
 #### CLT Basics, again 
 - Consider a simple model:
@@ -207,8 +207,33 @@ $$
 $$
 - The mean and variance of the estimator is
 $$
-\begin{center}
-E(\hat{\mu}) = E(\bar{Y}) = \mu \\
-Var(\hat{\mu}) = Var\left( \frac{1}{N}\sum_{i=1}^{N} Y_{i} \right) = \frac{\sigma^1}{N}
-\end{centers}
+\begin{alignat}{2}
+ & E(\hat{\mu}) = E(\bar{Y}) = \mu \\
+ & Var(\hat{\mu}) = Var\left( \frac{1}{N}\sum_{i=1}^{N} Y_{i} \right) = \frac{\sigma^1}{N}
+\end{alignat}
 $$
+- As $N \to \infty$
+$$
+\hat{\mu} \to^{p} \mu
+$$
+- If we want to see what is the distribution of $\hat{\mu}$ as $N \to \infty$, then we can use $\sqrt{ N }$ such that -> 수렴 속도를 덜 빠르게 하면 분포로 수렴하는 것을 관측할 수 있음.
+$$
+Var(\sqrt{ N }\hat{\mu}) = N Var(\hat{\mu}) = \sigma^2
+$$
+- As $N \to \infty$
+$$
+\begin{align}
+ & \sqrt{ N } \hat{\mu} \sim (\sqrt{ N }\mu, \sigma^2) \\
+ & \sqrt{ N }(\hat{\mu} - \mu) \sim (0, \sigma^2)
+\end{align}
+$$
+- 즉, $\sqrt{ N }$이 수렴 속도를 잡아줌.
+$$
+\sqrt{ N }(\hat{\mu} - \mu) = \sqrt{ N }(\bar{Y} - \mu) = \frac{1}{\sqrt{ N }}\sum_{i=1}^{N} (Y_{i} - \mu)
+$$
+- By CLT we have
+$$
+\frac{1}{\sqrt{ N }}\sum_{i=1}^{N} (Y_{i}- \mu) \sim N(0, \sigma^2)
+$$
+## CLT Application with AR(1)
+- 

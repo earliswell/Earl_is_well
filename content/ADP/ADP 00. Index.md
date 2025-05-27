@@ -140,7 +140,7 @@ EDA 과정에서 결측값 처리, 이상값 수정, 변수 변환 및 파생 �
 - warning 제거하기
 - html → pdf 출력시 비율 조정
 - 페이지 맨 마지막에 "끝. x페이지"
-- ![[Pasted image 20250405173310.png]]
+- ![[ADP, Figure.01.png]]
 
 ```
 datetime

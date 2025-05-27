@@ -168,7 +168,7 @@ $$
 $$
 L_{2}(\hat{\theta}|\theta) = |\hat{\theta}-\theta|
 $$
-- ![[Pasted image 20250518203534.png|500]]
+- ![[Bayesian, Figure.01.png|500]]
 ###### 사후 최빈값(Posterior mode)
 - 손실 함수가 All or Nothing
 $$
@@ -189,7 +189,7 @@ $$
 - 이는 특정 주어진 확률로 파라미터와 같은 확률변수가 속하는 범위를 말함. 
 - 주로 사용되는 신용구간의 종류는 두 가지임.
 	1. 하한(lower bound)보다 작을 확률과 상한(upper bound)보다 클 확률이 같다는 조건을 만족하는 equal-tailed interval이다. → 예를 들어, 하위 5% 분위수(Quantile)로부터 95% 분위수에 해당하는 구간이 90% equal-tailed interval에 해당함. 즉, 파라미터가 이 구간에 속할 확률이 90%라고 해석할 수 있음. 
-	2. 또한, Highest posterior density interval(HPDI)이다. 이는 주어진 확률로 확률변수가 가장 좁은 구간을 의미함. 만약 단봉이고 대칭이라면 equal-tailed interval과 HDPI는 동일하다. 하지만 분포가 비대칭이거나 다봉인 경우에는 두 신용구간이 상이할 수 있다.![[Pasted image 20250521180817.png]]
+	2. 또한, Highest posterior density interval(HPDI)이다. 이는 주어진 확률로 확률변수가 가장 좁은 구간을 의미함. 만약 단봉이고 대칭이라면 equal-tailed interval과 HDPI는 동일하다. 하지만 분포가 비대칭이거나 다봉인 경우에는 두 신용구간이 상이할 수 있다.![[Bayesian, Figure.02.png]]
 #### 예측
 - 우리는 의사결정 과정에서 많은 경우 예측에 기반하기도하며 그러한 예측을 위하여 통계분석이 사용됨. 베이지안 접근법하에서는 예측은 대단히 직관적으로 이루어짐. 
 - $Posterior \propto Likelihood \times Prior$, 와 같이 사전 정보를 통해서 사후 분포를 도출하는데, 이 때 도출된 사후 분포와 종속변수의 조건부 분포를 사용해서 미래 종속 변수 $y_{f}$에 대한 예측을 실시함.
