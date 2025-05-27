@@ -236,4 +236,29 @@ $$
 \frac{1}{\sqrt{ N }}\sum_{i=1}^{N} (Y_{i}- \mu) \sim N(0, \sigma^2)
 $$
 ## CLT Application with AR(1)
-- 
+$$
+Y_{t} = \phi Y_{t-1} + e_{t}, e_{t} \sim iid(0, \sigma^2)
+$$
+- The OLS estimator for $\phi$ is
+$$
+\hat{\phi} = \frac{\sum Y_{t-1} Y_{t}}{\sum Y_{t-1}^2} = \phi +\frac{\sum Y_{t-1}e_{t}}{\sum Y_{t-1}^2}
+$$
+- **Proof**
+$$
+\begin{align}
+ \hat{\phi}  & = (Y_{t-1}'Y_{t-1})^{-1}Y_{t-1}'Y_{t} = \frac{\sum Y_{t-1}Y_{t}}{\sum Y_{t-1}^2}, \\
+ & Y_{t} = \phi Y_{t-1}+e_{t}, \\
+\hat{\phi}  & =(Y_{t-1}'Y_{t-1})^{-1}Y_{t-1}'Y_{t} = (Y_{t-1}'Y_{t-1})^{-1}Y_{t-1}'(\phi Y_{t-1}+e_{t}) \\
+ & = \phi + (Y_{t-1}'Y_{t-1})^{-1}Y_{t-1}'e_{t} \\
+ & = \phi + \frac{\sum Y_{t-1}e_{t}}{\sum Y_{t-1}^2}
+\end{align}
+$$
+- Letting 
+$$
+\begin{align}
+  & Z_{t} \equiv Y_{t-1}e_{t} \\
+ E(Z_{t})  & = E(Y_{t-1}e_{t}) = E[E(Y_{t-1}e_{t}|I_{t-1})]   \\
+& = E[Y_{t-1}E(e_{t-1}|I_{t-1})] = 0
+\end{align}
+$$
+- 우리는 Expectation of Conditional Expectation의 
