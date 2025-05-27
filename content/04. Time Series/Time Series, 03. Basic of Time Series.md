@@ -194,3 +194,21 @@ $$
 - ![[Pasted image 20250517153146.png|400x250]]
 - We next create a lag-1 price variable and consider a scatterplot of price versus this lag-1 variable: → AR(1)을 따를 것이라 가정
 - ![[Pasted image 20250517153229.png|400x250]]
+
+#### CLT Basics, again 
+- Consider a simple model:
+$$
+Y_{i} = \mu + e_{i}, e_{i} \sim iid (0, \sigma^2)
+$$
+- $e_{i}$ : White-Noise
+- The OLS estimator for $\mu$ is
+$$
+\hat{\mu} = \bar{Y} = \frac{1}{N}\sum_{i=1}^{N} Y_{i}
+$$
+- The mean and variance of the estimator is
+$$
+\begin{center}
+E(\hat{\mu}) = E(\bar{Y}) = \mu \\
+Var(\hat{\mu}) = Var\left( \frac{1}{N}\sum_{i=1}^{N} Y_{i} \right) = \frac{\sigma^1}{N}
+\end{centers}
+$$
