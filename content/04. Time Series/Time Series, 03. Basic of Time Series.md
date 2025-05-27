@@ -343,3 +343,5 @@ $$
  & \to \sqrt{ T }\hat{\phi } \to^d N(0, 1)(\because \phi=0)
 \end{align}
 $$
+## Unit Root (단위근)
+- Consider the statistical test problem (Unit root test)
