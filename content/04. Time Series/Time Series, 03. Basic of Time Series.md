@@ -318,8 +318,21 @@ $$
 \begin{align}
  & \hat{\phi} = \phi + \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \\
  & \hat{\phi} - \phi = \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \\
- \sqrt{ T }(\hat{\phi}-\phi)  & = \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \to^p \gamma(0)N(0, \sigma^2\gamma(0))
+ \sqrt{ T }(\hat{\phi}-\phi)  & = \frac{\frac{1}{\sqrt{ T }}\sum Y_{t-1}e_{t}}{\frac{1}{T}\sum Y_{t-1}^2}\frac{1}{\sqrt{ T }} \to^d \gamma(0)N(0, \sigma^2\gamma(0))
 \end{align}
 $$
 - 우리가 이렇게 하는 이유는 우리는 이러한 추정값들의 통계적 Test를 하고 싶은데, 그러려면 분포를 알아야 함. 따라서, 이러한 수식 전개를 통해 어떤 분포의 평균, 분산을 구하여 통계적으로 유의한지를 선보이고자함.
-
+$$
+\sqrt{ T }(\hat{\phi} - \phi) \to^d \gamma(0)N(0, \sigma^2\gamma(0)) = N(0, 1- \phi^2)\left( \because \gamma(0)=\frac{\sigma^2}{1-\phi^2} \right)
+$$
+- 이는 $\gamma(0)$을 없애기 위해서 분산 안으로 들어가게 되면서 제곱 수 $\frac{1}{\gamma(0)^2}$이 대입됨. 따라서, $\sigma^2\times\frac{\sigma^2}{1-\phi^2}\times\frac{(1-\phi^2)^2}{\sigma^4} = 1-\phi^2$
+## Statistical Test for $\hat{\phi}$
+- With the AR(1) process:
+$$
+Y_{t} = \phi Y_{t-1} + e_{t}, e_{t} \sim iid(0, \sigma^2)
+$$
+- To test $\hat{\phi}$ we need the statistical hypothesis:
+$$
+H_{0}: \phi=0 \text{ v.s. } H_{1}:\phi<0
+$$
+- 
