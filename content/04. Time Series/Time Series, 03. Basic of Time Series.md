@@ -350,4 +350,19 @@ $$
 $$
 H_{0}: \phi=1 \text{ v.s. } H_{1}:\phi<1 \text{ (Staionary Condition for AR(1))}
 $$
-- 
+- $\phi=1 \to \triangle Y_{t} = Y_{t}-Y_{t-1}$.
+- Under the null hypothesis
+$$
+\begin{align}
+ & \sqrt{ T }(\hat{\phi} - \phi) \to^d N(0, 1-\phi^2) \\
+ & \to \sqrt{ T }(\hat{\phi} -1) \to^d N(0, 0)(\because \phi=1)
+\end{align}
+$$
+- 즉, 이는 분포로 수렴하지 않는다는 문제가 생긴다. 
+- 이럴 때 우리가 해결하는 방법은 두 가지 정도가 대표적이다.
+#### Test Statistic using Monte Carlo Experiment
+- Find the distribution of the test statistic
+$$
+\frac{\hat{\phi}-1}{SE(\hat{\phi})}
+$$
+- If we do not have theoretical distribution information we can generate the distribution information by using computer simulation.
