@@ -343,4 +343,3 @@ $$
  & \to \sqrt{ T }\hat{\phi } \to^d N(0, 1)(\because \phi=0)
 \end{align}
 $$
-- 그런데 우리는 $H_{0}: \phi=1$이라고 
