@@ -345,3 +345,9 @@ $$
 $$
 ## Unit Root (단위근)
 - Consider the statistical test problem (Unit root test)
+- Unit Root가 있다는 것은 → Non-stationary하다는 것이다. 또한, 이 테스트 기법이 주류이긴 하나 법칙은 아니니 "무조건" 옳다는 식의 접근은 올바르지 못하다.
+- 우리는 따라서, 다음과 같은 가설을 세울 수 있다.
+$$
+H_{0}: \phi=1 \text{ v.s. } H_{1}:\phi<1 \text{ (Staionary Condition for AR(1))}
+$$
+- 
