@@ -330,7 +330,13 @@ $$
  & =N(Y|\mathbf{X}\beta, \sigma^2)\times N(\beta|\beta_{0}, B_{0}) \times IG\left( \sigma^2|\frac{\alpha_{0}}{2}, \frac{\delta_{0}}{2} \right)
 \end{align}
 $$
-
+- 이 때는 $(\beta, \sigma^2)$의 결합 사후 분포뿐만 아니라 주변 사후 분포 또한 표준적인 분포로 도출되지 않음.
+#### 2.2.4 완전 조건부 분포(Full Conditional Distribution)
+- 우리는 파라미터의 개수가 많아질수록 [[#2.2.3 Case C. $ beta$와 $ sigma 2$이 모두 알려져 있지 않은 경우|Case C]]와 같이 우리는 사후 분포를 예쁘게 정의된 분포로 추정하기 어려우며, 우리는 이럴 때 시뮬레이션 방법(Simulation Method)에 의존한다. 
+- 이 때, 가장 대표적이고 대중적인 방법론이 바로 깁스 샘플링이다. 
+- 깁스 샘플링은 $(\beta, \sigma^2)|Y$의 분포가 표준적이지 않더라도 $\beta|Y,\sigma^2$과 $\sigma^2|Y, \beta$의 분포는 표준적일 때 적용가능한 시뮬레이션 방법이다. 
+- 이럴 때 특정 파라미터를 제외한 다른 모든 파라미터와 자료가 주어졌을 때 분포를 완전 조건부 분포(Full Conditional Distribution)라 부른다.
+- 이는 결합 사후 분포 $(\beta, \sigma^2)|Y$ 및 주변 사후 분포 $(\beta|Y)$, $(\sigma^2|Y)$와 다른 것임을 유의해야한다.
 
 ## Note
 ###### Note 2.1
