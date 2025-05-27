@@ -272,3 +272,7 @@ Var(Z_{t}) &  = E[(Y_{t-1}e_{t})]^2 = E[Y_{t-1}^2E(e_{t}^2|I_{t-1})] = \sigma^2E
 $$
 - 위 식 또한, 조건부 기댓값의 기댓값 성질을 이용하는데, 기본 $Var(Z_{t})$는 $E[(Y_{t-1}e_{t})^2] - [E(Y_{t-1}e_{t})]^2$의 꼴 이다. 하지만 $t-1$기와 $t$기는 iid 성질로 인하여 독립이기 때문에 $E(Y_{t-1}e_{t} )=0$이다.
 - 또한, $\gamma(0) = Cov(Y_{t}, Y_{t}) = Var(Y_{t})$와 같다.
+- By applying CLT to the AR(1)
+$$
+\bar{Z} \sim \left( 0, \frac{\sigma^2\gamma(0)}{T} \right)
+$$
