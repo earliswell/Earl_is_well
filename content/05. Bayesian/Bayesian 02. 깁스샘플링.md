@@ -213,12 +213,12 @@ $$
 \end{split}
 \end{equation}
 $$
+
 - 단,
 $$
 \begin{align}
  & B_{1} = (\mathbf{X'X} +B_{0}^{-1}), \, \beta_{1} = B_{1}(\mathbf{X'}Y + B_{0}^{-1}\beta_{0}), \\
- & \alpha_{1} = T + \alpha_{0}, \, \delta_{1} = \delta_{0} + Y'Y + \beta_{0}'B_{0}^{-1}\beta_{0}
- - \beta_{1}'B_{1}^{-1}\beta_{1} 
+ & \alpha_{1} = T + \alpha_{0}, \, \delta_{1} = \delta_{0} + Y'Y + \beta_{0}'B_{0}^{-1}\beta_{0} - \beta_{1}'B_{1}^{-1}\beta_{1} 
 \end{align}
 $$
 - 다음으로 $\beta$와 $\sigma^2$의 결합 사후 밀도를 $\beta$에 대해서 적분하면 $\sigma^2$의 Marginal posterior distribution을 계산할 수 있음.
