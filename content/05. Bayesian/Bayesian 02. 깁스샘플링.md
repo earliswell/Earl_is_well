@@ -369,7 +369,7 @@ $$
 - $\beta^{j}$를 $N(B_{1}A, B_{1})$에서 샘플링하고 저장한다.
 - **2 단계** : 주어진 $\beta^{j}$로부터 $\sigma^{2(j)}$를 아래 역감마 분포로부터 샘플링한 뒤 저장한다.
 $$
-IG\left( \frac{\alpha_{0}+T}{2}, \frac{(Y - \mathbf{X}\beta^{j})'(Y- \mathbf{X}\beta) + \delta_{0}}{2} \right)
+IG\left( \frac{\alpha_{0}+T}{2}, \frac{(Y - \mathbf{X}\beta^{j})'(Y- \mathbf{X}\beta^{j}) + \delta_{0}}{2} \right)
 $$
 - **3 단계** : $j = j+1$로 설정하고, $j \leq n$(= 시뮬레이션 크기)이면 1단계로 돌아간다. 
 - 이렇게 매 반복시행마다 수정되는 완전 조건부 분포로부터 $\beta$와 $\sigma^2$을 번갈아가며 생성함으로 써 $(\beta, \sigma^2)$의 결합 사후 분포로부터의 샘플을 추출할 수 있다는 것이 깁스 샘플링의 핵심이다.
