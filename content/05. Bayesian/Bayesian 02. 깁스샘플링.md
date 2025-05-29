@@ -206,9 +206,12 @@ $$
 ###### $\sigma^2$의 주변 사후 분포
 - 우선 위 식을 $\beta$와 관련된 항과 그렇지 않은 항으로 정리하여 아래와 같이 표현한다.
 $$
-\begin{align}
-\pi(\beta, \sigma^2|Y)  & \propto \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right)  \times \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right)
-\end{align}
+\begin{equation}
+\begin{split}
+\pi(\beta, \sigma^2|Y)  & \propto \left( \frac{1}{\sigma^2} \right)^{k/2} \times \exp\left( - \frac{1}{2\sigma^2}(\beta-\beta_{1})'B_{1}^{-1}(\beta-\beta_{1}) \right) \\
+& \quad\times \left( \frac{1}{\sigma^2} \right)^{\alpha_{1}/2+1} \times \exp\left( -\frac{\delta_{1}}{2\sigma^2} \right)
+\end{split}
+\end{equation}
 $$
 - 단,
 $$
