@@ -393,7 +393,9 @@ $$
 - 결국 우리는 $\phi$를 잘 추정해야하는데 이는 결국 OLS로 추정을 함!! → 따라서, 평균적인 상태 $\mu$인 deterministic한 부분의 역할에 대해서 고민이 필요함. 즉 상수항의 역할을 잘 고민해야함 ! 만약 이가 편향을 발생시켜 $\phi$의 값이 biased해질 수 있음.
 - Dickey-fuller provides Dickey-Fuller Distributions Case 1 and Case 2 by using computer simulation.
 - 따라서, Unit Root의 문제가 있으면 우리는 몬테카를로 시뮬레이션을 통해서 분포를 근사하거나 알려져 있는 Dickey-Fuller Distribution을 활용함!!!
-## Box-Jenkin's Approach to ARIMA Modeling
+## ARIMA
+
+#### Box-Jenkin's Approach to ARIMA Modeling
 - Notation: Integrated Series (differentiations can make series stationary)
 $$
 \begin{align}
