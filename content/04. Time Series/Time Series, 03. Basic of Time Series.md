@@ -381,4 +381,4 @@ Y_{t} = \hat{\phi}Y_{t-1} + u_{t}
 $$
 3. Calculate $\sqrt{ T }\hat{\phi }$ for each from 2
 4. Draw a histogram of $\sqrt{ T }\hat{\phi}$의 분포를 추정 가능 !
-- 정리하자면, 우리의 시계열 모형엣
+- 정리하자면, 우리의 시계열 모형의 Stationary를 파악하기 위해서, Unit Root Test를 통해서 파악함. 하지만 Unit Root Test를 해보려고 하니까. 애초에 귀무 가설 $H_{0}: \phi=1$이라는 발산되는 분포?를 우리는 알아낼 수 없음 → 이러한 테스트를 위위해서 몬테카를로 시뮬레이션을 진행할 수 있다! → 몬테카를로 시뮬레이션을 통해서 분포를 최대한 근사 시켜, 거기서 얻어낸 평균과 분산 등의 값으로 Test를 진행할 수 있기 때문에!!
