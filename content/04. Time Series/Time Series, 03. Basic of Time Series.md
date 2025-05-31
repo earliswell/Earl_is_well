@@ -411,7 +411,43 @@ $$
 $$
 \frac{\partial Y_{t}}{\partial e_{t-k}} = \frac{\partial Y_{t+k}}{\partial e_{t}} = \psi_{k}
 $$
--
+- ARMA(p, q)
+$$
+Y_{t} = \mu + \phi_{1}Y_{t-1} + \phi_{2}Y_{t-2} + \cdots + \phi_{p}Y_{t-p} + e_{t} + \theta_{1}e_{t-1} + \theta_{2}e_{t-2} + \cdots + \theta_{q}e_{t-q}
+$$
+- **Expectation**(Unconditional)
+$$
+\begin{align}
+E(Y_{t}) &  = \mu + \phi_{1}E(Y_{t-1}) + \phi_{2}E(Y_{t-2}) + \cdots + \phi_{p}E(Y_{t-p}) \\
+ & =\frac{\mu}{1 - \phi_{1} - \phi_{2} - \cdots - \phi_{p}}
+\end{align}
+$$
+- **Variance**(→ 매우 복잡함)
+- **Auto-Covariance(correlation)** of ARMA(1, 1)
+$$
+Y_{t} = \phi_{1}Y_{t-1} + e_{t} + \theta_{1}e_{t-1}
+$$
+- $\gamma(k) = E(Y_{t}Y_{t-k})$
+$$
+\begin{align}
+ & Y_{t}Y_{t-k} = \phi_{1}Y_{t-1}Y_{t-k} + e_{t}Y_{t-k} + \theta_{1}e_{t-1}Y_{t-k} \\
+ & E(Y_{t}Y_{t-k}) = \phi_{1}E(Y_{t-1}Y_{t-k}) + E(e_{t}Y_{t-k}) + \theta_{1}E(e_{t-1}Y_{t-k}) \\
+  \\
+& \text{where } E(e_{t-1}Y_{t-k})\begin{cases}
+E(e_{t-1}Y_{t-k}) \neq 0 \text{ when } j=1 \\
+E(e_{t-1}Y_{t-k}) = 0 \text{ when } j \geq 2
+\end{cases}
+\end{align}
+$$
+- $\gamma(k) = \phi_{1}\gamma(k-1) + \theta_{1}E(e_{t-1}Y_{t-k})$
+- $\rho(k) = \gamma(k)/\gamma(0)$
+$$
+\begin{align}
+ & \rho(k) = \phi_{1}\rho(k-1) + \frac{\theta_{1}E(e_{t-1}Y_{t-k})}{\gamma(0)} \\
+ & \lim_{ k \to \infty } \frac{\theta_{1}E(e_{t-1}Y_{t-k})}{\gamma(0)} =0
+\end{align}
+$$
+- 여기에서 Stationary condition은 $k \to \infty$일 때, $\rho(k) \to 0$임. 이에 결국 $|\phi_{1}|<1$이면 Stationary함.
 
 #### Box-Jenkin's Approach to ARIMA Modeling
 - Notation: Integrated Series (differentiations can make series stationary)
