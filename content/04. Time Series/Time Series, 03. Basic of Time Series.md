@@ -433,4 +433,4 @@ $$
 $$
 Y_{t} = \alpha + \beta t + Y^*_{t}
 $$
-- 
+- $Y^*_{t}$ means stationary process. There is no unit root the trend component make the time series non-stationary → Detrend!
