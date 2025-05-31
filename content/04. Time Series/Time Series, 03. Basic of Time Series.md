@@ -434,3 +434,10 @@ $$
 Y_{t} = \alpha + \beta t + Y^*_{t}
 $$
 - $Y^*_{t}$ means stationary process. There is no unit root the trend component make the time series non-stationary → Detrend!
+	- 보면 $\beta t$가 트렌드가 있음. 즉 시간에 따라 변하는 무언가!! 
+- $Y_{t}$ is a trend stationary process (TSP)
+$$
+\Delta Y_{t} = Y_{t}^* + \beta - Y_{t-1}^*
+$$
+- Depending the source of non-stationaryity we will choose the method of making time series stationary: Unit root → DST / Trend → TSP
+- 
