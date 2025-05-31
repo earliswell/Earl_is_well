@@ -397,6 +397,32 @@ $$
 - Notation: Integrated Series (differenciations can make series stationary)
 $$
 \begin{align}
-Y_{t} \sim I(1) : \text{Integrated of ordr 1}  \to \triangle
+ &  Y_{t} \sim I(1)   : \text{Integrated of ordr 1}  \to \Delta Y_{t} \sim I(0) : \text{stationary} \\
+  & Y_{t} \sim \text{Non-stationary}, \Delta Y_{t} \sim \text{stationary} \\
+ & X_{t} \sim I(2)   :  \text{integrated of order 2} \to \Delta X_{t} \sim I(1) \to \Delta^2X_{t} \sim I(0) \\
+  & X_{t} \sim  \text{ Non-stationary}, \Delta X_{t} \sim \text{Non-stationary},  \Delta^2X_{t} \sim \text{stationaory}
 \end{align}
 $$
+**[[#Unit Root (단위근)|Unit-root]]**
+- Consider
+$$
+\begin{align}
+ & Y_{t} = \phi Y_{t-1}+e_{t} \\
+ & \Delta Y_{t} = \phi \Delta Y_{t-1} + e_{t} \\
+ & Y_{t} - Y_{t-1} = \phi(Y_{t-1} - Y_{t-2}) + e_{t} \\
+ & Y_{t} = (1 + \phi)Y_{t-1} + \phi(Y_{t-2}) + e_{t}
+\end{align}
+$$
+- 위 수식은 마치 AR(2) 처럼 생겼다 !!
+- Then, the characteristic equation
+$$
+\begin{align}
+ & \lambda^2 - (1 + \phi)\lambda + \phi = 0 \\
+ & (\lambda - 1)(\lambda - \phi) = 0, \text{ Unit root } \lambda =1 
+\end{align}
+$$
+- This means the integrated of order 1 such that
+$$
+Y_{t} \sim I(1) : \text{integrated of order 1}  \to \Delta Y_{t} + I(0) : \text{stationary}
+$$
+- 
