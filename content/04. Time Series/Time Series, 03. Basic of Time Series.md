@@ -366,3 +366,19 @@ $$
 \frac{\hat{\phi}-1}{SE(\hat{\phi})}
 $$
 - If we do not have theoretical distribution information we can generate the distribution information by using computer simulation.
+- The goal is to make the distribution of $\sqrt{ T} \hat{\phi}$
+###### Process
+1. Generate 10,000 sets of data under $H_{0}$
+$$
+Y_{t} = e_{t}, \, e_{t} \sim iid(0, \sigma^2)
+$$
+- 위 수식은 분포에 대한 정보가 없다 !
+- We can use numpy.random.normal or numpy.random.uniform(any iid random draw)
+1. data set = 500 samples (we have 10,000 sets)
+2. Run a regression for each set of data generated we have 10,000 sets of $\hat{\phi}$
+$$
+Y_{t} = \hat{\phi}Y_{t-1} + u_{t}
+$$
+3. Calculate $\sqrt{ T }\hat{\phi }$ for each from 2
+4. Draw a histogram of $\sqrt{ T }\hat{\phi}$의 분포를 추정 가능 !
+- 정리하자면, 우리의 시계열 모형엣
