@@ -440,4 +440,22 @@ $$
 \Delta Y_{t} = Y_{t}^* + \beta - Y_{t-1}^*
 $$
 - Depending the source of non-stationaryity we will choose the method of making time series stationary: Unit root → DST / Trend → TSP
-- 
+- ARMA(p, q)
+- ARMA(p, d, q): d는 차분 계수임
+2) Identification
+- Using ACF and PACF several candidate models are choosen.
+	- → 몇 기까지 영향을 미치는 지 알 수 있다 !!
+3) Diagnostic Check (among the candidates)
+- White Noise test for the residuals($Y_{t} - \hat{Y}_{t}$) of the candidates after model estimation.
+4) Model Choice
+- Final model choice is to minimize the criterions below
+###### AIC (Akaike Information Criterion)
+$$
+\ln\left( \frac{\hat{e}'\hat{e}}{T} \right) + \frac{2k}{T}
+$$
+###### BIC (Bayes Schwartz Criterion)
+$$
+\ln\left( \frac{\hat{e}'\hat{e}}{T} \right) + \frac{k \ln T}{T}
+$$
+- 두 식의 차이는 penalty 차이로 달라진다.
+- 둘 다 작은 것이 좋다!
