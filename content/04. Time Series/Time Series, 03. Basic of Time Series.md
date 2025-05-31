@@ -394,9 +394,25 @@ $$
 - Dickey-fuller provides Dickey-Fuller Distributions Case 1 and Case 2 by using computer simulation.
 - 따라서, Unit Root의 문제가 있으면 우리는 몬테카를로 시뮬레이션을 통해서 분포를 근사하거나 알려져 있는 Dickey-Fuller Distribution을 활용함!!!
 ## ARIMA
-- ARIMA는 AR + MA의 짬뽕이다.
-- AR은 Stationary Condition에 기여한다! → MA는 t가 유한하다면 Stationary함.
-- 
+- ARMA(p, q)는 AR(p) + MA(q)의 짬뽕이다.
+- AR은 Stationary Condition에 기여한다! → MA는 q가 유한하다면 Stationary함.
+$$
+MA(q): Y_{t} = \mu + e_{t} + \theta_{1}e_{t-1} + \cdots , e_{t} \sim iid(0, \sigma^2)
+$$
+- $E(Y_{t}) = \mu$ 
+- $Var(Y_{t}) = 0 + \sigma^2 + \theta_{1}\sigma^2 + \cdots$
+- 현재까지 우리가 배워온 것은 [[Time Series, 02. Regression Analysis with Time Series Data#Impulse-Response Analysis|Impulse Response]]를 구하는 것임. 즉, 과거 $t-k$기에 발생한 shock으로 부터, 현재 t에 미친 영향의 크기를 구하는 것임 !
+- 이는 결국 현재의 어떤 shock이 미래 $t+k$기에 미치는 영향을 예측할 수 있기 때문이다.
+- 우리가 이러한 Impulse Response를 구하기 위해서는 [[Time Series, 02. Regression Analysis with Time Series Data#Wold Decomposition (Wold form, Wold Representation)|Wold-Form]]이 필요함.
+$$
+Y_{t} = \mu + e_{t} + \psi_{1}e_{t-1} + \psi_{2}e_{t-2} + \cdots
+$$
+- 이렇게 Deterministic part($\mu$)와 Stochastic part로 나뉘는데, 만약 우리의 process가 Stationary하다면 이를 통해서 Impulse response를 구할 수 있음.
+$$
+\frac{\partial Y_{t}}{\partial e_{t-k}} = \frac{\partial Y_{t+k}}{\partial e_{t}} = \psi_{k}
+$$
+-
+
 #### Box-Jenkin's Approach to ARIMA Modeling
 - Notation: Integrated Series (differentiations can make series stationary)
 $$
