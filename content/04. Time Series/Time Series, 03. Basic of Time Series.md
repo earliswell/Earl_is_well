@@ -381,4 +381,13 @@ Y_{t} = \hat{\phi}Y_{t-1} + u_{t}
 $$
 3. Calculate $\sqrt{ T }\hat{\phi }$ for each from 2
 4. Draw a histogram of $\sqrt{ T }\hat{\phi}$의 분포를 추정 가능 !
-- 정리하자면, 우리의 시계열 모형의 Stationary를 파악하기 위해서, Unit Root Test를 통해서 파악함. 하지만 Unit Root Test를 해보려고 하니까. 애초에 귀무 가설 $H_{0}: \phi=1$이라는 발산되는 분포?를 우리는 알아낼 수 없음 → 이러한 테스트를 위위해서 몬테카를로 시뮬레이션을 진행할 수 있다! → 몬테카를로 시뮬레이션을 통해서 분포를 최대한 근사 시켜, 거기서 얻어낸 평균과 분산 등의 값으로 Test를 진행할 수 있기 때문에!!
+- 정리하자면, 우리의 시계열 모형의 Stationary를 파악하기 위해서, Unit Root Test를 통해서 파악함. 하지만 Unit Root Test를 해보려고 하니까. 애초에 귀무 가설 $H_{0}: \phi=1$이라서, 분산이 0이 되어 어떤 분포를 따르는 지 알 수 없음.
+- → 이러한 테스트를 위해서 몬테카를로 시뮬레이션을 진행할 수 있다! 
+- → 몬테카를로 시뮬레이션을 통해서 분포를 최대한 근사 시켜, 거기서 얻어낸 평균과 분산 등의 값으로 Test를 진행할 수 있기 때문에!!
+###### Dicky-Fuller Distribution
+- Dicky-Fuller 분포는 이제 Unit Root 문제가 있을 때 두 선행 연구자들이 분포를 미리 찾아낸 분포라고 생각하면 됨.
+- Under the null (unit root exists), for the two data generating process(DGP)
+1. $Y_{t} = \phi Y_{t-1} + e_{t}$
+2. $Y_{t} = \mu + \phi Y_{t-1} +e_{t}$
+- 위 두 수식의 차이는 $\mu$이다. 우리가 보고싶어하는 결과 값에 따라서 어떤 모형을 선택할 지에 대해서, 고민을 해야 할 필요가 있다.
+- 우리는 결국 이러한 시계열 모형에서는 Impulse-reponse를 보는 것이 목표임. 즉, 기존 아주 많은 파라미터를 하나의 파라미터로 압축하여 어떤 $t-k$기의 shock이 $t$시기의 $Y$에 어떤 영향을 미치는 지 알고싶음.
