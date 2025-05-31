@@ -394,6 +394,8 @@ $$
 - Dickey-fuller provides Dickey-Fuller Distributions Case 1 and Case 2 by using computer simulation.
 - 따라서, Unit Root의 문제가 있으면 우리는 몬테카를로 시뮬레이션을 통해서 분포를 근사하거나 알려져 있는 Dickey-Fuller Distribution을 활용함!!!
 ## ARIMA
+- ARIMA는 AR + MA의 짬뽕이다.
+- AR은 Stationary Condition에 기여한다! → MA는 t가 유한하다면 Stationary함.
 - 
 #### Box-Jenkin's Approach to ARIMA Modeling
 - Notation: Integrated Series (differentiations can make series stationary)
