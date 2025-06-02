@@ -278,14 +278,25 @@ print(f"Var(X) = {np.var(accept)}")
 print(f"수용률: {len(accept)/1000:.3f}")
 print(f"이론적 수용률: {1/c:.3f}")
 ```
-## 3.4 Importance 샘플링
+## 3.4 Importance Sampling
 - 어떤 확률변수 $X$의 밀도함수, $f(x)$는 알고 있지만, 확률변수 $X$를 직접적으로 샘플링할 수 없을 때, 통계적 대표값(평균, 분산 등등)을 구하고 싶다면 이 때 사용하는 방법이 Importance 샘플링이다.
-- 가장 흔한 경우는 정규화 상수를 알지 못하는 케이스가 많다. 
-- 예를 들어 베이지안의 사후 분포의 경우에는
+- 확률변수 $X$가 연속이고 밀도함수가 $f(x)$라면 $X$의 평균은 다음과 같이 정의된다.
 $$
-\begin{align}
-\pi(\theta|Y)  & \propto \textit{Likelihood}(Y|\theta)\times \pi(\theta) \\
- & = \text{Liklihood} \times \text{Prior} / \int [\text{Likelihood} \times \text{Prior}]d\theta
-\end{align}
+E_{X}[X] = \int xf(x)dx
 $$
-- 우리는 
+- 하지만 위 수식이 해석적으로 계산되지 않는다면 Importance 샘플링을 통해 근사할 수 있다. 만약 확률변수 $X$를 직접 샘플링을 할 수 있다면?
+$$
+E_{X}[X] = \int xf(x)dx \approx \frac{1}{n}\sum_{i=1}^{n}x_{i}
+$$
+- 위와 같이 $X$의 평균을 구할 수 있음.
+	- $n$ : 샘플의 크기
+	- $x_{i}$ : $X$의 확률분포로부터 랜덤 추출된 샘플들
+- 위와 같이 적분을 랜덤 샘플링 기법을 이용해서 근사하는 작업을 **몬테 카를로 적분**(Monte Carlo Integration)이라고 한다.
+- 위 적분 과정을 통해 추정된 확률변수 혹은 확률변수 함수의 기댓값은 **몬테 카를로 추정치**(Monte Carlo estimates)라고 한다.
+#### 3.4.1 시뮬레이션 방법
+- 우리는 지금 확률변수 $X$를 직접 샘플링할 수 없는 경우에 대해서 이를 극복하고자 한다.
+- 따라서, Importance 샘플링의 아이디어는 샘플링이 가능한 새로운 확률분포를 도입하는 것으로 시작한다!. → 그러한 새로운 확률변수를 $Z$라고 하고 그 밀도함수를 $h(z)$라고 한다.
+- 여기서 $h(z)$를 **Importance 샘플링 함수**라고 부른다. 
+###### 알고리즘 3.7 Importance 샘플링
+1. $i=1,2, \dots, n$에 대해 $Z$의 분포에서 $z_{i}$를 샘플링한 뒤 저장함.
+2. 각 $z_{i}$에 대해서 $z_{i}\times f(z_{i})/h_{z_{i}}$를 계산한 뒤 저장한다.
