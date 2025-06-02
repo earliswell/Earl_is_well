@@ -198,3 +198,17 @@ $$
 Pr\left[ x|u<\frac{f(x)}{cg(x)} \right]
 $$
 - 가 $f(x)$와 같다는 것을 증명하면 A-R 기법을 이론적으로 증명하는 것이 된다. 
+- 이는 베이즈 법칙을 이용하면 증명이 가능!!
+$$
+\begin{equation}
+\begin{split}
+Pr\left[ x|u < \frac{f(x)}{cg(x)} \right] & = \frac{Pr\left[ x, u< \frac{f(x)}{cg(x)} \right]}{Pr\left[ u < \frac{f(x)}{cg(x)} \right]} \\
+& = \frac{Pr(x)Pr\left[ u<\frac{f(x)}{cg(x)}|x \right]}{Pr\left[ u < \frac{f(x)}{cg(x)} \right]}
+\end{split}
+\end{equation}
+$$
+- $u$가 균등 분포를 따르므로 $Pr[u < f(x)/[cg(x)]|x] = f(x)/[cg(x)]$ 그리고 $Pr(x) = g(x)$이므로 위 식의 분자는
+$$
+g(x)\frac{f(x)}{cg(x)} = \frac{f(x)}{c}
+$$
+- 
