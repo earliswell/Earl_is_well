@@ -280,3 +280,12 @@ print(f"이론적 수용률: {1/c:.3f}")
 ```
 ## 3.4 Importance 샘플링
 - 어떤 확률변수 $X$의 밀도함수, $f(x)$는 알고 있지만, 확률변수 $X$를 직접적으로 샘플링할 수 없을 때, 통계적 대표값(평균, 분산 등등)을 구하고 싶다면 이 때 사용하는 방법이 Importance 샘플링이다.
+- 가장 흔한 경우는 정규화 상수를 알지 못하는 케이스가 많다. 
+- 예를 들어 베이지안의 사후 분포의 경우에는
+$$
+\begin{align}
+\pi(\theta|Y)  & \propto \textit{Likelihood}(Y|\theta)\times \pi(\theta) \\
+ & = \text{Liklihood} \times \text{Prior} / \int [\text{Likelihood} \times \text{Prior}]d\theta
+\end{align}
+$$
+- 우리는 
