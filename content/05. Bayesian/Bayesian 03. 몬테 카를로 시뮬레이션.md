@@ -60,4 +60,47 @@ W  & \sim St(0, \sigma^2, v) \text{ and } f_{W}(w)\text{의 확률밀도 함수}
 W|\lambda  & \sim N(0, \lambda^{-1}\sigma^2) \text{ and } f_{W|\Lambda}(w|\lambda) = \Lambda \text{가  } \lambda\text{일 때, } W\text{의 조건부 확률밀도함수}
 \end{align}
 $$
-- 
+- 여기서 $W|\Lambda = \lambda \sim N(0, \lambda^{-1}\sigma^2)$이고, $\Lambda \sim G(v/2, v/2)$일 때, $W$의 주변 분포(Marginal Distribution)가 
+$$
+St(0, \sigma^2, v)
+$$
+- 임을 보이고자 한다 ! 따라서,
+$$
+\begin{equation}
+\begin{split}
+& f_{W}(w)  = \int f_{W|\Lambda}(w | \lambda)f_{\Lambda}(\lambda)d\lambda \\
+& \quad \propto \int \lambda^{1/2} \exp\left( - \frac{\lambda}{2\sigma^2} w^2\right) \times \lambda^{v/2 - 1} \exp\left( - \frac{v}{2}\lambda \right)d\lambda \\
+& \quad = \int \lambda^{(v+1)/2 - 1} \exp\left( - \frac{(w^2 + v\sigma^2)\lambda}{2\sigma^2} \right)d\lambda
+\end{split}
+\end{equation}
+$$
+- 여기서 $a = (v+1)/2, b=(w^2 + v\sigma^2)/2\sigma^2$라고 두면, 위 적분기호 안의 함수는 감마 분포 Gamma($a, b$)의 밀도함수, Gamma($\lambda| a,b$)으로 표현된다.
+$$
+\begin{equation}
+\begin{split}
+\int f_{W|\Lambda}(w|\lambda)f_{\Lambda}(\lambda)d\lambda & \propto \int Gamma(\lambda| a, b)d\lambda \\
+& = \frac{\Gamma(a)}{b^a} \int\frac{b^a}{\Gamma(a)}\lambda^{a-1}e^{-b\lambda}d \lambda
+\end{split}
+\end{equation}
+$$
+- 확률밀도함수 정의상,
+$$
+\int\frac{b^a}{\Gamma(a)}\lambda^{a-1}e^{-b\lambda}d\lambda = 1
+$$
+- 이므로, 위 수식은 아래와 같이 다시 작성할 수 있음.
+$$
+\begin{align}
+\begin{split}
+\int f_{W|\Lambda}(w|\lambda)f_{\Lambda}(\lambda)d\lambda  & \propto \frac{\Gamma(a)}{b^a} = \Gamma\left( \frac{v+1}{2} \right)/ \left( \frac{w^2+v\sigma^2}{2\sigma^2} \right)^{\frac{v+1}{2}} \\
+ & \propto (w^2+v\sigma^2)^{-\frac{v+1}{2}} \\
+ & \propto \left( 1 + \frac{w^2}{v\sigma^2} \right)^{- \frac{v+1}{2}}
+\end{split}
+\end{align}
+$$
+- 이는 결국 좌변이 스튜던트-$t$ 분포의 커넬과 비례하므로 $f_{W}(w)$은 스튜던트-$t$ 분포의 밀도함수가 된다.
+###### 알고리즘 3.2: 스튜던트-$t$ 분포 샘플링
+1. $i=1, 2, \dots, n$에 대해서 $Gamma(v/2, v/2)$로부터 $\lambda_{i}$를 샘플링한 뒤 저장 → $\lambda_{i}$를 Draw!
+2. 각 $\lambda_{i}(i= 1, 2, \dots, n)$에 대해서 $N(0, \lambda^{-1}_{i}\sigma^2)$로부터 $w_{i}$를 샘플링한 뒤 저장 ! → $w_{i}$를 Draw!
+- 이를 무한히 반복하면 스튜던트-$t$ 분포를 따르는 샘플들이 쫙 나열됨. 
+- 이를 통해서 히스토그램을 그리너가, 평균, 분산 등을 계산할 수 있음 !!!!
+
