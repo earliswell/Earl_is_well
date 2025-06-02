@@ -47,4 +47,7 @@ $$
 f_{X}(x) \approx \frac{1}{n}\sum_{i=1}^{n} f_{X|Z}(x|z_{i})
 $$
 - 두 번째 의미는 $Z$와 $X|Z$를 샘플링할 수 있다면, 아래 제시하는 알고리즘을 이용하여 $X$의 분포를 모르더라도 $X$를 샘플링할 수 있다는 것이다. → 이는 즉, $X$를 직접적으로 샘플링할 수 없더라도, 어떤 샘플링 가능한 확률변수($Z$)가 주어졌을 때의 조건부 분포 $(X|Z)$를 샘플링할 수 있다면, $X$의 분포로부터 샘플링이 가능하다는 의미이다.
-- 이렇게 Marginal density와 Conditional density
+- 이렇게 Marginal density와 Conditional density 간의 관계를 이용해서 $X$의 분포를 샘플링하거나 $X$의 밀도 함수를 계산하는 기법을 **Method of Composition(이후 MOC)** 이라고 한다.
+###### 알고리즘 3.1: Method of Composition
+1. $i = 1, 2, \dots, n$에 대해서 $Z$의 분포로부터 $z_{i}$를 샘플링한 뒤 저장 → Draw
+2. 각 $z_{i}(i=1, 2, \dots, n)$에 대해서 조건부 분포 $X|z_{i}$로 부터 $x_{i}$를 샘플링한 뒤 저장 → 조건부 분포로부터 샘플링 !
