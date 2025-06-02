@@ -26,5 +26,20 @@ $$
 	- 이는 사전 분포가 켤레이든 아니든 상관없이 사후 분포를 샘플링할 수 있다.
 - MCMC 기법을 이해하기 위해서는 이 방법의 토대가 되는 몬테 카를로(Monte Carlo) 시뮬레이션 기법에 대한 이해가 선행되어야 한다. 이 장에서는 여러 몬테 카를로 시뮬레이션에 대해 고찰하고, 다음 장에서 MCMC 기법에 대해서 자세히 다루고자 한다.
 ## 3.1 Method of Composition
-- $f_{X, Z}(x, z)$는 확률변수 $X$와 $Z$의 결합 밀도함수(Joint density probability)이며, $f_{X}(x)$와 $f_{Z}(z)$는 각각 $X$와 $Z$의 주변확률밀도함수(Marginal density probability)라고 하자.
+- $f_{X, Z}(x, z)$는 확률변수 $X$와 $Z$의 결합 밀도함수(Joint density probability)이며
+- $f_{X}(x)$와 $f_{Z}(z)$는 각각 $X$와 $Z$의 주변확률밀도함수(Marginal density probability)라고 하자.
 - 그리고 $f_{X|Z}(x|z)$는 $X$의 조건부 확률밀도함수(Conditional density probability)이다.
+- 이 때, $Z$가 연속확률변수(Continuous random variable)라면
+$$
+\begin{equation}
+\begin{split}
+f_{X}(x)  & = \int f_{X, Z}(x,z)dz \\
+ & = \int f_{X|Z}(x|z)f_{Z}(z)dz
+\end{split}
+\end{equation}
+$$
+- 이 성립한다. 그리고 $Z$가 이산확률변수 (discrete random variable)일 경우에는 아래와 같이 표현된다.
+$$
+f_{X}(x) = \sum_{z}f_{X|Z}(x|z)f_{Z}(z)
+$$
+-  
