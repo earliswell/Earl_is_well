@@ -103,6 +103,10 @@ $$
 2. 각 $\lambda_{i}(i= 1, 2, \dots, n)$에 대해서 $N(0, \lambda^{-1}_{i}\sigma^2)$로부터 $w_{i}$를 샘플링한 뒤 저장 ! → $w_{i}$를 Draw!
 - 이를 무한히 반복하면 스튜던트-$t$ 분포를 따르는 샘플들이 쫙 나열됨. 
 - 이렇게 Draw한 샘플들을 통해서 히스토그램을 그리거나, 평균, 분산 등을 계산할 수 있음 !!!!
+###### 나의 이해
+- 어떤 $X$에 대한 분포를 알고 싶은데, $Z$에 대한 Marginal distribution과 $X|Z$에 대한 Conditional distribution을 알고 있을 때, MoC 기법을 통하여 우리는 $X$에 대한 분포를 근사할 수 있다는 것임.
+- 이 기법은 각 샘플이 독립적으로 생성되므로 병렬 처리가 가능함. → 
+- 
 ## 3.2 Probability Integral Transformation
 
 
