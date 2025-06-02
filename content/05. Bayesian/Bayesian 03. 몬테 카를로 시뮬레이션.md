@@ -167,8 +167,10 @@ $$
 - PIT 샘플링 또는 Inversion Sampling은 매우 직관적이고 간단한 샘플링 기법이다.
 - $u_{i} \sim Unif(0,1)$에서 10,000개 추출 → $F^{-1}(u_{i})$대입으로 샘플링을 끝낸다.
 - 하지만, 이렇게 간단한 만큼 범용적 적용에는 제약이 있다.
-	- 우리는 그렇다면 어떤 확률 분포의 CDF와 Inversion CDF를 알아야 하기 때문이다.
-	- 또한, 다변수로 갈 수록 Inversion CDF를 구하는 것은 매우 힘들다.. 
+	- 우리는 그렇다면 어떤 확률 분포의 CDF와 CDF의 역함수를 해석적으로 구할 수 있어야함를 알아야 하기 때문이다.
+	- 또한, 다변수로 갈 수록 CDF의 역함수를 구하는 것은 복잡도가 급증함.
 - 따라서, 이러한 한계를 극복하기 위해서 Acceptance-Rejection Method와 Importance Sampling에 대해서 알아보려고 한다.
 ## 3.3 Acceptance-Rejection Method
-
+- PIT는 CDF의 역함수를 알아야 한다는 한계가 존재했다. 
+- 하지만 Acceptance-Rejection 샘플링 기법(이후 A-R)기법은 샘플링하고자 하는 확률변수 $X$의 밀도 함수 $f(x)$의 커넬을 알고 있으면 적용가능한 샘플링 기법이다. 
+- 이 때, 샘플링 대상인 확률변수 $X$의 분포를 타깃 분포(Target distribution)라고 한다. 
