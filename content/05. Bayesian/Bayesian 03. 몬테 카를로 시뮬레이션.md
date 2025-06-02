@@ -300,3 +300,22 @@ $$
 ###### 알고리즘 3.7 Importance 샘플링
 1. $i=1,2, \dots, n$에 대해 $Z$의 분포에서 $z_{i}$를 샘플링한 뒤 저장함.
 2. 각 $z_{i}$에 대해서 $z_{i}\times f(z_{i})/h_{z_{i}}$를 계산한 뒤 저장한다.
+
+#### 3.4.2 이론적 배경
+- $X$의 평균은 Importance 샘플링 함수를 피적분함수(integrand)의 분자와 분모에 각각 곱함으로써 아래와 같이 표현될 수 있음.
+$$
+\begin{align}
+E_{X}(X)  & = \int xf(x)dx = \int\left[ x\frac{f(x)}{h(x)} \right]h(x)dx \\
+ & =\int\left[ z\frac{f(z)}{h(z)} \right]h(z)dz
+\end{align}
+$$
+- $h(z)$ 또한 확률밀도함수이기 때문에 새로운 확률 변수인 $Z \times f(Z)/h(Z)$의 평균에 해당한다는 것을 알 수 있음. 따라서,
+$$
+E_{X}(X) = \int\left[ z\frac{f(z)}{h(z)} \right]h(z)dz = E_{Z}\left[ Z\frac{f(Z)}{h(Z)} \right] \approx \frac{1}{n}\sum_{i=1}^{n} z_{i}\frac{f(z_{i})}{h(z_{i})}
+$$
+- 여기에서 $x_{i}$는 $X$의 분포에서 추출된 것이며 위 수식에서 $z_{i}$는 $Z$의 분포에서 추출된 것이다 !! (매우 중요한 차이점임) → 왜냐하면 우리의 Importance Sampling의 출발은 분포 $X$로부터 직접 샘플링이 불가능해서 Importance Sampling Function인 $h(z)$를 이용하기 때문이다!
+- 이러한 기법을 통해 $X$의 평균뿐만 아니라 $X^2$의 평균 등 $X$의 다양한 함수 형태의 기댓값을 구할 수 있다. 에들 들어, $\exp(X + \sqrt{ |X| })$ 의 기댓값은 아래와 같이 몬테 카를로 적분을 통해 근사할 수 있음.
+$$
+E_{X}[\exp(X + \sqrt{ |X| })] \approx \frac{1}{n}\sum_{i=1}^{n} \exp(z_{i}+ \sqrt{ |z_{i}| })\frac{f(z_{i})}{h(z_{i})}
+$$
+- 
