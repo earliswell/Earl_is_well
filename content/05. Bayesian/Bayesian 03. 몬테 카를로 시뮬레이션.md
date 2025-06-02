@@ -211,4 +211,19 @@ $$
 $$
 g(x)\frac{f(x)}{cg(x)} = \frac{f(x)}{c}
 $$
-- 
+- 반면 분모는 MoC에 의해서 아래와 같이 표기할 수 있음.
+$$
+\begin{equation}
+\begin{split}
+Pr\left( u < \frac{f(x)}{cg(x)} \right) & = \int Pr\left( u < \frac{f(x)}{cg(x)}, x \right) dx \\
+& = \int Pr\left( u < \frac{f(x)}{cg(x)}|x \right) g(x) dx \\
+& = \int \frac{f(x)}{cg(x)} g(x)dx = \int \frac{f(x)}{c}dx \\
+& = \frac{1}{c}
+\end{split}
+\end{equation}
+$$
+- 위 식에서 $x$가 주어진 것이 아니므로 $x$가 확률변수임을 주의해야함. 결국 아래 식으로 유도됨!
+$$
+Pr\left[ x|u<\frac{f(x)}{cg(x)} \right] = f(x)
+$$
+###### Example 3. 베타 분포 샘플링
