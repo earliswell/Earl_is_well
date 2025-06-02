@@ -278,3 +278,4 @@ print(f"Var(X) = {np.var(accept)}")
 print(f"수용률: {len(accept)/1000:.3f}")
 print(f"이론적 수용률: {1/c:.3f}")
 ```
+## 3.4 Importance 샘플링
