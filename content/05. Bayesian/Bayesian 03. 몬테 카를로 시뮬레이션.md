@@ -248,3 +248,33 @@ $$
 ###### 알고리즘 3.6: 베타 분포 샘플링
 1. $Unif(0,1)$ 에서 $u_{1}$과 $u_{2}$를 추출 → 제안 분포가 균일 분포를 따르기 때문임. 
 2. 만약 $u_{2} < f(u_{1})<1.8750$이 만족되면 $u_{1}=x$로 간주하고 저장, 만족되지 않으면 기각한 뒤 1 단계로 돌아감.
+```python
+import scipy
+import numpy as np
+import matplotlib.pyplot as plt
+
+u1 = np.random.uniform(0, 1, 1000)
+u2 = np.random.uniform(0, 1, 1000)
+
+def f(x):
+	return scipy.stats.beta.pdf(x, 3, 3)
+
+c = 1.8750 # 최댓값 
+
+accept = []
+reject = []
+
+for i in range(1000):
+	x = u1[i]
+	accept_ratio = f(x) / c 
+	
+	if u2[i] < accept_ratio:
+		accept.append(x)
+	else:
+		reject.append(x)
+	
+print(f"E(X) = {np.mean(accept)}")
+print(f"Var(X) = {np.var(accept)}")
+print(f"수용률: {len(accept)/1000:.3f}")
+print(f"이론적 수용률: {1/c:.3f}")
+```
