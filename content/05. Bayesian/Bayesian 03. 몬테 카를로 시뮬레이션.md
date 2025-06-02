@@ -318,4 +318,4 @@ $$
 $$
 E_{X}[\exp(X + \sqrt{ |X| })] \approx \frac{1}{n}\sum_{i=1}^{n} \exp(z_{i}+ \sqrt{ |z_{i}| })\frac{f(z_{i})}{h(z_{i})}
 $$
-- 
+- 우리는 Importance Sampling 기법의 작동원리를 좀 더 깊이 이해하기 위해서 $f(z_{i})/h(z_{i})$의 역할에 대해서 더욱 깊이 생각해볼 필요가 있다!
