@@ -622,3 +622,35 @@ $$
  & \to \quad Y_{t} = \beta^*X_{t} + e_{t}^* \quad \text{ where, } e_{t}^* \sim iidN(0, \sigma^2), \, \sigma^2 = \frac{1}{\alpha^2}
 \end{align}
 $$
+- 위에서 보는 바와 같이 이 경우에 Normalize가 가능하다. 그리고 원래 잔차의 분산이 1이라는 정보가 주어졌기 때문에, 우리는 이 모형의 파라미터 $\beta^*$을 추정할 수 가 있다.
+- 결국, 파라미터의 추정이 가능하기 위해서는 $\alpha=1$ 또는 $\sigma^2=1$ 이라는 Normalization이 필요하다. 즉, $\alpha=1$이라는 Normalization 하에서만 분석을 진행하였으며, $\sigma^2=1$에서도 동이할 분석을 똑같이 시행할 수 있다.
+- 이는 Matrix에도 적용이 가능한데,
+$$
+\begin{align}
+ & \beta_{11}y_{1t} = -\beta_{12}y_{2t} + \gamma_{11}y_{1t-1} + \gamma_{12}y_{2t-1} + e_{1t}, \quad e_{1t} \sim iidN(0, 1) \\
+ & \beta_{22}y_{2t} = -\beta_{21}y_{1t} + \gamma_{21}y_{1t-1} + \gamma_{22}y_{2t-1} + e_{2t}, \quad e_{2t} \sim iidN(0, 1)
+\end{align}
+$$
+- 이 모형을 Matrix로 나타내면 다음과 같다.
+$$
+\begin{align}
+ & \begin{pmatrix}
+\beta_{11} & \beta_{12} \\
+\beta_{21}  &  \beta_{22}
+\end{pmatrix} \begin{pmatrix}
+y_{1t}  \\
+y_{2t}
+\end{pmatrix} = \begin{pmatrix}
+\gamma_{11}  &  \gamma_{12} \\
+\gamma_{21}  & \gamma_{22}
+\end{pmatrix}\begin{pmatrix}
+y_{1t-1} \\
+y_{2t-1}
+\end{pmatrix} + \begin{pmatrix}
+e_{1t} \\
+e_{2t}
+\end{pmatrix} \\
+  & \to \mathbf{B} \cdot \mathbf{Y}_{t} = \Gamma \cdot \mathbf{Y}_{t-1} + e_{t}, \quad e_{t} \sim iid(0, \mathbf{I}_{2})
+\end{align}
+$$
+- 
