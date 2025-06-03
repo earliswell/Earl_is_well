@@ -581,16 +581,23 @@ $$
 $$
 - 이는 마치 AR(1)의 꼴의 형태를 갖고 있으며, 우리가 추정해야하는 파라미터는 6개로 줄어든다. ([[#Note 1. Normalization]] 참고.)
 - 그런데, 원래 $e_{1t}$와 $e_{2t}$는 서로 독립이다. 하지만 그렇다고 해서 $u_{1t}$와 $u_{2t}$는 서로 독립이라고 할 수 있을까? → 이는 결국 $\mathbf{B}^{-1}$로 인한 선형 결합($e_{1t}$와 $e_{2t}$)이 이뤄졌기 때문에, $u_{1t}$와 $u_{2t}$는 서로 correlate 되어 있다고 할 수 있다.
-- ㄷ
-- 이를 Wold Form 형태로 변환하면 마치
+#### Impulse-Response Analysis
+- 이를 Wold Form 형태로 변환하면 다음과 같이 전개됨
 $$
 \mathbf{Y}_{t} = \mathbf{u}_{t} + \Phi \mathbf{u}_{t-1} + \Phi^2 \mathbf{u}_{t-2} + \cdots
 $$
-- 이는 또한 Impulse Response를 가능하게함!
+- 여기서 중요한 포인트는 $\mathbf{u}_{t} = \mathbf{B}^{-1}e_{t}$ 라는 점이다. 즉, 여기서 $e_{t}$는 Structural Shock을 의미하고, $e_{t}$의 원소 $e_{1t}$와 $e_{2t}$는 서로 독립이다. 
+- 반면 $\mathbf{u}_{t}$는 Reduced Shock을 의미하며, $\mathbf{u}_{t}$의 원소 $u_{1t}$와 $u_{2t}$는 서로 correlate 되어 있다.
+- 그런데 만약 VAR(1) 모형을 갖고, Impulse-Response 분석을 하려고 할 때에 Reduced Shock을 기준으로 한다면, $u_{1t}$와 $u_{2t}$의 Correlate 관계로 인하여 각 반응에 대한 분석이 불가능하다. → Partial에 희석되는 것이 생김.
 $$
-\frac{\partial \mathbf{Y}_{1, t+j}}{\partial \mathbf{u}_{1t}}, \frac{\partial \mathbf{Y}_{1, t+j}}{\partial \mathbf{u}_{2t}}
+\frac{\partial Y_{1, t+j}}{\partial u_{1t}}, \frac{\partial Y_{2, t+j}}{\partial u_{1t}}, \frac{\partial Y_{1, t+j}}{\partial u_{2t}}, \frac{\partial Y_{2, t+j}}{\partial u_{2t}}
 $$
-
+- 이는 결국 $u_{1t}$로 편미분 할 때, $u_{2t}$가 고정시킬 수 없기 때문에 Reduced form에 근거한 Impulse-Response analysis를 할 수가 없다. → 순수한 shock의 크기를 추정할 수 없음.
+- 그래서 우리는 다음의 Impulse-Response 분석을 해야함.
+$$
+\frac{\partial Y_{1, t+j}}{\partial e_{1t}}, \frac{\partial Y_{2, t+j}}{\partial e_{1t}}, \frac{\partial Y_{1, t+j}}{\partial e_{2t}}, \frac{\partial Y_{2, t+j}}{\partial e_{2t}}
+$$
+- 즉, VAR 모형에서 Impulse-Response analysis는 서로 독립(independent)인 Structural shock을 기준으로 해야한다.
 ## Note
 #### Note 1. Normalization
 - 다음과 같은 모형을 생각해보자.
