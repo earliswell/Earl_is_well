@@ -515,6 +515,63 @@ $$
 $$
 - 두 식의 차이는 penalty 차이로 달라진다.
 - 둘 다 작은 것이 좋다!
-## VAR (Vector Auto Regression)
+## VAR (Vector Auto Regressive)
 - 만약 $y_{1}$과 $y_{2}$개의 Time-Series가 있다고 했을 때, 두 시리즈의 서로 주고 받는 Simultaneous 관계에 있을 때, 이를 해결하기 위한 모형임. 
-- 예를 들어, (코인, 주식, 금리, 금값, 환율 등)이 → 서로 주고받는 영향이 있다면? 을 해결하고 싶은 것이 
+- 예를 들어, (코인, 주식, 금리, 금값, 환율 등)이 → 서로 주고받는 영향이 있다면? 을 해결하고 싶은 것이 이 모형의 등장 배경이다.
+$$
+\begin{align}
+ & y_{1t} = \beta_{12}y_{2t} + \gamma_{11}y_{1t-1} + \gamma_{12}y_{2t-1} + e_{1t}, \, e_{1t} \sim iid(0, \sigma^2_{1}) \\
+ & y_{2t} = \beta_{21}y_{1t}  + \gamma_{21}y_{1t-1} + \gamma_{22}y_{2t-1} + e_{2t}, \, e_{2t} \sim iid(0, \sigma^2_{2})
+\end{align}
+$$
+- 이렇게 서로 다른 방정식으로 나열한 것은 ==Structural Form==이라 부른다.
+	- Reduced Form은 쉽게 말하면 연립 방정식으로 나타낸 것은 하나의 방정식으로 대입한 수식을 의미한다.
+- 이를 다음과 같이 다시 작성하면
+$$
+\begin{align}
+  y_{1t} - \beta_{12}y_{2t} &  = \gamma_{11}y_{1t-1} + \gamma_{12}y_{2t-1} + e_{1t} \\
+ -\beta_{21}y_{1t} + y_{2t} & = \gamma_{21}y_{1t-1} + \gamma_{22}y_{2t-1} + e_{2t}
+\end{align}
+$$
+- 로 우리가 추정해야 할 파라미터는 총 8개이다..
+	- $\beta_{12}, \gamma_{11}, \gamma_{12}, \gamma_{21}, \gamma_{22}, \beta_{21}, \sigma^2_{1}, \sigma^2_{2}$
+- 이를 행렬로 나타내면
+$$
+\begin{pmatrix}
+1 & -\beta_{12} \\
+-\beta_{21} & 1
+\end{pmatrix}\begin{pmatrix}
+y_{1t} \\
+y_{2t}
+\end{pmatrix}
+= \begin{pmatrix}
+\gamma_{11}  & \gamma_{12} \\
+\gamma_{21}  & \gamma_{22}
+\end{pmatrix} \begin{pmatrix}
+y_{1t-1} \\
+y_{2t-1}
+\end{pmatrix} + \begin{pmatrix}
+e_{1t} \\
+e_{2t}
+\end{pmatrix}
+$$
+- 이 때,
+$$
+\mathbf{B} = \begin{pmatrix}
+1  & -\beta_{12} \\
+-\beta_{21}  & 1
+\end{pmatrix}, \, Y_{t} = \begin{pmatrix}
+y_{1t} \\
+y_{2t}
+\end{pmatrix}, \, \Gamma = \begin{pmatrix}
+\gamma_{11}  & \gamma_{12} \\
+\gamma_{21} & \gamma_{22}
+\end{pmatrix}, \mathbf{e}_{t} = \begin{pmatrix}
+e_{1t} \\
+e_{2t}
+\end{pmatrix} 
+$$
+- 로 정의하고 문제를 풀어보려고 한다. 이 때 $\mathbf{B}^{-1}$이 존재한다면,
+$$
+
+$$
