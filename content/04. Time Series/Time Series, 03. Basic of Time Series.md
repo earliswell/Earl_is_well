@@ -643,7 +643,10 @@ $$
 $$
 \mathbf{u}_{t} \sim iid(0, \Omega ), \,\, \Omega= \mathbf{B}^{-1}\mathbf{I}{\mathbf{B}^{-1}}' = \mathbf{B}^{-1}{\mathbf{B}^{-1}}'
 $$
-- 
+- Reduced form에서는 내생성이 존재하지 않음 → OLS 가능. 그런데 OLS로 추정할 수 있는 파라미터는 $\Phi$ 뿐이 아니라 분산도 추정 가능함.
+- 즉, $\hat{\Omega}$도 OLS로 추정할 수 있음. 하지만 $\Omega=\mathbf{B}^{-1}{\mathbf{B}^{-1}}'$를 만족하는 $\mathbf{B}^{-1}$은 무수히 많이 존재하기 때문에 어떠한 제약조건을 두어야 $\mathbf{B}^{-1}$ matrix를 구할 수 있음. 
+- 우리는 $\mathbf{B}^{-1}$이 lower triangle matrix라는 제약조건을 두었을 때, 유일하게 존재하는 $\mathbf{B}^{-1}$을 구할 수 있게 된다!! [[#Note 2. Cholesky Decomposition]] 참고.
+
 ## Note
 #### Note 1. Normalization
 - 다음과 같은 모형을 생각해보자.
@@ -705,3 +708,11 @@ e_{2t}
   & \to \mathbf{B} \cdot \mathbf{Y}_{t} = \Gamma \cdot \mathbf{Y}_{t-1} + e_{t}, \quad e_{t} \sim iid(0, \mathbf{I}_{2})
 \end{align}
 $$
+#### Note 2. Cholesky Decomposition
+- 만약 어떤 matrix $\mathbf{A}$가 있다고 하자.
+$$
+\mathbf{A} = \mathbf{CC'}
+$$
+- 이것을 만족하는 $\mathbf{C}$ matrix는 무수히 많이 존재함.
+- 만약 $\mathbf{C}$ matrix가 lower triangle matrix라면 $\mathbf{C}$ matrix는 unique하게 존재함.
+- 또한, $\mathbf{C}$ matrix가 lower triangle matrix라면 $\mathbf{C}^{-1}$도 lower triangle matrix임.
