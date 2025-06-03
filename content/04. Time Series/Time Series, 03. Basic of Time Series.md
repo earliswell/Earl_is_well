@@ -623,6 +623,26 @@ $$
  & \frac{\partial Y_{2, t+j}}{\partial e_{2t}} = (2, 1) \textit{ element of } \Theta_{j}, \quad \frac{\partial Y_{2, t+j}}{\partial e_{2t}} = (2, 2) \textit{ element of } \Theta_{j}
 \end{align}
 $$
+- 하지만 우리는 $\Theta_{j}$는 편의상 설정했을 뿐이고, 결국에는 $\Psi_{j}$와 $\mathbf{B}^{-1}$를 계산해야 $\Theta_{j}$을 추정할 수 있다.
+###### $\Psi_{j}$ 계산
+- 이는 VAR(1) 모형의 처음으로 다시 돌아가면 되는데,
+$$
+\mathbf{Y}_{t} = \Phi \mathbf{Y}_{t-1} + u_{t}
+$$
+- 여기에서는 내생성이 존재하지 않는다. → OLS를 통해서 추정하면 끝!
+######  $\mathbf{B}^{-1}$ 계산
+- 이 또한 모형의 처음으로 돌아가야 함.
+$$
+\mathbf{B}\mathbf{Y}_{t} = \Gamma \mathbf{Y}_{t-1} + \mathbf{e}_{t}, \mathbf{e}_{t} \sim iid(0, \mathbf{I}_{2})
+$$
+- 이것은 분산이 normalized 된 모형이라고 할 수 있음 → 이에 따라 양변에 $\mathbf{B}^{-1}$를 곱하면 Reduced form이 된다.
+$$
+\mathbf{Y}_{t} = \Phi \mathbf{Y}_{t-1} + \mathbf{u}_{t}, \text{ where, } \Phi = \mathbf{B}^{-1}\Gamma, \mathbf{u}_{t} = \mathbf{B}^{-1}\mathbf{e}_{t} 
+$$
+- 여기에서 잔차 $\mathbf{u}_{t}$의 분포는 다음과 같음.
+$$
+\mathbf{u}_{t} \sim iid(0, \Omega ), \,\, \Omega= \mathbf{B}^{-1}\mathbf{I}{\mathbf{B}^{-1}}' = \mathbf{B}^{-1}{\mathbf{B}^{-1}}'
+$$
 - 
 ## Note
 #### Note 1. Normalization
