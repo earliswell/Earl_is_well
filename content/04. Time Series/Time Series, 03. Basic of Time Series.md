@@ -598,6 +598,32 @@ $$
 \frac{\partial Y_{1, t+j}}{\partial e_{1t}}, \frac{\partial Y_{2, t+j}}{\partial e_{1t}}, \frac{\partial Y_{1, t+j}}{\partial e_{2t}}, \frac{\partial Y_{2, t+j}}{\partial e_{2t}}
 $$
 - 즉, VAR 모형에서 Impulse-Response analysis는 서로 독립(independent)인 Structural shock을 기준으로 해야한다.
+#### 문제의 해결
+- 우선, Impulse-Response Analysis를 위해서 Wold Representation form으로 바꿔보자.
+$$
+\begin{align}
+\mathbf{Y}_{t} &  = \Phi \mathbf{Y}_{t-1} + \mathbf{u}_{t} \\
+ & = \mathbf{u}_{t} + \Psi_{1}\mathbf{u}_{t_{1}} + \Psi_{2}\mathbf{u}_{t-2} + \cdots + \Psi_{j}\mathbf{u}_{t-j} + \cdots
+\end{align}
+$$
+- 우리는 $\mathbf{u}_{t}$로 Impulse-Response 분석을 수행하지 못하는 것을 알아냈기 때문에 $\mathbf{e}_{t}$를 끄집어내야 한다. 즉 $\mathbf{Bu}_{t} = \mathbf{e}_{t}$라는 것을 활용하여. 각 항에 $\mathbf{I} = \mathbf{B^{-1}B}$를 곱해주자!
+$$
+\begin{align}
+\mathbf{Y}_{t}  & = \mathbf{B^{-1}Bu}_{t} + \Psi_{1}\mathbf{B^{-1}Bu}_{t-1} + \Psi_{2}\mathbf{B^{-1}Bu}_{t-2} + \cdots + \Psi_{j}\mathbf{B^{-1}Bu}_{t-j} + \cdots \\
+ & = \mathbf{B^{-1}e}_{t} + \Psi_{1}\mathbf{B^{-1}e}_{t-1} + \Psi_{2}\mathbf{B^{-1}e}_{t-2} + \cdots + \Psi_{j} \mathbf{B^{-1} e}_{t-j} + \cdots \\
+ & = \Theta_{0}\mathbf{e}_{t} + \Theta_{1}\mathbf{e}_{t-1} + \Theta_{2}\mathbf{e}_{t-2} + \cdots + \Theta_{j}\mathbf{e}_{t-j} + \cdots \\
+ & \text{ where, } \Theta_{j} = \Psi_{j}\mathbf{B}^{-1}, \Psi_{0} = \mathbf{I}
+\end{align}
+$$
+- 그러면 우리는 Impulse-Response analysis를 수행할 수 있다.
+$$
+\begin{align}
+ & \frac{\partial Y_{1, t+j}}{\partial e_{1t}} = (1, 1) \textit{ element of } \Theta_{j}, \quad \frac{\partial Y_{1, t+j}}{\partial e_{2t}} = (1, 2) \textit{ element of } \Theta_{j}, \\
+\\
+ & \frac{\partial Y_{2, t+j}}{\partial e_{2t}} = (2, 1) \textit{ element of } \Theta_{j}, \quad \frac{\partial Y_{2, t+j}}{\partial e_{2t}} = (2, 2) \textit{ element of } \Theta_{j}
+\end{align}
+$$
+- 
 ## Note
 #### Note 1. Normalization
 - 다음과 같은 모형을 생각해보자.
