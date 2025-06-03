@@ -716,3 +716,23 @@ $$
 - 이것을 만족하는 $\mathbf{C}$ matrix는 무수히 많이 존재함.
 - 만약 $\mathbf{C}$ matrix가 lower triangle matrix라면 $\mathbf{C}$ matrix는 unique하게 존재함.
 - 또한, $\mathbf{C}$ matrix가 lower triangle matrix라면 $\mathbf{C}^{-1}$도 lower triangle matrix임.
+- Example
+$$
+\begin{pmatrix}
+\beta_{11}  & \beta_{12}  &  \beta_{13} \\
+\beta_{21}  &  \beta_{22}  &  \beta_{23}  \\
+\beta_{31} & \beta_{32} & \beta_{33}
+\end{pmatrix}\begin{pmatrix}
+y_{1t} \\
+y_{2t} \\
+y_{3t}
+\end{pmatrix} \to \text{lower triangle Matrix} \to \begin{pmatrix}
+\beta_{11} & 0 & 0 \\
+\beta_{21} & \beta_{22} & 0 \\
+\beta_{31} & \beta_{32} & \beta_{33}
+\end{pmatrix}\begin{pmatrix}
+y_{1t} \\
+y_{2t} \\
+y_{3t}
+\end{pmatrix}
+$$
