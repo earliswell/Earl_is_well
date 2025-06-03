@@ -8,7 +8,7 @@ tags:
   - "#MCMC"
 ---
 ## Lag Operator
-- Time Series에서 자주 사용하는 기법이라 생각해보자. Lag Operator는 다음과 같이 정의된다.
+- Time Series에서 자주 사용하는 기법이라 생각해ㅗ자. Lag Operator는 다음과 같이 정의된다.
 $$
 LY_{t} = Y_{t-1}
 $$
@@ -582,7 +582,7 @@ $$
 \end{bmatrix}
 \end{align}
 $$
-- 이는 마치 AR(1)의 꼴의 형태를 갖고 있으며, 우리가 추정해야하는 파라미터는 6개로 줄어든다. 
+- 이는 마치 AR(1)의 꼴의 형태를 갖고 있으며, 우리가 추정해야하는 파라미터는 6개로 줄어든다. ([[#Note 1. Normalization]] 참고.)
 - 이를 Wold Form 형태로 변환하면 마치
 $$
 \mathbf{Y}_{t} = \mathbf{u}_{t} + \Phi \mathbf{u}_{t-1} + \Phi^2 \mathbf{u}_{t-2} + \cdots
@@ -591,4 +591,34 @@ $$
 $$
 \frac{\partial \mathbf{Y}_{1, t+j}}{\partial \mathbf{u}_{1t}}, \frac{\partial \mathbf{Y}_{1, t+j}}{\partial \mathbf{u}_{2t}}
 $$
-- 
+
+## Note
+#### Note 1. Normalization
+- 다음과 같은 모형을 생각해보자.
+$$
+\alpha Y_{t} = \beta X_{t} + e_{t}, \quad e_{t} \sim iid N(0,\sigma^2)
+$$
+- 지금까지 봐왔던 모형들은 $\alpha=1$이라고 주어진 모형이었다. 즉,
+$$
+Y_{t} = \beta X_{t} +e_{t}, \quad e_{t}\sim iidN(0,\sigma^2)
+$$
+- 그런데 만약에 $\alpha=1$이라고 미리 주어져 있지 않는다면, 지금까지 우리가 배운 방식으로는 $\alpha$를 추정할 수 없다.
+- 여기에서 필요한 개념이 Normalization이며, 이에 대해 알아보고자 한다.
+- 다음의 두 식을 보자.
+	1. $1 \cdot Y_{t} = 3X_{t} + e_{t}$
+	2. $2 \cdot Y_{t} = 6X_{t} + 2e_{t}$
+- 이 두 식은 사실상 같은 식이다. 즉, 아래 식은 위 식의 양변에 2를 곱해준 식이다!
+- 사실 이 두 수식 외에도 똑같은 정보를 갖는 수많은 식이 존재한다.
+- 최종적으로 수식 중에서 대표할 수 있는 좌변의 계수를 1로 맞춘 식을 사용한다. 
+	- 즉, 1번 식이 Normalized된 식이라고 말한다.
+- 아까 봤던 식을 다시 봐보자. 이번에는 잔차항의 분산이 1이라고 주어졌다고 가정한다.
+$$
+\alpha Y_{t} = \beta X_{t} + e_{t}, \quad e_{t} \sim iidN(0, 1)
+$$
+- 이 식을 Normalize할 수 있을까? → 양변을 $\alpha$로 나눈다.
+$$
+\begin{align}
+ & Y_{t} = \frac{\beta}{\alpha}X_{t} + \frac{e_{t}}{\alpha} \\
+ & \to \quad Y_{t} = \beta^*X_{t} + e_{t}^* \quad \text{ where, } e_{t}^* \sim iidN(0, \sigma^2), \, \sigma^2 = \frac{1}{\alpha^2}
+\end{align}
+$$
