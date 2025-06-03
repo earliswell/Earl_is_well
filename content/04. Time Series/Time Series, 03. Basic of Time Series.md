@@ -645,7 +645,8 @@ $$
 $$
 - Reduced form에서는 내생성이 존재하지 않음 → OLS 가능. 그런데 OLS로 추정할 수 있는 파라미터는 $\Phi$ 뿐이 아니라 분산도 추정 가능함.
 - 즉, $\hat{\Omega}$도 OLS로 추정할 수 있음. 하지만 $\Omega=\mathbf{B}^{-1}{\mathbf{B}^{-1}}'$를 만족하는 $\mathbf{B}^{-1}$은 무수히 많이 존재하기 때문에 어떠한 제약조건을 두어야 $\mathbf{B}^{-1}$ matrix를 구할 수 있음. 
-- 우리는 $\mathbf{B}^{-1}$이 lower triangle matrix라는 제약조건을 두었을 때, 유일하게 존재하는 $\mathbf{B}^{-1}$을 구할 수 있게 된다!! [[#Note 2. Cholesky Decomposition]] 참고.
+- 우리는 $\mathbf{B}^{-1}$이 lower triangle matrix라는 제약조건을 두었을 때, 유일하게 존재하는 $\mathbf{B}^{-1}$을 구할 수 있게 된다!! [[#Note 2. Cholesky Decomposition]] 참고. 
+- 이렇게 $\mathbf{B}$ matrix를 lower triangle matrix로 설정하면 $y_{1t}$가 가장 외생적이고, $y_{2t}$가 다음으로 외생적이고 ... 이렇게 흘러갈 것이다. 따라서, 변수의 외생성과 내생성을 순차적(Recursive)으로 가정하는 VAR을 Recursive VAR라고 부른다.
 
 ## Note
 #### Note 1. Normalization
