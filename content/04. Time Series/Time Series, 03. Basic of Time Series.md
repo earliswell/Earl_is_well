@@ -560,7 +560,7 @@ $$
 \mathbf{B} = \begin{pmatrix}
 1  & -\beta_{12} \\
 -\beta_{21}  & 1
-\end{pmatrix}, \, Y_{t} = \begin{pmatrix}
+\end{pmatrix}, \, \mathbf{Y}_{t} = \begin{pmatrix}
 y_{1t} \\
 y_{2t}
 \end{pmatrix}, \, \Gamma = \begin{pmatrix}
@@ -573,5 +573,21 @@ e_{2t}
 $$
 - 로 정의하고 문제를 풀어보려고 한다. 이 때 $\mathbf{B}^{-1}$이 존재한다면,
 $$
-
+\begin{align}
+ & \mathbf{Y}_{t} = \mathbf{B}^{-1}\Gamma \mathbf{Y}_{t-1} + \mathbf{B}^{-1}\mathbf{e}_{t}, \quad \mathbf{B}^{-1}\Gamma \equiv \Phi, \, \mathbf{B}^{-1}\mathbf{e}_{t} \equiv \mathbf{u}_{t} \\
+ & \mathbf{Y}_{t} = \Phi \mathbf{Y}_{t-1} + \mathbf{u}_{t}, \quad \mathbf{u}_{t} \sim (0, \Sigma), \, \Sigma = \begin{bmatrix}
+\sigma^2_{1}  & 0 \\
+0 & \sigma^2_{2}
+\end{bmatrix}
+\end{align}
 $$
+- 이는 마치 AR(1)의 꼴의 형태를 갖고 있으며, 우리가 추정해야하는 파라미터는 6개로 줄어든다. 
+- 이를 Wold Form 형태로 변환하면 마치
+$$
+\mathbf{Y}_{t} = \mathbf{u}_{t} + \Phi \mathbf{u}_{t-1} + \Phi^2 \mathbf{u}_{t-2} + \cdots
+$$
+- 이는 또한 Impulse Response를 가능하게함!
+$$
+\frac{\partial \mathbf{Y}_{1, t+j}}{\partial \mathbf{u}_{1t}}, \frac{\partial \mathbf{Y}_{1, t+j}}{\partial \mathbf{u}_{2t}}
+$$
+- 
