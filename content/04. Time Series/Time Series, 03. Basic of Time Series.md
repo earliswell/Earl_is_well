@@ -576,13 +576,11 @@ $$
 $$
 \begin{align}
  & \mathbf{Y}_{t} = \mathbf{B}^{-1}\Gamma \mathbf{Y}_{t-1} + \mathbf{B}^{-1}\mathbf{e}_{t}, \quad \mathbf{B}^{-1}\Gamma \equiv \Phi, \, \mathbf{B}^{-1}\mathbf{e}_{t} \equiv \mathbf{u}_{t} \\
- & \mathbf{Y}_{t} = \Phi \mathbf{Y}_{t-1} + \mathbf{u}_{t}, \quad \mathbf{u}_{t} \sim (0, \Sigma), \, \Sigma = \begin{bmatrix}
-\sigma^2_{1}  & 0 \\
-0 & \sigma^2_{2}
-\end{bmatrix}
+ & \mathbf{Y}_{t} = \Phi \mathbf{Y}_{t-1} + \mathbf{u}_{t}, \quad \mathbf{u}_{t} \sim (0, \Sigma)
 \end{align}
 $$
 - 이는 마치 AR(1)의 꼴의 형태를 갖고 있으며, 우리가 추정해야하는 파라미터는 6개로 줄어든다. ([[#Note 1. Normalization]] 참고.)
+- 그런데, 원래 $e_{1t}$와 $e_{2t}$는 서로 독립이다. 하지만 그렇다고 해서 $u_{1t}$와 $u_{2t}$는 서로 독립이라고 할 수 있을까? → 이는 결국 $\mathbf{B}^{-1}$로 인한 선형 결합($e_{1t}$와 $e_{2t}$)이 이뤄졌기 때문에, $u_{1t}$와 $u_{2t}$는 서로 correlate 되어 있다고 할 수 있다.
 - 이를 Wold Form 형태로 변환하면 마치
 $$
 \mathbf{Y}_{t} = \mathbf{u}_{t} + \Phi \mathbf{u}_{t-1} + \Phi^2 \mathbf{u}_{t-2} + \cdots
@@ -653,4 +651,3 @@ e_{2t}
   & \to \mathbf{B} \cdot \mathbf{Y}_{t} = \Gamma \cdot \mathbf{Y}_{t-1} + e_{t}, \quad e_{t} \sim iid(0, \mathbf{I}_{2})
 \end{align}
 $$
-- 
