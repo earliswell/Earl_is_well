@@ -648,7 +648,7 @@ $$
 - 우리는 $\mathbf{B}^{-1}$이 lower triangle matrix라는 제약조건을 두었을 때, 유일하게 존재하는 $\mathbf{B}^{-1}$을 구할 수 있게 된다!! [[#Note 2. Cholesky Decomposition]] 참고. 
 - 이렇게 $\mathbf{B}$ matrix를 lower triangle matrix로 설정하면 $y_{1t}$가 가장 외생적이고, $y_{2t}$가 다음으로 외생적이고 ... 이렇게 흘러갈 것이다. 따라서, 변수의 외생성과 내생성을 순차적(Recursive)으로 가정하는 VAR을 Recursive VAR라고 부른다.
 ## Cointegration
-
+- 
 
 ## Note
 #### Note 1. Normalization
