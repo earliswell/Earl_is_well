@@ -656,7 +656,7 @@ $$
  & Y_{2t} \sim I(1) \to \Delta Y_{2t} \sim I(1)
 \end{align}
 $$
-- 위 두 모형은 Unit-root 문제가 있어
+- 위 두 모형은 Unit-root 문제가 있어 차분을 통해 Stationary하게 만들어 줬다. 하지만 두 모형을 더했을 때! 
 
 ## Note
 #### Note 1. Normalization
