@@ -677,6 +677,20 @@ Y_{2t}
 \end{pmatrix}
 $$
 - 이고 Matrix $A$는 Cointegration vector라고 한다. 
+#### Cointegration with VAR
+- 우리는 VAR에서 파라미터의 추정값을 추정하기 위해서 제약조건을 통해서 해당 파라미터들을 추정하고자 했다. 만약에 Vector 안에 값들이 Non-stationary하다면 우리의 process를 Stationary하도록 만들어야 Impulse-Response analysis를 수행할 수 있다.
+- 우선, Stationary하도록 만들기 위하여 우리는 차분하는 방안을 고안할 수 있다.
+$$
+Y_{t} = \begin{pmatrix}
+Y_{1t} \\
+Y_{2t}
+\end{pmatrix} \to \text{Difference} \to \Delta Y_{t} = \begin{pmatrix}
+\Delta Y_{1t} \\
+\Delta Y_{2t}
+\end{pmatrix}
+$$
+- 여기서 차분된 변수를 통해서 VAR(1)을 구성할 수 있다.
+
 
 ## Note
 #### Note 1. Normalization
