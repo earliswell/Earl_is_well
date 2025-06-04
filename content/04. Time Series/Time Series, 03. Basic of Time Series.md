@@ -690,7 +690,15 @@ Y_{2t}
 \end{pmatrix}
 $$
 - 여기서 차분된 변수를 통해서 VAR(1)을 구성할 수 있다.
-
+- 여기에서 기존 $Y_{t}$에 Cointegrated 되어 있다고 하자. → 두 process는 장기 균형관계를 갖고 있으나 차분했기 때문에, 이 관계는 확인될 수 없다!
+- 이렇게 구성된 VAR을 다시 matrix form을 풀어 다시 표현해보자.
+$$
+\begin{align}
+ & \Delta Y_{1t} = \phi_{11}\Delta Y_{1t-1} + \phi_{12}\Delta Y_{2t-1} + e_{1t} \\
+ & \Delta Y_{2t} = \phi_{21}\Delta Y_{1t-1} + \phi_{22}\Delta Y_{2t-1} + e_{2t}
+\end{align}
+$$
+- 만약 우리는 여기에서 $\phi = \begin{pmatrix}\phi_{11}  & \phi_{12} \\ \phi_{21}  & \phi_{22}\end{pmatrix}$를 알아내기 위해서는 OLS를 활용할 수 있음. 하지만 $Y_{t}$에서 cointegration의 관계가 있다고 한다면, ㅍ
 
 ## Note
 #### Note 1. Normalization
