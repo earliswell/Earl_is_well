@@ -647,8 +647,16 @@ $$
 - 즉, $\hat{\Omega}$도 OLS로 추정할 수 있음. 하지만 $\Omega=\mathbf{B}^{-1}{\mathbf{B}^{-1}}'$를 만족하는 $\mathbf{B}^{-1}$은 무수히 많이 존재하기 때문에 어떠한 제약조건을 두어야 $\mathbf{B}^{-1}$ matrix를 구할 수 있음. 
 - 우리는 $\mathbf{B}^{-1}$이 lower triangle matrix라는 제약조건을 두었을 때, 유일하게 존재하는 $\mathbf{B}^{-1}$을 구할 수 있게 된다!! [[#Note 2. Cholesky Decomposition]] 참고. 
 - 이렇게 $\mathbf{B}$ matrix를 lower triangle matrix로 설정하면 $y_{1t}$가 가장 외생적이고, $y_{2t}$가 다음으로 외생적이고 ... 이렇게 흘러갈 것이다. 따라서, 변수의 외생성과 내생성을 순차적(Recursive)으로 가정하는 VAR을 Recursive VAR라고 부른다.
-## Cointegration
-- 
+## Cointegration (공적분)
+- [[#Box-Jenkin's Approach to ARIMA Modeling]]에서 우리는 Integrated ~ $I(1)$에 대해서 간략하게 배웠다. 이는 [[#Unit Root (단위근)|Unit-root]] 문제가 있을 때, 해당 모형은 Non-stationary 하다. 따라서, 1번의 차분을 통해서 Stationary하도록 만들 수 있다는 의미를 지닌다.
+- 두 개의 모형이 있다고 하자.
+$$
+\begin{align}
+ & Y_{1t} \sim I(1) \to \Delta Y_{1t} \sim I(0) \\
+ & Y_{2t} \sim I(1) \to \Delta Y_{2t} \sim I(1)
+\end{align}
+$$
+- 위 두 모형은 Unit-root 문제가 있어
 
 ## Note
 #### Note 1. Normalization
