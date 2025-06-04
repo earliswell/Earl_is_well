@@ -653,10 +653,30 @@ $$
 $$
 \begin{align}
  & Y_{1t} \sim I(1) \to \Delta Y_{1t} \sim I(0) \\
- & Y_{2t} \sim I(1) \to \Delta Y_{2t} \sim I(1)
+ & Y_{2t} \sim I(1) \to \Delta Y_{2t} \sim I(0)
 \end{align}
 $$
-- 위 두 모형은 Unit-root 문제가 있어 차분을 통해 Stationary하게 만들어 줬다. 하지만 두 모형 선형 결합을 했을 때 다시 Integrated 문제가 생기는 경우 Cointegration이라고 한다.
+- 위 두 모형은 Unit-root 문제가 있어 차분을 통해 Stationary하게 만들어 줬다. 
+- 두 $I(1)$ 시계열의 선형결합이 $I(0)$이 되는 경우 우리는 Cointegration이 있다고 한다.
+	- 이는 결국 장기균형관계(long-run equilibrium)을 의미한다.
+- 예를 들어, $X_{t} \sim I(1)$이고
+$$
+\begin{align}
+ & Y_{1t} = 0.8X_{t} + e_{t}, e_{t}\sim iid(0, 1) \\
+ & Y_{2t} = X_{t} + u_{t} \sim iid(0,1)
+\end{align}
+$$
+- 이는 $Y_{1t} - 0.8Y_{2t} = e_{t} - 0.8u_{t} \sim I(0)$이고, 둘다 integrated한 케이스였지만, 선형 결합을 했더니 그러한 문제가 사라지는 것을 확인할 수 있었음.
+- 따라서, 
+$$
+A'Y \sim I(0), \text{ Where } A' = \begin{pmatrix}
+1 & -0.8
+\end{pmatrix}, Y = \begin{pmatrix}
+Y_{1t} \\
+Y_{2t}
+\end{pmatrix}
+$$
+- 이고 Matrix $A$는 Cointegration vector라고 한다. 
 
 ## Note
 #### Note 1. Normalization
