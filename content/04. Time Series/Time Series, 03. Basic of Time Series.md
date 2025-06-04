@@ -656,7 +656,7 @@ $$
  & Y_{2t} \sim I(1) \to \Delta Y_{2t} \sim I(1)
 \end{align}
 $$
-- 위 두 모형은 Unit-root 문제가 있어 차분을 통해 Stationary하게 만들어 줬다. 하지만 두 모형을 더했을 때! 
+- 위 두 모형은 Unit-root 문제가 있어 차분을 통해 Stationary하게 만들어 줬다. 하지만 두 모형 선형 결합을 했을 때 다시 Integrated 문제가 생기는 경우 Cointegration이라고 한다.
 
 ## Note
 #### Note 1. Normalization
