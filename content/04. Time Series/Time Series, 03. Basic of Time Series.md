@@ -803,7 +803,7 @@ y_{3t}
 \end{pmatrix}
 $$
 
-#### Note 3. Granger Causality.
+#### Note 3. Granger Causality
 - [[#VAR (Vector Auto Regressive)|VAR]]이 벡터 형태를 다음과 같이 갖고 있다고 하자.
 $$
 \begin{align}
@@ -814,4 +814,18 @@ $$
 - 이렇게 두 가지 모형이 있다.
 - $\Gamma^0_{t}$는 하나의 변수로 이뤄진 VAR이고
 - $\Gamma^1_{t}$는 두 개의 변수로 이뤄진 VAR이다.
-- 그렇다면, 만약 $E(Y_{t}|\Gamma^0_{t-1}) = E(Y_{t}|\Gamma^1_{t-1})$라면, $Z_{t}$는 $Y_{t}$에 영향을 미치지 않는 것과 같다. 이때 우리는 두 변수간의 Granger Causality가 없다고 한다.
+- 그렇다면, 만약 $E(Y_{t}|\Gamma^0_{t-1}) = E(Y_{t}|\Gamma^1_{t-1})$라면, $Z_{t-1}$기는 $Y_{t}$의 예측에 영향을 미치지 않는 것과 같다. Granger Causality는 본질적으로 **예측 개선**에 관한 개념이며, $Z$의 과거 값들이 $Y$의 예측을 개선시키지 못한다는, $Z$는 $Y$를 Granger Cause하지 않는다!
+- 우리는 VAR(p) 모형을 다음과 같이 적어보자.
+$$
+\begin{equation}
+\begin{split}
+Y_{t} & = \alpha_{0} + \pi_{1}Y_{t-1} + \pi_{2}Y_{t-2} + \cdots + \pi_{p}Y_{t-p}  \\
+& \quad +\gamma_{1}Z_{t-1} + \gamma_{2}Z_{t-2} + \cdots + \gamma_{p}Z_{t-p} + e_{t}
+\end{split}
+\end{equation}
+$$
+- 위와 같을 때, 우리는 다음과 같은 귀무가설을 세워 테스트를 진행할 수 있다.
+$$
+H_{0}: \gamma_{1}=\gamma_{2}= \dots = \gamma_{p}=0
+$$
+- 이는 Wald Test를 통해서 
