@@ -698,7 +698,18 @@ $$
  & \Delta Y_{2t} = \phi_{21}\Delta Y_{1t-1} + \phi_{22}\Delta Y_{2t-1} + e_{2t}
 \end{align}
 $$
-- 만약 우리는 여기에서 $\phi = \begin{pmatrix}\phi_{11}  & \phi_{12} \\ \phi_{21}  & \phi_{22}\end{pmatrix}$를 알아내기 위해서는 OLS를 활용할 수 있음. 하지만 $Y_{t}$에서 cointegration의 관계가 있다고 한다면, ㅍ
+- 만약 우리는 여기에서 $\phi = \begin{pmatrix}\phi_{11}  & \phi_{12} \\ \phi_{21}  & \phi_{22}\end{pmatrix}$를 알아내기 위해서는 OLS를 활용할 수 있음. 하지만 $Y_{t}$에서 cointegration의 관계가 있다고 한다면, 우리는 장기 균형관계를 모형에 넣어주지 않았기 때문에 추정값에 bias가 생김.
+- 즉, 모형에 ($Y_{1t} - Y_{2t}$)항을 추가해줘야함. 따라서 모형의 unbiased하게 추정하기 위해서는 아래의 식과 같은 모습을 가짐.
+$$
+\begin{align}
+ & \Delta Y_{1t} = \phi_{11}\Delta Y_{1t-1} + \phi_{12}\Delta Y_{2t-1} - \gamma_{1}(Y_{1t} - Y_{2t})+ e_{1t} \\
+ & \Delta Y_{2t} = \phi_{21}\Delta Y_{1t-1} + \phi_{22}\Delta Y_{2t-1} - \gamma_{2}(Y_{1t} - Y_{2t})+ e_{2t}
+\end{align}
+$$
+- 여기에서 $- \gamma_{1}(Y_{1t} - Y_{2t}), - \gamma_{2}(Y_{1t} - Y_{2t})$항을 Error-Correction 항이라고 하며, 이는 '균형관계로의 힘'이라고 생각하면 좋음.
+	- [[Time Series, 01. Basic of Regression#Assumption E.3, Zero Conditional Mean|Zero Conditional Mean]]을 참고!
+- 또한, 여기에서 $\gamma_{1}, \gamma_{2}$는 해당 모형들이 균형으로 반응하는 속도라고 이해를 하면 좋음. 예를 들어 농산물의 경우 '공급'을 늘리려면 생산기간이 오래 걸리기 때문에 균형으로 되돌아가는 반응이 늦게 나타날 수 있음.
+	- 이처럼 $\gamma$는 균형으로 돌아가는 속도를 나타내 주는 것이 $\gamma$라는 파라미터에 있다. 그래서 이를 speed of adjustment라고 한다.
 
 ## Note
 #### Note 1. Normalization
