@@ -9,6 +9,6 @@ tags:
 - The Box-Jenkins approach to fitting ARIMA models can be divided into three parts:
 	- Identification;
 	- Estimation;
-	- Verification
+	- Verification.
 #### 4.1.1 Identification
-- 
+- This refers to initial preprocessing of the data to make it stationary, and choosing plausible values of $p$ and $q$ (which can of course be adjusted as model fitting progresses).
