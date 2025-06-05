@@ -22,4 +22,14 @@ tags:
 $$
 X_{t} = \sum_{i=1}^{p} \alpha_{i}X_{t-i} + \epsilon_{t}
 $$
+- We have the Yule-Walker equations $\rho_{k} = \sum_{i=1}^{p}\alpha_{i}\rho_{|i-k}|$, for $k> 0$.
+- we fit the parameters $\alpha_{1}, \dots, \alpha_{p}$ by solving
+$$
+\gamma_{k} = \sum_{i=1}^{p} \alpha_{i}\gamma_{|i-k|},
+$$
+- These are $p$ equations for the $p$ unknowns $\alpha_{1}, \dots , \alpha_{p}$ which, as before, can be solved using a Levinson-Durbin recursion.
+- The Levinson-Durbin recursion gives the residual variance
+$$
+\hat{\sigma}^2_{p} = \frac{1}{n}\sum_{t=p+1}^{n}\left( X_{t} - \sum_{j=1}^{p}\hat{\alpha}_{j}X_{t-j}  \right) ^2
+$$
 - 
