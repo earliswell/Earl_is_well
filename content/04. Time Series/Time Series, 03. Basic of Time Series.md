@@ -8,7 +8,7 @@ tags:
   - "#MCMC"
 ---
 ## Lag Operator
-- Time Series에서 자주 사용하는 기법이라 생각해ㅗ자. Lag Operator는 다음과 같이 정의된다.
+- Time Series에서 자주 사용하는 기법이라 생각해보자. Lag Operator는 다음과 같이 정의된다.
 $$
 LY_{t} = Y_{t-1}
 $$
