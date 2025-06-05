@@ -12,3 +12,8 @@ tags:
 	- Verification.
 #### 4.1.1 Identification
 - This refers to initial preprocessing of the data to make it stationary, and choosing plausible values of $p$ and $q$ (which can of course be adjusted as model fitting progresses).
+- To assess whether the data come from a stationary process we can
+	- look at the data → plot 그리기!
+	- consider transforming it (e.g. by taking logs) → pattern을 보기 조금 더 쉬워짐.
+	- consider if we need to difference the series to make it stationary. → ==Unit root test==
+- 
