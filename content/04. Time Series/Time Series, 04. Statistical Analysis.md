@@ -16,4 +16,10 @@ tags:
 	- look at the data → plot 그리기!
 	- consider transforming it (e.g. by taking logs) → pattern을 보기 조금 더 쉬워짐.
 	- consider if we need to difference the series to make it stationary. → ==Unit root test==
+- If this model is non stationary, then try differencing the series, and maybe a second time if necessary. (==In practice it is rare to go beyond d=2 stages of differencing.==)
+#### 4.1.2 Estimation: AR processes
+- For the AR($p$) process
+$$
+X_{t} = \sum_{i=1}^{p} \alpha_{i}X_{t-i} + \epsilon_{t}
+$$
 - 
