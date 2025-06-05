@@ -710,6 +710,8 @@ $$
 	- [[Time Series, 01. Basic of Regression#Assumption E.3, Zero Conditional Mean|Zero Conditional Mean]]을 참고!
 - 또한, 여기에서 $\gamma_{1}, \gamma_{2}$는 해당 모형들이 균형으로 반응하는 속도라고 이해를 하면 좋음. 예를 들어 농산물의 경우 '공급'을 늘리려면 생산기간이 오래 걸리기 때문에 균형으로 되돌아가는 반응이 늦게 나타날 수 있음.
 	- 이처럼 $\gamma$는 균형으로 돌아가는 속도를 나타내 주는 것이 $\gamma$라는 파라미터에 있다. 그래서 이를 speed of adjustment라고 한다.
+- 이러한 $\gamma$를 포함시킨 모형을 VECM(Vector Error Correlation Model)이라고 부름.
+
 
 ## Note
 #### Note 1. Normalization
@@ -800,3 +802,16 @@ y_{2t} \\
 y_{3t}
 \end{pmatrix}
 $$
+
+#### Note 3. Granger Causality.
+- [[#VAR (Vector Auto Regressive)|VAR]]이 벡터 형태를 다음과 같이 갖고 있다고 하자.
+$$
+\begin{align}
+ & \Gamma^0_{t} = (Y_{t}, Y_{t-1}, Y_{t-2}, \dots) \\
+ & \Gamma^1_{t} = (Y_{t}, Z_{t}, Y_{t-1}, Z_{t-1}, \dots)
+\end{align}
+$$
+- 이렇게 두 가지 모형이 있다.
+- $\Gamma^0_{t}$는 하나의 변수로 이뤄진 VAR이고
+- $\Gamma^1_{t}$는 두 개의 변수로 이뤄진 VAR이다.
+- 그렇다면, 만약 $E(Y_{t}|\Gamma^0_{t}) = E(Y_{t}|\Gamma^1_{t})$라면, $Z_{t}$는 $Y_{t}$에 영향을 미치지 않는 것과 같다. 이때 우리는 두 변수간의 Granger Causality가 없다고 한다.
