@@ -94,7 +94,7 @@ $$
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
-1. Proposal $\theta^*$을 후보 생성 분포 $\theta|\theta^{(j-1), Y}$로부터 샘플링한다.
+1. Proposal $\theta^*$을 후보 생성 분포 $\theta|\theta^{(j-1)}, Y$로부터 샘플링한다.
 2. M-H 비(M-H rate)를 계산한다.
 $$
 \alpha(\theta^{(j-1)}, \theta^*) = \min\left\{ \frac{p(\theta^*|Y)q(\theta^{(j-1)}|\theta^*, Y)}{p(\theta^{(j-1)|Y})q(\theta^*|\theta^{(j-1)}, Y)}, 1 \right\}
