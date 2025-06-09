@@ -52,7 +52,11 @@ $$
 ## 4.2 M-H의 이해
 - $\alpha(\theta^{(j-1)}, \theta^*)$는 $\theta^{(j-1)}$이 주어졌을 때 $\theta^*$이 수용될 조건부 확률이라고 볼 수 있는데, $\pi(\theta|Y)$는 $\theta^{(j-1)}$에 의존하지 않는다. 그렇다면 어떻게 해서 $\theta^{(j-1)}$에 의존해서 샘플링한 $\theta^{(j)}$를 마치 Unconditional하게 샘플링한 것처럼 받아들일 수 있을까?
 - 우선, $\theta$에 대한 마코프 체인이 기약적(irreducible)이고 가역적(reversible)이면 마코프 체인에 따라 생성된 샘플들을 $\theta$의 비조건부 분포(즉, 사후분포) $p(\theta)$로부터 추출된 샘플로 간주할 수 있다!
-
+- 우선 가역적(reversible)이기 위해서 모든 $\theta^{(j)}$와 $\theta^{(j-1)}$에 대해서
+$$
+p(\theta^{(j-1)})q(\theta^{(j)}|\theta^{(j-1)}) = p(\theta^{(j)})q(\theta^{(j-1)}|\theta^{(j)})
+$$
+- 를 만족해야 한다. 여기에서 제안 분포인 $q(\theta^{(j)}|\theta^{(j-1)})$은 $\theta^{(j-1)}$이 $\theta^{(j)}$로 전환될 확률을 의미하며, 해당 수식은 ㅈ
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
