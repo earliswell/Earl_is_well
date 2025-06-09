@@ -88,7 +88,7 @@ p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)})  & = p(\theta^{(j)}) q(\theta
  \alpha(\theta^{(j-1)}, \theta^{(j)})  & =1 \text{ and }  \alpha(\theta^{(j)}, \theta^{(j-1)}) = \frac{p(\theta^{(j-1)})q(\theta^{(j)}| \theta^{(j-1)})}{ p(\theta^{(j)}) q(\theta^{(j-1)} | \theta^{(j)})}
 \end{align}
 $$
-- 
+- 즉 비가역적(irreversible)이라도 $\alpha(\theta^{(j-1)}, \theta^{(j)})$와 $\alpha(\theta^{(j)}, \theta^{(j-1)})$을 양변에 곱해줌으로써 우리는 임의의 제안함수 $q(\cdot)$을 
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
