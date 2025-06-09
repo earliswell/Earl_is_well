@@ -89,7 +89,8 @@ p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)})  & = p(\theta^{(j)}) q(\theta
  \alpha(\theta^{(j-1)}, \theta^{(j)})  & =1 \text{ and }  \alpha(\theta^{(j)}, \theta^{(j-1)}) = \frac{p(\theta^{(j-1)})q(\theta^{(j)}| \theta^{(j-1)})}{ p(\theta^{(j)}) q(\theta^{(j-1)} | \theta^{(j)})}
 \end{align}
 $$
-- 즉 비가역적(irreversible)이라도 $\alpha(\theta^{(j-1)}, \theta^{(j)})$와 $\alpha(\theta^{(j)}, \theta^{(j-1)})$을 양변에 곱해줌으로써 우리는 임의의 제안함수 $q(\cdot)$에 관계없이 마코프 체인의 가역성을 만족시켜주는 전확확률이 된다. 
+- 즉 비가역적(irreversible)이라도 $\alpha(\theta^{(j-1)}, \theta^{(j)})$와 $\alpha(\theta^{(j)}, \theta^{(j-1)})$을 양변에 곱해줌으로써 우리는 임의의 제안함수 $q(\cdot)$에 관계없이 마코프 체인의 가역성을 만족시켜주는 전환확률이 된다. 
+	- 예를 들어 Case 1에서 $q(\theta^{(j)}|\theta^{(j-1)}) \times \alpha(\theta^{(j-1)}, \theta^{(j)})$가 $\theta^{(j-1)} \to \theta^{(j)}$의 전환될 확률이다.
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
