@@ -40,7 +40,8 @@ $$
 $$
 - 우선, M-H rate이 크다는 것은 $p(\theta^*|Y)/p(\theta^{(j-1)}|Y)$가 크거니 혹은 $q(\theta^{(j-1)}|\theta^*, Y)/q(\theta^*|\theta^{(j-1)}, Y)$가 크다는 것을 의미한다. 
 	- $p(\theta^*|Y)/p(\theta^{(j-1)}|Y)$가 크다는 것은 사후 분포 $\theta|Y$로부터 $\theta^*$가 $\theta^{(j-1)}$보다 생성될 확률이 높다는 것을 의미한다. → 이는 결국 $\theta^{(j)}$에 $\theta^*$가 저장될 확률이 더 크다.
-	- 만약 $p(\theta^*|Y) = p(\theta^{(j-1)}|Y)$인 상태에서 $q(\theta^{(j-1)}|\theta^*, Y)/q(\theta^*|\theta^{(j-1)}, Y)$이 큰 값을 갖는다는 것은 
+	- 만약 $p(\theta^*|Y) = p(\theta^{(j-1)}|Y)$인 상태에서 $q(\theta^{(j-1)}|\theta^*, Y)/q(\theta^*|\theta^{(j-1)}, Y)$이 큰 값을 갖는다는 것은 제안 분포로부터 $\theta^{(j-1)}$이 $\theta^*$이 더 높은 확률로 생성되는 것을 의미하는데, 이는 결국에 $\theta^*$가 희소한 케이스라고 생각될 수 있다. 따라서 $\theta^*$이 일단 제시되면 상대적으로 흔치 않은 샘플이므로 높은 확률로 수용하는 것이 바람직하다.
+- 
 
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
