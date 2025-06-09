@@ -23,3 +23,28 @@ $$
 \end{align}
 $$
 - 편의상 사후 분포의 커넬을 $p(\theta|Y)$로 표기한다. 그리고 $\theta^{(j)}$는 $j$ 번째 반복시행에서 추출된 사후 샘플을 나타낸다. 
+- 한편, 앞서 배웠던 몬테 카를로 시뮬레이션은 $j-1$ 번째 추출됬던 샘플이 $j$에 영향을 미치지 않았다. 즉, 두 값은 독립적인 후보 생성 분포로 부터 샘플링되었다. 반면, MCMC 기반의 시뮬레이션 기법은 Markov Chain 성질에 의하여 현재 $j$기의 값은 오직 바로 전 과거 $j-1$기에 영향을 받는다.
+- [[Bayesian 03. 몬테 카를로 시뮬레이션#3.3 Acceptance-Rejection Method|A-R 기법]]과 비슷하게 M-H 알고리즘은 후보 생성 분포로부터 $\theta^{(j)}$에 대한 프로포절을 생성하는 것이며, 생성된 프로포절을 $\theta^*$로 표기한다. 이 과정에서 다른 점은 후보 생성 분포가 $\theta^{(j-1)}$에 의존하는 것이다.
+- 따라서, $\theta^{(j)}$의 후보 생성 분포는 $\theta^{(j-1)}$이 주어졌을 때의 조건부 분포이다. 
+- 이러한 $\theta^*$의 후보 생성밀도(Proposal Density)는 아래와 같이 표기된다.
+$$
+q(\theta^*|\theta^{(j-1)}, Y)
+$$
+- M-H 비 (M-H rate)를 계산해야하는데, 이는 다음과 같이 표시된다.
+## 알고리즘
+#### 알고리즘 4.1: Metropolis-Hastings 알고리즘
+0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
+1. Proposal $\theta^*$을 후보 생성 분포 $\theta|\theta^{(j-1), Y}$로부터 샘플링한다.
+2. M-H 비(M-H rate)를 계산한다.
+$$
+\alpha(\theta^{(j-1)}, \theta^*) = \min\left\{ \frac{p(\theta^*|Y)q(\theta^{(j-1)}|\theta^*, Y)}{p(\theta^{(j-1)|Y})q(\theta^*|\theta^{(j-1)}, Y)}, 1 \right\}
+$$
+3. $Unif(0,1)$에서 $u$를 샘플링한다. 
+4. 따라서 $\theta^{(j)}$는 
+$$
+\theta^{(j)} = \begin{cases}
+\theta^* \quad  & (u < \alpha(\theta^*, \theta^{(j-1)})) \\
+\theta^{(j-1)} \quad  & (u > \alpha(\theta^*, \theta^{(j-1)}))
+\end{cases}
+$$
+5. $j = j+1$로 설정하고, $j \leq n$이면 1 단계로 돌아간다. 
