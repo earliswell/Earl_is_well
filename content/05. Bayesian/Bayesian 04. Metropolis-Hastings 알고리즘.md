@@ -31,6 +31,10 @@ $$
 q(\theta^*|\theta^{(j-1)}, Y)
 $$
 - M-H 비 (M-H rate)를 계산해야하는데, 이는 다음과 같이 표시된다.
+$$
+\alpha(\theta^{(j-1)}, \theta^*) = \min\left\{ \frac{p(\theta^*|Y) q(\theta^{(j-1)}|\theta^*, Y)}{p(\theta^{(j-1)}) q(\theta^*|\theta^{(j-1)}, Y)}, 1 \right\}
+$$
+- 
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
