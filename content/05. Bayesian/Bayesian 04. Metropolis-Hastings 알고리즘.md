@@ -64,7 +64,16 @@ $$
 p(\theta^{(j-1)})q(\theta^{(j)}|\theta^{(j-1)}) \neq p(\theta^{(j)})q(\theta^{(j-1)} | \theta^{(j)})
 $$
 - Chib and Greeberg(1995)에 따르면 임의의 제안 분포 $q(\cdot)$를 선택하더라도 M-H 기법하에서는 $q(\cdot)$가 자동적으로 변형되어 $\theta$에 대한 마코프 체인이 가역성(reversible) 조건을 만족할 수 있도록 해준다는 사실을 발견함. $\alpha(\theta^*, \theta^{(j-1)})$가 제안 분포가 가역성을 만족하는 전환확률로 변형시켜주는 역할을 함.
-- 일반적인
+- 일반적인 제안 분포 $q(\cdot)$은 이러한 조건을 만족시키기 어렵다. 따라서, 가역성 조건을 만족하지 못한다면 위 수식은 두 가지 경우로 나뉘게 된다.
+###### Case 1.
+$$
+p(\theta^{(j-1)})q(\theta^{(j)} | \theta^{(j-1)}) > p(\theta^{(j)})q(\theta^{(j-1)}|\theta^{(j)})
+$$
+- 해당 경우는 부등호를 등호($=$)로 바꾸기 위해서 임의의 값 $\alpha(\theta^{(j-1)}, \theta^{(j)})$과 $\alpha(\theta^{(j)}, \theta^{(j-1)})$을 좌변과 우변에 각각 곱할 수 있다.
+$$
+p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)})\alpha(\theta^{(j-1)}, \theta^{(j)}) = p(\theta^{(j)}) q (\theta^{(j-1)} | \theta^{(j)}) \alpha(\theta^{(j)}, \theta^{(j-1)})
+$$
+- 케이스 자체는 좌변이 큰 경우이기 때문에 $\alpha(\theta^{(j-1)}, \theta^{(j)}) < \alpha(\theta^{(j)}, \theta^{(j-1)})$
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
