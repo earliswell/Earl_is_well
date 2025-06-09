@@ -81,6 +81,13 @@ $$
 $$
 p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)}) < p(\theta^{(j)}) q (\theta^{(j-1)} | \theta^{(j)})
 $$
+- 이 경우에도 해당 가역성을 만족시키기 위하여 $\alpha(\theta^{(j-1)}, \theta^{(j)}) > \alpha(\theta^{(j)} , \theta^{(j-1)})$을 만족해야 함. 따라서, $\alpha(\cdot)$을 식별하기 위하여 $\alpha(\theta^{(j-1)}, \theta^{(j)})=1$로 고정시켜,
+$$
+\begin{align}
+p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)})  & = p(\theta^{(j)}) q(\theta^{(j-1)} | \theta^\text{(j)}) \alpha(\theta^{(j)}, \theta^{(j-1)}) \\
+ \alpha(\theta^{(j-1)}, \theta^{(j)})  & =1 \text{ and }  \alpha(\theta^{(j)}, \theta^{(j-1)}) = \frac{p(\theta^{(j-1)})q(\theta^{(j)}| \theta^{(j-1)})}{ p(\theta^{(j)}) q(\theta^{(j-1)} | \theta^{(j)})}
+\end{align}
+$$
 - 
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
