@@ -64,6 +64,7 @@ $$
 p(\theta^{(j-1)})q(\theta^{(j)}|\theta^{(j-1)}) \neq p(\theta^{(j)})q(\theta^{(j-1)} | \theta^{(j)})
 $$
 - Chib and Greeberg(1995)에 따르면 임의의 제안 분포 $q(\cdot)$를 선택하더라도 M-H 기법하에서는 $q(\cdot)$가 자동적으로 변형되어 $\theta$에 대한 마코프 체인이 가역성(reversible) 조건을 만족할 수 있도록 해준다는 사실을 발견함. $\alpha(\theta^*, \theta^{(j-1)})$가 제안 분포가 가역성을 만족하는 전환확률로 변형시켜주는 역할을 함.
+- 일반적인
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
