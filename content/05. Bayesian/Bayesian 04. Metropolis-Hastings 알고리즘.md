@@ -73,7 +73,11 @@ $$
 $$
 p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)})\alpha(\theta^{(j-1)}, \theta^{(j)}) = p(\theta^{(j)}) q (\theta^{(j-1)} | \theta^{(j)}) \alpha(\theta^{(j)}, \theta^{(j-1)})
 $$
-- 케이스 자체는 좌변이 큰 경우이기 때문에 $\alpha(\theta^{(j-1)}, \theta^{(j)}) < \alpha(\theta^{(j)}, \theta^{(j-1)})$
+- 케이스 자체는 좌변이 큰 경우이기 때문에 $\alpha(\theta^{(j-1)}, \theta^{(j)}) < \alpha(\theta^{(j)}, \theta^{(j-1)})$가 되어야 등호가 성립한다. 따라서, $\alpha(\cdot)$의 식별을 위해서 $\alpha(\theta^{(j)}, \theta^{(j-1)})= 1$로 둘 수 있다. 
+$$
+\alpha(\theta^{(j-1)}, \theta^{(j)}) = \frac{p(\theta^{(j)}) q (\theta^{(j-1)} | \theta^{(j)})}{p(\theta^{(j-1)}) q(\theta^{(j)} | \theta^{(j-1)})} < 1 \text{ and }  \alpha(\theta^{(j)}, \theta^{(j-1)}) =1
+$$
+- 
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
