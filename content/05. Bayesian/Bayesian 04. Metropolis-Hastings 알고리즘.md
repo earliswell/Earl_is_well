@@ -30,11 +30,18 @@ $$
 $$
 q(\theta^*|\theta^{(j-1)}, Y)
 $$
-- M-H 비 (M-H rate)를 계산해야하는데, 이는 다음과 같이 표시된다.
+- M-H 비(M-H rate)를 계산해야하는데, 이는 다음과 같이 표시된다.
 $$
 \alpha(\theta^{(j-1)}, \theta^*) = \min\left\{ \frac{p(\theta^*|Y) q(\theta^{(j-1)}|\theta^*, Y)}{p(\theta^{(j-1)}) q(\theta^*|\theta^{(j-1)}, Y)}, 1 \right\}
 $$
-- 
+- 우리는 M-H rate을 결정하는 아래의 식을 어떻게 해석할 지 고민을 해보자.
+$$
+\frac{p(\theta^*|Y)q(\theta^{(j-1)}|\theta^*, Y)}{p(\theta^{(j-1)}|Y)q(\theta^*|\theta^{(j-1)}, Y)}
+$$
+- 우선, M-H rate이 크다는 것은 $p(\theta^*|Y)/p(\theta^{(j-1)}|Y)$가 크거니 혹은 $q(\theta^{(j-1)}|\theta^*, Y)/q(\theta^*|\theta^{(j-1)}, Y)$가 크다는 것을 의미한다. 
+	- $p(\theta^*|Y)/p(\theta^{(j-1)}|Y)$가 크다는 것은 사후 분포 $\theta|Y$로부터 $\theta^*$가 $\theta^{(j-1)}$보다 생성될 확률이 높다는 것을 의미한다. → 이는 결국 $\theta^{(j)}$에 $\theta^*$가 저장될 확률이 더 크다.
+	- $q(\theta^{(j-1)}|\theta^*, Y)/q(\theta^*|\theta^{(j-1)}, Y)$는 
+
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
 0. 초기값 $\theta^{(0)}$를 사전 평균으로 설정하고, $j=1$로 둔다.
@@ -48,7 +55,7 @@ $$
 $$
 \theta^{(j)} = \begin{cases}
 \theta^* \quad  & (u < \alpha(\theta^*, \theta^{(j-1)})) \\
-\theta^{(j-1)} \quad  & (u > \alpha(\theta^*, \theta^{(j-1)}))
+\theta^{(j-1)} \quad  & (u \geq \alpha(\theta^*, \theta^{(j-1)}))
 \end{cases}
 $$
 5. $j = j+1$로 설정하고, $j \leq n$이면 1 단계로 돌아간다. 
