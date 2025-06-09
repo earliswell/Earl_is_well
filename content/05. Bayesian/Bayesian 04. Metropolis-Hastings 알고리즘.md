@@ -51,7 +51,7 @@ $$
 - [[Bayesian 03. 몬테 카를로 시뮬레이션#3.3 Acceptance-Rejection Method|A-R method]]에서도 강조하였듯이, 제안 분포 $q(\cdot)$의 선택이 M-H 알고리즘을 통한 샘플링의 효율성을 좌우함.
 ## 4.2 M-H의 이해
 #### 4.2.1 Markov Chain
-
+- $\alpha(\theta^{(j-1)}, \theta^*)$는 $\theta^{(j-1)}$이 주어졌을 때 $\theta^*$이 수용될 조건부 확률이라고 볼 수 있는데, $\pi(\theta|Y)$는 $\theta^{(j-1)}$에 의존하지 않는다. 그렇다면 어떻게 해서 $\theta^{(j-1)}$에 의존해서 샘플링한 $\theta^{(j)}$를 마치 Unconditional하게 샘플링한 것처럼 받아들일 수 있을까?
 
 ## 알고리즘
 #### 알고리즘 4.1: Metropolis-Hastings 알고리즘
