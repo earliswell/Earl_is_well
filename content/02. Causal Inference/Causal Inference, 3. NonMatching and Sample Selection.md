@@ -5,10 +5,4 @@ tags:
   - nonparametric
 ---
 - 매칭만이 이제 covariates를 통제할 수 있는 유일한 방법이 아님 → weighting이 존재함 ㅋ
-
-#### 알면 좋은 영단어
-1. integrate, Verb : 통합시키다\[되다], 통합되다
-2. plague, Noun : 전염병
-3. plague, Verb : 괴롭히다(=trouble), 성가시게하다(=hound)
-4. deal with something : ~을 다루다, 처리하다.
-5. bulit-in : 내장되 있는 
+- weighting의 유일한 단점은 수치적 불안정성임 → 작은 확률인 $\pi(X)$로 나누는 것은 변수별 평균 추정치에 심각한 오차를 초래함. 
